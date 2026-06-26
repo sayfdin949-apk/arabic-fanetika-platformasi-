@@ -36,9 +36,9 @@ export function Card({ children, style }: { children: ReactNode; style?: CSSProp
     <div
       style={{
         background: "#fff",
-        borderRadius: 14,
-        border: "1px solid rgba(13,58,26,.10)",
-        boxShadow: "0 2px 8px rgba(13,58,26,.07)",
+        borderRadius: 16,
+        border: "1px solid rgba(13,58,26,.08)",
+        boxShadow: "0 1px 2px rgba(13,58,26,.04), 0 6px 18px rgba(13,58,26,.06)",
         overflow: "hidden",
         ...style,
       }}

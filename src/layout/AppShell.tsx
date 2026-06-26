@@ -111,7 +111,7 @@ export function AppShell() {
           </div>
         </aside>
 
-        <main ref={mainRef} style={{ flex: 1, overflowY: "auto", background: "#eaf4ea" }}>
+        <main ref={mainRef} style={{ flex: 1, overflowY: "auto", background: T.meshLight }}>
           <Outlet />
         </main>
       </div>
@@ -165,7 +165,7 @@ export function AppShell() {
       </header>
 
       {/* Content */}
-      <main ref={mainRef} style={{ flex: 1, overflowY: "auto", background: "#eaf4ea", WebkitOverflowScrolling: "touch" }}>
+      <main ref={mainRef} style={{ flex: 1, overflowY: "auto", background: T.meshLight, WebkitOverflowScrolling: "touch" }}>
         <Outlet />
       </main>
 

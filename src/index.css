@@ -15,11 +15,24 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #0d3a1a;
-  background: #eaf4ea;
+  background: radial-gradient(1200px 900px at 99% -16%, #d7f1d2 0%, #e3f2e2 46%, #eaf4ea 100%);
 }
 
 * {
   -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: rgba(46, 184, 46, 0.22);
+  color: #0d3a1a;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: rgba(46, 184, 46, 0.55) !important;
+  box-shadow: 0 0 0 3px rgba(46, 184, 46, 0.16);
 }
 
 button,

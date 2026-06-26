@@ -18,6 +18,21 @@ export function DarsList() {
     <>
       <PageHeader kicker="Darslar" title="Dars" sub="Nazariy va amaliy darslar" />
       <Page>
+        {/* Umumiy progress chiplari */}
+        <div style={{ display: "flex", gap: 10, marginBottom: 14 }}>
+          {[
+            { l: "Nazariy", n: Object.values(nazDone).filter((d) => d.pct >= 80).length, tot: NAZARIY.length },
+            { l: "Amaliy", n: Object.keys(amalDone).length, tot: AMALIY.length },
+          ].map((c) => (
+            <Card key={c.l} style={{ flex: 1, padding: "11px 14px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <span style={{ fontSize: 12, color: T.text2 }}>{c.l}</span>
+              <span style={{ fontSize: 14, fontWeight: 700, color: c.n === c.tot ? T.lime : T.green }}>
+                {c.n}/{c.tot}
+              </span>
+            </Card>
+          ))}
+        </div>
+
         {/* Segment: Nazariy / Amaliy */}
         <div style={{ display: "flex", gap: 6, background: "rgba(13,58,26,.06)", borderRadius: 12, padding: 4, marginBottom: 16 }}>
           {(["nazariy", "amaliy"] as const).map((t) => (

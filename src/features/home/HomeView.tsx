@@ -1,11 +1,47 @@
 import { useNavigate } from "react-router-dom";
-import { GraduationCap, ArrowRight, Trophy } from "lucide-react";
+import { GraduationCap, ArrowRight } from "lucide-react";
 import { T } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
 import { PageHeader, Page, Card } from "../../components/ui";
 import { useAuth } from "../../auth/AuthContext";
 import { useProgress } from "../progress/ProgressContext";
+
+function Ring({ pct }: { pct: number }) {
+  const r = 52;
+  const c = 2 * Math.PI * r;
+  const offset = c * (1 - pct / 100);
+  return (
+    <svg width={128} height={128} viewBox="0 0 128 128">
+      <defs>
+        <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#6AEF5A" />
+          <stop offset="100%" stopColor="#1A6A2A" />
+        </linearGradient>
+      </defs>
+      <circle cx={64} cy={64} r={r} fill="none" stroke="rgba(13,58,26,.1)" strokeWidth={12} />
+      <circle
+        cx={64}
+        cy={64}
+        r={r}
+        fill="none"
+        stroke="url(#ringGrad)"
+        strokeWidth={12}
+        strokeLinecap="round"
+        strokeDasharray={c}
+        strokeDashoffset={offset}
+        transform="rotate(-90 64 64)"
+        style={{ transition: "stroke-dashoffset .9s ease" }}
+      />
+      <text x={64} y={62} textAnchor="middle" style={{ fontSize: 28, fontWeight: 700, fill: T.green }}>
+        {pct}%
+      </text>
+      <text x={64} y={80} textAnchor="middle" style={{ fontSize: 10, fill: T.hint }}>
+        umumiy
+      </text>
+    </svg>
+  );
+}
 
 function Bar({ label, n, tot }: { label: string; n: number; tot: number }) {
   const pct = Math.round((n / tot) * 100);
@@ -40,15 +76,9 @@ export function HomeView() {
       <PageHeader kicker="Xush kelibsiz" title={`Assalomu alaykum, ${user?.ism ?? ""}!`} sub="Arab Fonetika Kursi" />
       <Page>
         {/* Umumiy progress */}
-        <Card style={{ padding: 18, marginBottom: 16 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
-            <div style={{ width: 56, height: 56, borderRadius: 14, background: T.gGreen, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <Trophy size={26} color={T.limeBrt} />
-            </div>
-            <div>
-              <div style={{ fontSize: 12, color: T.hint }}>Umumiy progress</div>
-              <div style={{ fontSize: 30, fontWeight: 700, color: T.lime, lineHeight: 1.1 }}>{overall}%</div>
-            </div>
+        <Card style={{ padding: 20, marginBottom: 16 }}>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+            <Ring pct={overall} />
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
             <Bar label="Nazariy (o'tilgan)" n={nazPass} tot={NAZARIY.length} />
