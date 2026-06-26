@@ -4,13 +4,14 @@ import { AuthProvider, useAuth } from "./auth/AuthContext";
 import { ProgressProvider } from "./features/progress/ProgressContext";
 import { Login } from "./auth/Login";
 import { AppShell } from "./layout/AppShell";
-import { Placeholder } from "./components/Placeholder";
 import { HomeView } from "./features/home/HomeView";
 import { DarsList } from "./features/dars/DarsList";
 import { NazariyDetail } from "./features/dars/NazariyDetail";
 import { AmaliyDetail } from "./features/dars/AmaliyDetail";
 import { DasturView } from "./features/curriculum/DasturView";
 import { ProfileView } from "./features/profile/ProfileView";
+import { DavomatView } from "./features/attendance/DavomatView";
+import { OquvchilarView } from "./features/admin/OquvchilarView";
 import { T } from "./theme/tokens";
 
 function Splash() {
@@ -56,8 +57,8 @@ export default function App() {
             <Route path="/dars/amaliy/:id" element={<AmaliyDetail />} />
             <Route path="/dastur" element={<DasturView />} />
             <Route path="/profil" element={<ProfileView />} />
-            <Route path="/davomat" element={<Placeholder title="Davomat" note="O'qituvchi uchun (A6)." />} />
-            <Route path="/oquvchilar" element={<Placeholder title="O'quvchilar" note="O'quvchi boshqaruvi (A6)." />} />
+            <Route path="/davomat" element={<DavomatView />} />
+            <Route path="/oquvchilar" element={<OquvchilarView />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
