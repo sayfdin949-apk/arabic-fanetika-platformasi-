@@ -6,7 +6,10 @@ import { useAuth } from "../auth/AuthContext";
 import { navForRole, type NavItem } from "./nav";
 import { useMediaQuery } from "../lib/useMediaQuery";
 
-function Avatar({ name, size = 30 }: { name: string; size?: number }) {
+function Avatar({ name, src, size = 30 }: { name: string; src?: string | null; size?: number }) {
+  if (src) {
+    return <img src={src} alt="" style={{ width: size, height: size, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />;
+  }
   return (
     <div
       style={{
@@ -29,7 +32,7 @@ function Avatar({ name, size = 30 }: { name: string; size?: number }) {
 }
 
 export function AppShell() {
-  const { user, logout } = useAuth();
+  const { user, avatar, logout } = useAuth();
   const isMobile = useMediaQuery("(max-width: 767px)");
   const [moreOpen, setMoreOpen] = useState(false);
 
@@ -81,7 +84,7 @@ export function AppShell() {
             </nav>
 
             <div style={{ padding: 10, borderTop: "1px solid rgba(255,255,255,.1)", display: "flex", alignItems: "center", gap: 9 }}>
-              <Avatar name={user.ism} />
+              <Avatar name={user.ism} src={avatar} />
               <div style={{ flex: 1, overflow: "hidden" }}>
                 <div style={{ fontSize: 12, fontWeight: 600, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                   {user.ism} {user.familya}
