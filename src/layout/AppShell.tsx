@@ -1,5 +1,5 @@
-import { useState, type CSSProperties } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { useState, useRef, useEffect, type CSSProperties } from "react";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { BookOpen, LogOut, MoreHorizontal, X } from "lucide-react";
 import { T } from "../theme/tokens";
 import { useAuth } from "../auth/AuthContext";
@@ -35,10 +35,24 @@ export function AppShell() {
   const { user, avatar, logout } = useAuth();
   const isMobile = useMediaQuery("(max-width: 767px)");
   const [moreOpen, setMoreOpen] = useState(false);
+  const { pathname } = useLocation();
+  const mainRef = useRef<HTMLElement>(null);
+
+  // Sahifa o'zgarganda kontentni yuqoriga scroll qilish
+  useEffect(() => {
+    mainRef.current?.scrollTo({ top: 0 });
+    setMoreOpen(false);
+  }, [pathname]);
 
   if (!user) return null;
   const items = navForRole(user.role);
   const roleLabel = user.role === "teacher" ? "O'qituvchi" : "O'quvchi";
+
+  // Joriy bo'lim nomi (mobil header uchun)
+  const currentMatch = items
+    .filter((i) => (i.to === "/" ? pathname === "/" : pathname === i.to || pathname.startsWith(i.to + "/")))
+    .sort((a, b) => b.to.length - a.to.length)[0];
+  const currentTitle = currentMatch?.label ?? "Fonetika Kursi";
 
   /* ───────── DESKTOP ───────── */
   if (!isMobile) {
@@ -97,7 +111,7 @@ export function AppShell() {
           </div>
         </aside>
 
-        <main style={{ flex: 1, overflowY: "auto", background: "#eaf4ea" }}>
+        <main ref={mainRef} style={{ flex: 1, overflowY: "auto", background: "#eaf4ea" }}>
           <Outlet />
         </main>
       </div>
@@ -140,7 +154,10 @@ export function AppShell() {
           <div style={{ width: 28, height: 28, borderRadius: 8, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <BookOpen size={14} color={T.onCta} />
           </div>
-          <div style={{ flex: 1, fontSize: 13, fontWeight: 700, color: "#fff" }}>Fonetika Kursi</div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{currentTitle}</div>
+            <div style={{ fontSize: 9, color: T.limeBrt }}>{roleLabel}</div>
+          </div>
           <button onClick={logout} style={{ background: "rgba(255,255,255,.1)", border: "none", borderRadius: 8, width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.8)" }}>
             <LogOut size={15} />
           </button>
@@ -148,7 +165,7 @@ export function AppShell() {
       </header>
 
       {/* Content */}
-      <main style={{ flex: 1, overflowY: "auto", background: "#eaf4ea", WebkitOverflowScrolling: "touch" }}>
+      <main ref={mainRef} style={{ flex: 1, overflowY: "auto", background: "#eaf4ea", WebkitOverflowScrolling: "touch" }}>
         <Outlet />
       </main>
 

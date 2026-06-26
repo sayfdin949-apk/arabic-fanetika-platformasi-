@@ -71,6 +71,7 @@ export function DarsList() {
                       <div style={{ fontSize: 11, color: T.hint, marginBottom: 2 }}>{d.id}-dars</div>
                       <div style={{ fontSize: 14, fontWeight: 600, color: T.green }}>{d.nomi}</div>
                       {done && <div style={{ fontSize: 11, color: done.pct >= 80 ? T.lime : T.text2, marginTop: 3 }}>Natija: {done.pct}%</div>}
+                      {!unlocked && !done && <div style={{ fontSize: 11, color: T.hint, marginTop: 3 }}>Oldingi darsni 80%+ bilan yakunlang</div>}
                     </div>
                     {!unlocked ? (
                       <Lock size={18} color={T.hint} />

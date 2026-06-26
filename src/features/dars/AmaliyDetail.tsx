@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
-import { ChevronLeft, Volume2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Volume2 } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import { AMALIY } from "../../content/amaliy";
 import type { AmalBob } from "../../content/types";
@@ -36,7 +36,7 @@ const ArLetter = ({ ch, size = 30 }: { ch: string; size?: number }) => (
   <span style={{ fontFamily: AR, fontSize: size, color: T.green, fontWeight: 700 }}>{ch}</span>
 );
 
-function TabBody({ bob, tab, onTest }: { bob: AmalBob; tab: TabKey; onTest: (ok: number, tot: number) => void }) {
+function TabBody({ bob, tab, questions, onTest }: { bob: AmalBob; tab: TabKey; questions: QuizQuestion[]; onTest: (ok: number, tot: number) => void }) {
   switch (tab) {
     case "maxraj":
       return (
@@ -45,7 +45,7 @@ function TabBody({ bob, tab, onTest }: { bob: AmalBob; tab: TabKey; onTest: (ok:
             <Card key={i} style={{ padding: 14 }}>
               <Row>
                 <ArLetter ch={m.h} />
-                <div style={{ fontSize: 13, fontWeight: 600, color: T.green500 }}>{m.mx}</div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: T.green500, flex: 1 }}>{m.mx}</div>
                 <SpeakBtn text={m.h} />
               </Row>
               <div style={{ fontSize: 13, color: T.text, lineHeight: 1.7, marginTop: 8 }}>{m.iz}</div>
@@ -186,18 +186,13 @@ function TabBody({ bob, tab, onTest }: { bob: AmalBob; tab: TabKey; onTest: (ok:
           ))}
         </Card>
       );
-    case "test": {
-      const questions: QuizQuestion[] = bob.test.map((q) => ({
-        q: q.s,
-        options: q.v.map((t, i) => ({ text: t, correct: i === q.t })),
-      }));
+    case "test":
       return (
         <>
           <SectionTitle>Test</SectionTitle>
           <Quiz questions={questions} onDone={onTest} />
         </>
       );
-    }
   }
 }
 
@@ -214,8 +209,29 @@ export function AmaliyDetail() {
   const { submitAmal } = useProgress();
   const [tab, setTab] = useState<TabKey>("maxraj");
 
+  // Bob o'zgarganda birinchi tabga qaytish
+  useEffect(() => {
+    setTab("maxraj");
+  }, [id]);
+
   const bob = AMALIY.find((b) => b.id === Number(id));
+
+  const questions: QuizQuestion[] = useMemo(
+    () =>
+      bob
+        ? bob.test.map((q) => ({
+            q: q.s,
+            options: q.v.map((t, i) => ({ text: t, correct: i === q.t })),
+          }))
+        : [],
+    [bob],
+  );
+
   if (!bob) return <Navigate to="/dars" replace />;
+
+  const idx = AMALIY.findIndex((b) => b.id === bob.id);
+  const prev = idx > 0 ? AMALIY[idx - 1] : null;
+  const next = idx < AMALIY.length - 1 ? AMALIY[idx + 1] : null;
 
   return (
     <Page>
@@ -235,11 +251,14 @@ export function AmaliyDetail() {
       </div>
 
       {/* Tab bar (gorizontal scroll) */}
-      <div style={{ display: "flex", gap: 6, overflowX: "auto", paddingBottom: 8, marginBottom: 14, WebkitOverflowScrolling: "touch" }}>
+      <div className="no-scrollbar" style={{ display: "flex", gap: 6, overflowX: "auto", paddingBottom: 8, marginBottom: 14, WebkitOverflowScrolling: "touch" }}>
         {TABS.map((t) => (
           <button
             key={t.k}
-            onClick={() => setTab(t.k)}
+            onClick={(e) => {
+              setTab(t.k);
+              e.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+            }}
             style={{
               flexShrink: 0,
               padding: "8px 14px",
@@ -257,7 +276,25 @@ export function AmaliyDetail() {
         ))}
       </div>
 
-      <TabBody bob={bob} tab={tab} onTest={(ok, tot) => submitAmal(bob.id, ok, tot)} />
+      <TabBody bob={bob} tab={tab} questions={questions} onTest={(ok, tot) => submitAmal(bob.id, ok, tot)} />
+
+      {/* Oldingi / Keyingi bob */}
+      <div style={{ display: "flex", gap: 10, marginTop: 18 }}>
+        <button
+          disabled={!prev}
+          onClick={() => prev && navigate(`/dars/amaliy/${prev.id}`)}
+          style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "12px", borderRadius: 11, border: "1px solid rgba(13,58,26,.12)", background: prev ? "rgba(13,58,26,.04)" : "transparent", color: prev ? T.text2 : "rgba(13,58,26,.25)", fontSize: 13, fontWeight: 500, cursor: prev ? "pointer" : "default" }}
+        >
+          <ChevronLeft size={16} /> Oldingi
+        </button>
+        <button
+          disabled={!next}
+          onClick={() => next && navigate(`/dars/amaliy/${next.id}`)}
+          style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "12px", borderRadius: 11, border: "1px solid rgba(13,58,26,.12)", background: next ? "rgba(13,58,26,.04)" : "transparent", color: next ? T.text2 : "rgba(13,58,26,.25)", fontSize: 13, fontWeight: 500, cursor: next ? "pointer" : "default" }}
+        >
+          Keyingi <ChevronRight size={16} />
+        </button>
+      </div>
     </Page>
   );
 }

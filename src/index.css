@@ -18,6 +18,34 @@ body {
   background: #eaf4ea;
 }
 
-button {
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input,
+select {
   font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.08s ease, opacity 0.12s ease, background 0.15s ease;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+button:disabled {
+  cursor: default;
+}
+
+/* Gorizontal tab/scroll panellarda scrollbar'ni yashirish */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

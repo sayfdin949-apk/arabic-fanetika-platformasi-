@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
-import { ChevronLeft, BookMarked, ClipboardCheck } from "lucide-react";
+import { ChevronLeft, BookMarked, ClipboardCheck, ArrowRight } from "lucide-react";
 import { T } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { MD } from "../../lib/md";
@@ -13,15 +13,33 @@ export function NazariyDetail() {
   const navigate = useNavigate();
   const { isNazUnlocked, submitNaz } = useProgress();
   const [phase, setPhase] = useState<"mavzu" | "test">("mavzu");
+  const [resultPct, setResultPct] = useState<number | null>(null);
 
   const dars = NAZARIY.find((d) => d.id === Number(id));
+
+  // id o'zgarganda (keyingi darsga o'tganda) holatni tiklash
+  useEffect(() => {
+    setPhase("mavzu");
+    setResultPct(null);
+  }, [id]);
+
+  // Variantlar barqaror bo'lishi uchun useMemo (aks holda har render'da qayta aralashadi)
+  const questions: QuizQuestion[] = useMemo(
+    () =>
+      dars
+        ? dars.vazifalar.map((v) => ({
+            q: v.savol,
+            options: v.variantlar.map((t, i) => ({ text: t, correct: i === v.togri })),
+          }))
+        : [],
+    [dars],
+  );
+
   if (!dars) return <Navigate to="/dars" replace />;
   if (!isNazUnlocked(dars.id)) return <Navigate to="/dars" replace />;
 
-  const questions: QuizQuestion[] = dars.vazifalar.map((v) => ({
-    q: v.savol,
-    options: v.variantlar.map((t, i) => ({ text: t, correct: i === v.togri })),
-  }));
+  const hasNext = dars.id < NAZARIY.length;
+  const passed = resultPct !== null && resultPct >= 80;
 
   return (
     <Page>
@@ -80,7 +98,26 @@ export function NazariyDetail() {
       ) : (
         <>
           <SectionTitle>Vazifalar</SectionTitle>
-          <Quiz questions={questions} onDone={(ok, tot) => submitNaz(dars.id, ok, tot)} />
+          <Quiz
+            questions={questions}
+            onDone={(ok, tot) => {
+              submitNaz(dars.id, ok, tot);
+              setResultPct(Math.round((ok / tot) * 100));
+            }}
+          />
+          {passed && hasNext && (
+            <button
+              onClick={() => navigate(`/dars/nazariy/${dars.id + 1}`)}
+              style={{ width: "100%", marginTop: 12, background: T.gGreen, color: "#fff", border: "none", borderRadius: 12, padding: "14px", fontSize: 14, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
+            >
+              Keyingi dars <ArrowRight size={18} />
+            </button>
+          )}
+          {passed && !hasNext && (
+            <div style={{ marginTop: 12, textAlign: "center", fontSize: 13, color: T.green500, fontWeight: 600 }}>
+              🎉 Barcha nazariy darslar yakunlandi!
+            </div>
+          )}
         </>
       )}
     </Page>

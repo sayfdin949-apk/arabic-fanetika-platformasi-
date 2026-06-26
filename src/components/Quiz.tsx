@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CheckCircle, XCircle, RotateCcw } from "lucide-react";
 import { T } from "../theme/tokens";
 import { Card } from "./ui";
@@ -33,6 +33,11 @@ export function Quiz({
   );
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [done, setDone] = useState(false);
+  const resultRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (done) resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [done]);
 
   const ok = prepared.filter((qq, i) => qq.options[answers[i]]?.correct).length;
   const tot = prepared.length;
@@ -139,6 +144,7 @@ export function Quiz({
           {allAnswered ? "Topshirish" : `Barcha savolga javob bering (${Object.keys(answers).length}/${tot})`}
         </button>
       ) : (
+        <div ref={resultRef}>
         <Card style={{ padding: 16, textAlign: "center" }}>
           <div style={{ fontSize: 28, fontWeight: 700, color: ok / tot >= 0.8 ? T.lime : T.red }}>
             {Math.round((ok / tot) * 100)}%
@@ -166,6 +172,7 @@ export function Quiz({
             <RotateCcw size={14} /> Qayta urinish
           </button>
         </Card>
+        </div>
       )}
     </div>
   );

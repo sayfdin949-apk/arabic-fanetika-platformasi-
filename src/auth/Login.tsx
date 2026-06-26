@@ -1,6 +1,6 @@
 import { useState, type CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, UserCheck, GraduationCap, ChevronLeft, XCircle } from "lucide-react";
+import { BookOpen, UserCheck, GraduationCap, ChevronLeft, XCircle, Eye, EyeOff } from "lucide-react";
 import { T, FONT } from "../theme/tokens";
 import { useAuth } from "./AuthContext";
 import type { Role } from "./types";
@@ -11,6 +11,7 @@ export function Login() {
   const [role, setRole] = useState<Role | null>(null);
   const [login, setLogin] = useState("");
   const [parol, setParol] = useState("");
+  const [showParol, setShowParol] = useState(false);
   const [err, setErr] = useState("");
 
   const tryLogin = () => {
@@ -151,23 +152,34 @@ export function Login() {
                   setLogin(e.target.value);
                   setErr("");
                 }}
+                onKeyDown={(e) => e.key === "Enter" && tryLogin()}
                 placeholder={role === "teacher" ? "ustoz" : "abdulloh, yusuf..."}
                 style={inp}
               />
             </div>
             <div style={{ marginBottom: 8 }}>
               <label style={{ fontSize: 11, color: "rgba(255,255,255,.6)", display: "block", marginBottom: 4 }}>Parol</label>
-              <input
-                type="password"
-                value={parol}
-                onChange={(e) => {
-                  setParol(e.target.value);
-                  setErr("");
-                }}
-                onKeyDown={(e) => e.key === "Enter" && tryLogin()}
-                placeholder="••••"
-                style={inp}
-              />
+              <div style={{ position: "relative" }}>
+                <input
+                  type={showParol ? "text" : "password"}
+                  value={parol}
+                  onChange={(e) => {
+                    setParol(e.target.value);
+                    setErr("");
+                  }}
+                  onKeyDown={(e) => e.key === "Enter" && tryLogin()}
+                  placeholder="••••"
+                  style={{ ...inp, paddingRight: 40 }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowParol((p) => !p)}
+                  style={{ position: "absolute", right: 6, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,.6)", display: "flex", alignItems: "center", justifyContent: "center", width: 30, height: 30 }}
+                  aria-label={showParol ? "Yashirish" : "Ko'rsatish"}
+                >
+                  {showParol ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
             </div>
             {err && (
               <div style={{ fontSize: 12, color: "#ff8a95", marginBottom: 9, display: "flex", alignItems: "center", gap: 4 }}>
