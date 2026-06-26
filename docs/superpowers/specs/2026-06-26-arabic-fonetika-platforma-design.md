@@ -102,19 +102,20 @@ Har modul bitta aniq vazifaga ega, alohida tushunilishi va sinalishi mumkin.
 
 ## 7. Funksiyalar ro'yxati
 
+> **Yangilanish (2026-06-26):** (1) **Nazariy + Amaliy bitta "Dars" bo'limida birlashtirildi** — bitta nav element, ichida Nazariy/Amaliy o'tkagich. (2) **Chat butunlay olib tashlanadi** (ham AI chat, ham o'quvchilar chati).
+
 **Qoladi:**
-- Nazariy darslar + testlar (shuffle, ≥80% da keyingi dars ochiladi)
-- Amaliy boblar (maxraj/sifat/shakl/harakat/so'z/o'qish/yozish/uy vazifa/test)
+- **Dars** bo'limi: Nazariy darslar + testlar (shuffle, ≥80% da keyingi dars ochiladi) **va** Amaliy boblar (maxraj/sifat/shakl/harakat/so'z/o'qish/yozish/uy vazifa/test) — bitta bo'limda
 - 5 oylik dastur jadvali
 - Login + rollar (o'qituvchi / o'quvchi)
-- O'quvchilar chati
 - Davomat (o'qituvchi)
 - Avatar
 - Progress kuzatuvi
 - TTS (arabcha o'qib berish)
 
 **Olib tashlanadi:**
-- AI chat va AI yordamchi (`sendAi`, `api.anthropic.com` chaqiruvi). Keyin xavfsiz (backend-proxy) qaytarish uchun interfeys joyi qoldiriladi.
+- AI chat va AI yordamchi (`sendAi`, `api.anthropic.com` chaqiruvi).
+- O'quvchilar chati (butunlay).
 
 **Qo'shiladi:**
 - O'qituvchi uchun o'quvchi boshqaruvi paneli (CRUD: qo'shish/o'chirish, login-parol).

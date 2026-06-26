@@ -33,17 +33,16 @@ Har qadam alohida bajariladi, lokalda sinaymiz, keyin keyingisiga o'tamiz.
 - **Sinov:** login qilish, bo'limlar orasida o'tish (telefon + kompyuter ko'rinishi).
 
 ### A5. Asosiy sahifalar (bittadan)
-Har birini alohida ko'chirib, sinaymiz:
-1. `features/home` — bosh sahifa + progress
-2. `features/theory` — nazariy dars + test (shuffle, ≥80% ochilish)
-3. `features/practice` — amaliy bob (tab'lar)
-4. `features/curriculum` — dastur jadvali
-5. `features/profile` — profil + avatar
+> Eslatma: asl prototip 676-qatorda uzilgan — bo'limlarning UI kodi yo'q, shuning uchun sahifalar noldan (ma'lumot + dizayn tizimi asosida) quriladi.
+> Qaror (2026-06-26): Nazariy + Amaliy **bitta "Dars" bo'limida** birlashtirildi.
+
+- **A5a (DONE):** `features/dars` — DarsList (Nazariy/Amaliy o'tkagich) + NazariyDetail (mavzu+test) + AmaliyDetail (9 tab) + `components/Quiz` + `features/progress` (ProgressContext) + TTS.
+- **A5b:** `features/home` (progress), `features/curriculum` (dastur), `features/profile` (avatar).
 
 ### A6. O'qituvchi funksiyalari
 1. `features/attendance` — davomat
-2. `features/chat` — o'quvchilar chati
-3. `features/admin` — **yangi:** o'quvchi boshqaruvi (qo'shish/o'chirish, login-parol)
+2. `features/admin` — **yangi:** o'quvchi boshqaruvi (qo'shish/o'chirish, login-parol)
+> Chat (AI ham, o'quvchilar chati ham) butunlay olib tashlandi.
 
 ### A7. AI olib tashlash + tozalash
 - `sendAi`, `api.anthropic.com` chaqiruvi, AI tugmalari olib tashlanadi.
