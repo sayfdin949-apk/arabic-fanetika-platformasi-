@@ -278,7 +278,7 @@ export const DASTUR: DasturOy[] = [
           {
             k: "Chorshanba",
             d: "Takror 2: Nazariy 11–12 (mad) va Nazariy 13–14 (shamsiyya/qamariyya, qalqala)",
-            m: "Qisqa Quron oyatlari bo'yicha mad, shamsiyya/qamariyya, qalqala mashqi",
+            m: "Qisqa arab matnlari bo'yicha mad, shamsiyya/qamariyya, qalqala mashqi",
           },
           {
             k: "Juma",
@@ -357,7 +357,7 @@ export const DASTUR: DasturOy[] = [
           {
             k: "Juma",
             d: "Tajwid qoidalari umumiy takrori: Nazariy 15–20 barcha mavzular birgalikda",
-            m: "Qisqa Quron oyatlarini to'liq tajwid bilan o'qish amaliyoti",
+            m: "Qisqa arab matnlarini to'liq tajwid bilan o'qish amaliyoti",
           },
         ],
         imtihon: "Test: Vaqf/Vasl belgilari + Iltiqo Sakinayn + Nazariy 15–20 umumiy",
@@ -369,7 +369,7 @@ export const DASTUR: DasturOy[] = [
           {
             k: "Dushanba",
             d: "Takror 1: Nazariy 15–16 (Nun Sakin: Izhor, Idg'om, Iqlab, Ixfo) — murakkab misollar",
-            m: "Nun sakin qoidalarini oyatlardan aniqlash va og'zaki izohlash",
+            m: "Nun sakin qoidalarini arab matnlaridan aniqlash va og'zaki izohlash",
           },
           {
             k: "Chorshanba",
@@ -404,12 +404,12 @@ export const DASTUR: DasturOy[] = [
           {
             k: "Chorshanba",
             d: "Takror 2: Sifat ilmi (Nazariy 9–10) + Mad qoidalari (Nazariy 11–12) + Shamsiyya/Qamariyya va Qalqala (Nazariy 13–14)",
-            m: "Sifat, mad, qalqala qoidalarini oyatlardan aniqlash amaliyoti",
+            m: "Sifat, mad, qalqala qoidalarini arab matnlaridan aniqlash amaliyoti",
           },
           {
             k: "Juma",
             d: "Takror 3: Barcha tajwid qoidalari (Nazariy 15–20) — Nun Sakin, Hamzatul Vasl/Qat', Tafxim/Tarqiq, Vaqf/Vasl, Iltiqo Sakinayn",
-            m: "Quron oyatlarini to'liq tajwid bilan o'qish va qoidalarni izohlash",
+            m: "Arab matnlarini to'liq tajwid bilan o'qish va qoidalarni izohlash",
           },
         ],
         imtihon: "Blooket: barcha kurs — harflar, maxraj, sifat, mad, tajwid savollari aralash",
@@ -426,12 +426,12 @@ export const DASTUR: DasturOy[] = [
           {
             k: "Chorshanba",
             d: "Yakuniy tayyorgarlik 2: og'zaki va amaliy qism — harakatsiz matnni tajwidli o'qish",
-            m: "Mock imtihon: harakatsiz Quron matni o'qish, barcha qoidalarni qo'llash",
+            m: "Mock imtihon: harakatsiz arab matni o'qish, barcha qoidalarni qo'llash",
           },
           {
             k: "Juma",
             d: "YAKUNIY IMTIHON: yozma + og'zaki + amaliy o'qish — kurs davomida o'tilgan barcha mavzular",
-            m: "Yakuniy imtihon: yozma test + og'zaki so'rov + Quron oyatlarini tajwidli o'qish",
+            m: "Yakuniy imtihon: yozma test + og'zaki so'rov + arab matnlarini tajwidli o'qish",
           },
         ],
         imtihon: "YAKUNIY IMTIHON: Nazariy 1–20 + Amaliy 1–14 — to'liq yozma, og'zaki va amaliy baholash",

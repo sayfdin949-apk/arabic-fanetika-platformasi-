@@ -28,8 +28,8 @@ export const AMALIY: AmalBob[] = [
    sifatlar:[{h:"ت",sf:["Shadid","Hams","Istifol","Infitoh","Izloq"]},{h:"ث",sf:["Raxv","Hams","Istifol","Infitoh","Ishmoq"]}],
    shakllar:[{h:"ت",m:"ت",b:"تـ",o:"ـتـ",x:"ـت",iz:"Ikki nuqta ustida"},{h:"ث",m:"ث",b:"ثـ",o:"ـثـ",x:"ـث",iz:"Uch nuqta ustida"}],
    harakatlar:[{h:"ت",f:"تَ",k:"تِ",d:"تُ",s:"تْ",of:"ta",ok:"ti",od:"tu",os:"t"},{h:"ث",f:"ثَ",k:"ثِ",d:"ثُ",s:"ثْ",of:"θa",ok:"θi",od:"θu",os:"θ"}],
-   sozlar:[{ar:"تَمْر",oq:"Tamr",tr:"Xurmo",h:"ت+م+ر"},{ar:"ثَوْب",oq:"θawb",tr:"Kiyim",h:"ث+و+ب"},{ar:"بَيْت",oq:"Bayt",tr:"Uy",h:"ب+ي+ت"},{ar:"ثَلَاثَة",oq:"θalaθa",tr:"Uch",h:"ث+ل+ا+ث"},{ar:"تَابَ",oq:"Taaba",tr:"Tavba qildi",h:"ت+ا+ب"}],
-   oqish:[{ar:"تَ تِ تُ تْ",iz:"Ta ning 4 harakati"},{ar:"ثَ ثِ ثُ ثْ",iz:"Sa (tilni chiqarib)"},{ar:"بَيْتٌ",iz:"Uy"},{ar:"ثَلَاثَةٌ",iz:"Uch"},{ar:"تَابَ وَأَنَابَ",iz:"Tavba qildi va qaytdi"}],
+   sozlar:[{ar:"تَمْر",oq:"Tamr",tr:"Xurmo",h:"ت+م+ر"},{ar:"ثَوْب",oq:"θawb",tr:"Kiyim",h:"ث+و+ب"},{ar:"بَيْت",oq:"Bayt",tr:"Uy",h:"ب+ي+ت"},{ar:"ثَلَاثَة",oq:"θalaθa",tr:"Uch",h:"ث+ل+ا+ث"},{ar:"تَاجِر",oq:"Taajir",tr:"Savdogar",h:"ت+ا+ج+ر"}],
+   oqish:[{ar:"تَ تِ تُ تْ",iz:"Ta ning 4 harakati"},{ar:"ثَ ثِ ثُ ثْ",iz:"Sa (tilni chiqarib)"},{ar:"بَيْتٌ",iz:"Uy"},{ar:"ثَلَاثَةٌ",iz:"Uch"},{ar:"تَاجِرٌ وَطَالِبٌ",iz:"Savdogar va talaba"}],
    yozish:[{t:"ت va ث farqini yozing (nuqtalar)",m:"ت(2) — ث(3)"},{t:"'Tamr' yozing",m:"تَمْرٌ"},{t:"'θawb' yozing",m:"ثَوْبٌ"}],
    uyvazifa:["ت va ث ni 5 martadan yozing","ث ni tilni chiqarib 20 marta ayting","'Bayt','Tamr','θawb' yod oling"],
    test:[
@@ -39,7 +39,7 @@ export const AMALIY: AmalBob[] = [
      {s:"ث ning kuchli/zaif sifati?",v:["Shadid","Tavassut","Raxv","Qalqala"],t:2},
      {s:"ت va ث ning umumiy sifati qaysi?",v:["Jahr","Hams","G'unna","Safir"],t:1},
      {s:"تَمْر so'zining ma'nosi?",v:["Kiyim","Uy","Xurmo","Uch"],t:2},
-     {s:"ثَوْب so'zining ma'nosi?",v:["Xurmo","Kiyim","Uy","Tavba"],t:1},
+     {s:"ثَوْب so'zining ma'nosi?",v:["Xurmo","Kiyim","Uy","Savdogar"],t:1},
      {s:"بَيْت so'zining ma'nosi?",v:["Kitob","Eshik","Uy","Bola"],t:2},
      {s:"ثَلَاثَة nechani anglatadi?",v:["Ikki","Uch","To'rt","Besh"],t:1},
      {s:"ت va ث ni yozishda farq nima?",v:["Maxraj farqi","ت ikki nuqta, ث uch nuqta ustida","Sifat farqi","Shaklning pastki tomoni"],t:1}
@@ -94,10 +94,10 @@ export const AMALIY: AmalBob[] = [
    sifatlar:[{h:"ذ",sf:["Raxv","Jahr","Istifol","Infitoh","Ishmoq"]},{h:"ر",sf:["Tavassut","Jahr","Istifol/Isti'lo","Infitoh","Takrir","Inhiraf","Izloq"]}],
    shakllar:[{h:"ذ",m:"ذ",b:"ذ",o:"ـذ",x:"ـذ",iz:"Faqat o'ngga — bir nuqta"},{h:"ر",m:"ر",b:"ر",o:"ـر",x:"ـر",iz:"Faqat o'ngga — nuqtasiz"}],
    harakatlar:[{h:"ذ",f:"ذَ",k:"ذِ",d:"ذُ",s:"ذْ",of:"ða",ok:"ði",od:"ðu",os:"ð"},{h:"ر",f:"رَ",k:"رِ",d:"رُ",s:"رْ",of:"ra",ok:"ri",od:"ru",os:"r"}],
-   sozlar:[{ar:"ذَهَبَ",oq:"Zahaba",tr:"Ketdi",h:"ذ+ه+ب"},{ar:"رَجُل",oq:"Rajul",tr:"Erkak",h:"ر+ج+ل"},{ar:"هَذَا",oq:"Haazaa",tr:"Bu",h:"ه+ذ+ا"},{ar:"دَرَسَ",oq:"Darasa",tr:"O'qidi",h:"د+ر+س"},{ar:"ذِكْر",oq:"Zikr",tr:"Zikr",h:"ذ+ك+ر"}],
+   sozlar:[{ar:"ذَهَبَ",oq:"Zahaba",tr:"Ketdi",h:"ذ+ه+ب"},{ar:"رَجُل",oq:"Rajul",tr:"Erkak",h:"ر+ج+ل"},{ar:"هَذَا",oq:"Haazaa",tr:"Bu",h:"ه+ذ+ا"},{ar:"دَرَسَ",oq:"Darasa",tr:"O'qidi",h:"د+ر+س"},{ar:"ذَكَاء",oq:"Zakaau",tr:"Aql/Ziyraklik",h:"ذ+ك+ا+ء"}],
    oqish:[{ar:"ذَ ذِ ذُ ذْ",iz:"Zal (tilni chiqarib jarangli)"},{ar:"رَ رِ رُ رْ",iz:"Ra (titrab)"},{ar:"ذَهَبَ الرَّجُلُ",iz:"Erkak ketdi"},{ar:"هَذَا كِتَابٌ",iz:"Bu kitob"},{ar:"دَرَسَ الْوَلَدُ",iz:"Bola o'qidi"}],
    yozish:[{t:"ذ va ز farqini yozing",m:"ذ(til chiqarib)—ز(oddiy)"},{t:"'Zaahaba' yozing",m:"ذَهَبَ"},{t:"Ra — Takrir sifatini tushuntir",m:"ر titradi"}],
-   uyvazifa:["ذ va ر ni yozing","ذ va ز farqini ayting","'Rajul','Haazaa','Zikr' yod oling"],
+   uyvazifa:["ذ va ر ni yozing","ذ va ز farqini ayting","'Rajul','Haazaa','Zakaau' yod oling"],
    test:[
      {s:"ذ qanday talaffuz qilinadi?",v:["Tilni tishlar orasiga chiqarib jarangsiz","Tilni tishlar orasiga chiqarib jarangli","Oddiy z kabi","Tomoqdan"],t:1},
      {s:"ذ va ز ning asosiy farqi?",v:["Maxraj farqi","ذ til chiqarib, ز oddiy s/z joyida","Sifat farqi","Shakl farqi"],t:1},
@@ -108,7 +108,7 @@ export const AMALIY: AmalBob[] = [
      {s:"هَذَا so'zining ma'nosi?",v:["U","Men","Bu","Siz"],t:2},
      {s:"رَجُل so'zining ma'nosi?",v:["Bola","Erkak","Ayol","Ota"],t:1},
      {s:"ذ va ر — ikkalasi ham qaysi tomonga bog'lanadi?",v:["Ikki tomonga","Chap tomonga","Faqat o'ng tomonga","Ulanmaydi"],t:2},
-     {s:"ذِكْر so'zining ma'nosi?",v:["Ketdi","Erkak","Bu","Zikr"],t:3}
+     {s:"ذَكَاء so'zining ma'nosi?",v:["Ketdi","Erkak","Bu","Aql/Ziyraklik"],t:3}
    ]},
 
   {id:6,harflar:["ز","س"],nomlar:["Zayn","Sin"],
@@ -117,7 +117,7 @@ export const AMALIY: AmalBob[] = [
    shakllar:[{h:"ز",m:"ز",b:"ز",o:"ـز",x:"ـز",iz:"Faqat o'ngga — bir nuqta"},{h:"س",m:"س",b:"سـ",o:"ـسـ",x:"ـس",iz:"To'rt tomonga — nuqtasiz"}],
    harakatlar:[{h:"ز",f:"زَ",k:"زِ",d:"زُ",s:"زْ",of:"za",ok:"zi",od:"zu",os:"z"},{h:"س",f:"سَ",k:"سِ",d:"سُ",s:"سْ",of:"sa",ok:"si",od:"su",os:"s"}],
    sozlar:[{ar:"زَيْد",oq:"Zayd",tr:"(Ism)",h:"ز+ي+د"},{ar:"سَمَاء",oq:"Samaau",tr:"Osmon",h:"س+م+ا+ء"},{ar:"بَازَار",oq:"Baazaar",tr:"Bozor",h:"ب+ا+ز+ا+ر"},{ar:"دَرَسَ",oq:"Darasa",tr:"O'qidi",h:"د+ر+س"},{ar:"زَرَعَ",oq:"Zaraa",tr:"Ekdi",h:"ز+ر+ع"}],
-   oqish:[{ar:"زَ زِ زُ زْ",iz:"Zayn 4 harakati"},{ar:"سَ سِ سُ سْ",iz:"Sin 4 harakati"},{ar:"سَمَاءٌ صَافِيَةٌ",iz:"Tiniq osmon"},{ar:"زَرَعَ الأَبُ",iz:"Ota ekdi"},{ar:"سَمِعَ صَبَرَ زَيْدٌ",iz:"Safir yodlash iborasi"}],
+   oqish:[{ar:"زَ زِ زُ زْ",iz:"Zayn 4 harakati"},{ar:"سَ سِ سُ سْ",iz:"Sin 4 harakati"},{ar:"سَمَاءٌ صَافِيَةٌ",iz:"Tiniq osmon"},{ar:"زَرَعَ الأَبُ",iz:"Ota ekdi"},{ar:"صَادَ سَمَكًا زَيْدٌ",iz:"Safir iborasi (ص س ز)"}],
    yozish:[{t:"ز va س farqini yozing",m:"ز(nuqtali)—س(nuqtasiz)"},{t:"Safir: ز س ص",m:"Hushtak ovozi"},{t:"'Samaau' yozing",m:"سَمَاءٌ"}],
    uyvazifa:["Safir sifatini ko'rsating","ز،س،ص ni taqqoslang","'Zayd','Samaau','Darasa' yod oling"],
    test:[
@@ -130,7 +130,7 @@ export const AMALIY: AmalBob[] = [
      {s:"زَرَعَ so'zining ma'nosi?",v:["Ketdi","O'qidi","Ekdi","Keldi"],t:2},
      {s:"دَرَسَ so'zining ma'nosi?",v:["Ketdi","Keldi","O'qidi","Yedi"],t:2},
      {s:"ز va ص ning umumiy sifati?",v:["G'unna","Jahr","Safir","Takrir"],t:2},
-     {s:"سَمِعَ صَبَرَ زَيْدٌ iborasi nimani yodlatadi?",v:["Isti'lo harflarini","Safir harflarini (ز س ص)","Tavassut harflarini","Izloq harflarini"],t:1}
+     {s:"صَادَ سَمَكًا زَيْدٌ iborasi nimani yodlatadi?",v:["Isti'lo harflarini","Safir harflarini (ز س ص)","Tavassut harflarini","Izloq harflarini"],t:1}
    ]},
 
   {id:7,harflar:["ش","ص"],nomlar:["Shin","Sod"],
@@ -138,10 +138,10 @@ export const AMALIY: AmalBob[] = [
    sifatlar:[{h:"ش",sf:["Raxv","Hams","Istifol","Infitoh","Ishmoq","Tafashi"]},{h:"ص",sf:["Raxv","Hams","Isti'lo","Itboq","Ishmoq","Safir"]}],
    shakllar:[{h:"ش",m:"ش",b:"شـ",o:"ـشـ",x:"ـش",iz:"Uch nuqta (س ga o'xshash)"},{h:"ص",m:"ص",b:"صـ",o:"ـصـ",x:"ـص",iz:"Nuqtasiz, yumaloq"}],
    harakatlar:[{h:"ش",f:"شَ",k:"شِ",d:"شُ",s:"شْ",of:"sha",ok:"shi",od:"shu",os:"sh"},{h:"ص",f:"صَ",k:"صِ",d:"صُ",s:"صْ",of:"ṣa",ok:"ṣi",od:"ṣu",os:"ṣ"}],
-   sozlar:[{ar:"شَمْس",oq:"Shams",tr:"Quyosh",h:"ش+م+س"},{ar:"صَبَرَ",oq:"Ṣabara",tr:"Sabr qildi",h:"ص+ب+ر"},{ar:"شَجَر",oq:"Shajar",tr:"Daraxt",h:"ش+ج+ر"},{ar:"صَدِيق",oq:"Ṣadiiq",tr:"Do'st",h:"ص+د+ي+ق"},{ar:"أَشْجَار",oq:"Ashjaar",tr:"Daraxtlar",h:"أ+ش+ج+ا+ر"}],
-   oqish:[{ar:"شَ شِ شُ شْ",iz:"Shin 4 harakati"},{ar:"صَ صِ صُ صْ",iz:"Sod (qalin s!)"},{ar:"شَمْسٌ مُشْرِقَةٌ",iz:"Yorqin quyosh"},{ar:"صَبْرٌ جَمِيلٌ",iz:"Go'zal sabr"},{ar:"سَمِعَ صَبَرَ زَيْدٌ",iz:"Safir iborasi"}],
+   sozlar:[{ar:"شَمْس",oq:"Shams",tr:"Quyosh",h:"ش+م+س"},{ar:"صَارَ",oq:"Ṣaara",tr:"Bo'ldi",h:"ص+ا+ر"},{ar:"شَجَر",oq:"Shajar",tr:"Daraxt",h:"ش+ج+ر"},{ar:"صَدِيق",oq:"Ṣadiiq",tr:"Do'st",h:"ص+د+ي+ق"},{ar:"أَشْجَار",oq:"Ashjaar",tr:"Daraxtlar",h:"أ+ش+ج+ا+ر"}],
+   oqish:[{ar:"شَ شِ شُ شْ",iz:"Shin 4 harakati"},{ar:"صَ صِ صُ صْ",iz:"Sod (qalin s!)"},{ar:"شَمْسٌ مُشْرِقَةٌ",iz:"Yorqin quyosh"},{ar:"صَوْتٌ جَمِيلٌ",iz:"Go'zal ovoz"},{ar:"صَادَ سَمَكًا زَيْدٌ",iz:"Safir iborasi (ص س ز)"}],
    yozish:[{t:"س va ش farqini yozing",m:"س(nuqtasiz)—ش(3 nuqta)"},{t:"س va ص farqini tushuntir",m:"س ingichka—ص qalin"},{t:"'Shams' va 'Ṣadiiq' yozing",m:"شَمْسٌ—صَدِيقٌ"}],
-   uyvazifa:["Tafashi sifatini ko'rsating","'Shams','Ṣabara','Shajar' yod oling","س va ص farqini amalda ko'rsating"],
+   uyvazifa:["Tafashi sifatini ko'rsating","'Shams','Ṣaara','Shajar' yod oling","س va ص farqini amalda ko'rsating"],
    test:[
      {s:"Tafashi sifati qaysi harfda bor?",v:["س","ز","ش","ص"],t:2},
      {s:"Tafashi sifati nimani anglatadi?",v:["Til titraydi","Havo og'iz bo'ylab keng yoyiladi","Havo burundan chiqadi","Til yon tomoni uzayadi"],t:1},
@@ -160,9 +160,9 @@ export const AMALIY: AmalBob[] = [
    sifatlar:[{h:"ض",sf:["Raxv","Jahr","Isti'lo","Itboq","Ishmoq","Istitoyla"]},{h:"ط",sf:["Shadid","Jahr","Isti'lo","Itboq","Ishmoq"]}],
    shakllar:[{h:"ض",m:"ض",b:"ضـ",o:"ـضـ",x:"ـض",iz:"Nuqtali (ص ga o'xshash)"},{h:"ط",m:"ط",b:"طـ",o:"ـطـ",x:"ـط",iz:"Nuqtasiz, halqali"}],
    harakatlar:[{h:"ض",f:"ضَ",k:"ضِ",d:"ضُ",s:"ضْ",of:"ḍa",ok:"ḍi",od:"ḍu",os:"ḍ"},{h:"ط",f:"طَ",k:"طِ",d:"طُ",s:"طْ",of:"ṭa",ok:"ṭi",od:"ṭu",os:"ṭ"}],
-   sozlar:[{ar:"رَمَضَان",oq:"Ramaḍaan",tr:"Ramazon",h:"ر+م+ض+ا+ن"},{ar:"طَرِيق",oq:"Ṭariiq",tr:"Yo'l",h:"ط+ر+ي+ق"},{ar:"ضَرَبَ",oq:"Ḍaraba",tr:"Urdi",h:"ض+ر+ب"},{ar:"طَبِيب",oq:"Ṭabiib",tr:"Doktor",h:"ط+ب+ي+ب"},{ar:"أَرْض",oq:"Arḍ",tr:"Yer",h:"أ+ر+ض"}],
+   sozlar:[{ar:"رِيَاضَة",oq:"Riyaada",tr:"Sport",h:"ر+ي+ا+ض+ة"},{ar:"طَرِيق",oq:"Ṭariiq",tr:"Yo'l",h:"ط+ر+ي+ق"},{ar:"ضَرَبَ",oq:"Ḍaraba",tr:"Urdi",h:"ض+ر+ب"},{ar:"طَبِيب",oq:"Ṭabiib",tr:"Doktor",h:"ط+ب+ي+ب"},{ar:"أَرْض",oq:"Arḍ",tr:"Yer",h:"أ+ر+ض"}],
    oqish:[{ar:"ضَ ضِ ضُ ضْ",iz:"Dod 4 harakati"},{ar:"طَ طِ طُ طْ",iz:"To (qalin t)"},{ar:"طَرِيقٌ طَوِيلٌ",iz:"Uzun yo'l"},{ar:"أَرْضٌ وَسَمَاءٌ",iz:"Yer va osmon"},{ar:"طَبِيبٌ مَاهِرٌ",iz:"Mohir doktor"}],
-   yozish:[{t:"ض va ص farqini yozing",m:"ص(nuqtasiz)—ض(nuqtali)"},{t:"Istitoyla sifatini tushuntir",m:"Til yon tomoni uzayib chiqadi"},{t:"'Ramaḍaan' va 'Ṭariiq' yozing",m:"رَمَضَانٌ—طَرِيقٌ"}],
+   yozish:[{t:"ض va ص farqini yozing",m:"ص(nuqtasiz)—ض(nuqtali)"},{t:"Istitoyla sifatini tushuntir",m:"Til yon tomoni uzayib chiqadi"},{t:"'Riyaada' va 'Ṭariiq' yozing",m:"رِيَاضَةٌ—طَرِيقٌ"}],
    uyvazifa:["Itboq sifatini ko'rsating","'Ramaḍaan','Ṭabiib','Arḍ' yod oling","Istitoyla sifatini namoyish qiling"],
    test:[
      {s:"Istitoyla sifati qaysi harfda bor?",v:["ط","ص","ض","ظ"],t:2},
@@ -171,7 +171,7 @@ export const AMALIY: AmalBob[] = [
      {s:"ط ning kuchli/zaif sifati?",v:["Raxv","Tavassut","Shadid","Lin"],t:2},
      {s:"ض ning kuchli/zaif sifati?",v:["Shadid","Raxv","Tavassut","Qalqala"],t:1},
      {s:"أَرْض so'zining ma'nosi?",v:["Osmon","Yo'l","Yer","Doktor"],t:2},
-     {s:"طَرِيق so'zining ma'nosi?",v:["Ramazon","Yo'l","Doktor","Urdi"],t:1},
+     {s:"طَرِيق so'zining ma'nosi?",v:["Sport","Yo'l","Doktor","Urdi"],t:1},
      {s:"طَبِيب so'zining ma'nosi?",v:["Yo'l","Yer","Doktor","Ota"],t:2},
      {s:"ضَرَبَ so'zining ma'nosi?",v:["Ketdi","Keldi","O'qidi","Urdi"],t:3},
      {s:"ض va ص yozuvdagi farqi?",v:["Maxraj farqi","ص nuqtasiz, ض nuqtali","Sifat soni","Shakl tamoman boshqa"],t:1}
@@ -183,7 +183,7 @@ export const AMALIY: AmalBob[] = [
    shakllar:[{h:"ظ",m:"ظ",b:"ظـ",o:"ـظـ",x:"ـظ",iz:"Nuqta ustida (ط ga o'xshash)"},{h:"ع",m:"ع",b:"عـ",o:"ـعـ",x:"ـع",iz:"Maxsus shakl — 4 holat"}],
    harakatlar:[{h:"ظ",f:"ظَ",k:"ظِ",d:"ظُ",s:"ظْ",of:"ẓa",ok:"ẓi",od:"ẓu",os:"ẓ"},{h:"ع",f:"عَ",k:"عِ",d:"عُ",s:"عْ",of:"ʿa",ok:"ʿi",od:"ʿu",os:"ʿ"}],
    sozlar:[{ar:"ظَهَرَ",oq:"Ẓahara",tr:"Ko'rindi",h:"ظ+ه+ر"},{ar:"عِلْم",oq:"ʿIlm",tr:"Ilm",h:"ع+ل+م"},{ar:"عَظِيم",oq:"ʿAẓiim",tr:"Ulug'",h:"ع+ظ+ي+م"},{ar:"عَمَل",oq:"ʿAmal",tr:"Ish",h:"ع+م+ل"},{ar:"حَظٌّ",oq:"Ħaẓẓ",tr:"Baxt",h:"ح+ظ"}],
-   oqish:[{ar:"ظَ ظِ ظُ ظْ",iz:"Zo (tilni chiqarib qalin)"},{ar:"عَ عِ عُ عْ",iz:"Ayn (tomoqdan siqib)"},{ar:"عِلْمٌ عَظِيمٌ",iz:"Buyuk ilm"},{ar:"ظَهَرَ الْحَقُّ",iz:"Haq namoyon bo'ldi"},{ar:"عَمَلٌ صَالِحٌ",iz:"Yaxshi ish"}],
+   oqish:[{ar:"ظَ ظِ ظُ ظْ",iz:"Zo (tilni chiqarib qalin)"},{ar:"عَ عِ عُ عْ",iz:"Ayn (tomoqdan siqib)"},{ar:"عِلْمٌ عَظِيمٌ",iz:"Buyuk ilm"},{ar:"ظَهَرَ الْحَقُّ",iz:"Haq namoyon bo'ldi"},{ar:"عَمَلٌ كَامِلٌ",iz:"Mukammal ish"}],
    yozish:[{t:"ظ va ذ farqini yozing",m:"ذ ingichka—ظ qalin (Itboq)"},{t:"ع ning 4 xil shaklini yozing",m:"عـ ـعـ ـع ع"},{t:"'ʿIlm' va 'ʿAẓiim' yozing",m:"عِلْمٌ—عَظِيمٌ"}],
    uyvazifa:["ظ va ذ farqini tushuntiring","ع ni tomoqdan 20 marta ayting","'ʿIlm','ʿAẓiim','ʿAmal' yod oling"],
    test:[
