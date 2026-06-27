@@ -6,11 +6,14 @@ import { NAZARIY } from "../../content/nazariy";
 import { MD } from "../../lib/md";
 import { Card } from "../../components/ui";
 import { Quiz, type QuizQuestion } from "../../components/Quiz";
+import { LessonImages } from "../../components/LessonImages";
 import { useProgress } from "../progress/ProgressContext";
+import { useAuth } from "../../auth/AuthContext";
 
 export function NazariyDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { isNazUnlocked, submitNaz, nazDone } = useProgress();
   const [phase, setPhase] = useState<"mavzu" | "test">("mavzu");
   const [resultPct, setResultPct] = useState<number | null>(null);
@@ -121,6 +124,9 @@ export function NazariyDetail() {
           <>
             <Card style={{ padding: 16, marginBottom: 16 }}>
               <MD text={dars.mavzu} />
+            </Card>
+            <Card style={{ padding: 16, marginBottom: 16 }}>
+              <LessonImages type="nazariy" id={dars.id} isTeacher={user?.role === "teacher"} />
             </Card>
             <button
               onClick={() => setPhase("test")}

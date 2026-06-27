@@ -7,9 +7,11 @@ import type { AmalBob } from "../../content/types";
 import { speakAr } from "../../lib/tts";
 import { Card } from "../../components/ui";
 import { Quiz, type QuizQuestion } from "../../components/Quiz";
+import { LessonImages } from "../../components/LessonImages";
 import { useProgress } from "../progress/ProgressContext";
+import { useAuth } from "../../auth/AuthContext";
 
-type TabKey = "maxraj" | "sifat" | "shakl" | "harakat" | "soz" | "oqish" | "yozish" | "uy" | "test";
+type TabKey = "maxraj" | "sifat" | "shakl" | "harakat" | "soz" | "oqish" | "yozish" | "uy" | "rasmlar" | "test";
 
 const TABS: { k: TabKey; label: string; emoji: string }[] = [
   { k: "maxraj",  label: "Maxraj",    emoji: "👄" },
@@ -20,6 +22,7 @@ const TABS: { k: TabKey; label: string; emoji: string }[] = [
   { k: "oqish",   label: "O'qish",    emoji: "🗣️" },
   { k: "yozish",  label: "Yozish",    emoji: "🖊️" },
   { k: "uy",      label: "Uy vazifa", emoji: "🏠" },
+  { k: "rasmlar", label: "Rasmlar",   emoji: "🖼️" },
   { k: "test",    label: "Test",      emoji: "✅" },
 ];
 
@@ -41,7 +44,7 @@ const Stack = ({ children }: { children: React.ReactNode }) => (
   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>{children}</div>
 );
 
-function TabBody({ bob, tab, questions, onTest }: { bob: AmalBob; tab: TabKey; questions: QuizQuestion[]; onTest: (ok: number, tot: number) => void }) {
+function TabBody({ bob, tab, questions, onTest, isTeacher }: { bob: AmalBob; tab: TabKey; questions: QuizQuestion[]; onTest: (ok: number, tot: number) => void; isTeacher: boolean }) {
   switch (tab) {
     case "maxraj":
       return (
@@ -58,7 +61,7 @@ function TabBody({ bob, tab, questions, onTest }: { bob: AmalBob; tab: TabKey; q
                 </div>
                 <SpeakBtn text={m.h} />
               </div>
-              <div style={{ background: "rgba(13,58,26,.04)", borderRadius: 10, padding: "10px 12px", fontSize: 13, color: T.text, lineHeight: 1.7 }}>
+              <div style={{ background: "rgba(13,58,26,.04)", borderRadius: 10, padding: "10px 12px", fontSize: 15, color: T.text, lineHeight: 1.7 }}>
                 {m.iz}
               </div>
             </Card>
@@ -75,11 +78,11 @@ function TabBody({ bob, tab, questions, onTest }: { bob: AmalBob; tab: TabKey; q
                 <div style={{ width: 48, height: 48, borderRadius: 12, background: T.gGreen, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                   <ArLetter ch={s.h} size={26} />
                 </div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: T.text2 }}>Sifatlar</div>
+                <div style={{ fontSize: 14, fontWeight: 600, color: T.text2 }}>Sifatlar</div>
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                 {s.sf.map((x, j) => (
-                  <span key={j} style={{ fontSize: 13, fontWeight: 600, color: T.green, background: "rgba(46,184,46,.1)", border: "1px solid rgba(46,184,46,.2)", borderRadius: 20, padding: "5px 12px" }}>
+                  <span key={j} style={{ fontSize: 14, fontWeight: 600, color: T.green, background: "rgba(46,184,46,.1)", border: "1px solid rgba(46,184,46,.2)", borderRadius: 20, padding: "5px 13px" }}>
                     {x}
                   </span>
                 ))}
@@ -98,7 +101,7 @@ function TabBody({ bob, tab, questions, onTest }: { bob: AmalBob; tab: TabKey; q
                 <div style={{ width: 48, height: 48, borderRadius: 12, background: T.gGreen, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                   <ArLetter ch={sh.h} size={26} />
                 </div>
-                <div style={{ flex: 1, fontSize: 12, color: T.text2 }}>{sh.iz}</div>
+                <div style={{ flex: 1, fontSize: 14, color: T.text2 }}>{sh.iz}</div>
                 <SpeakBtn text={sh.h} />
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8 }}>
@@ -128,7 +131,7 @@ function TabBody({ bob, tab, questions, onTest }: { bob: AmalBob; tab: TabKey; q
                 <div style={{ width: 48, height: 48, borderRadius: 12, background: T.gGreen, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                   <ArLetter ch={h.h} size={26} />
                 </div>
-                <div style={{ fontSize: 13, color: T.text2 }}>4 ta harakat</div>
+                <div style={{ fontSize: 14, color: T.text2 }}>4 ta harakat</div>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8 }}>
                 {[
@@ -144,7 +147,7 @@ function TabBody({ bob, tab, questions, onTest }: { bob: AmalBob; tab: TabKey; q
                   >
                     <div style={{ fontSize: 10, color: T.hint, marginBottom: 4 }}>{c.l}</div>
                     <div style={{ fontFamily: AR, fontSize: 24, color: T.green }}>{c.ar}</div>
-                    <div style={{ fontSize: 11, color: T.text2, marginTop: 4, fontWeight: 600 }}>{c.oq}</div>
+                    <div style={{ fontSize: 12, color: T.text2, marginTop: 4, fontWeight: 600 }}>{c.oq}</div>
                   </button>
                 ))}
               </div>
@@ -161,8 +164,8 @@ function TabBody({ bob, tab, questions, onTest }: { bob: AmalBob; tab: TabKey; q
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontFamily: AR, fontSize: 28, color: T.green, fontWeight: 700, direction: "rtl", marginBottom: 4 }}>{s.ar}</div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: T.text }}>{s.oq} — <span style={{ color: T.text2 }}>{s.tr}</span></div>
-                  <div style={{ fontSize: 11, color: T.hint, marginTop: 3, fontFamily: AR, direction: "rtl" }}>{s.h}</div>
+                  <div style={{ fontSize: 15, fontWeight: 600, color: T.text }}>{s.oq} — <span style={{ color: T.text2 }}>{s.tr}</span></div>
+                  <div style={{ fontSize: 13, color: T.hint, marginTop: 3, fontFamily: AR, direction: "rtl" }}>{s.h}</div>
                 </div>
                 <SpeakBtn text={s.ar} />
               </div>
@@ -179,7 +182,7 @@ function TabBody({ bob, tab, questions, onTest }: { bob: AmalBob; tab: TabKey; q
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontFamily: AR, fontSize: 24, color: T.green, fontWeight: 700, direction: "rtl", marginBottom: 6 }}>{o.ar}</div>
-                  <div style={{ fontSize: 12, color: T.text2 }}>{o.iz}</div>
+                  <div style={{ fontSize: 14, color: T.text2 }}>{o.iz}</div>
                 </div>
                 <SpeakBtn text={o.ar} />
               </div>
@@ -193,7 +196,7 @@ function TabBody({ bob, tab, questions, onTest }: { bob: AmalBob; tab: TabKey; q
         <Stack>
           {bob.yozish.map((y, i) => (
             <Card key={i} style={{ padding: 16 }}>
-              <div style={{ fontSize: 13, color: T.text, fontWeight: 600, marginBottom: 10 }}>{y.t}</div>
+              <div style={{ fontSize: 15, color: T.text, fontWeight: 600, marginBottom: 10 }}>{y.t}</div>
               <div style={{ background: "rgba(13,58,26,.04)", borderRadius: 10, padding: "12px 14px" }}>
                 <div style={{ fontFamily: AR, fontSize: 22, color: T.green, direction: "rtl" }}>{y.m}</div>
               </div>
@@ -211,12 +214,15 @@ function TabBody({ bob, tab, questions, onTest }: { bob: AmalBob; tab: TabKey; q
                 <div style={{ width: 24, height: 24, borderRadius: "50%", background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 12, fontWeight: 700, color: T.onCta }}>
                   {i + 1}
                 </div>
-                <div style={{ fontSize: 13, color: T.text, lineHeight: 1.6, paddingTop: 2 }}>{u}</div>
+                <div style={{ fontSize: 15, color: T.text, lineHeight: 1.6, paddingTop: 2 }}>{u}</div>
               </div>
             ))}
           </Stack>
         </Card>
       );
+
+    case "rasmlar":
+      return <LessonImages type="amaliy" id={bob.id} isTeacher={isTeacher} />;
 
     case "test":
       return <Quiz questions={questions} onDone={onTest} />;
@@ -226,6 +232,7 @@ function TabBody({ bob, tab, questions, onTest }: { bob: AmalBob; tab: TabKey; q
 export function AmaliyDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { submitAmal, amalDone } = useProgress();
   const [tab, setTab] = useState<TabKey>("maxraj");
   const tabBarRef = useRef<HTMLDivElement>(null);
@@ -344,6 +351,7 @@ export function AmaliyDetail() {
           tab={tab}
           questions={questions}
           onTest={(ok, tot) => submitAmal(bob.id, ok, tot)}
+          isTeacher={user?.role === "teacher"}
         />
 
         {/* Prev / Next navigation */}

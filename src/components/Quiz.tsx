@@ -109,7 +109,7 @@ export function Quiz({ questions, onDone }: { questions: QuizQuestion[]; onDone?
                   </div>
                   <div
                     style={{
-                      fontSize: qAr ? 18 : 14,
+                      fontSize: qAr ? 20 : 16,
                       fontWeight: 600,
                       color: T.green,
                       lineHeight: 1.4,
@@ -191,7 +191,7 @@ export function Quiz({ questions, onDone }: { questions: QuizQuestion[]; onDone?
 
                       <span style={{
                         flex: 1,
-                        fontSize: oAr ? 17 : 13,
+                        fontSize: oAr ? 17 : 15,
                         fontWeight: oAr ? 700 : 500,
                         color: textColor,
                         fontFamily: oAr ? AR : FONT,
