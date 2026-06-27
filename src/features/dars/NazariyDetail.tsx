@@ -1,29 +1,28 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
-import { ChevronLeft, BookMarked, ClipboardCheck, ArrowRight } from "lucide-react";
-import { T } from "../../theme/tokens";
+import { ChevronLeft, BookOpen, ClipboardCheck, ArrowRight, Clock } from "lucide-react";
+import { T, AR } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { MD } from "../../lib/md";
-import { Page, Card, SectionTitle } from "../../components/ui";
+import { Card } from "../../components/ui";
 import { Quiz, type QuizQuestion } from "../../components/Quiz";
 import { useProgress } from "../progress/ProgressContext";
 
 export function NazariyDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { isNazUnlocked, submitNaz } = useProgress();
+  const { isNazUnlocked, submitNaz, nazDone } = useProgress();
   const [phase, setPhase] = useState<"mavzu" | "test">("mavzu");
   const [resultPct, setResultPct] = useState<number | null>(null);
 
   const dars = NAZARIY.find((d) => d.id === Number(id));
 
-  // id o'zgarganda (keyingi darsga o'tganda) holatni tiklash
   useEffect(() => {
     setPhase("mavzu");
     setResultPct(null);
+    window.scrollTo(0, 0);
   }, [id]);
 
-  // Variantlar barqaror bo'lishi uchun useMemo (aks holda har render'da qayta aralashadi)
   const questions: QuizQuestion[] = useMemo(
     () =>
       dars
@@ -40,86 +39,165 @@ export function NazariyDetail() {
 
   const hasNext = dars.id < NAZARIY.length;
   const passed = resultPct !== null && resultPct >= 80;
+  const prevDone = nazDone[dars.id];
 
   return (
-    <Page>
-      <button
-        onClick={() => navigate("/dars")}
-        style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "none", border: "none", color: T.text2, fontSize: 13, cursor: "pointer", marginBottom: 12, padding: 0 }}
-      >
-        <ChevronLeft size={16} /> Darslar
-      </button>
+    <div style={{ minHeight: "100dvh", background: T.meshLight }}>
+      {/* Sticky header */}
+      <div style={{ position: "sticky", top: 0, zIndex: 20, background: T.green }}>
+        <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          {/* Top row: back + progress */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 16px 0" }}>
+            <button
+              onClick={() => navigate("/dars")}
+              style={{ display: "flex", alignItems: "center", gap: 4, background: "rgba(255,255,255,.12)", border: "none", borderRadius: 8, padding: "6px 10px 6px 6px", color: "#fff", fontSize: 12, fontWeight: 500, cursor: "pointer", flexShrink: 0 }}
+            >
+              <ChevronLeft size={15} /> Darslar
+            </button>
+            <div style={{ flex: 1 }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 5, background: "rgba(255,255,255,.12)", borderRadius: 8, padding: "5px 10px" }}>
+              <Clock size={11} color="rgba(255,255,255,.7)" />
+              <span style={{ fontSize: 11, color: "rgba(255,255,255,.85)", fontWeight: 500 }}>1s 20d</span>
+            </div>
+          </div>
 
-      {/* Faza tugmalari */}
-      <div style={{ display: "flex", gap: 6, background: "rgba(13,58,26,.06)", borderRadius: 12, padding: 4, marginBottom: 16 }}>
-        {(
-          [
-            { k: "mavzu", label: "Mavzu", icon: BookMarked },
-            { k: "test", label: "Test", icon: ClipboardCheck },
-          ] as const
-        ).map((p) => (
-          <button
-            key={p.k}
-            onClick={() => setPhase(p.k)}
-            style={{
-              flex: 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 6,
-              padding: "9px",
-              borderRadius: 9,
-              border: "none",
-              cursor: "pointer",
-              fontSize: 13,
-              fontWeight: 600,
-              background: phase === p.k ? "#fff" : "transparent",
-              color: phase === p.k ? T.green : T.hint,
-              boxShadow: phase === p.k ? "0 1px 4px rgba(13,58,26,.12)" : "none",
-            }}
-          >
-            <p.icon size={15} /> {p.label}
-          </button>
-        ))}
+          {/* Dars info */}
+          <div style={{ padding: "8px 16px 0" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ width: 32, height: 32, borderRadius: 8, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <span style={{ fontFamily: AR, fontSize: 18, color: T.onCta }}>{dars.icon}</span>
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 10, color: T.limeBrt, fontWeight: 600 }}>{dars.id}-DARS / {NAZARIY.length} DAN</div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{dars.nomi}</div>
+              </div>
+              {prevDone && (
+                <div style={{ fontSize: 12, fontWeight: 700, color: prevDone.pct >= 80 ? T.limeBrt : "rgba(255,255,255,.6)", flexShrink: 0 }}>
+                  {prevDone.pct}%
+                </div>
+              )}
+            </div>
+
+            {/* Progress bar (NAZARIY.length bo'yicha) */}
+            <div style={{ height: 3, background: "rgba(255,255,255,.15)", borderRadius: 2, margin: "10px 0 0", overflow: "hidden" }}>
+              <div style={{ height: "100%", width: `${(dars.id / NAZARIY.length) * 100}%`, background: T.gLimeH, borderRadius: 2 }} />
+            </div>
+          </div>
+
+          {/* Phase tabs */}
+          <div style={{ display: "flex", padding: "10px 16px 0" }}>
+            {([ { k: "mavzu" as const, label: "Mavzu", icon: BookOpen }, { k: "test" as const, label: "Test", icon: ClipboardCheck } ]).map((p) => (
+              <button
+                key={p.k}
+                onClick={() => setPhase(p.k)}
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 6,
+                  padding: "9px 4px",
+                  background: "none",
+                  border: "none",
+                  borderBottom: phase === p.k ? "3px solid #fff" : "3px solid transparent",
+                  cursor: "pointer",
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: phase === p.k ? "#fff" : "rgba(255,255,255,.45)",
+                  transition: "all .15s",
+                }}
+              >
+                <p.icon size={14} /> {p.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {phase === "mavzu" ? (
-        <>
-          <Card style={{ padding: 16 }}>
-            <MD text={dars.mavzu} />
-          </Card>
-          <button
-            onClick={() => setPhase("test")}
-            style={{ width: "100%", marginTop: 14, background: T.gLime, color: T.onCta, border: "none", borderRadius: 12, padding: "13px", fontSize: 14, fontWeight: 600, cursor: "pointer", boxShadow: "0 2px 8px rgba(46,184,46,.3)" }}
-          >
-            Testni boshlash
-          </button>
-        </>
-      ) : (
-        <>
-          <SectionTitle>Vazifalar</SectionTitle>
-          <Quiz
-            questions={questions}
-            onDone={(ok, tot) => {
-              submitNaz(dars.id, ok, tot);
-              setResultPct(Math.round((ok / tot) * 100));
-            }}
-          />
-          {passed && hasNext && (
+      {/* Content */}
+      <div style={{ padding: 16 }}>
+        {phase === "mavzu" ? (
+          <>
+            <Card style={{ padding: 16, marginBottom: 16 }}>
+              <MD text={dars.mavzu} />
+            </Card>
             <button
-              onClick={() => navigate(`/dars/nazariy/${dars.id + 1}`)}
-              style={{ width: "100%", marginTop: 12, background: T.gGreen, color: "#fff", border: "none", borderRadius: 12, padding: "14px", fontSize: 14, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
+              onClick={() => setPhase("test")}
+              style={{
+                width: "100%",
+                background: T.gLime,
+                color: T.onCta,
+                border: "none",
+                borderRadius: 12,
+                padding: "14px",
+                fontSize: 14,
+                fontWeight: 700,
+                cursor: "pointer",
+                boxShadow: "0 4px 12px rgba(46,184,46,.35)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+              }}
             >
-              Keyingi dars <ArrowRight size={18} />
+              <ClipboardCheck size={18} /> Testni boshlash
             </button>
-          )}
-          {passed && !hasNext && (
-            <div style={{ marginTop: 12, textAlign: "center", fontSize: 13, color: T.green500, fontWeight: 600 }}>
-              🎉 Barcha nazariy darslar yakunlandi!
-            </div>
-          )}
-        </>
-      )}
-    </Page>
+          </>
+        ) : (
+          <>
+            <Quiz
+              questions={questions}
+              onDone={(ok, tot) => {
+                submitNaz(dars.id, ok, tot);
+                setResultPct(Math.round((ok / tot) * 100));
+              }}
+            />
+            {resultPct !== null && (
+              <div style={{ marginTop: 16 }}>
+                {passed ? (
+                  <div style={{ background: "rgba(46,184,46,.08)", border: "1px solid rgba(46,184,46,.25)", borderRadius: 12, padding: 16, textAlign: "center", marginBottom: 12 }}>
+                    <div style={{ fontSize: 28 }}>🎉</div>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: T.green, marginTop: 6 }}>Ajoyib! {resultPct}% natija</div>
+                    <div style={{ fontSize: 12, color: T.text2, marginTop: 4 }}>Keyingi darsga o'tishingiz mumkin</div>
+                  </div>
+                ) : (
+                  <div style={{ background: "rgba(230,0,35,.06)", border: "1px solid rgba(230,0,35,.15)", borderRadius: 12, padding: 16, textAlign: "center", marginBottom: 12 }}>
+                    <div style={{ fontSize: 28 }}>📚</div>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: T.red, marginTop: 6 }}>{resultPct}% — Qayta urinib ko'ring</div>
+                    <div style={{ fontSize: 12, color: T.text2, marginTop: 4 }}>O'tish uchun 80% kerak</div>
+                  </div>
+                )}
+
+                <div style={{ display: "flex", gap: 10 }}>
+                  <button
+                    onClick={() => { setResultPct(null); setPhase("mavzu"); }}
+                    style={{ flex: 1, padding: "13px", borderRadius: 12, border: "1px solid rgba(13,58,26,.15)", background: "rgba(13,58,26,.04)", color: T.text2, fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+                  >
+                    Mavzuni qayta o'qi
+                  </button>
+                  {passed && hasNext && (
+                    <button
+                      onClick={() => navigate(`/dars/nazariy/${dars.id + 1}`)}
+                      style={{ flex: 1, padding: "13px", borderRadius: 12, border: "none", background: T.gGreen, color: "#fff", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}
+                    >
+                      Keyingi <ArrowRight size={16} />
+                    </button>
+                  )}
+                  {passed && !hasNext && (
+                    <button
+                      onClick={() => navigate("/dars")}
+                      style={{ flex: 1, padding: "13px", borderRadius: 12, border: "none", background: T.gGreen, color: "#fff", fontSize: 13, fontWeight: 700, cursor: "pointer" }}
+                    >
+                      Tugatildi 🏆
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
   );
 }
