@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, type CSSProperties } from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { BookOpen, LogOut, MoreHorizontal, X } from "lucide-react";
+import { BookOpen, LogOut, MoreHorizontal, X, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { T } from "../theme/tokens";
 import { useAuth } from "../auth/AuthContext";
 import { navForRole, type NavItem } from "./nav";
@@ -35,6 +35,13 @@ export function AppShell() {
   const { user, avatar, logout } = useAuth();
   const isMobile = useMediaQuery("(max-width: 767px)");
   const [moreOpen, setMoreOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem("afp:sidebar_collapsed") === "1";
+    } catch {
+      return false;
+    }
+  });
   const { pathname } = useLocation();
   const mainRef = useRef<HTMLElement>(null);
 
@@ -43,6 +50,17 @@ export function AppShell() {
     mainRef.current?.scrollTo({ top: 0 });
     setMoreOpen(false);
   }, [pathname]);
+
+  const toggleCollapsed = () =>
+    setCollapsed((c) => {
+      const n = !c;
+      try {
+        localStorage.setItem("afp:sidebar_collapsed", n ? "1" : "0");
+      } catch {
+        /* ignore */
+      }
+      return n;
+    });
 
   if (!user) return null;
   const items = navForRole(user.role);
@@ -57,12 +75,12 @@ export function AppShell() {
   /* ───────── DESKTOP ───────── */
   if (!isMobile) {
     const linkStyle =
-      (extra?: CSSProperties) =>
       ({ isActive }: { isActive: boolean }): CSSProperties => ({
         display: "flex",
         alignItems: "center",
+        justifyContent: collapsed ? "center" : "flex-start",
         gap: 10,
-        padding: "9px 10px",
+        padding: collapsed ? "10px 0" : "9px 10px",
         borderRadius: 8,
         textDecoration: "none",
         fontSize: 13,
@@ -70,41 +88,56 @@ export function AppShell() {
         color: isActive ? "#fff" : "rgba(255,255,255,.65)",
         background: isActive ? "rgba(106,239,90,.15)" : "transparent",
         borderLeft: isActive ? "2px solid #6AEF5A" : "2px solid transparent",
-        ...extra,
       });
+
+    const toggleBtn = (
+      <button
+        onClick={toggleCollapsed}
+        title={collapsed ? "Yoyish" : "Yig'ish"}
+        aria-label={collapsed ? "Panelni yoyish" : "Panelni yig'ish"}
+        style={{ background: "rgba(255,255,255,.08)", border: "none", borderRadius: 8, width: 30, height: 30, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.7)", flexShrink: 0 }}
+      >
+        {collapsed ? <PanelLeftOpen size={15} /> : <PanelLeftClose size={15} />}
+      </button>
+    );
 
     return (
       <div style={{ display: "flex", height: "100dvh", overflow: "hidden" }}>
-        <aside style={{ width: 240, flexShrink: 0, background: T.green, position: "relative", display: "flex", flexDirection: "column" }}>
+        <aside style={{ width: collapsed ? 64 : 240, flexShrink: 0, background: T.green, position: "relative", display: "flex", flexDirection: "column", transition: "width .2s ease" }}>
           <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
           <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", height: "100%" }}>
-            <div style={{ padding: "14px 12px", borderBottom: "1px solid rgba(255,255,255,.1)", display: "flex", alignItems: "center", gap: 9 }}>
+            <div style={{ padding: collapsed ? "14px 0" : "14px 12px", borderBottom: "1px solid rgba(255,255,255,.1)", display: "flex", flexDirection: collapsed ? "column" : "row", alignItems: "center", gap: 9 }}>
               <div style={{ width: 30, height: 30, borderRadius: 8, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 <BookOpen size={15} color={T.onCta} />
               </div>
-              <div style={{ overflow: "hidden" }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: "#fff", whiteSpace: "nowrap" }}>Fonetika Kursi</div>
-                <div style={{ fontSize: 9, color: T.limeBrt }}>{roleLabel}</div>
-              </div>
+              {!collapsed && (
+                <div style={{ overflow: "hidden", flex: 1 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: "#fff", whiteSpace: "nowrap" }}>Fonetika Kursi</div>
+                  <div style={{ fontSize: 9, color: T.limeBrt }}>{roleLabel}</div>
+                </div>
+              )}
+              {toggleBtn}
             </div>
 
             <nav style={{ flex: 1, overflowY: "auto", padding: 8, display: "flex", flexDirection: "column", gap: 2 }}>
               {items.map((it) => (
-                <NavLink key={it.to} to={it.to} end={it.to === "/"} style={linkStyle()}>
+                <NavLink key={it.to} to={it.to} end={it.to === "/"} title={collapsed ? it.label : undefined} style={linkStyle}>
                   <it.icon size={16} style={{ flexShrink: 0 }} />
-                  <span>{it.label}</span>
+                  {!collapsed && <span>{it.label}</span>}
                 </NavLink>
               ))}
             </nav>
 
-            <div style={{ padding: 10, borderTop: "1px solid rgba(255,255,255,.1)", display: "flex", alignItems: "center", gap: 9 }}>
+            <div style={{ padding: 10, borderTop: "1px solid rgba(255,255,255,.1)", display: "flex", flexDirection: collapsed ? "column" : "row", alignItems: "center", gap: 9 }}>
               <Avatar name={user.ism} src={avatar} />
-              <div style={{ flex: 1, overflow: "hidden" }}>
-                <div style={{ fontSize: 12, fontWeight: 600, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                  {user.ism} {user.familya}
+              {!collapsed && (
+                <div style={{ flex: 1, overflow: "hidden" }}>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    {user.ism} {user.familya}
+                  </div>
                 </div>
-              </div>
-              <button onClick={logout} title="Chiqish" style={{ background: "rgba(255,255,255,.08)", border: "none", borderRadius: 8, width: 30, height: 30, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.7)", flexShrink: 0 }}>
+              )}
+              <button onClick={logout} title="Chiqish" aria-label="Chiqish" style={{ background: "rgba(255,255,255,.08)", border: "none", borderRadius: 8, width: 30, height: 30, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.7)", flexShrink: 0 }}>
                 <LogOut size={14} />
               </button>
             </div>
