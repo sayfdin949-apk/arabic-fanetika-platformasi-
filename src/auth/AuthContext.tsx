@@ -12,6 +12,7 @@ interface AuthValue {
   login: (login: string, parol: string, role: Role) => User | null;
   logout: () => void;
   updateAvatar: (dataUrl: string) => void;
+  updateProfile: (data: { ism: string; familya: string; tel?: string; tugilgan?: string }) => { ok: boolean; error?: string };
   addUser: (u: Omit<User, "id">) => { ok: boolean; error?: string };
   removeUser: (id: string) => void;
   changePassword: (eskiParol: string, yangiParol: string) => { ok: boolean; error?: string };
@@ -87,6 +88,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     void saveUsers(list);
   };
 
+  const updateProfile = (data: { ism: string; familya: string; tel?: string; tugilgan?: string }): { ok: boolean; error?: string } => {
+    if (!user) return { ok: false, error: "Foydalanuvchi topilmadi" };
+    if (!data.ism.trim()) return { ok: false, error: "Ism majburiy" };
+    const updated: User = { ...user, ism: data.ism.trim(), familya: data.familya.trim(), tel: data.tel?.trim() || undefined, tugilgan: data.tugilgan?.trim() || undefined };
+    const list = users.map((x) => (x.id === user.id ? updated : x));
+    setUsers(list);
+    setUser(updated);
+    void saveUsers(list);
+    return { ok: true };
+  };
+
   const changePassword = (eskiParol: string, yangiParol: string): { ok: boolean; error?: string } => {
     if (!user) return { ok: false, error: "Foydalanuvchi topilmadi" };
     if (user.parol !== eskiParol) return { ok: false, error: "Eski parol noto'g'ri" };
@@ -100,7 +112,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthCtx.Provider value={{ user, ready, avatar, users, login, logout, updateAvatar, addUser, removeUser, changePassword }}>
+    <AuthCtx.Provider value={{ user, ready, avatar, users, login, logout, updateAvatar, updateProfile, addUser, removeUser, changePassword }}>
       {children}
     </AuthCtx.Provider>
   );

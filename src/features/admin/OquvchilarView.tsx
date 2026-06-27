@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import { UserPlus, Trash2, X, Users } from "lucide-react";
+import { UserPlus, Trash2, X, Users, ChevronDown, ChevronUp, BookOpen, Layers, BarChart2 } from "lucide-react";
 import { T } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
+import { store } from "../../lib/storage";
+import type { DoneMap } from "../progress/ProgressContext";
+
+const NAZ_TOTAL = 20;
+const AMAL_TOTAL = 14;
 
 const inp: React.CSSProperties = {
   width: "100%",
@@ -16,11 +21,25 @@ const inp: React.CSSProperties = {
   background: "rgba(13,58,26,.03)",
 };
 
+function ProgBar({ value, max, color }: { value: number; max: number; color: string }) {
+  const pct = max > 0 ? Math.round((value / max) * 100) : 0;
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <div style={{ flex: 1, height: 6, borderRadius: 3, background: "rgba(13,58,26,.08)", overflow: "hidden" }}>
+        <div style={{ height: "100%", width: `${pct}%`, borderRadius: 3, background: color, transition: "width .4s ease" }} />
+      </div>
+      <span style={{ fontSize: 11, fontWeight: 700, color, minWidth: 28, textAlign: "right" }}>{pct}%</span>
+    </div>
+  );
+}
+
 export function OquvchilarView() {
   const { user, users, addUser, removeUser } = useAuth();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ ism: "", familya: "", login: "", parol: "", tel: "", tugilgan: "" });
   const [err, setErr] = useState("");
+  const [expanded, setExpanded] = useState<string | null>(null);
+  const [progData, setProgData] = useState<Record<string, { naz: DoneMap; amal: DoneMap }>>({});
 
   if (user?.role !== "teacher") return <Navigate to="/" replace />;
 
@@ -55,6 +74,18 @@ export function OquvchilarView() {
     if (window.confirm(`${name} o'chirilsinmi?`)) removeUser(id);
   };
 
+  const toggleExpand = async (id: string) => {
+    if (expanded === id) { setExpanded(null); return; }
+    setExpanded(id);
+    if (!progData[id]) {
+      const [nd, ad] = await Promise.all([
+        store.get<DoneMap>(`naz_done_${id}`),
+        store.get<DoneMap>(`amal_done_${id}`),
+      ]);
+      setProgData((p) => ({ ...p, [id]: { naz: nd ?? {}, amal: ad ?? {} } }));
+    }
+  };
+
   return (
     <div style={{ minHeight: "100dvh", background: T.meshLight }}>
       {/* Hero */}
@@ -69,13 +100,18 @@ export function OquvchilarView() {
               <span style={{ fontSize: 11, color: "rgba(255,255,255,.7)" }}>Jami:</span>
               <span style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>{students.length} o'quvchi</span>
             </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 5, background: "rgba(255,255,255,.12)", borderRadius: 8, padding: "6px 12px" }}>
+              <BarChart2 size={13} color={T.limeBrt} />
+              <span style={{ fontSize: 11, color: "rgba(255,255,255,.7)" }}>Ko'rsatkich:</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>bosing</span>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Content */}
       <div style={{ padding: "16px 16px 28px" }}>
-        {/* Add student button / form */}
+        {/* Add student */}
         {!open ? (
           <button
             onClick={() => setOpen(true)}
@@ -135,41 +171,165 @@ export function OquvchilarView() {
         )}
 
         {/* Student list */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {students.map((s, idx) => (
-            <div
-              key={s.id}
-              style={{
-                background: "#fff",
-                borderRadius: 14,
-                border: "1px solid rgba(13,58,26,.08)",
-                boxShadow: "0 1px 2px rgba(13,58,26,.04)",
-                padding: "12px 14px",
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-              }}
-            >
-              <div style={{ width: 42, height: 42, borderRadius: "50%", background: T.gGreen, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 17, fontWeight: 700, color: "#fff", flexShrink: 0 }}>
-                {s.ism[0]?.toUpperCase()}
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 14, fontWeight: 600, color: T.green }}>
-                  {s.ism} {s.familya}
-                </div>
-                <div style={{ fontSize: 11, color: T.hint, marginTop: 1 }}>
-                  {idx + 1} · @{s.login} · parol: <span style={{ fontWeight: 600, color: T.text2 }}>{s.parol}</span>
-                </div>
-              </div>
-              <button
-                onClick={() => del(s.id, `${s.ism} ${s.familya}`)}
-                style={{ background: "rgba(230,0,35,.07)", border: "1px solid rgba(230,0,35,.15)", borderRadius: 10, width: 38, height: 38, display: "flex", alignItems: "center", justifyContent: "center", color: T.red, cursor: "pointer", flexShrink: 0 }}
-                aria-label="O'chirish"
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {students.map((s, idx) => {
+            const isExp = expanded === s.id;
+            const prog = progData[s.id];
+            const nazCount = prog ? Object.values(prog.naz).filter((r) => r.pct >= 80).length : null;
+            const amalCount = prog ? Object.values(prog.amal).filter((r) => r.pct >= 80).length : null;
+
+            return (
+              <div
+                key={s.id}
+                style={{
+                  background: "#fff",
+                  borderRadius: 14,
+                  border: "1px solid rgba(13,58,26,.08)",
+                  boxShadow: "0 1px 2px rgba(13,58,26,.04)",
+                  overflow: "hidden",
+                }}
               >
-                <Trash2 size={15} />
-              </button>
-            </div>
-          ))}
+                {/* Main row */}
+                <div style={{ padding: "12px 14px", display: "flex", alignItems: "center", gap: 12 }}>
+                  <div style={{ width: 42, height: 42, borderRadius: "50%", background: T.gGreen, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 17, fontWeight: 700, color: "#fff", flexShrink: 0 }}>
+                    {s.ism[0]?.toUpperCase()}
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: T.green }}>
+                      {s.ism} {s.familya}
+                    </div>
+                    <div style={{ fontSize: 11, color: T.hint, marginTop: 1 }}>
+                      {idx + 1} · @{s.login} · parol: <span style={{ fontWeight: 600, color: T.text2 }}>{s.parol}</span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => void toggleExpand(s.id)}
+                    style={{
+                      background: isExp ? "rgba(46,184,46,.12)" : "rgba(13,58,26,.06)",
+                      border: isExp ? "1px solid rgba(46,184,46,.25)" : "1px solid transparent",
+                      borderRadius: 10,
+                      padding: "6px 10px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 4,
+                      color: isExp ? T.green : T.text2,
+                      cursor: "pointer",
+                      flexShrink: 0,
+                      fontSize: 11,
+                      fontWeight: 600,
+                    }}
+                  >
+                    <BarChart2 size={12} />
+                    {isExp ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+                  </button>
+                  <button
+                    onClick={() => del(s.id, `${s.ism} ${s.familya}`)}
+                    style={{ background: "rgba(230,0,35,.07)", border: "1px solid rgba(230,0,35,.15)", borderRadius: 10, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", color: T.red, cursor: "pointer", flexShrink: 0 }}
+                    aria-label="O'chirish"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+
+                {/* Progress panel */}
+                {isExp && (
+                  <div style={{ borderTop: "1px solid rgba(13,58,26,.07)", padding: "14px 16px 16px", background: "rgba(13,58,26,.015)" }}>
+                    {!prog ? (
+                      <div style={{ textAlign: "center", color: T.hint, fontSize: 12, padding: "10px 0" }}>Yuklanmoqda...</div>
+                    ) : (
+                      <>
+                        {/* Stat cards */}
+                        <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+                          <div style={{ flex: 1, background: "#fff", borderRadius: 10, padding: "10px 12px", border: "1px solid rgba(13,58,26,.07)" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 5 }}>
+                              <BookOpen size={11} color={T.green500} />
+                              <span style={{ fontSize: 10, fontWeight: 700, color: T.green500, textTransform: "uppercase", letterSpacing: ".04em" }}>Nazariy</span>
+                            </div>
+                            <div style={{ fontSize: 22, fontWeight: 800, color: T.green, lineHeight: 1, marginBottom: 5 }}>
+                              {nazCount}<span style={{ fontSize: 11, fontWeight: 500, color: T.hint }}>/{NAZ_TOTAL}</span>
+                            </div>
+                            <ProgBar value={nazCount ?? 0} max={NAZ_TOTAL} color={T.lime} />
+                          </div>
+                          <div style={{ flex: 1, background: "#fff", borderRadius: 10, padding: "10px 12px", border: "1px solid rgba(13,58,26,.07)" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 5 }}>
+                              <Layers size={11} color={T.green500} />
+                              <span style={{ fontSize: 10, fontWeight: 700, color: T.green500, textTransform: "uppercase", letterSpacing: ".04em" }}>Amaliy</span>
+                            </div>
+                            <div style={{ fontSize: 22, fontWeight: 800, color: T.green, lineHeight: 1, marginBottom: 5 }}>
+                              {amalCount}<span style={{ fontSize: 11, fontWeight: 500, color: T.hint }}>/{AMAL_TOTAL}</span>
+                            </div>
+                            <ProgBar value={amalCount ?? 0} max={AMAL_TOTAL} color="#f59e0b" />
+                          </div>
+                        </div>
+
+                        {/* Overall */}
+                        <div style={{ marginBottom: 14 }}>
+                          <div style={{ fontSize: 11, fontWeight: 600, color: T.text2, marginBottom: 5 }}>Umumiy progress</div>
+                          <ProgBar value={(nazCount ?? 0) + (amalCount ?? 0)} max={NAZ_TOTAL + AMAL_TOTAL} color={T.green} />
+                        </div>
+
+                        {/* Nazariy badge grid */}
+                        {Object.keys(prog.naz).length > 0 && (
+                          <div style={{ marginBottom: 10 }}>
+                            <div style={{ fontSize: 10, fontWeight: 700, color: T.hint, textTransform: "uppercase", letterSpacing: ".04em", marginBottom: 6 }}>O'tilgan nazariy darslar</div>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                              {Object.entries(prog.naz).sort(([a], [b]) => Number(a) - Number(b)).map(([id, rec]) => (
+                                <div
+                                  key={id}
+                                  style={{
+                                    background: rec.pct >= 80 ? "rgba(46,184,46,.12)" : "rgba(230,0,35,.08)",
+                                    border: `1px solid ${rec.pct >= 80 ? "rgba(46,184,46,.28)" : "rgba(230,0,35,.2)"}`,
+                                    borderRadius: 6,
+                                    padding: "3px 8px",
+                                    fontSize: 11,
+                                    fontWeight: 700,
+                                    color: rec.pct >= 80 ? T.green : T.red,
+                                  }}
+                                >
+                                  N{id}: {rec.pct}%
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Amaliy badge grid */}
+                        {Object.keys(prog.amal).length > 0 && (
+                          <div>
+                            <div style={{ fontSize: 10, fontWeight: 700, color: T.hint, textTransform: "uppercase", letterSpacing: ".04em", marginBottom: 6 }}>O'tilgan amaliy boblar</div>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                              {Object.entries(prog.amal).sort(([a], [b]) => Number(a) - Number(b)).map(([id, rec]) => (
+                                <div
+                                  key={id}
+                                  style={{
+                                    background: rec.pct >= 80 ? "rgba(46,184,46,.12)" : "rgba(230,0,35,.08)",
+                                    border: `1px solid ${rec.pct >= 80 ? "rgba(46,184,46,.28)" : "rgba(230,0,35,.2)"}`,
+                                    borderRadius: 6,
+                                    padding: "3px 8px",
+                                    fontSize: 11,
+                                    fontWeight: 700,
+                                    color: rec.pct >= 80 ? T.green : T.red,
+                                  }}
+                                >
+                                  A{id}: {rec.pct}%
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {Object.keys(prog.naz).length === 0 && Object.keys(prog.amal).length === 0 && (
+                          <div style={{ textAlign: "center", color: T.hint, fontSize: 12, padding: "8px 0" }}>
+                            Hali birorta test topshirilmagan
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
 
           {students.length === 0 && (
             <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", padding: "32px 20px", textAlign: "center" }}>
