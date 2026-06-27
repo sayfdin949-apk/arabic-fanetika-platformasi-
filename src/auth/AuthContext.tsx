@@ -14,6 +14,7 @@ interface AuthValue {
   updateAvatar: (dataUrl: string) => void;
   addUser: (u: Omit<User, "id">) => { ok: boolean; error?: string };
   removeUser: (id: string) => void;
+  changePassword: (eskiParol: string, yangiParol: string) => { ok: boolean; error?: string };
 }
 
 const AuthCtx = createContext<AuthValue | null>(null);
@@ -48,7 +49,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = (login: string, parol: string, role: Role): User | null => {
-    const u = users.find((x) => x.login === login && x.parol === parol && x.role === role);
+    const u = users.find((x) => x.login.toLowerCase() === login.trim().toLowerCase() && x.parol === parol && x.role === role);
     if (u) {
       setUser(u);
       void store.set(SESSION_KEY, u.id);
@@ -86,8 +87,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     void saveUsers(list);
   };
 
+  const changePassword = (eskiParol: string, yangiParol: string): { ok: boolean; error?: string } => {
+    if (!user) return { ok: false, error: "Foydalanuvchi topilmadi" };
+    if (user.parol !== eskiParol) return { ok: false, error: "Eski parol noto'g'ri" };
+    if (yangiParol.trim().length < 4) return { ok: false, error: "Yangi parol kamida 4 ta belgi bo'lishi kerak" };
+    const updated = { ...user, parol: yangiParol.trim() };
+    const list = users.map((x) => (x.id === user.id ? updated : x));
+    setUsers(list);
+    setUser(updated);
+    void saveUsers(list);
+    return { ok: true };
+  };
+
   return (
-    <AuthCtx.Provider value={{ user, ready, avatar, users, login, logout, updateAvatar, addUser, removeUser }}>
+    <AuthCtx.Provider value={{ user, ready, avatar, users, login, logout, updateAvatar, addUser, removeUser, changePassword }}>
       {children}
     </AuthCtx.Provider>
   );

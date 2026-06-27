@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { Camera, LogOut, Phone, Calendar, Shield } from "lucide-react";
+import { useRef, useState } from "react";
+import { Camera, LogOut, Phone, Calendar, Shield, Lock, Eye, EyeOff, CheckCircle } from "lucide-react";
 import { T } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
@@ -8,9 +8,38 @@ import { useAuth } from "../../auth/AuthContext";
 import { useProgress } from "../progress/ProgressContext";
 
 export function ProfileView() {
-  const { user, avatar, updateAvatar, logout } = useAuth();
+  const { user, avatar, updateAvatar, logout, changePassword } = useAuth();
   const { nazDone, amalDone } = useProgress();
   const fileRef = useRef<HTMLInputElement>(null);
+
+  const [parolOpen, setParolOpen] = useState(false);
+  const [eskiParol, setEskiParol] = useState("");
+  const [yangiParol, setYangiParol] = useState("");
+  const [yangiParol2, setYangiParol2] = useState("");
+  const [showEski, setShowEski] = useState(false);
+  const [showYangi, setShowYangi] = useState(false);
+  const [parolErr, setParolErr] = useState("");
+  const [parolOk, setParolOk] = useState(false);
+
+  const handleChangePassword = () => {
+    setParolErr("");
+    if (!eskiParol || !yangiParol || !yangiParol2) {
+      setParolErr("Barcha maydonlarni to'ldiring");
+      return;
+    }
+    if (yangiParol !== yangiParol2) {
+      setParolErr("Yangi parollar mos kelmadi");
+      return;
+    }
+    const res = changePassword(eskiParol, yangiParol);
+    if (res.ok) {
+      setParolOk(true);
+      setEskiParol(""); setYangiParol(""); setYangiParol2("");
+      setTimeout(() => { setParolOk(false); setParolOpen(false); }, 2000);
+    } else {
+      setParolErr(res.error ?? "Xatolik yuz berdi");
+    }
+  };
 
   if (!user) return null;
 
@@ -80,6 +109,65 @@ export function ProfileView() {
               <span style={{ fontSize: 13, fontWeight: 600, color: T.green }}>{it.value}</span>
             </div>
           ))}
+        </Card>
+
+        {/* Parolni o'zgartirish */}
+        <Card style={{ marginBottom: 16, overflow: "hidden" }}>
+          <button
+            onClick={() => { setParolOpen((p) => !p); setParolErr(""); setParolOk(false); }}
+            style={{ width: "100%", display: "flex", alignItems: "center", gap: 12, padding: "14px 16px", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
+          >
+            <Lock size={17} color={T.green500} />
+            <span style={{ flex: 1, fontSize: 13, color: T.text, fontWeight: 500 }}>Parolni o'zgartirish</span>
+            <span style={{ fontSize: 11, color: T.hint }}>{parolOpen ? "▲" : "▼"}</span>
+          </button>
+
+          {parolOpen && (
+            <div style={{ padding: "0 16px 16px", display: "flex", flexDirection: "column", gap: 10 }}>
+              {parolOk && (
+                <div style={{ display: "flex", alignItems: "center", gap: 6, color: T.green, fontSize: 13, fontWeight: 600 }}>
+                  <CheckCircle size={15} /> Parol muvaffaqiyatli o'zgartirildi!
+                </div>
+              )}
+
+              {[
+                { label: "Eski parol", val: eskiParol, set: setEskiParol, show: showEski, toggleShow: () => setShowEski((s) => !s) },
+                { label: "Yangi parol", val: yangiParol, set: setYangiParol, show: showYangi, toggleShow: () => setShowYangi((s) => !s) },
+                { label: "Yangi parolni tasdiqlang", val: yangiParol2, set: setYangiParol2, show: showYangi, toggleShow: () => setShowYangi((s) => !s) },
+              ].map((f) => (
+                <div key={f.label}>
+                  <label style={{ fontSize: 11, color: T.hint, display: "block", marginBottom: 4 }}>{f.label}</label>
+                  <div style={{ position: "relative" }}>
+                    <input
+                      type={f.show ? "text" : "password"}
+                      value={f.val}
+                      onChange={(e) => { f.set(e.target.value); setParolErr(""); }}
+                      placeholder="••••"
+                      style={{ width: "100%", border: `1px solid ${parolErr ? T.red : "rgba(13,58,26,.2)"}`, borderRadius: 8, padding: "9px 38px 9px 11px", fontSize: 13, outline: "none", boxSizing: "border-box", color: T.text, background: "rgba(13,58,26,.03)" }}
+                    />
+                    <button
+                      type="button"
+                      onClick={f.toggleShow}
+                      style={{ position: "absolute", right: 6, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: T.hint, display: "flex", alignItems: "center" }}
+                    >
+                      {f.show ? <EyeOff size={15} /> : <Eye size={15} />}
+                    </button>
+                  </div>
+                </div>
+              ))}
+
+              {parolErr && (
+                <div style={{ fontSize: 12, color: T.red }}>{parolErr}</div>
+              )}
+
+              <button
+                onClick={handleChangePassword}
+                style={{ background: T.green, color: "#fff", border: "none", borderRadius: 8, padding: "10px", fontSize: 13, fontWeight: 600, cursor: "pointer", marginTop: 2 }}
+              >
+                Saqlash
+              </button>
+            </div>
+          )}
         </Card>
 
         <button

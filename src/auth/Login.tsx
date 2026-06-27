@@ -205,9 +205,6 @@ export function Login() {
             >
               Kirish
             </button>
-            <div style={{ fontSize: 10, color: "rgba(255,255,255,.35)", textAlign: "center", marginTop: 10 }}>
-              {role === "teacher" ? "ustoz / 1234" : "abdulloh / 1234  •  yusuf / 1234  •  mariya / 1234"}
-            </div>
           </div>
         )}
       </div>
