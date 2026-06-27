@@ -20,7 +20,15 @@ const shuffle = <X,>(arr: X[]): X[] => {
 
 const LABELS = ["A", "B", "C", "D"];
 
-export function Quiz({ questions, onDone }: { questions: QuizQuestion[]; onDone?: (ok: number, tot: number) => void }) {
+export function Quiz({
+  questions,
+  onDone,
+  onWrong,
+}: {
+  questions: QuizQuestion[];
+  onDone?: (ok: number, tot: number) => void;
+  onWrong?: (wrongIndices: number[]) => void;
+}) {
   const prepared = useMemo(
     () => questions.map((qq) => ({ q: qq.q, options: shuffle(qq.options) })),
     [questions],
@@ -37,8 +45,12 @@ export function Quiz({ questions, onDone }: { questions: QuizQuestion[]; onDone?
   const passed = pct >= 80;
 
   const submit = () => {
+    const wrongIndices = prepared
+      .map((qq, i) => (qq.options[answers[i]]?.correct ? -1 : i))
+      .filter((i) => i !== -1);
     setDone(true);
     onDone?.(ok, tot);
+    onWrong?.(wrongIndices);
   };
 
   const retry = () => {

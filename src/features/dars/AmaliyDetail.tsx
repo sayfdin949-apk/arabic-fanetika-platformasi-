@@ -8,6 +8,7 @@ import { speakAr } from "../../lib/tts";
 import { Card } from "../../components/ui";
 import { Quiz, type QuizQuestion } from "../../components/Quiz";
 import { LessonImages } from "../../components/LessonImages";
+import { LessonAudio } from "../../components/LessonAudio";
 import { useProgress } from "../progress/ProgressContext";
 import { useAuth } from "../../auth/AuthContext";
 
@@ -44,7 +45,7 @@ const Stack = ({ children }: { children: React.ReactNode }) => (
   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>{children}</div>
 );
 
-function TabBody({ bob, tab, questions, onTest, isTeacher }: { bob: AmalBob; tab: TabKey; questions: QuizQuestion[]; onTest: (ok: number, tot: number) => void; isTeacher: boolean }) {
+function TabBody({ bob, tab, questions, onTest, onWrong, isTeacher }: { bob: AmalBob; tab: TabKey; questions: QuizQuestion[]; onTest: (ok: number, tot: number) => void; onWrong: (wrongIndices: number[]) => void; isTeacher: boolean }) {
   switch (tab) {
     case "maxraj":
       return (
@@ -222,10 +223,15 @@ function TabBody({ bob, tab, questions, onTest, isTeacher }: { bob: AmalBob; tab
       );
 
     case "rasmlar":
-      return <LessonImages type="amaliy" id={bob.id} isTeacher={isTeacher} />;
+      return (
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <LessonImages type="amaliy" id={bob.id} isTeacher={isTeacher} />
+          <LessonAudio type="amaliy" id={bob.id} isTeacher={isTeacher} />
+        </div>
+      );
 
     case "test":
-      return <Quiz questions={questions} onDone={onTest} />;
+      return <Quiz questions={questions} onDone={onTest} onWrong={onWrong} />;
   }
 }
 
@@ -233,7 +239,7 @@ export function AmaliyDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { submitAmal, amalDone } = useProgress();
+  const { submitAmal, amalDone, saveWrong } = useProgress();
   const [tab, setTab] = useState<TabKey>("maxraj");
   const tabBarRef = useRef<HTMLDivElement>(null);
 
@@ -351,6 +357,7 @@ export function AmaliyDetail() {
           tab={tab}
           questions={questions}
           onTest={(ok, tot) => submitAmal(bob.id, ok, tot)}
+          onWrong={(indices) => saveWrong(`amal_${bob.id}`, indices)}
           isTeacher={user?.role === "teacher"}
         />
 

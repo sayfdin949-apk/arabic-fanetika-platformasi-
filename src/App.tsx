@@ -12,6 +12,11 @@ import { DasturView } from "./features/curriculum/DasturView";
 import { ProfileView } from "./features/profile/ProfileView";
 import { DavomatView } from "./features/attendance/DavomatView";
 import { OquvchilarView } from "./features/admin/OquvchilarView";
+import { StatisticsView } from "./features/stats/StatisticsView";
+import { GameView } from "./features/game/GameView";
+import { XatolarView } from "./features/errors/XatolarView";
+import { MinimalPairsView } from "./features/pairs/MinimalPairsView";
+import { SertifikatView } from "./features/sertifikat/SertifikatView";
 import { T } from "./theme/tokens";
 
 function Splash() {
@@ -59,6 +64,11 @@ export default function App() {
             <Route path="/profil" element={<ProfileView />} />
             <Route path="/davomat" element={<DavomatView />} />
             <Route path="/oquvchilar" element={<OquvchilarView />} />
+            <Route path="/statistika" element={<StatisticsView />} />
+            <Route path="/oyun" element={<GameView />} />
+            <Route path="/xatolar" element={<XatolarView />} />
+            <Route path="/juftlar" element={<MinimalPairsView />} />
+            <Route path="/sertifikat" element={<SertifikatView />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

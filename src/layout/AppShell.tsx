@@ -3,6 +3,7 @@ import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { BookOpen, LogOut, MoreHorizontal, X, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { T } from "../theme/tokens";
 import { useAuth } from "../auth/AuthContext";
+import { useProgress } from "../features/progress/ProgressContext";
 import { navForRole, type NavItem } from "./nav";
 import { useMediaQuery } from "../lib/useMediaQuery";
 
@@ -61,6 +62,8 @@ export function AppShell() {
       }
       return n;
     });
+
+  const { streak } = useProgress();
 
   if (!user) return null;
   const items = navForRole(user.role);
@@ -135,7 +138,14 @@ export function AppShell() {
                   <div style={{ fontSize: 12, fontWeight: 600, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                     {user.ism} {user.familya}
                   </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 3, marginTop: 2 }}>
+                    <span style={{ fontSize: 12 }}>🔥</span>
+                    <span style={{ fontSize: 10, color: T.limeBrt, fontWeight: 600 }}>{streak.days} kun streak</span>
+                  </div>
                 </div>
+              )}
+              {collapsed && (
+                <div style={{ fontSize: 10, color: T.limeBrt, fontWeight: 600, textAlign: "center" }}>🔥{streak.days}</div>
               )}
               <button onClick={logout} title="Chiqish" aria-label="Chiqish" style={{ background: "rgba(255,255,255,.08)", border: "none", borderRadius: 8, width: 30, height: 30, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.7)", flexShrink: 0 }}>
                 <LogOut size={14} />
@@ -190,6 +200,10 @@ export function AppShell() {
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: 14, fontWeight: 700, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{currentTitle}</div>
             <div style={{ fontSize: 9, color: T.limeBrt }}>{roleLabel}</div>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 3, background: "rgba(255,255,255,.12)", borderRadius: 8, padding: "4px 8px", flexShrink: 0 }}>
+            <span style={{ fontSize: 14, lineHeight: 1 }}>🔥</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>{streak.days}</span>
           </div>
           <button onClick={logout} style={{ background: "rgba(255,255,255,.1)", border: "none", borderRadius: 8, width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.8)" }}>
             <LogOut size={15} />

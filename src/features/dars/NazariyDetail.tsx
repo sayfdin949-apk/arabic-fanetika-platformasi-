@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
-import { ChevronLeft, BookOpen, ClipboardCheck, ArrowRight, Clock } from "lucide-react";
+import { ChevronLeft, BookOpen, ClipboardCheck, ArrowRight, Clock, RotateCcw } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { MD } from "../../lib/md";
 import { Card } from "../../components/ui";
 import { Quiz, type QuizQuestion } from "../../components/Quiz";
 import { LessonImages } from "../../components/LessonImages";
+import { LessonAudio } from "../../components/LessonAudio";
 import { useProgress } from "../progress/ProgressContext";
 import { useAuth } from "../../auth/AuthContext";
 
@@ -14,15 +15,19 @@ export function NazariyDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { isNazUnlocked, submitNaz, nazDone } = useProgress();
+  const { isNazUnlocked, submitNaz, nazDone, saveWrong, clearWrong } = useProgress();
   const [phase, setPhase] = useState<"mavzu" | "test">("mavzu");
   const [resultPct, setResultPct] = useState<number | null>(null);
+  const [wrongIndices, setWrongIndices] = useState<number[]>([]);
+  const [retryQuestions, setRetryQuestions] = useState<QuizQuestion[] | null>(null);
 
   const dars = NAZARIY.find((d) => d.id === Number(id));
 
   useEffect(() => {
     setPhase("mavzu");
     setResultPct(null);
+    setWrongIndices([]);
+    setRetryQuestions(null);
     window.scrollTo(0, 0);
   }, [id]);
 
@@ -127,6 +132,7 @@ export function NazariyDetail() {
             </Card>
             <Card style={{ padding: 16, marginBottom: 16 }}>
               <LessonImages type="nazariy" id={dars.id} isTeacher={user?.role === "teacher"} />
+              <LessonAudio type="nazariy" id={dars.id} isTeacher={user?.role === "teacher"} />
             </Card>
             <button
               onClick={() => setPhase("test")}
@@ -152,11 +158,27 @@ export function NazariyDetail() {
           </>
         ) : (
           <>
+            {retryQuestions && (
+              <div style={{ background: "rgba(230,0,35,.07)", border: "1px solid rgba(230,0,35,.2)", borderRadius: 10, padding: "10px 14px", marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
+                <RotateCcw size={14} color={T.red} />
+                <span style={{ fontSize: 13, fontWeight: 600, color: T.red }}>Takrorlash rejimi — {retryQuestions.length} ta xato savol</span>
+              </div>
+            )}
             <Quiz
-              questions={questions}
+              key={retryQuestions ? "retry" : "full"}
+              questions={retryQuestions ?? questions}
               onDone={(ok, tot) => {
-                submitNaz(dars.id, ok, tot);
+                if (!retryQuestions) submitNaz(dars.id, ok, tot);
                 setResultPct(Math.round((ok / tot) * 100));
+              }}
+              onWrong={(indices) => {
+                const src = retryQuestions ?? questions;
+                const actual = indices
+                  .map((i) => questions.findIndex((q) => q === src[i]))
+                  .filter((i) => i !== -1);
+                setWrongIndices(actual);
+                if (actual.length === 0) clearWrong(`naz_${dars.id}`);
+                else saveWrong(`naz_${dars.id}`, actual);
               }}
             />
             {resultPct !== null && (
@@ -175,9 +197,21 @@ export function NazariyDetail() {
                   </div>
                 )}
 
+                {wrongIndices.length > 0 && (
+                  <button
+                    onClick={() => {
+                      setRetryQuestions(wrongIndices.map((i) => questions[i]));
+                      setResultPct(null);
+                    }}
+                    style={{ width: "100%", padding: "12px", borderRadius: 10, border: "1px solid rgba(230,0,35,.25)", background: "rgba(230,0,35,.06)", fontSize: 13, fontWeight: 600, color: T.red, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 7, marginBottom: 10 }}
+                  >
+                    <RotateCcw size={15} /> Xatolarni takrorlash ({wrongIndices.length} ta)
+                  </button>
+                )}
+
                 <div style={{ display: "flex", gap: 10 }}>
                   <button
-                    onClick={() => { setResultPct(null); setPhase("mavzu"); }}
+                    onClick={() => { setResultPct(null); setPhase("mavzu"); setRetryQuestions(null); setWrongIndices([]); }}
                     style={{ flex: 1, padding: "13px", borderRadius: 12, border: "1px solid rgba(13,58,26,.15)", background: "rgba(13,58,26,.04)", color: T.text2, fontSize: 13, fontWeight: 600, cursor: "pointer" }}
                   >
                     Mavzuni qayta o'qi
