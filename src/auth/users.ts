@@ -6,11 +6,9 @@ import type { User } from "./types";
  */
 export const SEED_USERS: User[] = [
   { id: "t1", login: "ustoz", parol: "1234", ism: "Ozodbek", familya: "Rahimov", role: "teacher", avatar: null },
-  { id: "s1", login: "abdulloh", parol: "1234", ism: "Abdulloh", familya: "Karimov", role: "student", tugilgan: "2008", tel: "+998 90 123 45 67", avatar: null },
-  { id: "s2", login: "yusuf", parol: "1234", ism: "Yusuf", familya: "Tohirov", role: "student", tugilgan: "2009", tel: "+998 91 234 56 78", avatar: null },
-  { id: "s3", login: "mariya", parol: "1234", ism: "Mariya", familya: "Soliyeva", role: "student", tugilgan: "2008", tel: "+998 93 345 67 89", avatar: null },
-  { id: "s4", login: "diyor", parol: "1234", ism: "Diyor", familya: "Ergashev", role: "student", tugilgan: "2009", tel: "+998 94 456 78 90", avatar: null },
-  { id: "s5", login: "sevara", parol: "1234", ism: "Sevara", familya: "Aliyeva", role: "student", tugilgan: "2008", tel: "+998 95 567 89 01", avatar: null },
   { id: "s6", login: "abduhollaxov", parol: "abd2006", ism: "Abdulloh", familya: "Abduhollaxov", role: "student", tugilgan: "14.05.2006", tel: "+998918200006", avatar: null },
   { id: "s7", login: "xislatbek", parol: "xis2006", ism: "Xislatbek", familya: "Normatov", role: "student", tugilgan: "11.08.2006", tel: "+998950720206", avatar: null },
+  { id: "s8", login: "azim", parol: "azim1995", ism: "Azim", familya: "Valijonov", role: "student", tugilgan: "18.02.1995", tel: "+998909871266", avatar: null },
+  { id: "s9", login: "oybek", parol: "oybek2001", ism: "Oybek", familya: "Uktamov", role: "student", tugilgan: "01.11.2001", tel: "+998335050011", avatar: null },
+  { id: "s10", login: "salohiddin", parol: "salo2008", ism: "Salohiddin", familya: "Jumayev", role: "student", tugilgan: "26.01.2008", tel: "+998947800826", avatar: null },
 ];
