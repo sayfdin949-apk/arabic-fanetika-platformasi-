@@ -20,18 +20,18 @@ export async function getUsers(): Promise<User[]> {
 
   const storedMap = new Map(stored.map((u) => [u.id, u]));
   const seedIds = new Set(SEED_USERS.map((u) => u.id));
-  const needsMerge =
-    SEED_USERS.some((s) => !storedMap.has(s.id)) ||
-    stored.some((u) => OLD_DEMO_IDS.has(u.id));
 
-  if (!needsMerge) return stored;
-
-  // SEED o'quvchilarni saqlangan versiya bilan birlashtir (parol o'zgarishlarini saqlab),
-  // eski demo hisoblari (s1-s5) ni chiqarib tashla, UI orqali qo'shilganlarni saqlaysiz
+  // SEED o'quvchilarining login/parolini har doim yangi SEED dan oladi
+  // (profil ma'lumotlari — ism, tel, avatar — saqlangan versiyadan olinadi)
   const merged = [
-    ...SEED_USERS.map((s) => storedMap.get(s.id) ?? s),
+    ...SEED_USERS.map((s) => {
+      const sv = storedMap.get(s.id);
+      if (!sv) return s;
+      return { ...sv, login: s.login, parol: s.parol };
+    }),
     ...stored.filter((u) => !seedIds.has(u.id) && !OLD_DEMO_IDS.has(u.id)),
   ];
+
   await store.set(KEY, merged);
   return merged;
 }
