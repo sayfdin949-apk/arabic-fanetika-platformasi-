@@ -1,10 +1,13 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, Layers, ArrowRight, Star } from "lucide-react";
+import { BookOpen, Layers, ArrowRight, Star, Users, ClipboardCheck, BarChart2 } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
 import { useAuth } from "../../auth/AuthContext";
 import { useProgress } from "../progress/ProgressContext";
+import { store } from "../../lib/storage";
+import type { DoneMap } from "../progress/ProgressContext";
 
 function Ring({ pct }: { pct: number }) {
   const r = 46;
@@ -87,10 +90,145 @@ const TIPS = [
   "Savol-javob testlarini hal qiling",
 ];
 
+function TeacherHome() {
+  const navigate = useNavigate();
+  const { user, users } = useAuth();
+  const students = users.filter((u) => u.role === "student");
+
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const todayISO = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; };
+
+  const [todayDavomat, setTodayDavomat] = useState<Record<string, string>>({});
+  const [avgNaz, setAvgNaz] = useState(0);
+  const [avgAmal, setAvgAmal] = useState(0);
+
+  useEffect(() => {
+    (async () => {
+      const dav = await store.get<Record<string, string>>(`davomat_${todayISO()}`);
+      setTodayDavomat(dav ?? {});
+
+      if (students.length === 0) return;
+      let totalNaz = 0, totalAmal = 0;
+      for (const s of students) {
+        const naz = await store.get<DoneMap>(`naz_done_${s.id}`);
+        const amal = await store.get<DoneMap>(`amal_done_${s.id}`);
+        const nazPassed = naz ? Object.values(naz).filter((d) => d.pct >= 80).length : 0;
+        const amalDone = amal ? Object.keys(amal).length : 0;
+        totalNaz += Math.round((nazPassed / NAZARIY.length) * 100);
+        totalAmal += Math.round((amalDone / AMALIY.length) * 100);
+      }
+      setAvgNaz(Math.round(totalNaz / students.length));
+      setAvgAmal(Math.round(totalAmal / students.length));
+    })();
+  }, [students.length]);
+
+  const keldi = students.filter((s) => todayDavomat[s.id] === "keldi").length;
+  const davPct = students.length > 0 ? Math.round((keldi / students.length) * 100) : 0;
+
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? "Xayrli tong" : hour < 17 ? "Xayrli kun" : "Xayrli kech";
+
+  return (
+    <div style={{ minHeight: "100dvh", background: T.meshLight }}>
+      <div style={{ background: T.gGreen, position: "relative", overflow: "hidden", padding: "22px 20px 24px" }}>
+        <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: -10, right: -10, fontFamily: AR, fontSize: 80, color: "rgba(255,255,255,.04)", lineHeight: 1, pointerEvents: "none" }}>أ</div>
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ fontSize: 11, color: T.limeBrt, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase", marginBottom: 4 }}>{greeting}</div>
+          <div style={{ fontSize: 21, fontWeight: 700, color: "#fff", marginBottom: 3 }}>{user?.ism}! 👋</div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,.6)", marginBottom: 18 }}>O'qituvchi paneli</div>
+          <div style={{ display: "flex", gap: 10 }}>
+            {[
+              { icon: Users, label: "O'quvchilar", value: `${students.length}` },
+              { icon: ClipboardCheck, label: "Bugun keldi", value: `${keldi}/${students.length}` },
+            ].map((s) => (
+              <div key={s.label} style={{ flex: 1, background: "rgba(255,255,255,.1)", borderRadius: 14, padding: "13px 12px", border: "1px solid rgba(255,255,255,.12)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 8 }}>
+                  <s.icon size={14} color={T.limeBrt} />
+                  <span style={{ fontSize: 10, color: "rgba(255,255,255,.65)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".05em" }}>{s.label}</span>
+                </div>
+                <div style={{ fontSize: 20, fontWeight: 800, color: "#fff" }}>{s.value}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div style={{ padding: "16px 16px 28px", display: "flex", flexDirection: "column", gap: 12 }}>
+        {/* Bugungi davomat */}
+        <div style={{ background: "#fff", borderRadius: 16, border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04), 0 6px 18px rgba(13,58,26,.06)", padding: 18 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <div style={{ width: 4, height: 16, borderRadius: 2, background: T.gLime }} />
+              <span style={{ fontSize: 13, fontWeight: 600, color: T.green }}>Bugungi davomat</span>
+            </div>
+            <span style={{ fontSize: 18, fontWeight: 800, color: davPct >= 75 ? T.lime : "#FFA500" }}>{davPct}%</span>
+          </div>
+          <div style={{ height: 8, borderRadius: 4, background: "rgba(13,58,26,.08)", overflow: "hidden", marginBottom: 10 }}>
+            <div style={{ height: "100%", width: `${davPct}%`, borderRadius: 4, background: davPct >= 75 ? T.gLimeH : "linear-gradient(90deg,#FFA500,#FF8C00)", transition: "width .8s" }} />
+          </div>
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            {students.map((s) => {
+              const h = todayDavomat[s.id];
+              return (
+                <div key={s.id} title={`${s.ism} ${s.familya}`} style={{ width: 32, height: 32, borderRadius: "50%", background: h === "keldi" ? T.gLime : h === "kelmadi" ? "rgba(230,0,35,.15)" : "rgba(13,58,26,.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: h === "kelmadi" ? T.red : T.onCta }}>
+                  {s.ism[0]?.toUpperCase()}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Sinf o'rtacha progressi */}
+        <div style={{ background: "#fff", borderRadius: 16, border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04), 0 6px 18px rgba(13,58,26,.06)", padding: 18 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 14 }}>
+            <div style={{ width: 4, height: 16, borderRadius: 2, background: T.gLime }} />
+            <span style={{ fontSize: 13, fontWeight: 600, color: T.green }}>Sinf o'rtacha progressi</span>
+          </div>
+          {[
+            { label: "Nazariy darslar (o'rtacha)", pct: avgNaz },
+            { label: "Amaliy mashqlar (o'rtacha)", pct: avgAmal },
+          ].map((s) => (
+            <div key={s.label} style={{ marginBottom: 10 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
+                <span style={{ fontSize: 12, color: T.text2 }}>{s.label}</span>
+                <span style={{ fontSize: 12, fontWeight: 700, color: s.pct >= 80 ? T.lime : T.hint }}>{s.pct}%</span>
+              </div>
+              <div style={{ height: 7, borderRadius: 4, background: "rgba(13,58,26,.08)", overflow: "hidden" }}>
+                <div style={{ height: "100%", width: `${s.pct}%`, borderRadius: 4, background: s.pct >= 80 ? T.gLime : T.gGreen, transition: "width .8s" }} />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Quick actions */}
+        {[
+          { label: "Davomat belgilash", sub: "Bugungi ro'yxat", icon: ClipboardCheck, to: "/davomat" },
+          { label: "O'quvchilar", sub: "Progress va ma'lumotlar", icon: Users, to: "/oquvchilar" },
+          { label: "Statistika", sub: "Batafsil tahlil", icon: BarChart2, to: "/statistika" },
+        ].map((a) => (
+          <button key={a.to} onClick={() => navigate(a.to)} style={{ width: "100%", background: "#fff", border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04)", borderRadius: 14, padding: "14px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: 12, textAlign: "left" }}>
+            <div style={{ width: 44, height: 44, borderRadius: 12, background: T.gGreen, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <a.icon size={20} color="#fff" />
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: T.green }}>{a.label}</div>
+              <div style={{ fontSize: 12, color: T.text2, marginTop: 1 }}>{a.sub}</div>
+            </div>
+            <ArrowRight size={18} color={T.hint} />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function HomeView() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { nazDone, amalDone } = useProgress();
+
+  if (user?.role === "teacher") return <TeacherHome />;
 
   const nazPass = Object.values(nazDone).filter((d) => d.pct >= 80).length;
   const amalDoneCount = Object.keys(amalDone).length;
