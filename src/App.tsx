@@ -17,6 +17,7 @@ import { GameView } from "./features/game/GameView";
 import { XatolarView } from "./features/errors/XatolarView";
 import { MinimalPairsView } from "./features/pairs/MinimalPairsView";
 import { SertifikatView } from "./features/sertifikat/SertifikatView";
+import { GuruhlarView } from "./features/guruh/GuruhlarView";
 import { T } from "./theme/tokens";
 
 function Splash() {
@@ -69,6 +70,7 @@ export default function App() {
             <Route path="/xatolar" element={<XatolarView />} />
             <Route path="/juftlar" element={<MinimalPairsView />} />
             <Route path="/sertifikat" element={<SertifikatView />} />
+            <Route path="/guruhlar" element={<GuruhlarView />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

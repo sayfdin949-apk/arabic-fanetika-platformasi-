@@ -10,6 +10,7 @@ import {
   AlertTriangle,
   Award,
   BookMarked,
+  LayersIcon,
   type LucideIcon,
 } from "lucide-react";
 import type { Role } from "../auth/types";
@@ -37,6 +38,7 @@ export const NAV: NavItem[] = [
   { to: "/sertifikat", label: "Sertifikat", icon: Award, roles: ALL, bottom: false },
   { to: "/davomat", label: "Davomat", icon: ClipboardCheck, roles: ["teacher"], bottom: false },
   { to: "/oquvchilar", label: "O'quvchilar", icon: Users, roles: ["teacher"], bottom: false },
+  { to: "/guruhlar", label: "Guruhlar", icon: LayersIcon, roles: ["teacher"], bottom: false },
 ];
 
 export const navForRole = (role: Role) => NAV.filter((n) => n.roles.includes(role));
