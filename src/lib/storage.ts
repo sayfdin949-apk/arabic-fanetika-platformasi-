@@ -1,10 +1,12 @@
-/* Saqlash qatlami (abstraksiya)
+/*
+ * Saqlash qatlami (abstraksiya)
  *
- * Maqsad: frontend faqat `store` interfeysiga bog'lanadi.
- * Hozir: LocalStorageAdapter (brauzer localStorage).
- * Bosqich B: xuddi shu interfeysni amalga oshiruvchi SupabaseAdapter ulanadi —
- * frontend kodi o'zgarmaydi, faqat shu fayldagi `store` almashadi.
+ * Agar VITE_SUPABASE_URL va VITE_SUPABASE_ANON_KEY environment
+ * o'zgaruvchilari bo'lsa → SupabaseAdapter (haqiqiy backend).
+ * Aks holda → LocalStorageAdapter (brauzer localStorage).
  */
+
+import { SupabaseAdapter } from "./supabaseAdapter";
 
 export interface StorageAdapter {
   get<T>(key: string): Promise<T | null>;
@@ -12,9 +14,8 @@ export interface StorageAdapter {
   del(key: string): Promise<void>;
 }
 
-const PREFIX = "afp:"; // "Arab Fonetika Platformasi" namespace
+const PREFIX = "afp:";
 
-/** Brauzer localStorage asosidagi adapter (lokal bosqich). */
 export class LocalStorageAdapter implements StorageAdapter {
   async get<T>(key: string): Promise<T | null> {
     try {
@@ -42,5 +43,12 @@ export class LocalStorageAdapter implements StorageAdapter {
   }
 }
 
-/** Ilova bo'ylab yagona saqlash nuqtasi. Bosqich B'da bu qator almashadi. */
-export const store: StorageAdapter = new LocalStorageAdapter();
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+
+export const store: StorageAdapter =
+  SUPABASE_URL && SUPABASE_KEY
+    ? new SupabaseAdapter(SUPABASE_URL, SUPABASE_KEY)
+    : new LocalStorageAdapter();
+
+export const usingSupabase = Boolean(SUPABASE_URL && SUPABASE_KEY);
