@@ -11,4 +11,6 @@ export const SEED_USERS: User[] = [
   { id: "s3", login: "mariya", parol: "1234", ism: "Mariya", familya: "Soliyeva", role: "student", tugilgan: "2008", tel: "+998 93 345 67 89", avatar: null },
   { id: "s4", login: "diyor", parol: "1234", ism: "Diyor", familya: "Ergashev", role: "student", tugilgan: "2009", tel: "+998 94 456 78 90", avatar: null },
   { id: "s5", login: "sevara", parol: "1234", ism: "Sevara", familya: "Aliyeva", role: "student", tugilgan: "2008", tel: "+998 95 567 89 01", avatar: null },
+  { id: "s6", login: "abduhollaxov", parol: "abd2006", ism: "Abdulloh", familya: "Abduhollaxov", role: "student", tugilgan: "14.05.2006", tel: "+998918200006", avatar: null },
+  { id: "s7", login: "xislatbek", parol: "xis2006", ism: "Xislatbek", familya: "Normatov", role: "student", tugilgan: "11.08.2006", tel: "+998950720206", avatar: null },
 ];
