@@ -7,6 +7,83 @@ import { useProgress } from "../features/progress/ProgressContext";
 import { navForRole, type NavItem } from "./nav";
 import { useMediaQuery } from "../lib/useMediaQuery";
 
+function useStudentGuard(isStudent: boolean) {
+  useEffect(() => {
+    if (!isStudent) return;
+
+    const stop = (e: Event) => e.preventDefault();
+
+    const blockKeys = (e: KeyboardEvent) => {
+      const k = e.key.toLowerCase();
+      if (
+        e.key === "PrintScreen" ||
+        ((e.ctrlKey || e.metaKey) && ["c", "x", "a", "s", "p", "u"].includes(k))
+      ) {
+        e.preventDefault();
+      }
+    };
+
+    // Inject global no-select style (exempts inputs/textareas)
+    const style = document.createElement("style");
+    style.id = "afp-guard";
+    style.textContent = `
+      body.afp-guarded *:not(input):not(textarea):not(select) {
+        -webkit-user-select: none !important;
+        user-select: none !important;
+      }
+    `;
+    document.head.appendChild(style);
+    document.body.classList.add("afp-guarded");
+
+    document.addEventListener("copy", stop);
+    document.addEventListener("cut", stop);
+    document.addEventListener("contextmenu", stop);
+    document.addEventListener("keydown", blockKeys);
+
+    return () => {
+      document.body.classList.remove("afp-guarded");
+      document.getElementById("afp-guard")?.remove();
+      document.removeEventListener("copy", stop);
+      document.removeEventListener("cut", stop);
+      document.removeEventListener("contextmenu", stop);
+      document.removeEventListener("keydown", blockKeys);
+    };
+  }, [isStudent]);
+}
+
+function Watermark({ name }: { name: string }) {
+  const tiles = Array.from({ length: 24 });
+  return (
+    <div
+      style={{
+        position: "fixed", inset: 0, zIndex: 9999,
+        pointerEvents: "none", overflow: "hidden",
+        opacity: 0.055,
+      }}
+      aria-hidden="true"
+    >
+      {tiles.map((_, i) => (
+        <div
+          key={i}
+          style={{
+            position: "absolute",
+            left: `${(i % 4) * 27 - 5}%`,
+            top: `${Math.floor(i / 4) * 20 - 3}%`,
+            transform: "rotate(-32deg)",
+            fontSize: 13,
+            fontWeight: 700,
+            whiteSpace: "nowrap",
+            color: "#0d3a1a",
+            userSelect: "none",
+          }}
+        >
+          {name}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Avatar({ name, src, size = 30 }: { name: string; src?: string | null; size?: number }) {
   if (src) {
     return <img src={src} alt="" style={{ width: size, height: size, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />;
@@ -36,6 +113,8 @@ export function AppShell() {
   const { user, avatar, logout } = useAuth();
   const isMobile = useMediaQuery("(max-width: 767px)");
   const [moreOpen, setMoreOpen] = useState(false);
+  const isStudent = user?.role === "student";
+  useStudentGuard(isStudent);
   const [collapsed, setCollapsed] = useState<boolean>(() => {
     try {
       return localStorage.getItem("afp:sidebar_collapsed") === "1";
@@ -157,6 +236,7 @@ export function AppShell() {
         <main ref={mainRef} style={{ flex: 1, overflowY: "auto", background: T.meshLight }}>
           <Outlet />
         </main>
+        {isStudent && <Watermark name={`${user.ism} ${user.familya}`} />}
       </div>
     );
   }
@@ -215,6 +295,8 @@ export function AppShell() {
       <main ref={mainRef} style={{ flex: 1, overflowY: "auto", background: T.meshLight, WebkitOverflowScrolling: "touch" }}>
         <Outlet />
       </main>
+
+      {isStudent && <Watermark name={`${user.ism} ${user.familya}`} />}
 
       {/* Bottom tab bar */}
       <nav style={{ display: "flex", background: "#fff", borderTop: "1px solid rgba(13,58,26,.1)", flexShrink: 0, paddingBottom: "env(safe-area-inset-bottom)" }}>
