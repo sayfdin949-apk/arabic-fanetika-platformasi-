@@ -15,6 +15,7 @@ export function Login() {
   const [tgNotFound, setTgNotFound] = useState<number | null>(null);
   const [tgChecked, setTgChecked] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [showTeacherOnNotFound, setShowTeacherOnNotFound] = useState(false);
 
   const copyId = (id: number) => {
     navigator.clipboard.writeText(String(id)).then(() => {
@@ -104,9 +105,45 @@ export function Login() {
               </button>
             </div>
           </div>
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,.45)", lineHeight: 1.6 }}>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,.45)", lineHeight: 1.6, marginBottom: 24 }}>
             ID ni ustozga yuboring. U "O'quvchilar" bo'limida sizning kartangizga ID ni kiritadi. Keyin ilovani qayta oching.
           </div>
+
+          {/* O'qituvchi kirishi */}
+          {!showTeacherOnNotFound ? (
+            <button
+              onClick={() => setShowTeacherOnNotFound(true)}
+              style={{ width: "100%", background: "rgba(255,255,255,.1)", border: "1px solid rgba(255,255,255,.2)", borderRadius: 12, padding: "13px", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,.8)", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
+            >
+              <UserCheck size={16} /> O'qituvchi sifatida kirish
+            </button>
+          ) : (
+            <div style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.2)", borderRadius: 14, padding: 18, textAlign: "left" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
+                <div style={{ width: 32, height: 32, borderRadius: 8, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <UserCheck size={16} color={T.onCta} />
+                </div>
+                <span style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>O'qituvchi kirishi</span>
+              </div>
+              <div style={{ marginBottom: 10 }}>
+                <label style={{ fontSize: 11, color: "rgba(255,255,255,.6)", display: "block", marginBottom: 4 }}>Login</label>
+                <input value={login} onChange={(e) => { setLogin(e.target.value); setErr(""); }} onKeyDown={(e) => e.key === "Enter" && tryLogin()} placeholder="ustoz" style={inp} />
+              </div>
+              <div style={{ marginBottom: err ? 8 : 14 }}>
+                <label style={{ fontSize: 11, color: "rgba(255,255,255,.6)", display: "block", marginBottom: 4 }}>Parol</label>
+                <div style={{ position: "relative" }}>
+                  <input type={showParol ? "text" : "password"} value={parol} onChange={(e) => { setParol(e.target.value); setErr(""); }} onKeyDown={(e) => e.key === "Enter" && tryLogin()} placeholder="••••" style={{ ...inp, paddingRight: 40 }} />
+                  <button type="button" onClick={() => setShowParol((p) => !p)} style={{ position: "absolute", right: 6, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,.6)", display: "flex", alignItems: "center", justifyContent: "center", width: 30, height: 30 }}>
+                    {showParol ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
+              </div>
+              {err && <div style={{ fontSize: 12, color: "#ff8a95", marginBottom: 10, display: "flex", alignItems: "center", gap: 4 }}><XCircle size={12} /> {err}</div>}
+              <button onClick={tryLogin} style={{ width: "100%", background: T.gLime, border: "none", borderRadius: 10, padding: "12px", cursor: "pointer", fontSize: 14, fontWeight: 700, color: T.onCta, boxShadow: "0 4px 12px rgba(46,184,46,.4)", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                <UserCheck size={16} /> Kirish
+              </button>
+            </div>
+          )}
         </div>
       </div>
     );
