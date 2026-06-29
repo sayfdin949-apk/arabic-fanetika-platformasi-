@@ -6,7 +6,7 @@ import { useAuth } from "../auth/AuthContext";
 import { useProgress } from "../features/progress/ProgressContext";
 import { navForRole, type NavItem } from "./nav";
 import { useMediaQuery } from "../lib/useMediaQuery";
-import { isTelegramMiniApp, getTelegramSafeInsets } from "../lib/telegram";
+import { isTelegramMiniApp, getTelegramSafeInsets, initTelegramApp } from "../lib/telegram";
 
 function useStudentGuard(isStudent: boolean) {
   useEffect(() => {
@@ -148,6 +148,8 @@ export function AppShell() {
   const [tgInsets, setTgInsets] = useState({ top: 0, bottom: 0 });
   useEffect(() => {
     if (!isTelegramMiniApp()) return;
+    // Ensure expand() is called even for persisted sessions that skip Login
+    initTelegramApp();
     const update = () => setTgInsets(getTelegramSafeInsets());
     update();
     const twa = window.Telegram?.WebApp as any;
