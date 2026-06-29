@@ -10,11 +10,13 @@ interface AuthValue {
   avatar: string | null;
   users: User[];
   login: (login: string, parol: string, role: Role) => User | null;
+  loginWithTelegram: (tgId: number) => User | null;
   logout: () => void;
   updateAvatar: (dataUrl: string) => void;
   updateProfile: (data: { ism: string; familya: string; tel?: string; tugilgan?: string }) => { ok: boolean; error?: string };
   addUser: (u: Omit<User, "id">) => { ok: boolean; error?: string };
   removeUser: (id: string) => void;
+  patchUser: (id: string, patch: Partial<Omit<User, "id">>) => void;
   changePassword: (eskiParol: string, yangiParol: string) => { ok: boolean; error?: string };
 }
 
@@ -51,6 +53,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = (login: string, parol: string, role: Role): User | null => {
     const u = users.find((x) => x.login.toLowerCase() === login.trim().toLowerCase() && x.parol === parol && x.role === role);
+    if (u) {
+      setUser(u);
+      void store.set(SESSION_KEY, u.id);
+      void loadAvatar(u.id);
+      return u;
+    }
+    return null;
+  };
+
+  const loginWithTelegram = (tgId: number): User | null => {
+    const u = users.find((x) => x.telegramId === tgId);
     if (u) {
       setUser(u);
       void store.set(SESSION_KEY, u.id);
@@ -99,6 +112,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { ok: true };
   };
 
+  const patchUser = (id: string, patch: Partial<Omit<User, "id">>) => {
+    const list = users.map((x) => (x.id === id ? { ...x, ...patch } : x));
+    setUsers(list);
+    void saveUsers(list);
+  };
+
   const changePassword = (eskiParol: string, yangiParol: string): { ok: boolean; error?: string } => {
     if (!user) return { ok: false, error: "Foydalanuvchi topilmadi" };
     if (user.parol !== eskiParol) return { ok: false, error: "Eski parol noto'g'ri" };
@@ -112,7 +131,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthCtx.Provider value={{ user, ready, avatar, users, login, logout, updateAvatar, updateProfile, addUser, removeUser, changePassword }}>
+    <AuthCtx.Provider value={{ user, ready, avatar, users, login, loginWithTelegram, logout, updateAvatar, updateProfile, addUser, removeUser, patchUser, changePassword }}>
       {children}
     </AuthCtx.Provider>
   );

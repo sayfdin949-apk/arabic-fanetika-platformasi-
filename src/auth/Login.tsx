@@ -1,8 +1,9 @@
-import { useState, type CSSProperties } from "react";
+import { useState, useEffect, type CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, UserCheck, GraduationCap, ChevronLeft, XCircle, Eye, EyeOff } from "lucide-react";
+import { BookOpen, UserCheck, GraduationCap, ChevronLeft, XCircle, Eye, EyeOff, Send } from "lucide-react";
 import { T, FONT } from "../theme/tokens";
 import { useAuth } from "./AuthContext";
+import { isTelegramMiniApp, getTelegramUser, initTelegramApp } from "../lib/telegram";
 import type { Role } from "./types";
 
 export function Login() {
@@ -13,6 +14,23 @@ export function Login() {
   const [parol, setParol] = useState("");
   const [showParol, setShowParol] = useState(false);
   const [err, setErr] = useState("");
+  const [tgNotFound, setTgNotFound] = useState<number | null>(null);
+  const [tgChecked, setTgChecked] = useState(false);
+
+  useEffect(() => {
+    if (!auth.ready || tgChecked) return;
+    setTgChecked(true);
+    if (!isTelegramMiniApp()) return;
+    initTelegramApp();
+    const tgUser = getTelegramUser();
+    if (!tgUser) return;
+    const u = auth.loginWithTelegram(tgUser.id);
+    if (u) {
+      navigate("/", { replace: true });
+    } else {
+      setTgNotFound(tgUser.id);
+    }
+  }, [auth.ready, tgChecked]);
 
   const tryLogin = () => {
     if (!role) return;
@@ -50,6 +68,22 @@ export function Login() {
     >
       <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
       <div style={{ position: "relative", zIndex: 1, width: 380, maxWidth: "100%" }}>
+        {tgNotFound !== null && (
+          <div style={{ background: "rgba(255,255,255,.1)", border: "1px solid rgba(255,255,255,.2)", borderRadius: 16, padding: "28px 20px", textAlign: "center", marginBottom: 16 }}>
+            <div style={{ width: 52, height: 52, borderRadius: 14, background: "rgba(255,255,255,.15)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}>
+              <Send size={24} color="#fff" />
+            </div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "#fff", marginBottom: 8 }}>Foydalanuvchi topilmadi</div>
+            <div style={{ fontSize: 12, color: "rgba(255,255,255,.7)", marginBottom: 14, lineHeight: 1.5 }}>
+              Telegram hisobingiz platformaga ulanmagan.
+            </div>
+            <div style={{ background: "rgba(0,0,0,.25)", borderRadius: 10, padding: "10px 14px", marginBottom: 14 }}>
+              <div style={{ fontSize: 10, color: "rgba(255,255,255,.5)", marginBottom: 3, letterSpacing: ".06em", textTransform: "uppercase" }}>Sizning Telegram ID</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: T.limeBrt, letterSpacing: ".04em" }}>{tgNotFound}</div>
+            </div>
+            <div style={{ fontSize: 11, color: "rgba(255,255,255,.55)" }}>Ushbu ID ni o'qituvchiga yuboring va ulanishni so'rang.</div>
+          </div>
+        )}
         <div style={{ textAlign: "center", marginBottom: 24 }}>
           <div
             style={{

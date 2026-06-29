@@ -10,4 +10,5 @@ export interface User {
   tugilgan?: string;
   tel?: string;
   avatar?: string | null;
+  telegramId?: number;
 }

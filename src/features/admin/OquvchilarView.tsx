@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import { UserPlus, Trash2, X, Users, ChevronDown, ChevronUp, BookOpen, Layers, BarChart2 } from "lucide-react";
+import { UserPlus, Trash2, X, Users, ChevronDown, ChevronUp, BookOpen, Layers, BarChart2, Send, Check } from "lucide-react";
 import { T } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
 import { store } from "../../lib/storage";
@@ -34,12 +34,14 @@ function ProgBar({ value, max, color }: { value: number; max: number; color: str
 }
 
 export function OquvchilarView() {
-  const { user, users, addUser, removeUser } = useAuth();
+  const { user, users, addUser, removeUser, patchUser } = useAuth();
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ ism: "", familya: "", login: "", parol: "", tel: "", tugilgan: "" });
+  const [form, setForm] = useState({ ism: "", familya: "", login: "", parol: "", tel: "", tugilgan: "", telegramId: "" });
   const [err, setErr] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [progData, setProgData] = useState<Record<string, { naz: DoneMap; amal: DoneMap }>>({});
+  const [editTg, setEditTg] = useState<string | null>(null);
+  const [tgInput, setTgInput] = useState("");
 
   if (user?.role !== "teacher") return <Navigate to="/" replace />;
 
@@ -55,6 +57,7 @@ export function OquvchilarView() {
       setErr("Ism, login va parol majburiy");
       return;
     }
+    const tgIdNum = form.telegramId.trim() ? parseInt(form.telegramId.trim()) : undefined;
     const res = addUser({
       ism: form.ism.trim(),
       familya: form.familya.trim(),
@@ -64,10 +67,18 @@ export function OquvchilarView() {
       tel: form.tel.trim() || undefined,
       tugilgan: form.tugilgan.trim() || undefined,
       avatar: null,
+      telegramId: tgIdNum,
     });
     if (!res.ok) { setErr(res.error ?? "Xatolik"); return; }
-    setForm({ ism: "", familya: "", login: "", parol: "", tel: "", tugilgan: "" });
+    setForm({ ism: "", familya: "", login: "", parol: "", tel: "", tugilgan: "", telegramId: "" });
     setOpen(false);
+  };
+
+  const saveTgId = (id: string) => {
+    const num = tgInput.trim() ? parseInt(tgInput.trim()) : undefined;
+    patchUser(id, { telegramId: num });
+    setEditTg(null);
+    setTgInput("");
   };
 
   const del = (id: string, name: string) => {
@@ -157,6 +168,7 @@ export function OquvchilarView() {
                 <input placeholder="Telefon" value={form.tel} onChange={(e) => upd("tel", e.target.value)} style={inp} />
                 <input placeholder="Tug'ilgan yil" value={form.tugilgan} onChange={(e) => upd("tugilgan", e.target.value)} style={inp} />
               </div>
+              <input placeholder="Telegram ID (ixtiyoriy)" value={form.telegramId} onChange={(e) => upd("telegramId", e.target.value)} style={inp} type="number" />
               {err && (
                 <div style={{ fontSize: 12, color: T.red, background: "rgba(230,0,35,.05)", border: "1px solid rgba(230,0,35,.15)", borderRadius: 8, padding: "8px 12px" }}>{err}</div>
               )}
@@ -201,6 +213,35 @@ export function OquvchilarView() {
                     <div style={{ fontSize: 11, color: T.hint, marginTop: 1 }}>
                       {idx + 1} · @{s.login} · parol: <span style={{ fontWeight: 600, color: T.text2 }}>{s.parol}</span>
                     </div>
+                    {editTg === s.id ? (
+                      <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 5 }}>
+                        <input
+                          autoFocus
+                          type="number"
+                          placeholder="Telegram ID"
+                          value={tgInput}
+                          onChange={(e) => setTgInput(e.target.value)}
+                          onKeyDown={(e) => { if (e.key === "Enter") saveTgId(s.id); if (e.key === "Escape") setEditTg(null); }}
+                          style={{ fontSize: 11, border: "1px solid rgba(13,58,26,.2)", borderRadius: 6, padding: "3px 7px", width: 130, outline: "none", color: T.green }}
+                        />
+                        <button onClick={() => saveTgId(s.id)} style={{ background: T.gGreen, border: "none", borderRadius: 6, width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                          <Check size={12} color="#fff" />
+                        </button>
+                        <button onClick={() => setEditTg(null)} style={{ background: "rgba(13,58,26,.08)", border: "none", borderRadius: 6, width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                          <X size={12} color={T.text2} />
+                        </button>
+                      </div>
+                    ) : (
+                      <div
+                        onClick={() => { setEditTg(s.id); setTgInput(String(s.telegramId ?? "")); }}
+                        style={{ display: "inline-flex", alignItems: "center", gap: 4, marginTop: 4, cursor: "pointer", background: s.telegramId ? "rgba(46,184,46,.1)" : "rgba(13,58,26,.06)", borderRadius: 6, padding: "2px 7px", border: `1px solid ${s.telegramId ? "rgba(46,184,46,.25)" : "rgba(13,58,26,.12)"}` }}
+                      >
+                        <Send size={9} color={s.telegramId ? T.green : T.hint} />
+                        <span style={{ fontSize: 10, fontWeight: 600, color: s.telegramId ? T.green : T.hint }}>
+                          {s.telegramId ? `TG: ${s.telegramId}` : "TG ulash"}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <button
                     onClick={() => void toggleExpand(s.id)}
