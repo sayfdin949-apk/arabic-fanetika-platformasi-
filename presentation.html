@@ -33,25 +33,22 @@
   .deck {
     width: 100vw; height: 100vh;
     position: relative;
-    overflow: hidden;
   }
 
   .slide {
+    display: none;
     position: absolute; inset: 0;
-    display: flex; flex-direction: column;
+    flex-direction: column;
     align-items: center; justify-content: center;
     padding: 40px 60px;
-    opacity: 0;
-    transform: translateX(60px);
-    transition: opacity .45s ease, transform .45s ease;
-    pointer-events: none;
   }
   .slide.active {
-    opacity: 1; transform: translateX(0);
-    pointer-events: all;
+    display: flex;
+    animation: sIn .35s ease both;
   }
-  .slide.exit {
-    opacity: 0; transform: translateX(-60px);
+  @keyframes sIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
   /* ── Backgrounds ── */
@@ -231,7 +228,7 @@
 <div class="deck" id="deck">
 
   <!-- ══ SLIDE 1: Title ══ -->
-  <div class="slide bg-dark sheen active" id="s0">
+  <div class="slide bg-dark sheen" id="s0">
     <div class="ar-watermark">الفونيتيكا</div>
     <div class="col gap24 center" style="max-width:720px">
       <div style="width:80px;height:80px;border-radius:22px;background:linear-gradient(135deg,#6AEF5A,#4cd43d);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto;box-shadow:0 8px 32px rgba(106,239,90,.35)">📖</div>
@@ -562,47 +559,48 @@
 </div>
 
 <script>
-  const slides = Array.from(document.querySelectorAll('.slide'));
-  const total = slides.length;
-  let cur = 0;
+  var slides = document.querySelectorAll('.slide');
+  var n = slides.length;
+  var cur = 0;
 
-  const pb   = document.getElementById('pb');
-  const ctr  = document.getElementById('ctr');
-  const prev = document.getElementById('prev');
-  const next = document.getElementById('next');
-
-  function go(to) {
-    if (to < 0 || to >= total) return;
-    const from = cur;
-    slides[from].classList.remove('active');
-    slides[from].classList.add('exit');
-    setTimeout(() => slides[from].classList.remove('exit'), 450);
-    cur = to;
-    slides[cur].classList.add('active');
-    pb.style.width = ((cur + 1) / total * 100) + '%';
-    ctr.textContent = (cur + 1) + ' / ' + total;
-    prev.disabled = cur === 0;
-    next.disabled = cur === total - 1;
+  function show(i) {
+    for (var j = 0; j < n; j++) {
+      slides[j].classList.remove('active');
+    }
+    slides[i].classList.add('active');
+    document.getElementById('ctr').textContent = (i + 1) + ' / ' + n;
+    document.getElementById('pb').style.width = ((i + 1) / n * 100) + '%';
+    document.getElementById('prev').disabled = (i === 0);
+    document.getElementById('next').disabled = (i === n - 1);
   }
 
-  prev.onclick = () => go(cur - 1);
-  next.onclick = () => go(cur + 1);
+  document.getElementById('prev').onclick = function() {
+    if (cur > 0) { cur--; show(cur); }
+  };
+  document.getElementById('next').onclick = function() {
+    if (cur < n - 1) { cur++; show(cur); }
+  };
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); go(cur + 1); }
-    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                    { e.preventDefault(); go(cur - 1); }
+  document.onkeydown = function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      if (cur < n - 1) { cur++; show(cur); }
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (cur > 0) { cur--; show(cur); }
+    }
+  };
+
+  var tx = 0;
+  document.addEventListener('touchstart', function(e) { tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - tx;
+    if (dx < -50 && cur < n - 1) { cur++; show(cur); }
+    if (dx >  50 && cur > 0)     { cur--; show(cur); }
   });
 
-  // Touch swipe
-  let tx = 0;
-  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
-  document.addEventListener('touchend',   e => {
-    const dx = e.changedTouches[0].clientX - tx;
-    if (Math.abs(dx) > 50) dx < 0 ? go(cur + 1) : go(cur - 1);
-  });
-
-  // Init
-  pb.style.width = (1 / total * 100) + '%';
+  show(0);
 </script>
 </body>
 </html>
