@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Arab Fonetika Platformasi — Prezentatsiya</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green:   #0D3A1A;
+    --lime:    #6AEF5A;
+    --lime2:   #4cd43d;
+    --gGreen:  linear-gradient(135deg, #0D3A1A 0%, #1a5c2a 100%);
+    --gLime:   linear-gradient(135deg, #6AEF5A 0%, #4cd43d 100%);
+    --light:   #f0f7f0;
+    --text2:   #4a7a5a;
+    --hint:    #8aaa8a;
+    --white:   #ffffff;
+    --ar:      'Amiri', 'Scheherazade New', serif;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    font-family: 'Inter', sans-serif;
+    background: #000;
+    overflow: hidden;
+  }
+
+  /* ── Slides container ── */
+  .deck {
+    width: 100vw; height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 40px 60px;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity .45s ease, transform .45s ease;
+    pointer-events: none;
+  }
+  .slide.active {
+    opacity: 1; transform: translateX(0);
+    pointer-events: all;
+  }
+  .slide.exit {
+    opacity: 0; transform: translateX(-60px);
+  }
+
+  /* ── Backgrounds ── */
+  .bg-dark   { background: var(--gGreen); }
+  .bg-light  { background: var(--light); }
+  .bg-white  { background: #fff; }
+  .bg-lime   { background: linear-gradient(135deg,#e8fde8 0%,#d0f5d0 100%); }
+  .bg-night  { background: linear-gradient(135deg,#071a0d 0%,#0d3a1a 100%); }
+
+  /* ── Decorative sheen ── */
+  .sheen::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 70% 20%, rgba(106,239,90,.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ── Arabic watermark ── */
+  .ar-watermark {
+    position: absolute; right: 40px; bottom: 40px;
+    font-size: 96px; font-weight: 700;
+    color: rgba(106,239,90,.08);
+    direction: rtl; line-height: 1;
+    user-select: none; pointer-events: none;
+    letter-spacing: -.02em;
+  }
+
+  /* ── Progress bar ── */
+  .progress-wrap {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 3px; background: rgba(255,255,255,.1); z-index: 100;
+  }
+  .progress-bar {
+    height: 100%; background: var(--gLime);
+    transition: width .4s ease;
+  }
+
+  /* ── Navigation ── */
+  .nav {
+    position: fixed; bottom: 18px; right: 24px;
+    display: flex; gap: 8px; z-index: 100;
+  }
+  .nav button {
+    width: 40px; height: 40px; border-radius: 10px; border: none;
+    background: rgba(255,255,255,.15); backdrop-filter: blur(8px);
+    color: #fff; font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+  }
+  .nav button:hover { background: rgba(255,255,255,.25); }
+  .nav button:disabled { opacity: .3; cursor: default; }
+
+  /* ── Slide counter ── */
+  .counter {
+    position: fixed; bottom: 22px; left: 24px;
+    font-size: 11px; font-weight: 600;
+    color: rgba(255,255,255,.4); z-index: 100;
+    letter-spacing: .08em;
+  }
+
+  /* ── Keyboard hint ── */
+  .kbd-hint {
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+    font-size: 10px; color: rgba(255,255,255,.25); z-index: 100;
+    letter-spacing: .05em;
+  }
+
+  /* ─────── Slide content helpers ─────── */
+  .tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(106,239,90,.18); border: 1px solid rgba(106,239,90,.35);
+    border-radius: 20px; padding: 5px 14px;
+    font-size: 11px; font-weight: 700; color: #6AEF5A;
+    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 18px;
+  }
+  .tag-dark {
+    background: rgba(13,58,26,.12); border-color: rgba(13,58,26,.2); color: var(--green);
+  }
+
+  h1 { font-size: clamp(32px, 5vw, 58px); font-weight: 900; line-height: 1.1; letter-spacing: -.025em; }
+  h2 { font-size: clamp(24px, 3.5vw, 40px); font-weight: 800; line-height: 1.15; letter-spacing: -.02em; }
+  h3 { font-size: clamp(16px, 2.2vw, 22px); font-weight: 700; line-height: 1.3; }
+  .sub { font-size: clamp(13px, 1.5vw, 17px); font-weight: 400; line-height: 1.65; opacity: .75; }
+
+  .white { color: #fff; }
+  .green { color: var(--green); }
+  .lime  { color: var(--lime2); }
+  .hint  { color: var(--hint); }
+
+  .center { text-align: center; }
+  .col    { display: flex; flex-direction: column; }
+  .row    { display: flex; flex-direction: row; align-items: flex-start; }
+  .gap8   { gap: 8px; }
+  .gap12  { gap: 12px; }
+  .gap16  { gap: 16px; }
+  .gap24  { gap: 24px; }
+  .gap32  { gap: 32px; }
+
+  /* Card */
+  .card {
+    background: rgba(255,255,255,.92);
+    border: 1px solid rgba(13,58,26,.1);
+    border-radius: 18px; padding: 22px 24px;
+    box-shadow: 0 4px 24px rgba(13,58,26,.08);
+  }
+  .card-dark {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.13);
+    border-radius: 18px; padding: 20px 22px;
+  }
+
+  /* Icon box */
+  .icon {
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 14px; flex-shrink: 0;
+  }
+  .icon-lg { width: 64px; height: 64px; font-size: 28px; }
+  .icon-md { width: 46px; height: 46px; font-size: 20px; }
+  .icon-sm { width: 36px; height: 36px; font-size: 16px; }
+  .icon-lime { background: var(--gLime); }
+  .icon-green { background: rgba(255,255,255,.12); }
+  .icon-soft  { background: rgba(13,58,26,.07); }
+
+  /* Feature grid */
+  .feat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; width: 100%; }
+  .feat-grid2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; width: 100%; }
+
+  /* Number badge */
+  .num {
+    font-size: clamp(36px, 5vw, 56px); font-weight: 900;
+    color: var(--lime2); line-height: 1;
+  }
+
+  /* Step */
+  .step-line { display: flex; gap: 14px; align-items: flex-start; }
+  .step-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--gLime); display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 800; color: var(--green); flex-shrink: 0; margin-top: 2px;
+  }
+
+  /* Tech badge */
+  .tech-badge {
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18);
+    border-radius: 12px; padding: 10px 16px;
+    font-size: 13px; font-weight: 600; color: rgba(255,255,255,.85);
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* Arabic text */
+  .ar { font-family: var(--ar); direction: rtl; }
+
+  /* Divider */
+  .divider { width: 48px; height: 4px; border-radius: 2px; background: var(--gLime); margin: 14px 0; }
+
+  /* Stat row */
+  .stat-box { text-align: center; }
+
+  /* Print styles */
+  @media print {
+    html, body { overflow: visible !important; width: 100% !important; height: auto !important; background: #fff; }
+    .deck { width: 100% !important; height: auto !important; overflow: visible !important; }
+    .slide {
+      position: relative !important; opacity: 1 !important; transform: none !important;
+      pointer-events: all !important;
+      page-break-after: always;
+      width: 100% !important; height: 100vh !important;
+      padding: 40px 60px;
+    }
+    .slide.exit { display: flex !important; }
+    .nav, .counter, .kbd-hint, .progress-wrap { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- ══ SLIDE 1: Title ══ -->
+  <div class="slide bg-dark sheen active" id="s0">
+    <div class="ar-watermark">الفونيتيكا</div>
+    <div class="col gap24 center" style="max-width:720px">
+      <div style="width:80px;height:80px;border-radius:22px;background:linear-gradient(135deg,#6AEF5A,#4cd43d);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto;box-shadow:0 8px 32px rgba(106,239,90,.35)">📖</div>
+      <div>
+        <h1 class="white" style="margin-bottom:12px">Arab Fonetika<br/><span style="color:#6AEF5A">Platformasi</span></h1>
+        <div class="ar white" style="font-size:22px;opacity:.6;margin-bottom:16px">مَنْصَّةُ الفَوْنِيتِيكَا العَرَبِيَّة</div>
+        <p class="sub white" style="max-width:520px;margin:0 auto">O'zbek tilida arab fonetikasini o'rganish uchun zamonaviy raqamli platforma — Telegram Mini App sifatida</p>
+        <p class="sub" style="color:rgba(255,255,255,.35);font-size:12px;margin-top:8px">Платформа для изучения арабской фонетики на узбекском языке</p>
+      </div>
+      <div style="display:flex;gap:32px;margin-top:8px">
+        <div class="stat-box"><div class="num" style="font-size:36px">20+</div><div style="font-size:12px;color:rgba(255,255,255,.45);margin-top:2px">Dars</div></div>
+        <div style="width:1px;background:rgba(255,255,255,.1)"></div>
+        <div class="stat-box"><div class="num" style="font-size:36px">2</div><div style="font-size:12px;color:rgba(255,255,255,.45);margin-top:2px">Yo'nalish</div></div>
+        <div style="width:1px;background:rgba(255,255,255,.1)"></div>
+        <div class="stat-box"><div class="num" style="font-size:36px">100%</div><div style="font-size:12px;color:rgba(255,255,255,.45);margin-top:2px">Onlayn</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 2: Muammo ══ -->
+  <div class="slide bg-white" id="s1">
+    <div style="max-width:860px;width:100%">
+      <div class="tag tag-dark">Muammo / Проблема</div>
+      <h2 class="green" style="margin-bottom:8px">Arab fonetikasini o'rganishda<br/>asosiy to'siqlar</h2>
+      <p class="sub green" style="margin-bottom:32px">Основные препятствия в изучении арабской фонетики</p>
+      <div class="feat-grid">
+        <div class="card">
+          <div style="font-size:32px;margin-bottom:12px">📚</div>
+          <h3 class="green" style="margin-bottom:6px">Darsliklar yetarli emas</h3>
+          <p class="sub" style="font-size:13px;color:#4a7a5a">An'anaviy usullar amaliy mashq uchun mo'ljallanmagan. Учебников недостаточно для практики.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:32px;margin-bottom:12px">🗺️</div>
+          <h3 class="green" style="margin-bottom:6px">Masofaviy ta'lim qiyin</h3>
+          <p class="sub" style="font-size:13px;color:#4a7a5a">Talabalar dars vaqti va joyiga bog'liq. Дистанционное обучение сложно организовать.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:32px;margin-bottom:12px">📊</div>
+          <h3 class="green" style="margin-bottom:6px">Nazorat yo'q</h3>
+          <p class="sub" style="font-size:13px;color:#4a7a5a">O'qituvchi har bir talabaning taraqqiyotini kuzata olmaydi. Нет контроля прогресса.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 3: Yechim ══ -->
+  <div class="slide bg-dark sheen" id="s2">
+    <div class="ar-watermark">الحل</div>
+    <div style="max-width:860px;width:100%">
+      <div class="tag">Yechim / Решение</div>
+      <h2 class="white" style="margin-bottom:8px">Telegram Mini App —<br/><span style="color:#6AEF5A">qulay, tez, hammaga ochiq</span></h2>
+      <p class="sub white" style="margin-bottom:32px;opacity:.6">Приложение внутри Telegram — удобно, быстро, доступно всем</p>
+      <div class="feat-grid2">
+        <div class="card-dark">
+          <div style="font-size:28px;margin-bottom:10px">✈️</div>
+          <h3 class="white" style="margin-bottom:6px">Telegram orqali kirish</h3>
+          <p style="font-size:13px;color:rgba(255,255,255,.55);line-height:1.6">Parol yoki ro'yxatdan o'tish shart emas — Telegram ID orqali avtomatik kirish. Вход через Telegram ID без пароля.</p>
+        </div>
+        <div class="card-dark">
+          <div style="font-size:28px;margin-bottom:10px">☁️</div>
+          <h3 class="white" style="margin-bottom:6px">Bulutda saqlash</h3>
+          <p style="font-size:13px;color:rgba(255,255,255,.55);line-height:1.6">Natijalar Supabase bulutida saqlanadi. Har qanday qurilmadan kirsa bo'ladi. Данные хранятся в облаке.</p>
+        </div>
+        <div class="card-dark">
+          <div style="font-size:28px;margin-bottom:10px">📱</div>
+          <h3 class="white" style="margin-bottom:6px">Ilovani o'rnatish shart emas</h3>
+          <p style="font-size:13px;color:rgba(255,255,255,.55);line-height:1.6">Telegram o'rnatilgan bo'lsa yetarli. Установка отдельного приложения не нужна.</p>
+        </div>
+        <div class="card-dark">
+          <div style="font-size:28px;margin-bottom:10px">🔄</div>
+          <h3 class="white" style="margin-bottom:6px">Real vaqt sinxronizatsiya</h3>
+          <p style="font-size:13px;color:rgba(255,255,255,.55);line-height:1.6">O'qituvchi va talabalar ma'lumotlari real vaqtda yangilanadi. Синхронизация в реальном времени.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 4: O'quvchi imkoniyatlari ══ -->
+  <div class="slide bg-lime" id="s3">
+    <div style="max-width:900px;width:100%">
+      <div class="tag tag-dark">O'quvchi uchun / Для студента</div>
+      <h2 class="green" style="margin-bottom:6px">O'quvchi imkoniyatlari</h2>
+      <p class="sub" style="color:var(--text2);margin-bottom:28px">Возможности для студентов</p>
+      <div class="feat-grid">
+        <div class="card" style="display:flex;gap:14px;align-items:flex-start;padding:18px">
+          <div class="icon icon-md icon-lime" style="border-radius:12px">📖</div>
+          <div>
+            <h3 class="green" style="font-size:15px;margin-bottom:4px">Nazariy darslar</h3>
+            <p style="font-size:12px;color:var(--text2);line-height:1.5">Matn, rasm va audio bilan boyitilgan 20+ dars. Теоретические уроки с медиа.</p>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:14px;align-items:flex-start;padding:18px">
+          <div class="icon icon-md icon-lime" style="border-radius:12px">🎯</div>
+          <div>
+            <h3 class="green" style="font-size:15px;margin-bottom:4px">Amaliy mashqlar</h3>
+            <p style="font-size:12px;color:var(--text2);line-height:1.5">Fonetikani mustahkamlash uchun interaktiv mashqlar. Практические упражнения.</p>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:14px;align-items:flex-start;padding:18px">
+          <div class="icon icon-md icon-lime" style="border-radius:12px">✅</div>
+          <div>
+            <h3 class="green" style="font-size:15px;margin-bottom:4px">Test tizimi</h3>
+            <p style="font-size:12px;color:var(--text2);line-height:1.5">80% dan o'tish talab qilinadi. Xatolarni takrorlash rejimi. Система тестов с порогом 80%.</p>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:14px;align-items:flex-start;padding:18px">
+          <div class="icon icon-md icon-lime" style="border-radius:12px">🔥</div>
+          <div>
+            <h3 class="green" style="font-size:15px;margin-bottom:4px">Streak — motivatsiya</h3>
+            <p style="font-size:12px;color:var(--text2);line-height:1.5">Kunlik dars streak tizimi. Motivatsiya saqlash. Система ежедневных серий.</p>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:14px;align-items:flex-start;padding:18px">
+          <div class="icon icon-md icon-lime" style="border-radius:12px">🎮</div>
+          <div>
+            <h3 class="green" style="font-size:15px;margin-bottom:4px">O'yin rejimi</h3>
+            <p style="font-size:12px;color:var(--text2);line-height:1.5">O'rganilganlarni o'yin orqali mustahkamlash. Игровой режим закрепления.</p>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:14px;align-items:flex-start;padding:18px">
+          <div class="icon icon-md icon-lime" style="border-radius:12px">🏆</div>
+          <div>
+            <h3 class="green" style="font-size:15px;margin-bottom:4px">Sertifikat</h3>
+            <p style="font-size:12px;color:var(--text2);line-height:1.5">Barcha darslarni tamomlagan o'quvchiga chop etiladigan sertifikat. Сертификат об окончании.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 5: O'qituvchi ══ -->
+  <div class="slide bg-white" id="s4">
+    <div style="max-width:900px;width:100%">
+      <div class="tag tag-dark">O'qituvchi uchun / Для учителя</div>
+      <h2 class="green" style="margin-bottom:6px">O'qituvchi paneli</h2>
+      <p class="sub" style="color:var(--text2);margin-bottom:28px">Панель управления учителя</p>
+      <div class="feat-grid2">
+        <div class="card" style="display:flex;gap:16px">
+          <div class="icon icon-lg icon-soft" style="border-radius:14px">👥</div>
+          <div>
+            <h3 class="green" style="margin-bottom:6px">O'quvchilar boshqaruvi</h3>
+            <p class="sub" style="font-size:13px;color:var(--text2)">Talabalar ro'yxati, Telegram ID ulanish, har bir talabaning statistikasi. Управление учениками и привязка Telegram.</p>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:16px">
+          <div class="icon icon-lg icon-soft" style="border-radius:14px">📅</div>
+          <div>
+            <h3 class="green" style="margin-bottom:6px">Davomat nazorati</h3>
+            <p class="sub" style="font-size:13px;color:var(--text2)">Kunlik davomat belgilash, oylik kalendar ko'rinishi. Отметка посещаемости, месячный календарь.</p>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:16px">
+          <div class="icon icon-lg icon-soft" style="border-radius:14px">🖼️</div>
+          <div>
+            <h3 class="green" style="margin-bottom:6px">Kontent boshqaruvi</h3>
+            <p class="sub" style="font-size:13px;color:var(--text2)">Har bir darsga rasm va audio material yuklash imkoniyati. Загрузка изображений и аудио к урокам.</p>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:16px">
+          <div class="icon icon-lg icon-soft" style="border-radius:14px">📊</div>
+          <div>
+            <h3 class="green" style="margin-bottom:6px">Statistika va tahlil</h3>
+            <p class="sub" style="font-size:13px;color:var(--text2)">Talabalar natijalari, umumiy progress diagrammalari. Статистика успеваемости студентов.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 6: Qanday ishlaydi ══ -->
+  <div class="slide bg-dark sheen" id="s5">
+    <div class="ar-watermark">كيف</div>
+    <div style="max-width:780px;width:100%">
+      <div class="tag">Jarayon / Процесс</div>
+      <h2 class="white" style="margin-bottom:6px">Qanday ishlaydi?</h2>
+      <p class="sub white" style="margin-bottom:36px;opacity:.6">Как это работает?</p>
+      <div class="col gap20">
+        <div class="step-line">
+          <div class="step-num">1</div>
+          <div class="card-dark" style="flex:1">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="font-size:24px">✈️</span>
+              <div>
+                <h3 class="white" style="font-size:16px;margin-bottom:3px">Telegram bot orqali kirish</h3>
+                <p style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.5">O'qituvchi Telegram ID ni tizimga qo'shadi. Talaba botni ochadi va «Ilovani ochish» tugmasini bosadi — avtomatik kiradi. Учитель добавляет Telegram ID, студент открывает бота и входит автоматически.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step-line">
+          <div class="step-num">2</div>
+          <div class="card-dark" style="flex:1">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="font-size:24px">📖</span>
+              <div>
+                <h3 class="white" style="font-size:16px;margin-bottom:3px">Darslarni o'rganish</h3>
+                <p style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.5">Nazariy va amaliy darslar ketma-ket ochiladi. Har bir dars mavzu + rasm/audio + testdan iborat. Уроки открываются последовательно: теория + медиа + тест.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step-line">
+          <div class="step-num">3</div>
+          <div class="card-dark" style="flex:1">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="font-size:24px">🏆</span>
+              <div>
+                <h3 class="white" style="font-size:16px;margin-bottom:3px">Test → Sertifikat</h3>
+                <p style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.5">Har bir darsdan 80% va undan yuqori ball olish kerak. Barchasi tugallangach, chop etiladigan sertifikat beriladi. 80%+ по каждому уроку → сертификат об окончании.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 7: Texnologiya ══ -->
+  <div class="slide bg-night sheen" id="s6">
+    <div class="ar-watermark">التقنية</div>
+    <div style="max-width:820px;width:100%">
+      <div class="tag">Texnologiya / Технологии</div>
+      <h2 class="white" style="margin-bottom:6px">Texnologik stack</h2>
+      <p class="sub white" style="margin-bottom:32px;opacity:.6">Технологический стек платформы</p>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px">
+        <div class="tech-badge" style="padding:14px 18px">
+          <span style="font-size:22px">⚛️</span>
+          <div><div style="font-size:14px;font-weight:700">React + TypeScript</div><div style="font-size:11px;opacity:.5;margin-top:1px">Интерфейс / Interfeys</div></div>
+        </div>
+        <div class="tech-badge" style="padding:14px 18px">
+          <span style="font-size:22px">✈️</span>
+          <div><div style="font-size:14px;font-weight:700">Telegram WebApp API</div><div style="font-size:11px;opacity:.5;margin-top:1px">Mini App интеграция</div></div>
+        </div>
+        <div class="tech-badge" style="padding:14px 18px">
+          <span style="font-size:22px">🗄️</span>
+          <div><div style="font-size:14px;font-weight:700">Supabase</div><div style="font-size:11px;opacity:.5;margin-top:1px">Bulut ma'lumotlar bazasi / Облачная БД</div></div>
+        </div>
+        <div class="tech-badge" style="padding:14px 18px">
+          <span style="font-size:22px">⚡</span>
+          <div><div style="font-size:14px;font-weight:700">Vite + GitHub Pages</div><div style="font-size:11px;opacity:.5;margin-top:1px">Tez build, bepul hosting</div></div>
+        </div>
+      </div>
+      <div style="background:rgba(106,239,90,.07);border:1px solid rgba(106,239,90,.2);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:14px">
+        <span style="font-size:24px">🔒</span>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#6AEF5A;margin-bottom:3px">Xavfsizlik va himoya</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.5">O'quvchilar uchun nusxalash va screenshot blokirovkasi. O'qituvchi nomi suvbelgisi. Блокировка копирования и скриншотов для студентов.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 8: Natijalar ══ -->
+  <div class="slide bg-lime" id="s7">
+    <div style="max-width:820px;width:100%">
+      <div class="tag tag-dark">Natijalar / Результаты</div>
+      <h2 class="green" style="margin-bottom:32px">Platforma imkoniyatlari</h2>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px">
+        <div class="card center" style="padding:20px 12px">
+          <div class="num">20+</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:6px;font-weight:600">Nazariy dars<br/><span style="font-weight:400;color:var(--hint)">Теор. уроков</span></div>
+        </div>
+        <div class="card center" style="padding:20px 12px">
+          <div class="num">10+</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:6px;font-weight:600">Amaliy mashq<br/><span style="font-weight:400;color:var(--hint)">Практ. занятий</span></div>
+        </div>
+        <div class="card center" style="padding:20px 12px">
+          <div class="num">80%</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:6px;font-weight:600">O'tish bali<br/><span style="font-weight:400;color:var(--hint)">Проходной балл</span></div>
+        </div>
+        <div class="card center" style="padding:20px 12px">
+          <div class="num">∞</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:6px;font-weight:600">O'quvchilar<br/><span style="font-weight:400;color:var(--hint)">Студентов</span></div>
+        </div>
+      </div>
+      <div class="card" style="display:flex;gap:14px;align-items:center;padding:18px 22px">
+        <span style="font-size:32px">💡</span>
+        <div>
+          <h3 class="green" style="font-size:15px;margin-bottom:4px">Nima uchun bu platforma?</h3>
+          <p style="font-size:13px;color:var(--text2);line-height:1.6">O'qituvchi vaqtini tejaydi, talabalar istalgan vaqtda o'qiydi, natijalar real vaqtda kuzatiladi. Учитель экономит время, студенты учатся в любое время, результаты отслеживаются в реальном времени.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 9: Finale ══ -->
+  <div class="slide bg-dark sheen" id="s8">
+    <div class="ar-watermark">ابدأ</div>
+    <div class="col gap20 center" style="max-width:640px">
+      <div style="width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,#6AEF5A,#4cd43d);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto;box-shadow:0 8px 32px rgba(106,239,90,.4)">🚀</div>
+      <div>
+        <h1 class="white" style="font-size:clamp(28px,4vw,48px);margin-bottom:12px">Hoziroq sinab ko'ring!</h1>
+        <p class="sub white" style="opacity:.6;margin-bottom:6px">Попробуйте прямо сейчас!</p>
+        <div class="ar white" style="font-size:18px;opacity:.4;margin-top:8px">ابدأ التعلم الآن</div>
+      </div>
+      <div class="divider" style="margin:4px auto"></div>
+      <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:16px;padding:20px 32px;text-align:left;width:100%">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="font-size:18px">✈️</span>
+            <div>
+              <div style="font-size:13px;color:rgba(255,255,255,.45);font-weight:500">Telegram</div>
+              <div style="font-size:15px;color:#fff;font-weight:700">@arabic_fonetika_bot</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="font-size:18px">🌐</span>
+            <div>
+              <div style="font-size:13px;color:rgba(255,255,255,.45);font-weight:500">Web sahifa</div>
+              <div style="font-size:15px;color:#6AEF5A;font-weight:700">sayfdin949-apk.github.io/arabic-fanetika-platformasi-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:rgba(255,255,255,.2);margin-top:4px">Arab Fonetika Platformasi · 2024–2025</p>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- Progress & Nav -->
+<div class="progress-wrap"><div class="progress-bar" id="pb"></div></div>
+<div class="counter" id="ctr">1 / 9</div>
+<div class="kbd-hint">← → yoki tugmalar</div>
+<div class="nav">
+  <button id="prev" disabled>←</button>
+  <button id="next">→</button>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let cur = 0;
+
+  const pb   = document.getElementById('pb');
+  const ctr  = document.getElementById('ctr');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+
+  function go(to) {
+    if (to < 0 || to >= total) return;
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    setTimeout(() => slides[cur < to ? cur : to + (to < cur ? 0 : 0)].classList.remove('exit'), 450);
+    slides[cur].addEventListener('transitionend', function h() {
+      slides[cur].classList.remove('exit');
+      slides[cur].removeEventListener('transitionend', h);
+    });
+    cur = to;
+    slides[cur].classList.add('active');
+    pb.style.width = ((cur + 1) / total * 100) + '%';
+    ctr.textContent = (cur + 1) + ' / ' + total;
+    prev.disabled = cur === 0;
+    next.disabled = cur === total - 1;
+  }
+
+  prev.onclick = () => go(cur - 1);
+  next.onclick = () => go(cur + 1);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); go(cur + 1); }
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                    { e.preventDefault(); go(cur - 1); }
+  });
+
+  // Touch swipe
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 50) dx < 0 ? go(cur + 1) : go(cur - 1);
+  });
+
+  // Init
+  pb.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>
