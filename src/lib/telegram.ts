@@ -31,7 +31,8 @@ export function initTelegramApp() {
   const twa = window.Telegram?.WebApp;
   if (!twa) return;
   twa.ready();
-  twa.expand();
+  // expand() olib tashlandi: u ilovani Telegram header ostiga render qiladi,
+  // natijada logout va lightbox X tugmalari header ortida berkilib qoladi.
 }
 
 export function getTelegramSafeInsets(): { top: number; bottom: number } {

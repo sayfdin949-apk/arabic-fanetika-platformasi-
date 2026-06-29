@@ -286,7 +286,7 @@ export function AppShell() {
       {/* Top header */}
       <header style={{ background: T.green, position: "relative", flexShrink: 0 }}>
         <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
-        <div style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", gap: 9, padding: "10px 14px", paddingTop: tgInsets.top > 0 ? tgInsets.top + 10 : 10 }}>
+        <div style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", gap: 9, padding: "10px 14px" }}>
           <div style={{ width: 28, height: 28, borderRadius: 8, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <BookOpen size={14} color={T.onCta} />
           </div>

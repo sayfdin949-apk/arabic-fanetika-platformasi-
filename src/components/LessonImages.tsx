@@ -31,7 +31,7 @@ export function LessonImages({ type, id, isTeacher }: Props) {
         >
           <button
             onClick={() => setZoomed(null)}
-            style={{ position: "absolute", top: 16, right: 16, background: "rgba(255,255,255,.15)", border: "none", borderRadius: "50%", width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#fff" }}
+            style={{ position: "absolute", top: "max(16px, env(safe-area-inset-top, 16px))", right: 16, background: "rgba(255,255,255,.15)", border: "none", borderRadius: "50%", width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#fff" }}
           >
             <X size={18} />
           </button>
