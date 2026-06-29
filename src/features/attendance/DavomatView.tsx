@@ -42,6 +42,119 @@ function getDow(iso: string) {
   return DOW_SHORT[new Date(iso).getDay()];
 }
 
+function StudentDavomatView() {
+  const { user } = useAuth();
+  const days = lastNDays(30);
+  const [hist, setHist] = useState<Record<string, Holat | null>>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      const entries = await Promise.all(
+        days.map(async (iso) => {
+          const d = await store.get<DavomatMap>(`davomat_${iso}`);
+          return [iso, d?.[user!.id] ?? null] as [string, Holat | null];
+        }),
+      );
+      if (alive) { setHist(Object.fromEntries(entries)); setLoading(false); }
+    })();
+    return () => { alive = false; };
+  }, []);
+
+  const came = days.filter((iso) => hist[iso] === "keldi").length;
+  const missed = days.filter((iso) => hist[iso] === "kelmadi").length;
+  const marked = came + missed;
+  const pct = marked > 0 ? Math.round((came / marked) * 100) : 0;
+  const todayStr = todayISO();
+  const todayStatus = hist[todayStr];
+
+  return (
+    <div style={{ minHeight: "100dvh", background: T.meshLight }}>
+      <div style={{ background: T.gGreen, position: "relative", overflow: "hidden", padding: "20px 18px 22px" }}>
+        <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ fontSize: 10, fontWeight: 600, color: T.limeBrt, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 4 }}>
+            So'nggi 30 kun
+          </div>
+          <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 14 }}>Mening davomatim</div>
+          <div style={{ display: "flex", gap: 8 }}>
+            {[
+              { label: "Keldi", value: `${came}`, color: T.limeBrt },
+              { label: "Kelmadi", value: `${missed}`, color: "#ff8080" },
+              { label: "Davomat", value: marked > 0 ? `${pct}%` : "—", color: "#fff" },
+            ].map((s) => (
+              <div key={s.label} style={{ flex: 1, background: "rgba(255,255,255,.12)", borderRadius: 10, padding: "10px 8px", textAlign: "center" }}>
+                <div style={{ fontSize: 18, fontWeight: 800, color: s.color }}>{s.value}</div>
+                <div style={{ fontSize: 10, color: "rgba(255,255,255,.6)", marginTop: 2 }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div style={{ padding: "16px 16px 28px" }}>
+        {/* Bugun */}
+        <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", padding: "14px 16px", marginBottom: 14, display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ width: 44, height: 44, borderRadius: 12, background: todayStatus === "keldi" ? T.gLime : todayStatus === "kelmadi" ? "rgba(230,0,35,.12)" : "rgba(13,58,26,.07)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            {todayStatus === "keldi" ? <CheckCircle size={22} color={T.onCta} /> : todayStatus === "kelmadi" ? <XCircle size={22} color={T.red} /> : <Clock size={22} color={T.hint} />}
+          </div>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: T.green }}>Bugun — {formatDateFull(todayStr)}</div>
+            <div style={{ fontSize: 12, color: todayStatus === "keldi" ? T.lime : todayStatus === "kelmadi" ? T.red : T.hint, marginTop: 2, fontWeight: 600 }}>
+              {todayStatus === "keldi" ? "Keldingiz ✓" : todayStatus === "kelmadi" ? "Kelmagansiz ✗" : "Belgilanmagan"}
+            </div>
+          </div>
+        </div>
+
+        {/* 30-kunlik kalendar */}
+        <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", padding: "14px 14px 16px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
+            <CalendarDays size={14} color={T.green} />
+            <span style={{ fontSize: 13, fontWeight: 700, color: T.green }}>30 kunlik tarix</span>
+          </div>
+          {loading ? (
+            <div style={{ textAlign: "center", color: T.hint, fontSize: 12, padding: "16px 0" }}>Yuklanmoqda…</div>
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 6 }}>
+              {days.map((iso) => {
+                const h = hist[iso];
+                const isToday = iso === todayStr;
+                const bg = h === "keldi" ? "rgba(46,184,46,.15)" : h === "kelmadi" ? "rgba(230,0,35,.1)" : "rgba(13,58,26,.04)";
+                const border = isToday ? `2px solid ${T.lime}` : "1px solid transparent";
+                return (
+                  <div key={iso} style={{ borderRadius: 8, background: bg, border, padding: "5px 2px", textAlign: "center" }}>
+                    <div style={{ fontSize: 9, color: T.hint, marginBottom: 2 }}>{getDow(iso)}</div>
+                    <div style={{ fontSize: 11, fontWeight: isToday ? 800 : 600, color: h === "keldi" ? T.green : h === "kelmadi" ? T.red : T.hint }}>
+                      {formatDate(iso).split(" ")[0]}
+                    </div>
+                    <div style={{ fontSize: 12, marginTop: 1 }}>
+                      {h === "keldi" ? "✓" : h === "kelmadi" ? "✗" : "·"}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {/* Legend */}
+          <div style={{ display: "flex", gap: 14, marginTop: 14, justifyContent: "center" }}>
+            {[
+              { color: "rgba(46,184,46,.15)", label: "Keldi", text: T.green },
+              { color: "rgba(230,0,35,.1)", label: "Kelmadi", text: T.red },
+              { color: "rgba(13,58,26,.04)", label: "Belgilanmagan", text: T.hint },
+            ].map((l) => (
+              <div key={l.label} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                <div style={{ width: 12, height: 12, borderRadius: 3, background: l.color }} />
+                <span style={{ fontSize: 10, color: l.text }}>{l.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function DavomatView() {
   const { user, users } = useAuth();
   const [mode, setMode] = useState<ViewMode>("kunlik");
@@ -80,6 +193,7 @@ export function DavomatView() {
     return () => { alive = false; };
   }, [mode]);
 
+  if (user?.role === "student") return <StudentDavomatView />;
   if (user?.role !== "teacher") return <Navigate to="/" replace />;
 
   const set = (id: string, holat: Holat) => {

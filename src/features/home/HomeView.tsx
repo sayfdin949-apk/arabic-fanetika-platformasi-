@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, Layers, ArrowRight, Star, Users, ClipboardCheck, BarChart2 } from "lucide-react";
+import { BookOpen, Layers, ArrowRight, Star, Users, ClipboardCheck, BarChart2, Flame } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
@@ -226,7 +226,7 @@ function TeacherHome() {
 export function HomeView() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { nazDone, amalDone } = useProgress();
+  const { nazDone, amalDone, streak } = useProgress();
 
   if (user?.role === "teacher") return <TeacherHome />;
 
@@ -241,6 +241,10 @@ export function HomeView() {
 
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Xayrli tong" : hour < 17 ? "Xayrli kun" : "Xayrli kech";
+
+  const todayStr = new Date().toLocaleDateString("uz");
+  const hasLessonToday = Object.values(nazDone).some((d) => d.sana === todayStr) ||
+    Object.values(amalDone).some((d) => d.sana === todayStr);
 
   return (
     <div style={{ minHeight: "100dvh", background: T.meshLight }}>
@@ -328,6 +332,25 @@ export function HomeView() {
           </div>
           <ArrowRight size={20} />
         </button>
+
+        {/* Streak ogohlantirish */}
+        {!hasLessonToday && streak.days > 0 && (
+          <div
+            onClick={() => navigate("/dars")}
+            style={{ background: "rgba(255,107,53,.08)", border: "1px solid rgba(255,107,53,.25)", borderRadius: 12, padding: "12px 14px", display: "flex", gap: 10, alignItems: "center", cursor: "pointer", marginBottom: 0 }}
+          >
+            <Flame size={20} color="#FF6B35" style={{ flexShrink: 0 }} />
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "#FF6B35", marginBottom: 2 }}>
+                BUGUN HALI DARS QO'LMADINGIZ
+              </div>
+              <div style={{ fontSize: 12, color: T.text2, lineHeight: 1.4 }}>
+                {streak.days}-kunlik streakingizni saqlash uchun hozir bir dars o'ting.
+              </div>
+            </div>
+            <ArrowRight size={16} color="#FF6B35" style={{ flexShrink: 0 }} />
+          </div>
+        )}
 
         {/* Daily tip */}
         <div style={{

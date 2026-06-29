@@ -36,7 +36,7 @@ export const NAV: NavItem[] = [
   { to: "/xatolar", label: "Xatolar", icon: AlertTriangle, roles: ALL, bottom: false },
   { to: "/juftlar", label: "Minimal juftlar", icon: BookMarked, roles: ALL, bottom: false },
   { to: "/sertifikat", label: "Sertifikat", icon: Award, roles: ALL, bottom: false },
-  { to: "/davomat", label: "Davomat", icon: ClipboardCheck, roles: ["teacher"], bottom: false },
+  { to: "/davomat", label: "Davomat", icon: ClipboardCheck, roles: ALL, bottom: false },
   { to: "/oquvchilar", label: "O'quvchilar", icon: Users, roles: ["teacher"], bottom: false },
   { to: "/guruhlar", label: "Guruhlar", icon: LayersIcon, roles: ["teacher"], bottom: false },
 ];

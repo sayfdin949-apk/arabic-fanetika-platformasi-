@@ -1,19 +1,23 @@
 import { useRef } from "react";
-import { Award, Printer, Lock, CheckCircle } from "lucide-react";
+import { Award, Printer, Lock, CheckCircle, BookOpen, Layers } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import { useProgress } from "../progress/ProgressContext";
 import { useAuth } from "../../auth/AuthContext";
 import { NAZARIY } from "../../content/nazariy";
+import { AMALIY } from "../../content/amaliy";
 
 export function SertifikatView() {
-  const { nazDone } = useProgress();
+  const { nazDone, amalDone } = useProgress();
   const { user } = useAuth();
   const certRef = useRef<HTMLDivElement>(null);
 
-  const total = NAZARIY.length;
-  const passed = NAZARIY.filter((d) => (nazDone[d.id]?.pct ?? 0) >= 80);
-  const isComplete = passed.length === total;
-  const pct = Math.round((passed.length / total) * 100);
+  const nazTotal = NAZARIY.length;
+  const amalTotal = AMALIY.length;
+  const nazPassed = NAZARIY.filter((d) => (nazDone[d.id]?.pct ?? 0) >= 80);
+  const amalPassed = AMALIY.filter((b) => (amalDone[b.id]?.pct ?? 0) >= 80);
+  const isComplete = nazPassed.length === nazTotal && amalPassed.length === amalTotal;
+
+  const total = nazTotal;
 
   const today = new Date().toLocaleDateString("uz-UZ", { year: "numeric", month: "long", day: "numeric" });
   const fullName = user ? `${user.ism} ${user.familya}` : "O'quvchi";
@@ -38,19 +42,37 @@ export function SertifikatView() {
               Sertifikat hali mavjud emas
             </div>
             <div style={{ fontSize: 13, color: T.text2, marginBottom: 20, lineHeight: 1.6 }}>
-              Sertifikat olish uchun barcha {total} ta nazariy darsni <strong>80%</strong> yoki undan yuqori natija bilan tugatishingiz kerak.
+              Sertifikat olish uchun barcha nazariy va amaliy darslarni <strong>80%</strong> yoki undan yuqori natija bilan tugatish kerak.
             </div>
 
-            {/* Progress */}
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                <span style={{ fontSize: 13, color: T.text2, fontWeight: 600 }}>Jarayon</span>
-                <span style={{ fontSize: 13, fontWeight: 700, color: T.green }}>{passed.length}/{total}</span>
-              </div>
-              <div style={{ height: 10, borderRadius: 5, background: "rgba(13,58,26,.08)", overflow: "hidden" }}>
-                <div style={{ height: "100%", width: `${pct}%`, borderRadius: 5, background: T.gLimeH, transition: "width .5s ease" }} />
-              </div>
-              <div style={{ fontSize: 12, color: T.hint, marginTop: 6 }}>{pct}% — yana {total - passed.length} ta dars qoldi</div>
+            {/* Progress — ikki qism */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 20 }}>
+              {[
+                { icon: BookOpen, label: "Nazariy", done: nazPassed.length, total: nazTotal, color: T.lime },
+                { icon: Layers, label: "Amaliy", done: amalPassed.length, total: amalTotal, color: "#f59e0b" },
+              ].map((r) => {
+                const rPct = Math.round((r.done / r.total) * 100);
+                return (
+                  <div key={r.label}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        <r.icon size={13} color={r.color} />
+                        <span style={{ fontSize: 13, fontWeight: 600, color: T.green }}>{r.label}</span>
+                      </div>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: r.done === r.total ? r.color : T.hint }}>{r.done}/{r.total}</span>
+                    </div>
+                    <div style={{ height: 8, borderRadius: 4, background: "rgba(13,58,26,.08)", overflow: "hidden" }}>
+                      <div style={{ height: "100%", width: `${rPct}%`, borderRadius: 4, background: r.color, transition: "width .5s ease" }} />
+                    </div>
+                    {r.done < r.total && (
+                      <div style={{ fontSize: 11, color: T.hint, marginTop: 4 }}>Yana {r.total - r.done} ta qoldi</div>
+                    )}
+                    {r.done === r.total && (
+                      <div style={{ fontSize: 11, color: r.color, fontWeight: 600, marginTop: 4 }}>✓ Tugallandi</div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             {/* List of incomplete lessons */}
@@ -145,15 +167,16 @@ export function SertifikatView() {
             {fullName}
           </div>
           <div style={{ fontSize: 13, color: T.text2, marginTop: 8, marginBottom: 16, lineHeight: 1.7 }}>
-            ga <strong>Arab Fonetika Kursi</strong> bo'yicha {total} ta nazariy darsni
+            ga <strong>Arab Fonetika Kursi</strong> bo'yicha {nazTotal} ta nazariy va {amalTotal} ta amaliy darsni
             <br />muvaffaqiyatli tamomladi ekanligini tasdiqlaydigan
           </div>
 
           {/* Completion stats */}
           <div style={{ display: "flex", justifyContent: "center", gap: 24, marginBottom: 20 }}>
             {[
-              { label: "Darslar", value: `${total}` },
-              { label: "O'rtacha", value: `${Math.round(Object.values(nazDone).reduce((s, d) => s + d.pct, 0) / total)}%` },
+              { label: "Nazariy", value: `${nazTotal}` },
+              { label: "Amaliy", value: `${amalTotal}` },
+              { label: "O'rtacha", value: `${Math.round(Object.values(nazDone).reduce((s, d) => s + d.pct, 0) / nazTotal)}%` },
             ].map((s) => (
               <div key={s.label} style={{ textAlign: "center" }}>
                 <div style={{ fontSize: 22, fontWeight: 800, color: T.green }}>{s.value}</div>
