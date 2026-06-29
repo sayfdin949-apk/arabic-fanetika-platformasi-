@@ -1,6 +1,6 @@
 import { useState, useEffect, type CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, UserCheck, Send, ChevronLeft, XCircle, Eye, EyeOff } from "lucide-react";
+import { BookOpen, UserCheck, Send, ChevronLeft, XCircle, Eye, EyeOff, Copy, Check } from "lucide-react";
 import { T, FONT } from "../theme/tokens";
 import { useAuth } from "./AuthContext";
 import { isTelegramMiniApp, getTelegramUser, initTelegramApp } from "../lib/telegram";
@@ -15,6 +15,14 @@ export function Login() {
   const [err, setErr] = useState("");
   const [tgNotFound, setTgNotFound] = useState<number | null>(null);
   const [tgChecked, setTgChecked] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const copyId = (id: number) => {
+    navigator.clipboard.writeText(String(id)).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
 
   useEffect(() => {
     if (!auth.ready || tgChecked) return;
@@ -76,8 +84,26 @@ export function Login() {
             Telegram hisobingiz platformaga ulanmagan. Quyidagi ID ni o'qituvchiga yuboring — u sizni tizimga qo'shadi.
           </div>
           <div style={{ background: "rgba(0,0,0,.3)", borderRadius: 14, padding: "16px 20px", marginBottom: 20 }}>
-            <div style={{ fontSize: 10, color: "rgba(255,255,255,.45)", marginBottom: 6, letterSpacing: ".08em", textTransform: "uppercase" }}>Sizning Telegram ID</div>
-            <div style={{ fontSize: 32, fontWeight: 800, color: T.limeBrt, letterSpacing: ".04em" }}>{tgNotFound}</div>
+            <div style={{ fontSize: 10, color: "rgba(255,255,255,.45)", marginBottom: 10, letterSpacing: ".08em", textTransform: "uppercase" }}>Sizning Telegram ID</div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12 }}>
+              <div style={{ fontSize: 32, fontWeight: 800, color: T.limeBrt, letterSpacing: ".04em" }}>{tgNotFound}</div>
+              <button
+                onClick={() => copyId(tgNotFound)}
+                style={{
+                  display: "flex", alignItems: "center", gap: 6,
+                  background: copied ? "rgba(106,239,90,.25)" : "rgba(255,255,255,.12)",
+                  border: `1px solid ${copied ? "rgba(106,239,90,.5)" : "rgba(255,255,255,.2)"}`,
+                  borderRadius: 10, padding: "8px 14px",
+                  color: copied ? T.limeBrt : "rgba(255,255,255,.8)",
+                  fontSize: 13, fontWeight: 600, cursor: "pointer",
+                  transition: "all .2s",
+                  flexShrink: 0,
+                }}
+              >
+                {copied ? <Check size={15} /> : <Copy size={15} />}
+                {copied ? "Nusxalandi!" : "Nusxalash"}
+              </button>
+            </div>
           </div>
           <div style={{ fontSize: 12, color: "rgba(255,255,255,.45)", lineHeight: 1.6 }}>
             ID ni ustozga yuboring. U "O'quvchilar" bo'limida sizning kartangizga ID ni kiritadi. Keyin ilovani qayta oching.
