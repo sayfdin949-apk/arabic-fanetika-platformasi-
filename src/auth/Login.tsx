@@ -1,6 +1,6 @@
 import { useState, useEffect, type CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, UserCheck, Send, ChevronLeft, XCircle, Eye, EyeOff, Copy, Check } from "lucide-react";
+import { BookOpen, UserCheck, Send, XCircle, Eye, EyeOff, Copy, Check } from "lucide-react";
 import { T, FONT } from "../theme/tokens";
 import { useAuth } from "./AuthContext";
 import { isTelegramMiniApp, getTelegramUser, initTelegramApp } from "../lib/telegram";
@@ -8,7 +8,6 @@ import { isTelegramMiniApp, getTelegramUser, initTelegramApp } from "../lib/tele
 export function Login() {
   const auth = useAuth();
   const navigate = useNavigate();
-  const [showTeacher, setShowTeacher] = useState(false);
   const [login, setLogin] = useState("");
   const [parol, setParol] = useState("");
   const [showParol, setShowParol] = useState(false);
@@ -58,23 +57,23 @@ export function Login() {
     boxSizing: "border-box",
   };
 
-  const wrap: CSSProperties = {
+  const page: CSSProperties = {
     minHeight: "100dvh",
     background: T.meshHero,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
     fontFamily: FONT,
     position: "relative",
-    overflow: "hidden",
-    padding: 16,
+    overflowY: "auto",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "32px 16px 40px",
   };
 
   /* ── Telegram topilmadi ekrani ── */
   if (tgNotFound !== null) {
     return (
-      <div style={wrap}>
-        <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
+      <div style={page}>
+        <div style={{ position: "fixed", inset: 0, background: T.sheen, pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 1, width: 360, maxWidth: "100%", textAlign: "center" }}>
           <div style={{ width: 64, height: 64, borderRadius: 18, background: "rgba(255,255,255,.15)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 18px" }}>
             <Send size={30} color="#fff" />
@@ -115,9 +114,9 @@ export function Login() {
 
   /* ── Asosiy ekran ── */
   return (
-    <div style={wrap}>
-      <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
-      <div style={{ position: "relative", zIndex: 1, width: 380, maxWidth: "100%" }}>
+    <div style={page}>
+      <div style={{ position: "fixed", inset: 0, background: T.sheen, pointerEvents: "none" }} />
+      <div style={{ position: "relative", zIndex: 1, width: 400, maxWidth: "100%" }}>
 
         {/* Logo + sarlavha */}
         <div style={{ textAlign: "center", marginBottom: 28 }}>
@@ -128,106 +127,93 @@ export function Login() {
           <div style={{ width: 60, height: 4, background: T.gLimeH, borderRadius: 2, margin: "10px auto 0" }} />
         </div>
 
-        {!showTeacher ? (
-          /* ── Rol tanlash ── */
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-
-            {/* O'quvchi kartasi */}
-            <div style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 16, padding: 20 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(41,182,246,.25)", border: "1px solid rgba(41,182,246,.4)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Send size={22} color="#7dd3fc" />
-                </div>
-                <div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>O'quvchi</div>
-                  <div style={{ fontSize: 12, color: "rgba(255,255,255,.55)", marginTop: 2 }}>Telegram orqali kirish</div>
-                </div>
-              </div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,.6)", lineHeight: 1.7, marginBottom: 16 }}>
-                O'quvchilar Telegram bot orqali kiradi — parol talab qilinmaydi. Botni ochib, "Ilovani ochish" tugmasini bosing.
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {[
-                  { n: "1", t: "Telegram botini oching" },
-                  { n: "2", t: "«Ilovani ochish» tugmasini bosing" },
-                  { n: "3", t: "Avtomatik kiriladi" },
-                ].map((s) => (
-                  <div key={s.n} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <div style={{ width: 22, height: 22, borderRadius: 6, background: "rgba(41,182,246,.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 800, color: "#7dd3fc", flexShrink: 0 }}>{s.n}</div>
-                    <div style={{ fontSize: 12, color: "rgba(255,255,255,.7)" }}>{s.t}</div>
-                  </div>
-                ))}
-              </div>
+        {/* ── O'quvchi bo'limi ── */}
+        <div style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 16, padding: 18, marginBottom: 12 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+            <div style={{ width: 40, height: 40, borderRadius: 10, background: "rgba(41,182,246,.25)", border: "1px solid rgba(41,182,246,.4)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <Send size={18} color="#7dd3fc" />
             </div>
-
-            {/* O'qituvchi tugmasi */}
-            <button
-              onClick={() => setShowTeacher(true)}
-              style={{ width: "100%", background: T.gLime, border: "none", borderRadius: 14, padding: "15px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, color: T.onCta, fontSize: 14, fontWeight: 700, boxShadow: "0 4px 14px rgba(46,184,46,.35)" }}
-            >
-              <UserCheck size={18} />
-              O'qituvchi kirishi
-            </button>
+            <div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>O'quvchi</div>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,.5)" }}>Telegram orqali kirish</div>
+            </div>
           </div>
-        ) : (
-          /* ── O'qituvchi login formasi ── */
-          <div style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 14, padding: 20 }}>
-            <button
-              onClick={() => { setShowTeacher(false); setErr(""); setLogin(""); setParol(""); }}
-              style={{ background: "rgba(255,255,255,.1)", border: "none", borderRadius: 7, padding: "4px 9px", cursor: "pointer", display: "flex", alignItems: "center", gap: 4, color: "rgba(255,255,255,.7)", fontSize: 11, marginBottom: 14 }}
-            >
-              <ChevronLeft size={12} /> Orqaga
-            </button>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-              <div style={{ width: 36, height: 36, borderRadius: 10, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <UserCheck size={18} color={T.onCta} />
+          <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+            {[
+              { n: "1", t: "Telegram botini oching" },
+              { n: "2", t: "«Ilovani ochish» tugmasini bosing" },
+              { n: "3", t: "Avtomatik kiriladi" },
+            ].map((s) => (
+              <div key={s.n} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{ width: 20, height: 20, borderRadius: 6, background: "rgba(41,182,246,.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 800, color: "#7dd3fc", flexShrink: 0 }}>{s.n}</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,.65)" }}>{s.t}</div>
               </div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>O'qituvchi kirishi</div>
+            ))}
+          </div>
+        </div>
+
+        {/* Ajratuvchi */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+          <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,.15)" }} />
+          <span style={{ fontSize: 11, color: "rgba(255,255,255,.35)", fontWeight: 600, letterSpacing: ".05em" }}>YOKI</span>
+          <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,.15)" }} />
+        </div>
+
+        {/* ── O'qituvchi bo'limi ── */}
+        <div style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.2)", borderRadius: 16, padding: 20 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+            <div style={{ width: 36, height: 36, borderRadius: 10, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <UserCheck size={18} color={T.onCta} />
             </div>
-            <div style={{ marginBottom: 10 }}>
-              <label style={{ fontSize: 11, color: "rgba(255,255,255,.6)", display: "block", marginBottom: 4 }}>Login</label>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>O'qituvchi kirishi</div>
+          </div>
+
+          <div style={{ marginBottom: 10 }}>
+            <label style={{ fontSize: 11, color: "rgba(255,255,255,.6)", display: "block", marginBottom: 4 }}>Login</label>
+            <input
+              value={login}
+              onChange={(e) => { setLogin(e.target.value); setErr(""); }}
+              onKeyDown={(e) => e.key === "Enter" && tryLogin()}
+              placeholder="ustoz"
+              style={inp}
+            />
+          </div>
+
+          <div style={{ marginBottom: err ? 6 : 14 }}>
+            <label style={{ fontSize: 11, color: "rgba(255,255,255,.6)", display: "block", marginBottom: 4 }}>Parol</label>
+            <div style={{ position: "relative" }}>
               <input
-                value={login}
-                onChange={(e) => { setLogin(e.target.value); setErr(""); }}
+                type={showParol ? "text" : "password"}
+                value={parol}
+                onChange={(e) => { setParol(e.target.value); setErr(""); }}
                 onKeyDown={(e) => e.key === "Enter" && tryLogin()}
-                placeholder="ustoz"
-                style={inp}
+                placeholder="••••"
+                style={{ ...inp, paddingRight: 40 }}
               />
+              <button
+                type="button"
+                onClick={() => setShowParol((p) => !p)}
+                style={{ position: "absolute", right: 6, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,.6)", display: "flex", alignItems: "center", justifyContent: "center", width: 30, height: 30 }}
+                aria-label={showParol ? "Yashirish" : "Ko'rsatish"}
+              >
+                {showParol ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
             </div>
-            <div style={{ marginBottom: 8 }}>
-              <label style={{ fontSize: 11, color: "rgba(255,255,255,.6)", display: "block", marginBottom: 4 }}>Parol</label>
-              <div style={{ position: "relative" }}>
-                <input
-                  type={showParol ? "text" : "password"}
-                  value={parol}
-                  onChange={(e) => { setParol(e.target.value); setErr(""); }}
-                  onKeyDown={(e) => e.key === "Enter" && tryLogin()}
-                  placeholder="••••"
-                  style={{ ...inp, paddingRight: 40 }}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowParol((p) => !p)}
-                  style={{ position: "absolute", right: 6, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,.6)", display: "flex", alignItems: "center", justifyContent: "center", width: 30, height: 30 }}
-                  aria-label={showParol ? "Yashirish" : "Ko'rsatish"}
-                >
-                  {showParol ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
-              </div>
-            </div>
-            {err && (
-              <div style={{ fontSize: 12, color: "#ff8a95", marginBottom: 9, display: "flex", alignItems: "center", gap: 4 }}>
-                <XCircle size={12} /> {err}
-              </div>
-            )}
-            <button
-              onClick={tryLogin}
-              style={{ width: "100%", background: T.gLime, border: "none", borderRadius: 10, padding: "11px", cursor: "pointer", fontSize: 13, fontWeight: 600, color: T.onCta, marginTop: 5, boxShadow: "0 2px 8px rgba(46,184,46,.4)" }}
-            >
-              Kirish
-            </button>
           </div>
-        )}
+
+          {err && (
+            <div style={{ fontSize: 12, color: "#ff8a95", marginBottom: 10, display: "flex", alignItems: "center", gap: 4 }}>
+              <XCircle size={12} /> {err}
+            </div>
+          )}
+
+          <button
+            onClick={tryLogin}
+            style={{ width: "100%", background: T.gLime, border: "none", borderRadius: 10, padding: "13px", cursor: "pointer", fontSize: 14, fontWeight: 700, color: T.onCta, boxShadow: "0 4px 14px rgba(46,184,46,.4)", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
+          >
+            <UserCheck size={17} /> Kirish
+          </button>
+        </div>
       </div>
     </div>
   );
