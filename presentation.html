@@ -573,13 +573,10 @@
 
   function go(to) {
     if (to < 0 || to >= total) return;
-    slides[cur].classList.remove('active');
-    slides[cur].classList.add('exit');
-    setTimeout(() => slides[cur < to ? cur : to + (to < cur ? 0 : 0)].classList.remove('exit'), 450);
-    slides[cur].addEventListener('transitionend', function h() {
-      slides[cur].classList.remove('exit');
-      slides[cur].removeEventListener('transitionend', h);
-    });
+    const from = cur;
+    slides[from].classList.remove('active');
+    slides[from].classList.add('exit');
+    setTimeout(() => slides[from].classList.remove('exit'), 450);
     cur = to;
     slides[cur].classList.add('active');
     pb.style.width = ((cur + 1) / total * 100) + '%';
