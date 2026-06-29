@@ -6,6 +6,7 @@ import { useAuth } from "../auth/AuthContext";
 import { useProgress } from "../features/progress/ProgressContext";
 import { navForRole, type NavItem } from "./nav";
 import { useMediaQuery } from "../lib/useMediaQuery";
+import { isTelegramMiniApp, getTelegramSafeInsets } from "../lib/telegram";
 
 function useStudentGuard(isStudent: boolean) {
   useEffect(() => {
@@ -144,6 +145,16 @@ export function AppShell() {
 
   const { streak } = useProgress();
 
+  const [tgInsets, setTgInsets] = useState({ top: 0, bottom: 0 });
+  useEffect(() => {
+    if (!isTelegramMiniApp()) return;
+    const update = () => setTgInsets(getTelegramSafeInsets());
+    update();
+    const twa = window.Telegram?.WebApp as any;
+    twa?.onEvent?.("viewportChanged", update);
+    return () => twa?.offEvent?.("viewportChanged", update);
+  }, []);
+
   if (!user) return null;
   const items = navForRole(user.role);
   const roleLabel = user.role === "teacher" ? "O'qituvchi" : "O'quvchi";
@@ -273,7 +284,7 @@ export function AppShell() {
       {/* Top header */}
       <header style={{ background: T.green, position: "relative", flexShrink: 0 }}>
         <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
-        <div style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", gap: 9, padding: "10px 14px" }}>
+        <div style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", gap: 9, padding: "10px 14px", paddingTop: tgInsets.top > 0 ? tgInsets.top + 10 : 10 }}>
           <div style={{ width: 28, height: 28, borderRadius: 8, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <BookOpen size={14} color={T.onCta} />
           </div>
@@ -299,7 +310,7 @@ export function AppShell() {
       {isStudent && <Watermark name={`${user.ism} ${user.familya}`} />}
 
       {/* Bottom tab bar */}
-      <nav style={{ display: "flex", background: "#fff", borderTop: "1px solid rgba(13,58,26,.1)", flexShrink: 0, paddingBottom: "env(safe-area-inset-bottom)" }}>
+      <nav style={{ display: "flex", background: "#fff", borderTop: "1px solid rgba(13,58,26,.1)", flexShrink: 0, paddingBottom: tgInsets.bottom > 0 ? tgInsets.bottom : "env(safe-area-inset-bottom)" }}>
         {bottomItems.map(renderTab)}
         {moreItems.length > 0 && (
           <button
@@ -315,7 +326,7 @@ export function AppShell() {
       {/* More sheet */}
       {moreOpen && (
         <div onClick={() => setMoreOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.4)", zIndex: 50, display: "flex", alignItems: "flex-end" }}>
-          <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "16px 16px 0 0", padding: 16, paddingBottom: "calc(16px + env(safe-area-inset-bottom))" }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "16px 16px 0 0", padding: 16, paddingBottom: tgInsets.bottom > 0 ? tgInsets.bottom + 16 : "calc(16px + env(safe-area-inset-bottom))" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
               <span style={{ fontSize: 14, fontWeight: 600, color: T.green }}>Ko'proq</span>
               <button onClick={() => setMoreOpen(false)} style={{ background: "rgba(13,58,26,.07)", border: "none", borderRadius: 8, width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center", color: T.text2 }}>
