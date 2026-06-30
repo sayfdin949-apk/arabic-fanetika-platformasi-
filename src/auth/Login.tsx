@@ -69,6 +69,63 @@ export function Login() {
     padding: "32px 16px 40px",
   };
 
+  const ceoBox = (
+    <div style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.2)", borderRadius: 16, padding: 20 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+        <div style={{ width: 36, height: 36, borderRadius: 10, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <UserCheck size={18} color={T.onCta} />
+        </div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>Boshqaruv kirishi</div>
+      </div>
+
+      <div style={{ marginBottom: 10 }}>
+        <label style={{ fontSize: 11, color: "rgba(255,255,255,.6)", display: "block", marginBottom: 4 }}>Login</label>
+        <input
+          value={login}
+          onChange={(e) => { setLogin(e.target.value); setErr(""); }}
+          onKeyDown={(e) => e.key === "Enter" && tryLogin()}
+          placeholder="login"
+          style={inp}
+        />
+      </div>
+
+      <div style={{ marginBottom: err ? 6 : 14 }}>
+        <label style={{ fontSize: 11, color: "rgba(255,255,255,.6)", display: "block", marginBottom: 4 }}>Parol</label>
+        <div style={{ position: "relative" }}>
+          <input
+            type={showParol ? "text" : "password"}
+            value={parol}
+            onChange={(e) => { setParol(e.target.value); setErr(""); }}
+            onKeyDown={(e) => e.key === "Enter" && tryLogin()}
+            placeholder="••••"
+            style={{ ...inp, paddingRight: 40 }}
+          />
+          <button
+            type="button"
+            onClick={() => setShowParol((p) => !p)}
+            style={{ position: "absolute", right: 6, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,.6)", display: "flex", alignItems: "center", justifyContent: "center", width: 30, height: 30 }}
+            aria-label={showParol ? "Yashirish" : "Ko'rsatish"}
+          >
+            {showParol ? <EyeOff size={16} /> : <Eye size={16} />}
+          </button>
+        </div>
+      </div>
+
+      {err && (
+        <div style={{ fontSize: 12, color: "#ff8a95", marginBottom: 10, display: "flex", alignItems: "center", gap: 4 }}>
+          <XCircle size={12} /> {err}
+        </div>
+      )}
+
+      <button
+        onClick={tryLogin}
+        style={{ width: "100%", background: T.gLime, border: "none", borderRadius: 10, padding: "13px", cursor: "pointer", fontSize: 14, fontWeight: 700, color: T.onCta, boxShadow: "0 4px 14px rgba(46,184,46,.4)", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
+      >
+        <UserCheck size={17} /> Kirish
+      </button>
+    </div>
+  );
+
   /* ── Telegram topilmadi ekrani ── */
   if (tgNotFound !== null) {
     return (
@@ -107,6 +164,14 @@ export function Login() {
           <div style={{ fontSize: 12, color: "rgba(255,255,255,.45)", lineHeight: 1.6, marginBottom: 24 }}>
             ID ni mas'ul shaxsga yuboring. U sizning kartangizga ID ni kiritadi. Keyin ilovani qayta oching.
           </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
+            <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,.15)" }} />
+            <span style={{ fontSize: 11, color: "rgba(255,255,255,.35)", fontWeight: 600, letterSpacing: ".05em" }}>YOKI</span>
+            <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,.15)" }} />
+          </div>
+
+          <div style={{ textAlign: "left" }}>{ceoBox}</div>
         </div>
       </div>
     );
@@ -160,60 +225,7 @@ export function Login() {
         </div>
 
         {/* ── Boshqaruv (CEO) bo'limi ── */}
-        <div style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.2)", borderRadius: 16, padding: 20 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-            <div style={{ width: 36, height: 36, borderRadius: 10, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <UserCheck size={18} color={T.onCta} />
-            </div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>Boshqaruv kirishi</div>
-          </div>
-
-          <div style={{ marginBottom: 10 }}>
-            <label style={{ fontSize: 11, color: "rgba(255,255,255,.6)", display: "block", marginBottom: 4 }}>Login</label>
-            <input
-              value={login}
-              onChange={(e) => { setLogin(e.target.value); setErr(""); }}
-              onKeyDown={(e) => e.key === "Enter" && tryLogin()}
-              placeholder="login"
-              style={inp}
-            />
-          </div>
-
-          <div style={{ marginBottom: err ? 6 : 14 }}>
-            <label style={{ fontSize: 11, color: "rgba(255,255,255,.6)", display: "block", marginBottom: 4 }}>Parol</label>
-            <div style={{ position: "relative" }}>
-              <input
-                type={showParol ? "text" : "password"}
-                value={parol}
-                onChange={(e) => { setParol(e.target.value); setErr(""); }}
-                onKeyDown={(e) => e.key === "Enter" && tryLogin()}
-                placeholder="••••"
-                style={{ ...inp, paddingRight: 40 }}
-              />
-              <button
-                type="button"
-                onClick={() => setShowParol((p) => !p)}
-                style={{ position: "absolute", right: 6, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,.6)", display: "flex", alignItems: "center", justifyContent: "center", width: 30, height: 30 }}
-                aria-label={showParol ? "Yashirish" : "Ko'rsatish"}
-              >
-                {showParol ? <EyeOff size={16} /> : <Eye size={16} />}
-              </button>
-            </div>
-          </div>
-
-          {err && (
-            <div style={{ fontSize: 12, color: "#ff8a95", marginBottom: 10, display: "flex", alignItems: "center", gap: 4 }}>
-              <XCircle size={12} /> {err}
-            </div>
-          )}
-
-          <button
-            onClick={tryLogin}
-            style={{ width: "100%", background: T.gLime, border: "none", borderRadius: 10, padding: "13px", cursor: "pointer", fontSize: 14, fontWeight: 700, color: T.onCta, boxShadow: "0 4px 14px rgba(46,184,46,.4)", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
-          >
-            <UserCheck size={17} /> Kirish
-          </button>
-        </div>
+        {ceoBox}
       </div>
     </div>
   );
