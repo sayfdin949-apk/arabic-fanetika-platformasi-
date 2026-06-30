@@ -3,6 +3,7 @@ import type { User, Role } from "./types";
 import { SEED_USERS } from "./users";
 import { usersApi } from "../lib/usersApi";
 import { store } from "../lib/storage";
+import { isTelegramMiniApp, getTelegramInitData, initTelegramApp } from "../lib/telegram";
 
 interface AuthValue {
   user: User | null;
@@ -55,6 +56,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     (async () => {
       const list = await usersApi.getUsers();
       setUsers(list);
+
+      // Telegram Mini App ichida bo'lsak, Telegram orqali HMAC bilan
+      // tasdiqlangan joriy hisob HAR DOIM shu qurilmada eski saqlangan
+      // sessiyadan (masalan, avval CEO parol bilan kirilgan bo'lsa) ustun
+      // turishi kerak — aks holda bitta qurilmada avval boshqa hisob bilan
+      // kirilgan bo'lsa, Telegram orqali ochilganda ham o'sha eski
+      // foydalanuvchi ko'rsatilib qolar edi.
+      if (isTelegramMiniApp()) {
+        initTelegramApp();
+        const initData = getTelegramInitData();
+        if (initData) {
+          const tgUser = await usersApi.loginWithTelegram(initData);
+          if (tgUser) {
+            setUser(tgUser);
+            setLocalSession(tgUser.id);
+            await loadAvatar(tgUser.id);
+            setReady(true);
+            return;
+          }
+        }
+      }
+
       const id = getLocalSession();
       if (id) {
         // Sessiyadagi foydalanuvchi sanitizatsiya qilingan ro'yxatda bo'lmasligi
