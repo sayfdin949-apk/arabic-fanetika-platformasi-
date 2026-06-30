@@ -36,7 +36,7 @@ function ProgBar({ value, max, color }: { value: number; max: number; color: str
 export function OquvchilarView() {
   const { user, users, addUser, removeUser, patchUser } = useAuth();
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ ism: "", familya: "", login: "", parol: "", tel: "", tugilgan: "", telegramId: "" });
+  const [form, setForm] = useState({ ism: "", familya: "", login: "", tel: "", tugilgan: "", telegramId: "" });
   const [err, setErr] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [progData, setProgData] = useState<Record<string, { naz: DoneMap; amal: DoneMap }>>({});
@@ -52,17 +52,17 @@ export function OquvchilarView() {
     setErr("");
   };
 
-  const save = () => {
-    if (!form.ism.trim() || !form.login.trim() || !form.parol.trim()) {
-      setErr("Ism, login va parol majburiy");
+  const save = async () => {
+    if (!form.ism.trim() || !form.login.trim()) {
+      setErr("Ism va login majburiy");
       return;
     }
     const tgIdNum = form.telegramId.trim() ? parseInt(form.telegramId.trim()) : undefined;
-    const res = addUser({
+    const res = await addUser({
       ism: form.ism.trim(),
       familya: form.familya.trim(),
       login: form.login.trim(),
-      parol: form.parol.trim(),
+      parol: Math.random().toString(36).slice(2, 10),
       role: "student",
       tel: form.tel.trim() || undefined,
       tugilgan: form.tugilgan.trim() || undefined,
@@ -70,19 +70,19 @@ export function OquvchilarView() {
       telegramId: tgIdNum,
     });
     if (!res.ok) { setErr(res.error ?? "Xatolik"); return; }
-    setForm({ ism: "", familya: "", login: "", parol: "", tel: "", tugilgan: "", telegramId: "" });
+    setForm({ ism: "", familya: "", login: "", tel: "", tugilgan: "", telegramId: "" });
     setOpen(false);
   };
 
   const saveTgId = (id: string) => {
     const num = tgInput.trim() ? parseInt(tgInput.trim()) : undefined;
-    patchUser(id, { telegramId: num });
+    void patchUser(id, { telegramId: num });
     setEditTg(null);
     setTgInput("");
   };
 
   const del = (id: string, name: string) => {
-    if (window.confirm(`${name} o'chirilsinmi?`)) removeUser(id);
+    if (window.confirm(`${name} o'chirilsinmi?`)) void removeUser(id);
   };
 
   const toggleExpand = async (id: string) => {
@@ -163,7 +163,6 @@ export function OquvchilarView() {
                 <input placeholder="Familya" value={form.familya} onChange={(e) => upd("familya", e.target.value)} style={inp} />
               </div>
               <input placeholder="Login *" value={form.login} onChange={(e) => upd("login", e.target.value)} style={inp} />
-              <input placeholder="Parol *" value={form.parol} onChange={(e) => upd("parol", e.target.value)} style={inp} />
               <div style={{ display: "flex", gap: 9 }}>
                 <input placeholder="Telefon" value={form.tel} onChange={(e) => upd("tel", e.target.value)} style={inp} />
                 <input placeholder="Tug'ilgan yil" value={form.tugilgan} onChange={(e) => upd("tugilgan", e.target.value)} style={inp} />
@@ -211,7 +210,7 @@ export function OquvchilarView() {
                       {s.ism} {s.familya}
                     </div>
                     <div style={{ fontSize: 11, color: T.hint, marginTop: 1 }}>
-                      {idx + 1} · @{s.login} · parol: <span style={{ fontWeight: 600, color: T.text2 }}>{s.parol}</span>
+                      {idx + 1} · @{s.login}
                     </div>
                     {editTg === s.id ? (
                       <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 5 }}>

@@ -30,16 +30,18 @@ export function Login() {
     initTelegramApp();
     const tgUser = getTelegramUser();
     if (!tgUser) return;
-    const u = auth.loginWithTelegram(tgUser.id);
-    if (u) {
-      navigate("/", { replace: true });
-    } else {
-      setTgNotFound(tgUser.id);
-    }
+    (async () => {
+      const u = await auth.loginWithTelegram(tgUser.id);
+      if (u) {
+        navigate("/", { replace: true });
+      } else {
+        setTgNotFound(tgUser.id);
+      }
+    })();
   }, [auth.ready, tgChecked]);
 
-  const tryLogin = () => {
-    const u = auth.login(login, parol, "ceo");
+  const tryLogin = async () => {
+    const u = await auth.login(login, parol, "ceo");
     if (u) navigate("/", { replace: true });
     else setErr("Login yoki parol xato!");
   };

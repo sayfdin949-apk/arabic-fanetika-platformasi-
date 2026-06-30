@@ -52,9 +52,9 @@ export function ProfileView() {
     setEditOpen(true);
   };
 
-  const saveEdit = () => {
+  const saveEdit = async () => {
     setEditErr("");
-    const res = updateProfile({ ism: editForm.ism, familya: editForm.familya, tel: editForm.tel || undefined, tugilgan: editForm.tugilgan || undefined });
+    const res = await updateProfile({ ism: editForm.ism, familya: editForm.familya, tel: editForm.tel || undefined, tugilgan: editForm.tugilgan || undefined });
     if (res.ok) {
       setEditOk(true);
       setTimeout(() => { setEditOk(false); setEditOpen(false); }, 1400);
@@ -63,11 +63,11 @@ export function ProfileView() {
     }
   };
 
-  const handleChangePassword = () => {
+  const handleChangePassword = async () => {
     setParolErr("");
     if (!eskiParol || !yangiParol || !yangiParol2) { setParolErr("Barcha maydonlarni to'ldiring"); return; }
     if (yangiParol !== yangiParol2) { setParolErr("Yangi parollar mos kelmadi"); return; }
-    const res = changePassword(eskiParol, yangiParol);
+    const res = await changePassword(eskiParol, yangiParol);
     if (res.ok) {
       setParolOk(true);
       setEskiParol(""); setYangiParol(""); setYangiParol2("");

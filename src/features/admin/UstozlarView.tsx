@@ -39,11 +39,11 @@ export function UstozlarView() {
     setErr("");
   };
 
-  const save = () => {
+  const save = async () => {
     if (!form.ism.trim()) { setErr("Ism majburiy"); return; }
     const tgIdNum = form.telegramId.trim() ? parseInt(form.telegramId.trim()) : undefined;
     const role: Role = tab;
-    const res = addUser({
+    const res = await addUser({
       ism: form.ism.trim(),
       familya: form.familya.trim(),
       login: `${role}_${Date.now()}`,
@@ -61,13 +61,13 @@ export function UstozlarView() {
 
   const saveTgId = (id: string) => {
     const num = tgInput.trim() ? parseInt(tgInput.trim()) : undefined;
-    patchUser(id, { telegramId: num });
+    void patchUser(id, { telegramId: num });
     setEditTg(null);
     setTgInput("");
   };
 
   const del = (id: string, name: string) => {
-    if (window.confirm(`${name} o'chirilsinmi?`)) removeUser(id);
+    if (window.confirm(`${name} o'chirilsinmi?`)) void removeUser(id);
   };
 
   return (

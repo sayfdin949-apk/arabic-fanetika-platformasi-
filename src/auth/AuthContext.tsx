@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { User, Role } from "./types";
 import { SEED_USERS } from "./users";
-import { getUsers, saveUsers } from "../lib/usersRepo";
+import { usersApi } from "../lib/usersApi";
 import { store } from "../lib/storage";
 
 interface AuthValue {
@@ -9,15 +9,15 @@ interface AuthValue {
   ready: boolean;
   avatar: string | null;
   users: User[];
-  login: (login: string, parol: string, role: Role) => User | null;
-  loginWithTelegram: (tgId: number) => User | null;
+  login: (login: string, parol: string, role: Role) => Promise<User | null>;
+  loginWithTelegram: (tgId: number) => Promise<User | null>;
   logout: () => void;
   updateAvatar: (dataUrl: string) => void;
-  updateProfile: (data: { ism: string; familya: string; tel?: string; tugilgan?: string }) => { ok: boolean; error?: string };
-  addUser: (u: Omit<User, "id">) => { ok: boolean; error?: string };
-  removeUser: (id: string) => void;
-  patchUser: (id: string, patch: Partial<Omit<User, "id">>) => void;
-  changePassword: (eskiParol: string, yangiParol: string) => { ok: boolean; error?: string };
+  updateProfile: (data: { ism: string; familya: string; tel?: string; tugilgan?: string }) => Promise<{ ok: boolean; error?: string }>;
+  addUser: (u: Omit<User, "id">) => Promise<{ ok: boolean; error?: string }>;
+  removeUser: (id: string) => Promise<void>;
+  patchUser: (id: string, patch: Partial<Omit<User, "id">>) => Promise<void>;
+  changePassword: (eskiParol: string, yangiParol: string) => Promise<{ ok: boolean; error?: string }>;
 }
 
 const AuthCtx = createContext<AuthValue | null>(null);
@@ -53,40 +53,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Mount: foydalanuvchilarni va sessiyani yuklash
   useEffect(() => {
     (async () => {
-      const list = await getUsers();
+      const list = await usersApi.getUsers();
       setUsers(list);
       const id = getLocalSession();
       if (id) {
+        // Sessiyadagi foydalanuvchi sanitizatsiya qilingan ro'yxatda bo'lmasligi
+        // mumkin emas (parolsiz ham id/role saqlanadi), shuning uchun shu yerdan topiladi.
         const u = list.find((x) => x.id === id);
         if (u) {
           setUser(u);
           await loadAvatar(u.id);
+        } else {
+          clearLocalSession();
         }
       }
       setReady(true);
     })();
   }, []);
 
-  const login = (login: string, parol: string, role: Role): User | null => {
-    const u = users.find((x) => x.login.toLowerCase() === login.trim().toLowerCase() && x.parol === parol && x.role === role);
+  const login = async (login: string, parol: string, role: Role): Promise<User | null> => {
+    const u = await usersApi.login(login, parol, role);
     if (u) {
       setUser(u);
       setLocalSession(u.id);
       void loadAvatar(u.id);
-      return u;
     }
-    return null;
+    return u;
   };
 
-  const loginWithTelegram = (tgId: number): User | null => {
-    const u = users.find((x) => x.telegramId === tgId);
+  const loginWithTelegram = async (tgId: number): Promise<User | null> => {
+    const u = await usersApi.loginWithTelegram(tgId);
     if (u) {
       setUser(u);
       setLocalSession(u.id);
       void loadAvatar(u.id);
-      return u;
     }
-    return null;
+    return u;
   };
 
   const logout = () => {
@@ -101,49 +103,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     void store.set(`avatar_${user.id}`, dataUrl);
   };
 
-  const addUser = (u: Omit<User, "id">): { ok: boolean; error?: string } => {
-    const loginTaken = users.some((x) => x.login.toLowerCase() === u.login.trim().toLowerCase());
-    if (loginTaken) return { ok: false, error: "Bu login band" };
-    const id = "u" + Date.now();
-    const list = [...users, { ...u, id, login: u.login.trim() }];
-    setUsers(list);
-    void saveUsers(list);
-    return { ok: true };
+  const addUser = async (u: Omit<User, "id">): Promise<{ ok: boolean; error?: string }> => {
+    const res = await usersApi.addUser(u);
+    if (res.ok && res.user) setUsers((cur) => [...cur, res.user!]);
+    return { ok: res.ok, error: res.error };
   };
 
-  const removeUser = (id: string) => {
-    const list = users.filter((x) => x.id !== id);
-    setUsers(list);
-    void saveUsers(list);
+  const removeUser = async (id: string): Promise<void> => {
+    await usersApi.removeUser(id);
+    setUsers((cur) => cur.filter((x) => x.id !== id));
   };
 
-  const updateProfile = (data: { ism: string; familya: string; tel?: string; tugilgan?: string }): { ok: boolean; error?: string } => {
+  const updateProfile = async (data: { ism: string; familya: string; tel?: string; tugilgan?: string }): Promise<{ ok: boolean; error?: string }> => {
     if (!user) return { ok: false, error: "Foydalanuvchi topilmadi" };
-    if (!data.ism.trim()) return { ok: false, error: "Ism majburiy" };
-    const updated: User = { ...user, ism: data.ism.trim(), familya: data.familya.trim(), tel: data.tel?.trim() || undefined, tugilgan: data.tugilgan?.trim() || undefined };
-    const list = users.map((x) => (x.id === user.id ? updated : x));
-    setUsers(list);
-    setUser(updated);
-    void saveUsers(list);
-    return { ok: true };
+    const res = await usersApi.updateProfile(user.id, data);
+    if (res.ok && res.user) {
+      setUser(res.user);
+      setUsers((cur) => cur.map((x) => (x.id === user.id ? res.user! : x)));
+    }
+    return { ok: res.ok, error: res.error };
   };
 
-  const patchUser = (id: string, patch: Partial<Omit<User, "id">>) => {
-    const list = users.map((x) => (x.id === id ? { ...x, ...patch } : x));
-    setUsers(list);
-    void saveUsers(list);
+  const patchUser = async (id: string, patch: Partial<Omit<User, "id">>): Promise<void> => {
+    const updated = await usersApi.patchUser(id, patch);
+    if (updated) setUsers((cur) => cur.map((x) => (x.id === id ? updated : x)));
   };
 
-  const changePassword = (eskiParol: string, yangiParol: string): { ok: boolean; error?: string } => {
+  const changePassword = async (eskiParol: string, yangiParol: string): Promise<{ ok: boolean; error?: string }> => {
     if (!user) return { ok: false, error: "Foydalanuvchi topilmadi" };
-    if (user.parol !== eskiParol) return { ok: false, error: "Eski parol noto'g'ri" };
-    if (yangiParol.trim().length < 4) return { ok: false, error: "Yangi parol kamida 4 ta belgi bo'lishi kerak" };
-    const updated = { ...user, parol: yangiParol.trim() };
-    const list = users.map((x) => (x.id === user.id ? updated : x));
-    setUsers(list);
-    setUser(updated);
-    void saveUsers(list);
-    return { ok: true };
+    return usersApi.changePassword(user.id, eskiParol, yangiParol);
   };
 
   return (
