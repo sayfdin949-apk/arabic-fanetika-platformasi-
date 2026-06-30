@@ -12,6 +12,8 @@ export interface Guruh {
   soat: string;
   juftToq: "juft" | "toq" | "hammasi";
   oquvchiIds: string[];
+  /** Bu guruhga biriktirilgan o'qituvchi (faqat CEO belgilaydi) */
+  ogtuvchiId?: string;
 }
 
 const KUN_NOMI = ["", "Dush", "Sesh", "Chor", "Pay", "Juma", "Shan"];
@@ -51,10 +53,11 @@ interface FormState {
   soat: string;
   juftToq: Guruh["juftToq"];
   oquvchiIds: string[];
+  ogtuvchiId: string;
 }
 
 const emptyForm = (): FormState => ({
-  nom: "", kunlar: [], soat: "10:00", juftToq: "hammasi", oquvchiIds: [],
+  nom: "", kunlar: [], soat: "10:00", juftToq: "hammasi", oquvchiIds: [], ogtuvchiId: "",
 });
 
 export function GuruhlarView() {
@@ -66,16 +69,21 @@ export function GuruhlarView() {
   const [err, setErr] = useState("");
 
   const students = users.filter((u) => u.role === "student");
+  const teachers = users.filter((u) => u.role === "teacher");
 
   useEffect(() => {
     loadGuruhlar().then(setGuruhlar);
   }, []);
 
-  if (user?.role !== "teacher") return <Navigate to="/" replace />;
+  if (user?.role !== "teacher" && user?.role !== "ceo") return <Navigate to="/" replace />;
+
+  const isCeo = user?.role === "ceo";
+  const visibleGuruhlar = isCeo ? guruhlar : guruhlar.filter((g) => g.ogtuvchiId === user?.id);
 
   const openCreate = () => { setForm(emptyForm()); setErr(""); setModal({ open: true, editId: null }); };
   const openEdit = (g: Guruh) => {
-    setForm({ nom: g.nom, kunlar: g.kunlar, soat: g.soat, juftToq: g.juftToq, oquvchiIds: g.oquvchiIds });
+    if (!isCeo) return;
+    setForm({ nom: g.nom, kunlar: g.kunlar, soat: g.soat, juftToq: g.juftToq, oquvchiIds: g.oquvchiIds, ogtuvchiId: g.ogtuvchiId ?? "" });
     setErr("");
     setModal({ open: true, editId: g.id });
   };
@@ -88,16 +96,18 @@ export function GuruhlarView() {
     setForm((f) => ({ ...f, oquvchiIds: f.oquvchiIds.includes(id) ? f.oquvchiIds.filter((x) => x !== id) : [...f.oquvchiIds, id] }));
 
   const save = async () => {
+    if (!isCeo) return;
     if (!form.nom.trim()) { setErr("Guruh nomini kiriting"); return; }
     if (form.kunlar.length === 0) { setErr("Kamida bitta kun tanlang"); return; }
 
+    const ogtuvchiId = form.ogtuvchiId || undefined;
     let next: Guruh[];
     if (modal.editId) {
       next = guruhlar.map((g) => g.id === modal.editId
-        ? { ...g, nom: form.nom.trim(), kunlar: form.kunlar, soat: form.soat, juftToq: form.juftToq, oquvchiIds: form.oquvchiIds }
+        ? { ...g, nom: form.nom.trim(), kunlar: form.kunlar, soat: form.soat, juftToq: form.juftToq, oquvchiIds: form.oquvchiIds, ogtuvchiId }
         : g);
     } else {
-      const newG: Guruh = { id: "g" + Date.now(), nom: form.nom.trim(), kunlar: form.kunlar, soat: form.soat, juftToq: form.juftToq, oquvchiIds: form.oquvchiIds };
+      const newG: Guruh = { id: "g" + Date.now(), nom: form.nom.trim(), kunlar: form.kunlar, soat: form.soat, juftToq: form.juftToq, oquvchiIds: form.oquvchiIds, ogtuvchiId };
       next = [...guruhlar, newG];
     }
     await saveGuruhlar(next);
@@ -106,6 +116,7 @@ export function GuruhlarView() {
   };
 
   const remove = async (id: string) => {
+    if (!isCeo) return;
     const next = guruhlar.filter((g) => g.id !== id);
     await saveGuruhlar(next);
     setGuruhlar(next);
@@ -118,21 +129,23 @@ export function GuruhlarView() {
       <div style={{ background: T.gGreen, position: "relative", overflow: "hidden", padding: "20px 18px 0" }}>
         <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ fontSize: 10, fontWeight: 600, color: T.limeBrt, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 4 }}>O'qituvchi</div>
+          <div style={{ fontSize: 10, fontWeight: 600, color: T.limeBrt, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 4 }}>{isCeo ? "CEO" : "O'qituvchi"}</div>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
             <div style={{ fontSize: 22, fontWeight: 700, color: "#fff" }}>Guruhlar</div>
-            <button
-              onClick={openCreate}
-              style={{ display: "flex", alignItems: "center", gap: 6, background: T.gLime, border: "none", borderRadius: 10, padding: "9px 14px", fontSize: 13, fontWeight: 700, color: T.onCta, cursor: "pointer", boxShadow: "0 2px 10px rgba(46,184,46,.4)" }}
-            >
-              <Plus size={15} /> Guruh qo'shish
-            </button>
+            {isCeo && (
+              <button
+                onClick={openCreate}
+                style={{ display: "flex", alignItems: "center", gap: 6, background: T.gLime, border: "none", borderRadius: 10, padding: "9px 14px", fontSize: 13, fontWeight: 700, color: T.onCta, cursor: "pointer", boxShadow: "0 2px 10px rgba(46,184,46,.4)" }}
+              >
+                <Plus size={15} /> Guruh qo'shish
+              </button>
+            )}
           </div>
 
           {/* Summary chips */}
           <div style={{ display: "flex", gap: 8, marginBottom: 0, paddingBottom: 14 }}>
             {[
-              { label: "Jami guruh", value: `${guruhlar.length}` },
+              { label: "Jami guruh", value: `${visibleGuruhlar.length}` },
               { label: "O'quvchilar", value: `${students.length}` },
             ].map((s) => (
               <div key={s.label} style={{ display: "flex", alignItems: "center", gap: 5, background: "rgba(255,255,255,.12)", borderRadius: 8, padding: "6px 12px" }}>
@@ -146,15 +159,15 @@ export function GuruhlarView() {
 
       {/* List */}
       <div style={{ padding: "16px 16px 32px", display: "flex", flexDirection: "column", gap: 10 }}>
-        {guruhlar.length === 0 && (
+        {visibleGuruhlar.length === 0 && (
           <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", padding: "40px 20px", textAlign: "center" }}>
             <Users size={36} color="rgba(13,58,26,.18)" style={{ margin: "0 auto 12px" }} />
             <div style={{ fontSize: 15, fontWeight: 600, color: T.hint, marginBottom: 6 }}>Guruhlar yo'q</div>
-            <div style={{ fontSize: 13, color: T.hint }}>Yuqoridagi "Guruh qo'shish" tugmasini bosing</div>
+            <div style={{ fontSize: 13, color: T.hint }}>{isCeo ? "Yuqoridagi \"Guruh qo'shish\" tugmasini bosing" : "Sizga biriktirilgan guruh yo'q"}</div>
           </div>
         )}
 
-        {guruhlar.map((g) => {
+        {visibleGuruhlar.map((g) => {
           const isOpen = expanded === g.id;
           const groupStudents = students.filter((s) => g.oquvchiIds.includes(s.id));
           return (
@@ -193,18 +206,22 @@ export function GuruhlarView() {
 
                 {/* Actions */}
                 <div style={{ display: "flex", gap: 6, alignItems: "center", flexShrink: 0 }}>
+                  {isCeo && (
                   <button
                     onClick={(e) => { e.stopPropagation(); openEdit(g); }}
                     style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(46,184,46,.1)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: T.lime }}
                   >
                     <Edit2 size={14} />
                   </button>
+                  )}
+                  {isCeo && (
                   <button
                     onClick={(e) => { e.stopPropagation(); if (confirm(`"${g.nom}" guruhini o'chirasizmi?`)) remove(g.id); }}
                     style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(230,0,35,.08)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: T.red }}
                   >
                     <Trash2 size={14} />
                   </button>
+                  )}
                   {isOpen ? <ChevronUp size={16} color={T.hint} /> : <ChevronDown size={16} color={T.hint} />}
                 </div>
               </div>
@@ -229,6 +246,14 @@ export function GuruhlarView() {
                       </div>
                     </div>
                   </div>
+
+                  {isCeo && (
+                    <div style={{ fontSize: 12, color: T.hint, marginBottom: 12 }}>
+                      O'qituvchi: <span style={{ fontWeight: 700, color: T.green }}>
+                        {(() => { const t = teachers.find((x) => x.id === g.ogtuvchiId); return t ? `${t.ism} ${t.familya}` : "Biriktirilmagan"; })()}
+                      </span>
+                    </div>
+                  )}
 
                   {/* Students */}
                   <div style={{ fontSize: 11, fontWeight: 600, color: T.hint, textTransform: "uppercase", letterSpacing: ".04em", marginBottom: 8 }}>
@@ -359,6 +384,21 @@ export function GuruhlarView() {
                     );
                   })}
                 </div>
+              </div>
+
+              {/* O'qituvchi (faqat CEO) */}
+              <div>
+                <label style={{ fontSize: 12, fontWeight: 600, color: T.green, display: "block", marginBottom: 6 }}>Mas'ul o'qituvchi</label>
+                <select
+                  value={form.ogtuvchiId}
+                  onChange={(e) => setForm((f) => ({ ...f, ogtuvchiId: e.target.value }))}
+                  style={{ width: "100%", border: "1.5px solid rgba(13,58,26,.15)", borderRadius: 10, padding: "10px 12px", fontSize: 14, color: T.green, outline: "none", boxSizing: "border-box", background: "rgba(13,58,26,.02)" }}
+                >
+                  <option value="">Biriktirilmagan</option>
+                  {teachers.map((t) => (
+                    <option key={t.id} value={t.id}>{t.ism} {t.familya}</option>
+                  ))}
+                </select>
               </div>
 
               {/* Students */}

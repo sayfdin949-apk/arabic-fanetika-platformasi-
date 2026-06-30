@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, Layers, ArrowRight, Star, Users, ClipboardCheck, BarChart2, Flame } from "lucide-react";
+import { BookOpen, Layers, ArrowRight, Star, Users, ClipboardCheck, BarChart2, Flame, ScanLine, Clock, UserCog, LayersIcon } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
 import { useAuth } from "../../auth/AuthContext";
 import { useProgress } from "../progress/ProgressContext";
+import { useAssistant } from "../assistant/AssistantContext";
 import { store } from "../../lib/storage";
 import type { DoneMap } from "../progress/ProgressContext";
 
@@ -93,6 +94,7 @@ const TIPS = [
 function TeacherHome() {
   const navigate = useNavigate();
   const { user, users } = useAuth();
+  const isCeo = user?.role === "ceo";
   const students = users.filter((u) => u.role === "student");
 
   const pad = (n: number) => String(n).padStart(2, "0");
@@ -136,7 +138,7 @@ function TeacherHome() {
         <div style={{ position: "relative", zIndex: 1 }}>
           <div style={{ fontSize: 11, color: T.limeBrt, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase", marginBottom: 4 }}>{greeting}</div>
           <div style={{ fontSize: 21, fontWeight: 700, color: "#fff", marginBottom: 3 }}>{user?.ism}! 👋</div>
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,.6)", marginBottom: 18 }}>O'qituvchi paneli</div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,.6)", marginBottom: 18 }}>{isCeo ? "Boshqaruv paneli" : "O'qituvchi paneli"}</div>
           <div style={{ display: "flex", gap: 10 }}>
             {[
               { icon: Users, label: "O'quvchilar", value: `${students.length}` },
@@ -206,6 +208,12 @@ function TeacherHome() {
           { label: "Davomat belgilash", sub: "Bugungi ro'yxat", icon: ClipboardCheck, to: "/davomat" },
           { label: "O'quvchilar", sub: "Progress va ma'lumotlar", icon: Users, to: "/oquvchilar" },
           { label: "Statistika", sub: "Batafsil tahlil", icon: BarChart2, to: "/statistika" },
+          ...(isCeo
+            ? [
+                { label: "Guruhlar", sub: "Guruh yaratish va boshqarish", icon: LayersIcon, to: "/guruhlar" },
+                { label: "O'qituvchilar", sub: "O'qituvchi va yordamchi ustozlar", icon: UserCog, to: "/ustozlar" },
+              ]
+            : []),
         ].map((a) => (
           <button key={a.to} onClick={() => navigate(a.to)} style={{ width: "100%", background: "#fff", border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04)", borderRadius: 14, padding: "14px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: 12, textAlign: "left" }}>
             <div style={{ width: 44, height: 44, borderRadius: 12, background: T.gGreen, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
@@ -223,12 +231,94 @@ function TeacherHome() {
   );
 }
 
+function fmtBooking(iso: string) {
+  return new Date(iso).toLocaleString("uz-UZ", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+}
+
+function AssistantHome() {
+  const navigate = useNavigate();
+  const { user, users } = useAuth();
+  const { bookings } = useAssistant();
+
+  const upcoming = bookings
+    .filter((b) => b.assistantId === user?.id && b.status === "scheduled")
+    .sort((a, b) => a.scheduledAt.localeCompare(b.scheduledAt));
+
+  const nameOf = (id: string) => {
+    const s = users.find((u) => u.id === id);
+    return s ? `${s.ism} ${s.familya}` : "Noma'lum";
+  };
+
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? "Xayrli tong" : hour < 17 ? "Xayrli kun" : "Xayrli kech";
+
+  return (
+    <div style={{ minHeight: "100dvh", background: T.meshLight }}>
+      <div style={{ background: T.gGreen, position: "relative", overflow: "hidden", padding: "22px 20px 24px" }}>
+        <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ fontSize: 11, color: T.limeBrt, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase", marginBottom: 4 }}>{greeting}</div>
+          <div style={{ fontSize: 21, fontWeight: 700, color: "#fff", marginBottom: 3 }}>{user?.ism}! 👋</div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,.6)", marginBottom: 18 }}>Yordamchi ustoz paneli</div>
+          <div style={{ display: "flex", gap: 10 }}>
+            <div style={{ flex: 1, background: "rgba(255,255,255,.1)", borderRadius: 14, padding: "13px 12px", border: "1px solid rgba(255,255,255,.12)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 8 }}>
+                <Star size={14} color="#eab308" />
+                <span style={{ fontSize: 10, color: "rgba(255,255,255,.65)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".05em" }}>Reyting</span>
+              </div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: "#fff" }}>{user?.assistantRating ?? 100}</div>
+            </div>
+            <div style={{ flex: 1, background: "rgba(255,255,255,.1)", borderRadius: 14, padding: "13px 12px", border: "1px solid rgba(255,255,255,.12)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 8 }}>
+                <Clock size={14} color={T.limeBrt} />
+                <span style={{ fontSize: 10, color: "rgba(255,255,255,.65)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".05em" }}>Belgilangan</span>
+              </div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: "#fff" }}>{upcoming.length}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ padding: "16px 16px 28px", display: "flex", flexDirection: "column", gap: 12 }}>
+        <button onClick={() => navigate("/skaner")} style={{ width: "100%", background: T.gLime, color: T.onCta, border: "none", borderRadius: 14, padding: "14px", fontSize: 14, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, boxShadow: "0 4px 14px rgba(46,184,46,.35)" }}>
+          <ScanLine size={18} /> Skanerni ochish
+        </button>
+
+        <div style={{ background: "#fff", borderRadius: 16, border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04), 0 6px 18px rgba(13,58,26,.06)", padding: 18 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
+            <div style={{ width: 4, height: 16, borderRadius: 2, background: T.gLime }} />
+            <span style={{ fontSize: 13, fontWeight: 600, color: T.green }}>Belgilangan darslar</span>
+          </div>
+          {upcoming.length === 0 ? (
+            <div style={{ fontSize: 12, color: T.hint, textAlign: "center", padding: "12px 0" }}>Hozircha belgilangan dars yo'q</div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {upcoming.map((b) => (
+                <div key={b.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 0", borderBottom: "1px solid rgba(13,58,26,.06)" }}>
+                  <div style={{ width: 30, height: 30, borderRadius: "50%", background: T.gGreen, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: "#fff", flexShrink: 0 }}>
+                    {nameOf(b.studentId)[0]?.toUpperCase()}
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: T.green }}>{nameOf(b.studentId)}</div>
+                  </div>
+                  <div style={{ fontSize: 11, color: T.hint }}>{fmtBooking(b.scheduledAt)}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function HomeView() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { nazDone, amalDone, streak } = useProgress();
 
-  if (user?.role === "teacher") return <TeacherHome />;
+  if (user?.role === "teacher" || user?.role === "ceo") return <TeacherHome />;
+  if (user?.role === "assistant") return <AssistantHome />;
 
   const nazPass = Object.values(nazDone).filter((d) => d.pct >= 80).length;
   const amalDoneCount = Object.keys(amalDone).length;

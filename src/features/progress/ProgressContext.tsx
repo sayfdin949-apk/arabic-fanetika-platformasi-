@@ -49,7 +49,7 @@ function calcStreak(prev: Streak): Streak {
 
 export function ProgressProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
-  const isT = user?.role === "teacher";
+  const isT = user?.role === "teacher" || user?.role === "ceo";
   const [ready, setReady] = useState(false);
   const [nazDone, setNazDone] = useState<DoneMap>({});
   const [amalDone, setAmalDone] = useState<DoneMap>({});

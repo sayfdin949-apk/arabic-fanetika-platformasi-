@@ -19,6 +19,10 @@ import { MinimalPairsView } from "./features/pairs/MinimalPairsView";
 import { SertifikatView } from "./features/sertifikat/SertifikatView";
 import { GuruhlarView } from "./features/guruh/GuruhlarView";
 import { ShikoyatView } from "./features/shikoyat/ShikoyatView";
+import { UstozlarView } from "./features/admin/UstozlarView";
+import { AssistantProvider } from "./features/assistant/AssistantContext";
+import { YordamchiUstozView } from "./features/assistant/YordamchiUstozView";
+import { SkanerView } from "./features/assistant/SkanerView";
 import { T } from "./theme/tokens";
 
 function Splash() {
@@ -53,7 +57,9 @@ export default function App() {
             element={
               <Protected>
                 <ProgressProvider>
-                  <AppShell />
+                  <AssistantProvider>
+                    <AppShell />
+                  </AssistantProvider>
                 </ProgressProvider>
               </Protected>
             }
@@ -73,6 +79,9 @@ export default function App() {
             <Route path="/sertifikat" element={<SertifikatView />} />
             <Route path="/guruhlar" element={<GuruhlarView />} />
             <Route path="/shikoyat" element={<ShikoyatView />} />
+            <Route path="/ustozlar" element={<UstozlarView />} />
+            <Route path="/yordamchi-ustoz" element={<YordamchiUstozView />} />
+            <Route path="/skaner" element={<SkanerView />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

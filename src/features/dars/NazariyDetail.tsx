@@ -131,8 +131,8 @@ export function NazariyDetail() {
               <MD text={dars.mavzu} />
             </Card>
             <Card style={{ padding: 16, marginBottom: 16 }}>
-              <LessonImages type="nazariy" id={dars.id} isTeacher={user?.role === "teacher"} />
-              <LessonAudio type="nazariy" id={dars.id} isTeacher={user?.role === "teacher"} />
+              <LessonImages type="nazariy" id={dars.id} isTeacher={user?.role === "teacher" || user?.role === "ceo"} />
+              <LessonAudio type="nazariy" id={dars.id} isTeacher={user?.role === "teacher" || user?.role === "ceo"} />
             </Card>
             <button
               onClick={() => setPhase("test")}

@@ -358,7 +358,7 @@ export function AmaliyDetail() {
           questions={questions}
           onTest={(ok, tot) => submitAmal(bob.id, ok, tot)}
           onWrong={(indices) => saveWrong(`amal_${bob.id}`, indices)}
-          isTeacher={user?.role === "teacher"}
+          isTeacher={user?.role === "teacher" || user?.role === "ceo"}
         />
 
         {/* Prev / Next navigation */}

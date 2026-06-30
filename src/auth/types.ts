@@ -1,4 +1,4 @@
-export type Role = "teacher" | "student";
+export type Role = "ceo" | "teacher" | "assistant" | "student";
 
 export interface User {
   id: string;
@@ -11,4 +11,8 @@ export interface User {
   tel?: string;
   avatar?: string | null;
   telegramId?: number;
+  /** O'quvchi "Yordamchi ustoz" bo'limidan vaqtinchalik bloklangan bo'lsa, shu vaqtgacha (ISO) */
+  assistantBlockedUntil?: string;
+  /** Yordamchi ustoz ishonchlilik ko'rsatkichi (100 dan boshlanadi, kelishmaganda kamayadi) */
+  assistantRating?: number;
 }

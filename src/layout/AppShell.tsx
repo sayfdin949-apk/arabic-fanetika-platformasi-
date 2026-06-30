@@ -5,8 +5,10 @@ import { T } from "../theme/tokens";
 import { useAuth } from "../auth/AuthContext";
 import { useProgress } from "../features/progress/ProgressContext";
 import { navForRole, type NavItem } from "./nav";
+import type { Role } from "../auth/types";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { isTelegramMiniApp, getTelegramSafeInsets, initTelegramApp } from "../lib/telegram";
+import { WeeklyRatingGate } from "../features/rating/WeeklyRatingGate";
 
 function useStudentGuard(isStudent: boolean) {
   useEffect(() => {
@@ -111,7 +113,7 @@ function Avatar({ name, src, size = 30 }: { name: string; src?: string | null; s
 }
 
 export function AppShell() {
-  const { user, avatar, logout } = useAuth();
+  const { user, users, avatar, logout } = useAuth();
   const isMobile = useMediaQuery("(max-width: 767px)");
   const [moreOpen, setMoreOpen] = useState(false);
   const isStudent = user?.role === "student";
@@ -159,7 +161,8 @@ export function AppShell() {
 
   if (!user) return null;
   const items = navForRole(user.role);
-  const roleLabel = user.role === "teacher" ? "O'qituvchi" : "O'quvchi";
+  const ROLE_LABELS: Record<Role, string> = { ceo: "CEO", teacher: "O'qituvchi", assistant: "Yordamchi ustoz", student: "O'quvchi" };
+  const roleLabel = ROLE_LABELS[user.role];
 
   // Joriy bo'lim nomi (mobil header uchun)
   const currentMatch = items
@@ -250,6 +253,7 @@ export function AppShell() {
           <Outlet />
         </main>
         {isStudent && <Watermark name={`${user.ism} ${user.familya}`} />}
+        {isStudent && <WeeklyRatingGate user={user} users={users} />}
       </div>
     );
   }
@@ -310,6 +314,7 @@ export function AppShell() {
       </main>
 
       {isStudent && <Watermark name={`${user.ism} ${user.familya}`} />}
+      {isStudent && <WeeklyRatingGate user={user} users={users} />}
 
       {/* Bottom tab bar */}
       <nav style={{ display: "flex", background: "#fff", borderTop: "1px solid rgba(13,58,26,.1)", flexShrink: 0, paddingBottom: tgInsets.bottom > 0 ? tgInsets.bottom : "env(safe-area-inset-bottom)" }}>

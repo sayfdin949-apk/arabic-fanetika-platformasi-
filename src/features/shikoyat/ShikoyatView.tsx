@@ -24,8 +24,9 @@ export function ShikoyatView() {
   }, []);
 
   if (!user) return null;
-  const isTeacher = user.role === "teacher";
+  const isTeacher = user.role === "teacher" || user.role === "ceo";
   const visible = isTeacher ? list : list.filter((c) => c.userId === user.id);
+  const ROLE_LABEL: Record<string, string> = { ceo: "CEO", teacher: "o'qituvchi", assistant: "yordamchi ustoz", student: "o'quvchi" };
 
   const handleSend = async () => {
     if (!text.trim() || sending) return;
@@ -130,7 +131,7 @@ export function ShikoyatView() {
                 <div>
                   {isTeacher && (
                     <div style={{ fontSize: 12, fontWeight: 700, color: T.green }}>
-                      {c.userName} <span style={{ color: T.hint, fontWeight: 400 }}>({c.role === "teacher" ? "o'qituvchi" : "o'quvchi"})</span>
+                      {c.userName} <span style={{ color: T.hint, fontWeight: 400 }}>({ROLE_LABEL[c.role] ?? c.role})</span>
                     </div>
                   )}
                   <div style={{ fontSize: 11, color: T.hint, marginTop: isTeacher ? 2 : 0 }}>

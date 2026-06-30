@@ -5,6 +5,9 @@ import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
 import { useAuth } from "../../auth/AuthContext";
 import { useProgress } from "../progress/ProgressContext";
+import type { Role } from "../../auth/types";
+
+const ROLE_LABELS: Record<Role, string> = { ceo: "CEO", teacher: "O'qituvchi", assistant: "Yordamchi ustoz", student: "O'quvchi" };
 
 const Inp = ({ label, value, onChange, placeholder, type = "text" }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string; type?: string }) => (
   <div>
@@ -149,7 +152,7 @@ export function ProfileView() {
           {[
             user.tel ? { icon: Phone, label: "Telefon", value: user.tel } : null,
             user.tugilgan ? { icon: Calendar, label: "Tug'ilgan yil", value: user.tugilgan } : null,
-            { icon: Shield, label: "Rol", value: user.role === "teacher" ? "O'qituvchi" : "O'quvchi" },
+            { icon: Shield, label: "Rol", value: ROLE_LABELS[user.role] },
           ].filter(Boolean).map((it, i, arr) => {
             const Icon = it!.icon;
             return (

@@ -15,7 +15,6 @@ export function Login() {
   const [tgNotFound, setTgNotFound] = useState<number | null>(null);
   const [tgChecked, setTgChecked] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [showTeacherOnNotFound, setShowTeacherOnNotFound] = useState(false);
 
   const copyId = (id: number) => {
     navigator.clipboard.writeText(String(id)).then(() => {
@@ -40,7 +39,7 @@ export function Login() {
   }, [auth.ready, tgChecked]);
 
   const tryLogin = () => {
-    const u = auth.login(login, parol, "teacher");
+    const u = auth.login(login, parol, "ceo");
     if (u) navigate("/", { replace: true });
     else setErr("Login yoki parol xato!");
   };
@@ -81,7 +80,7 @@ export function Login() {
           </div>
           <div style={{ fontSize: 20, fontWeight: 700, color: "#fff", marginBottom: 8 }}>Foydalanuvchi topilmadi</div>
           <div style={{ fontSize: 13, color: "rgba(255,255,255,.7)", marginBottom: 24, lineHeight: 1.6 }}>
-            Telegram hisobingiz platformaga ulanmagan. Quyidagi ID ni o'qituvchiga yuboring — u sizni tizimga qo'shadi.
+            Telegram hisobingiz platformaga ulanmagan. Quyidagi ID ni mas'ul shaxsga yuboring — u sizni tizimga qo'shadi.
           </div>
           <div style={{ background: "rgba(0,0,0,.3)", borderRadius: 14, padding: "16px 20px", marginBottom: 20 }}>
             <div style={{ fontSize: 10, color: "rgba(255,255,255,.45)", marginBottom: 10, letterSpacing: ".08em", textTransform: "uppercase" }}>Sizning Telegram ID</div>
@@ -106,44 +105,8 @@ export function Login() {
             </div>
           </div>
           <div style={{ fontSize: 12, color: "rgba(255,255,255,.45)", lineHeight: 1.6, marginBottom: 24 }}>
-            ID ni ustozga yuboring. U "O'quvchilar" bo'limida sizning kartangizga ID ni kiritadi. Keyin ilovani qayta oching.
+            ID ni mas'ul shaxsga yuboring. U sizning kartangizga ID ni kiritadi. Keyin ilovani qayta oching.
           </div>
-
-          {/* O'qituvchi kirishi */}
-          {!showTeacherOnNotFound ? (
-            <button
-              onClick={() => setShowTeacherOnNotFound(true)}
-              style={{ width: "100%", background: "rgba(255,255,255,.1)", border: "1px solid rgba(255,255,255,.2)", borderRadius: 12, padding: "13px", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,.8)", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
-            >
-              <UserCheck size={16} /> O'qituvchi sifatida kirish
-            </button>
-          ) : (
-            <div style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.2)", borderRadius: 14, padding: 18, textAlign: "left" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-                <div style={{ width: 32, height: 32, borderRadius: 8, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <UserCheck size={16} color={T.onCta} />
-                </div>
-                <span style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>O'qituvchi kirishi</span>
-              </div>
-              <div style={{ marginBottom: 10 }}>
-                <label style={{ fontSize: 11, color: "rgba(255,255,255,.6)", display: "block", marginBottom: 4 }}>Login</label>
-                <input value={login} onChange={(e) => { setLogin(e.target.value); setErr(""); }} onKeyDown={(e) => e.key === "Enter" && tryLogin()} placeholder="ustoz" style={inp} />
-              </div>
-              <div style={{ marginBottom: err ? 8 : 14 }}>
-                <label style={{ fontSize: 11, color: "rgba(255,255,255,.6)", display: "block", marginBottom: 4 }}>Parol</label>
-                <div style={{ position: "relative" }}>
-                  <input type={showParol ? "text" : "password"} value={parol} onChange={(e) => { setParol(e.target.value); setErr(""); }} onKeyDown={(e) => e.key === "Enter" && tryLogin()} placeholder="••••" style={{ ...inp, paddingRight: 40 }} />
-                  <button type="button" onClick={() => setShowParol((p) => !p)} style={{ position: "absolute", right: 6, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,.6)", display: "flex", alignItems: "center", justifyContent: "center", width: 30, height: 30 }}>
-                    {showParol ? <EyeOff size={16} /> : <Eye size={16} />}
-                  </button>
-                </div>
-              </div>
-              {err && <div style={{ fontSize: 12, color: "#ff8a95", marginBottom: 10, display: "flex", alignItems: "center", gap: 4 }}><XCircle size={12} /> {err}</div>}
-              <button onClick={tryLogin} style={{ width: "100%", background: T.gLime, border: "none", borderRadius: 10, padding: "12px", cursor: "pointer", fontSize: 14, fontWeight: 700, color: T.onCta, boxShadow: "0 4px 12px rgba(46,184,46,.4)", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-                <UserCheck size={16} /> Kirish
-              </button>
-            </div>
-          )}
         </div>
       </div>
     );
@@ -171,8 +134,8 @@ export function Login() {
               <Send size={18} color="#7dd3fc" />
             </div>
             <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>O'quvchi</div>
-              <div style={{ fontSize: 11, color: "rgba(255,255,255,.5)" }}>Telegram orqali kirish</div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>Telegram orqali kirish</div>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,.5)" }}>O'quvchi, o'qituvchi va yordamchi ustoz uchun</div>
             </div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
@@ -196,13 +159,13 @@ export function Login() {
           <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,.15)" }} />
         </div>
 
-        {/* ── O'qituvchi bo'limi ── */}
+        {/* ── Boshqaruv (CEO) bo'limi ── */}
         <div style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.2)", borderRadius: 16, padding: 20 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
             <div style={{ width: 36, height: 36, borderRadius: 10, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <UserCheck size={18} color={T.onCta} />
             </div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>O'qituvchi kirishi</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>Boshqaruv kirishi</div>
           </div>
 
           <div style={{ marginBottom: 10 }}>
@@ -211,7 +174,7 @@ export function Login() {
               value={login}
               onChange={(e) => { setLogin(e.target.value); setErr(""); }}
               onKeyDown={(e) => e.key === "Enter" && tryLogin()}
-              placeholder="ustoz"
+              placeholder="login"
               style={inp}
             />
           </div>

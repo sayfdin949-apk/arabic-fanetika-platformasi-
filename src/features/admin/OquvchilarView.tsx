@@ -43,7 +43,7 @@ export function OquvchilarView() {
   const [editTg, setEditTg] = useState<string | null>(null);
   const [tgInput, setTgInput] = useState("");
 
-  if (user?.role !== "teacher") return <Navigate to="/" replace />;
+  if (user?.role !== "teacher" && user?.role !== "ceo") return <Navigate to="/" replace />;
 
   const students = users.filter((u) => u.role === "student");
 
