@@ -11,6 +11,7 @@ import {
   Award,
   BookMarked,
   LayersIcon,
+  MessageCircleWarning,
   type LucideIcon,
 } from "lucide-react";
 import type { Role } from "../auth/types";
@@ -37,6 +38,7 @@ export const NAV: NavItem[] = [
   { to: "/juftlar", label: "Minimal juftlar", icon: BookMarked, roles: ALL, bottom: false },
   { to: "/sertifikat", label: "Sertifikat", icon: Award, roles: ALL, bottom: false },
   { to: "/davomat", label: "Davomat", icon: ClipboardCheck, roles: ALL, bottom: false },
+  { to: "/shikoyat", label: "Shikoyat", icon: MessageCircleWarning, roles: ALL, bottom: false },
   { to: "/oquvchilar", label: "O'quvchilar", icon: Users, roles: ["teacher"], bottom: false },
   { to: "/guruhlar", label: "Guruhlar", icon: LayersIcon, roles: ["teacher"], bottom: false },
 ];
