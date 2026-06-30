@@ -21,7 +21,23 @@ interface AuthValue {
 }
 
 const AuthCtx = createContext<AuthValue | null>(null);
-const SESSION_KEY = "session_user_id";
+
+// Sessiya HAR DOIM shu brauzerga xos localStorage'da saqlanadi — umumiy
+// `store` (Supabase) orqali emas. `store` barcha qurilmalar uchun bitta
+// umumiy kalit-qiymat jadvali, shuning uchun sessiyani u yerda saqlash
+// bir o'quvchi login qilganda BOSHQA QURILMALARDAGI o'quvchilarni ham
+// avtomatik shu hisobga kirgizib yuborardi.
+const SESSION_KEY = "afp:session_user_id";
+
+function getLocalSession(): string | null {
+  try { return localStorage.getItem(SESSION_KEY); } catch { return null; }
+}
+function setLocalSession(id: string): void {
+  try { localStorage.setItem(SESSION_KEY, id); } catch { /* ignore */ }
+}
+function clearLocalSession(): void {
+  try { localStorage.removeItem(SESSION_KEY); } catch { /* ignore */ }
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -39,7 +55,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     (async () => {
       const list = await getUsers();
       setUsers(list);
-      const id = await store.get<string>(SESSION_KEY);
+      const id = getLocalSession();
       if (id) {
         const u = list.find((x) => x.id === id);
         if (u) {
@@ -55,7 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const u = users.find((x) => x.login.toLowerCase() === login.trim().toLowerCase() && x.parol === parol && x.role === role);
     if (u) {
       setUser(u);
-      void store.set(SESSION_KEY, u.id);
+      setLocalSession(u.id);
       void loadAvatar(u.id);
       return u;
     }
@@ -66,7 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const u = users.find((x) => x.telegramId === tgId);
     if (u) {
       setUser(u);
-      void store.set(SESSION_KEY, u.id);
+      setLocalSession(u.id);
       void loadAvatar(u.id);
       return u;
     }
@@ -76,7 +92,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     setUser(null);
     setAvatar(null);
-    void store.del(SESSION_KEY);
+    clearLocalSession();
   };
 
   const updateAvatar = (dataUrl: string) => {
