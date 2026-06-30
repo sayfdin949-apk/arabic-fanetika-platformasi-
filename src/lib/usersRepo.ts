@@ -21,13 +21,15 @@ export async function getUsers(): Promise<User[]> {
   const storedMap = new Map(stored.map((u) => [u.id, u]));
   const seedIds = new Set(SEED_USERS.map((u) => u.id));
 
-  // SEED o'quvchilarining login/parolini har doim yangi SEED dan oladi
+  // SEED foydalanuvchilarining login/parol/role har doim yangi SEED dan olinadi
+  // (masalan, t1 oldin "teacher" bo'lgan, hozir "ceo" — eski saqlangan rol
+  // bilan parol to'g'ri kiritilsa ham kirish rad etilmasligi uchun)
   // (profil ma'lumotlari — ism, tel, avatar — saqlangan versiyadan olinadi)
   const merged = [
     ...SEED_USERS.map((s) => {
       const sv = storedMap.get(s.id);
       if (!sv) return s;
-      return { ...sv, login: s.login, parol: s.parol };
+      return { ...sv, login: s.login, parol: s.parol, role: s.role };
     }),
     ...stored.filter((u) => !seedIds.has(u.id) && !OLD_DEMO_IDS.has(u.id)),
   ];
