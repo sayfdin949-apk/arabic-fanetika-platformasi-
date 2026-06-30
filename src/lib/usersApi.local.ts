@@ -2,6 +2,18 @@ import type { User, Role } from "../auth/types";
 import { getUsers, saveUsers } from "./usersRepo";
 import type { MutationResult, UsersApi } from "./usersApi";
 
+function parseUnverifiedTelegramId(initData: string): number | null {
+  try {
+    const params = new URLSearchParams(initData);
+    const userJson = params.get("user");
+    if (!userJson) return null;
+    const id = JSON.parse(userJson)?.id;
+    return typeof id === "number" ? id : null;
+  } catch {
+    return null;
+  }
+}
+
 /* Lokal (localStorage) fallback — Supabase sozlanmagan muhitlar uchun. */
 export class LocalUsersApi implements UsersApi {
   async getUsers(): Promise<User[]> {
@@ -17,7 +29,14 @@ export class LocalUsersApi implements UsersApi {
     );
   }
 
-  async loginWithTelegram(tgId: number): Promise<User | null> {
+  async loginWithTelegram(initData: string): Promise<User | null> {
+    // Lokal (offline) rejimda haqiqiy backend yo'q, shuning uchun bot
+    // tokeni bilan HMAC tasdiqlash imkonsiz — bu yerda faqat initData
+    // ichidagi "user.id" ni tasdiqlamasdan o'qib olamiz (Supabase
+    // rejimida esa server bu satrni to'liq tasdiqlaydi, qarang:
+    // usersApi.supabase.ts / supabase-migration-v4-telegram-hmac.sql).
+    const tgId = parseUnverifiedTelegramId(initData);
+    if (tgId === null) return null;
     const users = await getUsers();
     return users.find((x) => x.telegramId === tgId) ?? null;
   }

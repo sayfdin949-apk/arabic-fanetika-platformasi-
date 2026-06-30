@@ -10,7 +10,7 @@ interface AuthValue {
   avatar: string | null;
   users: User[];
   login: (login: string, parol: string, role: Role) => Promise<User | null>;
-  loginWithTelegram: (tgId: number) => Promise<User | null>;
+  loginWithTelegram: (initData: string) => Promise<User | null>;
   logout: () => void;
   updateAvatar: (dataUrl: string) => void;
   updateProfile: (data: { ism: string; familya: string; tel?: string; tugilgan?: string }) => Promise<{ ok: boolean; error?: string }>;
@@ -81,8 +81,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return u;
   };
 
-  const loginWithTelegram = async (tgId: number): Promise<User | null> => {
-    const u = await usersApi.loginWithTelegram(tgId);
+  const loginWithTelegram = async (initData: string): Promise<User | null> => {
+    const u = await usersApi.loginWithTelegram(initData);
     if (u) {
       setUser(u);
       setLocalSession(u.id);

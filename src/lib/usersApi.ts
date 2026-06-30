@@ -22,7 +22,7 @@ export interface MutationResult {
 export interface UsersApi {
   getUsers(): Promise<User[]>;
   login(login: string, parol: string, role: Role): Promise<User | null>;
-  loginWithTelegram(tgId: number): Promise<User | null>;
+  loginWithTelegram(initData: string): Promise<User | null>;
   addUser(u: Omit<User, "id">): Promise<MutationResult>;
   removeUser(id: string): Promise<void>;
   patchUser(id: string, patch: Partial<Omit<User, "id">>): Promise<User | null>;

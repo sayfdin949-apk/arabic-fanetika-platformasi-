@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BookOpen, UserCheck, Send, XCircle, Eye, EyeOff, Copy, Check } from "lucide-react";
 import { T, FONT } from "../theme/tokens";
 import { useAuth } from "./AuthContext";
-import { isTelegramMiniApp, getTelegramUser, initTelegramApp } from "../lib/telegram";
+import { isTelegramMiniApp, getTelegramUser, getTelegramInitData, initTelegramApp } from "../lib/telegram";
 
 export function Login() {
   const auth = useAuth();
@@ -29,12 +29,16 @@ export function Login() {
     if (!isTelegramMiniApp()) return;
     initTelegramApp();
     const tgUser = getTelegramUser();
-    if (!tgUser) return;
+    const initData = getTelegramInitData();
+    if (!tgUser || !initData) return;
     (async () => {
-      const u = await auth.loginWithTelegram(tgUser.id);
+      const u = await auth.loginWithTelegram(initData);
       if (u) {
         navigate("/", { replace: true });
       } else {
+        // tgUser.id bu yerda FAQAT ekranda ko'rsatish uchun ishlatiladi
+        // (tasdiqlanmagan) — kirish qarori serverda HMAC orqali tasdiqlangan
+        // initData asosida qabul qilinadi.
         setTgNotFound(tgUser.id);
       }
     })();

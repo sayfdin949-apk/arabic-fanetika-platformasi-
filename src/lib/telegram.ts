@@ -9,6 +9,7 @@ declare global {
 interface TelegramWebApp {
   ready(): void;
   expand(): void;
+  initData: string;
   initDataUnsafe: {
     user?: {
       id: number;
@@ -23,8 +24,22 @@ export function isTelegramMiniApp(): boolean {
   return !!(window.Telegram?.WebApp?.initDataUnsafe?.user);
 }
 
+/* DIQQAT: bu obyekt tasdiqlanmagan (har kim devtools orqali o'zgartirishi
+ * mumkin) — faqat ID'ni EKRANDA KO'RSATISH kabi xavfsizlik bilan bog'liq
+ * bo'lmagan holatlar uchun ishlatiladi. Haqiqiy autentifikatsiya uchun
+ * getTelegramInitData() dan qaytgan imzolangan satrni ishlating — u
+ * serverda HMAC orqali tasdiqlanadi (qarang: supabase-migration-v4-telegram-hmac.sql).
+ */
 export function getTelegramUser() {
   return window.Telegram?.WebApp?.initDataUnsafe?.user ?? null;
+}
+
+/* Telegram tomonidan imzolangan, xom (URL-encoded) initData satri.
+ * Bot tokeni bilan HMAC-SHA256 orqali tasdiqlanguncha bu yerdagi
+ * hech qaysi maydonga (jumladan user.id'ga) ishonib bo'lmaydi. */
+export function getTelegramInitData(): string | null {
+  const raw = window.Telegram?.WebApp?.initData;
+  return raw && raw.length > 0 ? raw : null;
 }
 
 export function initTelegramApp() {
