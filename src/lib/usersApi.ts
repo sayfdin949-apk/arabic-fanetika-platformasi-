@@ -19,18 +19,30 @@ export interface MutationResult {
   user?: User;
 }
 
+export interface LoginResult {
+  user: User;
+  /**
+   * Server tomonida imzolangan sessiya tokeni — keyingi "yozish" so'rovlarida
+   * (addUser/removeUser/patchUser/updateProfile/changePassword) chaqiruvchi
+   * KIM ekanini tasdiqlash uchun ishlatiladi. Klient buni o'zgartira olmaydi:
+   * Supabase rejimida server token imzosini qayta tekshiradi (qarang:
+   * supabase-migration-v5-session-tokens.sql).
+   */
+  token: string;
+}
+
 export interface UsersApi {
   getUsers(): Promise<User[]>;
-  login(login: string, parol: string, role: Role): Promise<User | null>;
-  loginWithTelegram(initData: string): Promise<User | null>;
-  addUser(u: Omit<User, "id">): Promise<MutationResult>;
-  removeUser(id: string): Promise<void>;
-  patchUser(id: string, patch: Partial<Omit<User, "id">>): Promise<User | null>;
+  login(login: string, parol: string, role: Role): Promise<LoginResult | null>;
+  loginWithTelegram(initData: string): Promise<LoginResult | null>;
+  addUser(token: string, u: Omit<User, "id">): Promise<MutationResult>;
+  removeUser(token: string, id: string): Promise<void>;
+  patchUser(token: string, id: string, patch: Partial<Omit<User, "id">>): Promise<User | null>;
   updateProfile(
-    userId: string,
+    token: string,
     data: { ism: string; familya: string; tel?: string; tugilgan?: string }
   ): Promise<MutationResult>;
-  changePassword(userId: string, eskiParol: string, yangiParol: string): Promise<{ ok: boolean; error?: string }>;
+  changePassword(token: string, eskiParol: string, yangiParol: string): Promise<{ ok: boolean; error?: string }>;
 }
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
