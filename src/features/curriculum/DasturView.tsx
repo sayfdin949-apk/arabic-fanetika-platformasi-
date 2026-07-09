@@ -212,6 +212,53 @@ function HarfKarta({ harf, lessonId }: { harf: string; lessonId: number }) {
           </div>
         </div>
 
+        {/* 4 shakl × 4 harakat jadvali */}
+        <div>
+          <div style={{ fontSize: 10, fontWeight: 700, color: "#1d4ed8", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 6 }}>
+            4 Shakl · 4 Harakat
+          </div>
+          <div style={{ border: "1px solid rgba(29,78,216,.14)", borderRadius: 10, overflow: "hidden" }}>
+            {/* ustun sarlavhalari */}
+            <div style={{ display: "grid", gridTemplateColumns: "52px repeat(4, 1fr)", background: "rgba(29,78,216,.07)" }}>
+              <div />
+              {["Mustaqil", "Bosh", "O'rta", "Oxir"].map(s => (
+                <div key={s} style={{ padding: "5px 2px", fontSize: 9, fontWeight: 800, color: "#1d4ed8", textAlign: "center" }}>{s}</div>
+              ))}
+            </div>
+            {/* qatorlar: har bir harakat */}
+            {[
+              { nomi: "Fatha", belgi: "َ", rang: "#b45309" },
+              { nomi: "Kasra", belgi: "ِ", rang: "#7c3aed" },
+              { nomi: "Damma", belgi: "ُ", rang: "#0e7490" },
+              { nomi: "Sukun", belgi: "ْ", rang: "#15803d" },
+            ].map((hr, ri) => (
+              <div key={hr.nomi} style={{
+                display: "grid", gridTemplateColumns: "52px repeat(4, 1fr)",
+                background: ri % 2 === 0 ? "#fff" : "rgba(0,0,0,.02)",
+                borderTop: "1px solid rgba(0,0,0,.06)",
+              }}>
+                <div style={{ padding: "6px 6px", fontSize: 10, fontWeight: 700, color: hr.rang, display: "flex", alignItems: "center" }}>
+                  {hr.nomi}
+                </div>
+                {[
+                  harf + hr.belgi,
+                  harf + hr.belgi + "ـ",
+                  "ـ" + harf + hr.belgi + "ـ",
+                  "ـ" + harf + hr.belgi,
+                ].map((txt, ci) => (
+                  <div key={ci} style={{
+                    padding: "4px 2px", fontFamily: AR, fontSize: 22,
+                    textAlign: "center", direction: "rtl", color: hr.rang,
+                    lineHeight: 1.6,
+                  }}>
+                    {txt}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Ziddi (juft) sifatlar */}
         {shownZiddi.length > 0 && (
           <div>
