@@ -207,6 +207,7 @@ export const HARF_SIFATLAR: Record<string, HarfSifat> = {
 /* ── Har bir dars uchun kumulativ (jami) o'rganilgan sifatlar ── */
 const _ALL = ["Jahr", "Hams", "Shidda", "Roxova", "Bayniyya", "Iste'lo", "Istefol", "Itbaq", "Infitah", "Izlaq", "Ismat"];
 export const TAUGHT_SIFAT: Record<number, string[]> = {
+  0:  [],
   1:  ["Jahr", "Hams"],
   2:  ["Jahr", "Hams", "Shidda", "Roxova", "Bayniyya"],
   3:  ["Jahr", "Hams", "Shidda", "Roxova", "Bayniyya", "Iste'lo", "Istefol"],
@@ -215,8 +216,25 @@ export const TAUGHT_SIFAT: Record<number, string[]> = {
   10: _ALL, 11: _ALL, 12: _ALL, 13: _ALL,
 };
 
-/* ── 13 darslik ma'lumot ── */
+/* ── 14 darslik ma'lumot (0–13) ── */
 export const DARSLAR: Dars[] = [
+  {
+    id: 0, nomi: "Arabtiliga Kirish", emoji: "📖",
+    mavzu: {
+      kirish: true,
+      takroriy: "Bu kurs bo'yicha umumiy kirish — oldingi bilim talab qilinmaydi",
+      yangiSifat: "Sifat tushunchasi: asliy/ziddi bor (11 ta juft) va mustaqil/ziddi yo'q (7 ta); ovoz pardasi — jarangli va nafsiz farqi",
+      maxraj: "Maxraj nima? 5 asosiy zona: Jawf (og'iz bo'shlig'i), Halq/Tomoq (3 qism), Lison/Til (10 guruh), Shafatayn/Lablar (4 harf), Xayshum/Burun (g'unna)",
+      amaliyot: "Ovoz pardasini qo'l bilan tekshirish usuli — bir qo'l bo'g'izga, ikkinchisi og'iz oldiga; أ، ب، ت harflari bilan birinchi tanishish",
+    },
+    yangiSifatlar: [],
+    maxraj: {
+      joy: "Barcha 5 maxraj zonasiga umumiy kirish",
+      tavsif: "Arab harflari 5 asosiy joydan chiqadi:\n• Jawf (og'iz bo'shlig'i) — 3 harf: ا، و، ي — hech qayerga urilmay to'g'ri chiqadi\n• Halq (tomoq) — 3 qism, 6 harf: أ، ه (pastki), ع، ح (o'rta), غ، خ (yuqori)\n• Lison (til) — 10 guruh, 18 harf: ق، ك، ج، ش، ي، ض، ل، ن، ر، ط، د، ت، ص، ز، س، ث، ذ، ظ\n• Shafatayn (lablar) — 4 harf: ف، ب، م، و\n• Xayshum (burun) — g'unna maxraji: ن va م maxsus holatlarda",
+      yangiHarflar: "",
+    },
+    yangiHarflar: [],
+  },
   {
     id: 1, nomi: "Jahr va Hams", emoji: "🔊",
     mavzu: {

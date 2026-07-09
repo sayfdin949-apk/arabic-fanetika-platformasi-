@@ -86,11 +86,13 @@ function MavzuPanel({ d }: { d: Dars }) {
 /* ── Yangi Sifatlar paneli ── */
 function SifatlarPanel({ d }: { d: Dars }) {
   if (d.yangiSifatlar.length === 0) {
+    const msg = d.id === 0
+      ? "Bu kirish darsi — sifat juftlari 1-darsdan boshlanadi. Sifat tushunchasi: asliy (ziddi bor) va mustaqil (ziddi yo'q) sifatlar mavjud."
+      : "Bu darsda yangi juft sifat yo'q — barcha 5 ta juft sifat allaqachon o'rganilgan. Amaliyotda har bir harf uchun barcha sifatlarni ko'rishingiz mumkin.";
     return (
       <Section title="Yangi sifatlar" icon={<Star size={16} />}>
         <div style={{ paddingTop: 8, fontSize: 13, color: T.hint, lineHeight: 1.6 }}>
-          Bu darsda yangi juft sifat yo'q — barcha 5 ta juft sifat allaqachon o'rganilgan.
-          Amaliyotda har bir harf uchun uning barcha sifatlarini ko'rishingiz mumkin.
+          {msg}
         </div>
       </Section>
     );
@@ -345,7 +347,7 @@ function DarslarList({ onSelect }: { onSelect: (d: Dars) => void }) {
           </div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             {[
-              { l: "Darslar", v: "13" },
+              { l: "Darslar", v: "14" },
               { l: "Harflar", v: "28" },
               { l: "Juft sifat", v: "5 juft" },
             ].map(s => (
