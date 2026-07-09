@@ -1,4 +1,4 @@
-/* Yangi dars tuzilmasi — 14 dars, 28 harf */
+/* Yangi dars tuzilmasi — 13 dars, 28 harf */
 
 export interface MustaqilSifat { nomi: string; izoh: string; }
 
@@ -23,10 +23,13 @@ export interface MaxrajInfo {
 }
 
 export interface DarsMavzu {
+  /** 1-dars uchun "Kirish", qolganlar uchun oldingi darslar xulosa */
   takroriy: string;
   yangiSifat: string;
   maxraj: string;
   amaliyot: string;
+  /** true bo'lsa MavzuPanel "Takroriy" o'rniga "Kirish" label ko'rsatadi */
+  kirish?: boolean;
 }
 
 export interface Dars {
@@ -202,42 +205,53 @@ export const HARF_SIFATLAR: Record<string, HarfSifat> = {
 };
 
 /* ── Har bir dars uchun kumulativ (jami) o'rganilgan sifatlar ── */
-const _ALL = ["Shidda", "Roxova", "Bayniyya", "Iste'lo", "Istefol", "Itbaq", "Infitah", "Izlaq", "Ismat", "Jahr", "Hams"];
+const _ALL = ["Jahr", "Hams", "Shidda", "Roxova", "Bayniyya", "Iste'lo", "Istefol", "Itbaq", "Infitah", "Izlaq", "Ismat"];
 export const TAUGHT_SIFAT: Record<number, string[]> = {
-  1:  [],
-  2:  ["Shidda", "Roxova", "Bayniyya"],
-  3:  ["Shidda", "Roxova", "Bayniyya", "Iste'lo", "Istefol"],
-  4:  ["Shidda", "Roxova", "Bayniyya", "Iste'lo", "Istefol", "Itbaq", "Infitah"],
-  5:  ["Shidda", "Roxova", "Bayniyya", "Iste'lo", "Istefol", "Itbaq", "Infitah", "Izlaq", "Ismat"],
-  6:  _ALL, 7:  _ALL, 8:  _ALL, 9:  _ALL,
-  10: _ALL, 11: _ALL, 12: _ALL, 13: _ALL, 14: _ALL,
+  1:  ["Jahr", "Hams"],
+  2:  ["Jahr", "Hams", "Shidda", "Roxova", "Bayniyya"],
+  3:  ["Jahr", "Hams", "Shidda", "Roxova", "Bayniyya", "Iste'lo", "Istefol"],
+  4:  ["Jahr", "Hams", "Shidda", "Roxova", "Bayniyya", "Iste'lo", "Istefol", "Itbaq", "Infitah"],
+  5:  _ALL, 6:  _ALL, 7:  _ALL, 8:  _ALL, 9:  _ALL,
+  10: _ALL, 11: _ALL, 12: _ALL, 13: _ALL,
 };
 
-/* ── 14 darslik ma'lumot ── */
+/* ── 13 darslik ma'lumot ── */
 export const DARSLAR: Dars[] = [
   {
-    id: 1, nomi: "Arabtiliga kirish", emoji: "🌙",
+    id: 1, nomi: "Jahr va Hams", emoji: "🔊",
     mavzu: {
-      takroriy: "Yangi dars — oldingi bilimlar talab qilinmaydi",
-      yangiSifat: "Sifat tushunchasi — harfning tovush xususiyatlari",
-      maxraj: "Maxraj tushunchasi — harfning chiqish joyi",
-      amaliyot: "Arab alifbosini ko'rish va eshitish",
+      kirish: true,
+      takroriy: "Arab alifbosi, 28 harf, yozuv yo'nalishi (o'ngdan chapga), harflarni ulash qoidalari",
+      yangiSifat: "Jahr (الْجَهْر) — jarangli; Hams (الْهَمْس) — nafsiz",
+      maxraj: "Halq (bo'g'iz/tomoq) — Arab harflari chiqadigan 5 zonadan biri; أ, ب, ت chiqish joylari",
+      amaliyot: "أ (Hamza), ب (Ba), ت (Ta) — Jahr yoki Hams sifati + mustaqil sifatlar + maxraj",
     },
-    yangiSifatlar: [],
+    yangiSifatlar: [
+      {
+        nomi: "Jahr", arNomi: "الْجَهْر",
+        tavsif: "Harf talaffuz qilinganda ovoz payi titraydi — jarangli tovush hosil bo'ladi. 19 ta harf: أ، ب، ج، د، ذ، ر، ز، ض، ط، ظ، ع، غ، ق، ل، م، ن، و، ي (eslatma: جَهر هؤلاء — barcha jarangli harflar)",
+        harflar: "أ ب ج د ذ ر ز ض ط ظ ع غ ق ل م ن و ي",
+      },
+      {
+        nomi: "Hams", arNomi: "الْهَمْس",
+        tavsif: "Harf talaffuz qilinganda ovoz payi titramaydі — nafas bilan (nafsiz) chiqadi. 10 ta harf: ف، ح، ث، ه، ش، خ، ص، س، ك، ت (eslatma: فحثه شخص سكت)",
+        harflar: "ف ح ث ه ش خ ص س ك ت",
+      },
+    ],
     maxraj: {
-      joy: "Kirish: 5 asosiy zona",
-      tavsif: "Arabtilidagi 28 harf 5 asosiy chiqish joyidan keladi: Jawf (og'iz bo'shlig'i), Halq (bo'g'iz), Lison (til), Shafatayn (ikki lab), Xayshum (burun).",
-      yangiHarflar: "28 harf — barchasi",
+      joy: "Halq (bo'g'iz/tomoq) — va boshqa chiqish joylari",
+      tavsif: "Arabtilidagi harflar 5 asosiy joydan chiqadi: Jawf, Halq (bo'g'iz/tomoq), Lison (til), Shafatayn (ikki lab), Xayshum (burun). Bu darsda: أ — Halqning eng chuqur nuqtasidan (bo'g'izdan to'liq to'xtash bilan); ب — Shafatayn (ikki lab yopilib-ochilish bilan); ت — Lison uchi (til uchi yuqori tishlarning ichki tomoniga tegadi).",
+      yangiHarflar: "أ، ب، ت",
     },
-    yangiHarflar: [],
+    yangiHarflar: ["أ", "ب", "ت"],
   },
   {
     id: 2, nomi: "Shidda va Roxova", emoji: "💪",
     mavzu: {
-      takroriy: "1-dars: Arab alifbosi, yozuv yo'nalishi (o'ngdan chapga), harflarni ulash qoidalari",
+      takroriy: "1-dars: Jahr (19 harf: أ ب ج...), Hams (10 harf: ف ح ث...); أ، ب، ت harflari",
       yangiSifat: "Shidda (الشِّدَّة) — keskin to'xtash; Roxova (الرَّخَاوَة) — erkin oqish; Bayniyya (الْبَيْنِيَّة) — o'rta",
-      maxraj: "Halq (أ), Shafatayn (ب), Lison uchi (ت) — 3 ta turli chiqish joyi",
-      amaliyot: "أ، ب، ت — 3 yangi harf, Shidda yoki Roxova sifati bilan tanishish",
+      maxraj: "Lison uchi — ث (tish oralig'i); Lison o'rtasi — ج (til o'rtasi va tanglay)",
+      amaliyot: "أ، ب، ت، ث، ج — 5 harf; Jahr/Hams + Shidda/Roxova nuqtai nazaridan",
     },
     yangiSifatlar: [
       {
@@ -257,19 +271,19 @@ export const DARSLAR: Dars[] = [
       },
     ],
     maxraj: {
-      joy: "Halq, Shafatayn va Lison uchi",
-      tavsif: "أ — Halq (bo'g'izdan eng chuqur nuqtadan to'liq to'xtash bilan); ب — Shafatayn (ikki labdan, yopilib-ochilish bilan); ت — Lison uchi (til uchi yuqori tishlarning ichki tomoniga tegadi).",
-      yangiHarflar: "أ، ب، ت",
+      joy: "Lison uchi va Lison o'rtasi",
+      tavsif: "ث — til uchi pastki va yuqori tishlar orasidan chiqadi (Hams+Roxova); ج — til o'rtasi va oldingi yumshoq tanglay birlashgan joydan chiqadi (Jahr+Shidda).",
+      yangiHarflar: "ث، ج",
     },
-    yangiHarflar: ["أ", "ب", "ت"],
+    yangiHarflar: ["ث", "ج"],
   },
   {
     id: 3, nomi: "Iste'lo va Istefol", emoji: "⬆️",
     mavzu: {
-      takroriy: "2-dars: Shidda (أ، ب، ت، ج، د، ق، ط، ك), Roxova, Bayniyya sifatlari; أ، ب، ت harflari",
+      takroriy: "2-dars: Shidda (أ ب ت ج...), Roxova, Bayniyya; ث، ج harflari; jami 5 harf",
       yangiSifat: "Iste'lo (الاِسْتِعْلَاء) — til ko'tarilishi; Istefol (الاِسْتِفَال) — til pastligi",
-      maxraj: "Lison uchi va Lison o'rtasi — ث va ج harflari",
-      amaliyot: "أ، ب، ت، ث، ج — 5 harf, Shidda/Roxova + Iste'lo/Istefol nuqtai nazaridan",
+      maxraj: "Halq — bo'g'izning uch qismi; ح va خ harflari",
+      amaliyot: "أ، ب، ت، ث، ج، ح، خ — 7 harf; barcha o'rganilgan sifatlar bilan",
     },
     yangiSifatlar: [
       {
@@ -284,217 +298,190 @@ export const DARSLAR: Dars[] = [
       },
     ],
     maxraj: {
-      joy: "Lison uchi va Lison o'rtasi",
-      tavsif: "ث — til uchi pastki va yuqori tishlar orasidan; ج — til o'rtasi va oldingi yumshoq tanglay birlashgan joydan.",
-      yangiHarflar: "ث، ج",
-    },
-    yangiHarflar: ["ث", "ج"],
-  },
-  {
-    id: 4, nomi: "Itbaq va Infitah", emoji: "🔒",
-    mavzu: {
-      takroriy: "3-dars: Iste'lo (خ، ص، ض، ط، ظ، غ، ق), Istefol; ث، ج harflari; jami 5 harf",
-      yangiSifat: "Itbaq (الإِطْبَاق) — yopilish; Infitah (الاِنْفِتَاح) — ochilish",
-      maxraj: "Halq — bo'g'izning uch qismi; ح va خ harflari",
-      amaliyot: "أ، ب، ت، ث، ج، ح، خ — 7 harf, barcha o'rganilgan sifatlar bilan",
-    },
-    yangiSifatlar: [
-      {
-        nomi: "Itbaq", arNomi: "الإِطْبَاق",
-        tavsif: "Harf talaffuz qilinganda til orqasi tanglay bilan yopiladi — og'ir to'siq hosil bo'ladi. Faqat 4 ta harf: ص، ض، ط، ظ",
-        harflar: "ص ض ط ظ",
-      },
-      {
-        nomi: "Infitah", arNomi: "الاِنْفِتَاح",
-        tavsif: "Harf talaffuz qilinganda til va tanglay orasida ochiqlik saqlanadi. Qolgan 24 ta harf Infitah guruhiga kiradi.",
-        harflar: "أ ب ت ث ج ح خ د ذ ر ز س ش ع غ ف ق ك ل م ن ه و ي",
-      },
-    ],
-    maxraj: {
       joy: "Halq (bo'g'iz) — uch qism",
-      tavsif: "Halq 3 qismga bo'linadi: pastki (أ, ه), o'rta (ع, ح) va yuqori (غ, خ). Bu darsda: ح — halq o'rtasidan nafas bilan; خ — halq yuqorisidan sirpanish tovushi bilan.",
+      tavsif: "Halq 3 qismga bo'linadi: pastki (أ, ه), o'rta (ع, ح) va yuqori (غ, خ). Bu darsda: ح — halq o'rtasidan nafas bilan (Hams+Roxova+Istefol); خ — halq yuqorisidan sirpanish tovushi bilan (Hams+Roxova+Iste'lo).",
       yangiHarflar: "ح، خ",
     },
     yangiHarflar: ["ح", "خ"],
   },
   {
-    id: 5, nomi: "Izlaq va Ismat", emoji: "🌊",
+    id: 4, nomi: "Itbaq va Infitah", emoji: "🔒",
     mavzu: {
-      takroriy: "4-dars: Itbaq (ص، ض، ط، ظ), Infitah; ح، خ harflari; jami 7 harf",
-      yangiSifat: "Izlaq (الإِذْلَاق) — oson chiqish; Ismat (الإِصْمَات) — to'siqli chiqish",
+      takroriy: "3-dars: Iste'lo (خ ص ض ط ظ غ ق), Istefol; ح، خ harflari; jami 7 harf",
+      yangiSifat: "Itbaq (الإِطْبَاق) — yopilish (til+tanglay); Infitah (الاِنْفِتَاح) — ochiqlik",
       maxraj: "Lison uchi — til uchi tish orqasidan; د va ذ harflari",
-      amaliyot: "أ، ب، ت، ث، ج، ح، خ، د، ذ — 9 harf",
+      amaliyot: "أ–خ، د، ذ — 9 harf; barcha o'rganilgan sifatlar bilan",
     },
     yangiSifatlar: [
       {
-        nomi: "Izlaq", arNomi: "الإِذْلَاق",
-        tavsif: "Harf talaffuz qilinganda til uchi yoki lab uchidan osonlik bilan chiqadi. 6 ta harf: ف، ر، م، ل، ن، ب (eslatma: فر من لب)",
-        harflar: "ف ر م ل ن ب",
+        nomi: "Itbaq", arNomi: "الإِطْبَاق",
+        tavsif: "Harf talaffuz qilinganda til orqasi tanglay bilan mahkam yopiladi — og'ir to'siq hosil bo'ladi. Faqat 4 ta harf: ص، ض، ط، ظ",
+        harflar: "ص ض ط ظ",
       },
       {
-        nomi: "Ismat", arNomi: "الإِصْمَات",
-        tavsif: "Chiqishi nisbatan qiyinroq — arablar uchun Izlaq harflarsiz so'z yaratish qiyin. Qolgan 22 ta harf Ismat guruhiga kiradi.",
-        harflar: "أ ت ث ج ح خ د ذ ز س ش ص ض ط ظ ع غ ق ك ه و ي",
+        nomi: "Infitah", arNomi: "الاِنْفِتَاح",
+        tavsif: "Harf talaffuz qilinganda til va tanglay orasida ochiqlik saqlanadi — 'ochiq' harflar. Qolgan 24 ta harf Infitah guruhiga kiradi.",
+        harflar: "أ ب ت ث ج ح خ د ذ ر ز س ش ع غ ف ق ك ل م ن ه و ي",
       },
     ],
     maxraj: {
       joy: "Lison uchi — tish orqasi",
-      tavsif: "د — til uchi yuqori tishlarning orqa tomoni bilan (ت ga o'xshash, lekin jarangli); ذ — til uchi pastki va yuqori tishlar orasidan, jarangli (ث ning jarangli shakli).",
+      tavsif: "د — til uchi yuqori tishlarning orqa tomoni bilan (ت ga o'xshash, lekin Jahr); ذ — til uchi pastki va yuqori tishlar orasidan, jarangli (ث ning jarangli shakli — Jahr+Roxova).",
       yangiHarflar: "د، ذ",
     },
     yangiHarflar: ["د", "ذ"],
   },
   {
-    id: 6, nomi: "Jahr va Hams", emoji: "🔊",
+    id: 5, nomi: "Izlaq va Ismat", emoji: "🌊",
     mavzu: {
-      takroriy: "5-dars: Izlaq (ف، ر، م، ل، ن، ب), Ismat; د، ذ harflari; jami 9 harf",
-      yangiSifat: "Jahr (الْجَهْر) — jarangli; Hams (الْهَمْس) — nafsiz",
-      maxraj: "Lison uchi — Ra va Zayn; Safir sifatiga kirish",
-      amaliyot: "أ–ذ، ر، ز — 11 harf; endi barcha 5 juft sifat o'rganildi",
+      takroriy: "4-dars: Itbaq (ص ض ط ظ), Infitah; د، ذ harflari; jami 9 harf; endi barcha 5 juft sifat o'rganildi",
+      yangiSifat: "Izlaq (الإِذْلَاق) — oson chiqish; Ismat (الإِصْمَات) — to'siqli chiqish",
+      maxraj: "Lison uchi — ر ning titrab talaffuzi va ز ning Safir sifati",
+      amaliyot: "أ–ذ، ر، ز — 11 harf; barcha 5 juft sifat + mustaqil sifatlar",
     },
     yangiSifatlar: [
       {
-        nomi: "Jahr", arNomi: "الْجَهْر",
-        tavsif: "Harf talaffuz qilinganda ovoz payi titraydi — jarangli tovush. 19 ta harf: أ، ب، ج، د، ذ، ر، ز، ض، ط، ظ، ع، غ، ق، ل، م، ن، و، ي (va ء)",
-        harflar: "أ ب ج د ذ ر ز ض ط ظ ع غ ق ل م ن و ي",
+        nomi: "Izlaq", arNomi: "الإِذْلَاق",
+        tavsif: "Harf talaffuz qilinganda til uchi yoki lab uchidan osonlik bilan chiqadi — oqilona chiqish. 6 ta harf: ف، ر، م، ل، ن، ب (eslatma: فر من لب)",
+        harflar: "ف ر م ل ن ب",
       },
       {
-        nomi: "Hams", arNomi: "الْهَمْس",
-        tavsif: "Harf talaffuz qilinganda ovoz payi titramaydі — nafas bilan chiqadi. 10 ta harf: ف، ح، ث، ه، ش، خ، ص، س، ك، ت (eslatma: فحثه شخص سكت)",
-        harflar: "ف ح ث ه ش خ ص س ك ت",
+        nomi: "Ismat", arNomi: "الإِصْمَات",
+        tavsif: "Chiqishi nisbatan qiyinroq — ko'proq til ichiga kirib talaffuz qilinadi. Qolgan 22 ta harf Ismat guruhiga kiradi.",
+        harflar: "أ ت ث ج ح خ د ذ ز س ش ص ض ط ظ ع غ ق ك ه و ي",
       },
     ],
     maxraj: {
       joy: "Lison uchi — Ra va Zayn",
-      tavsif: "ر — til uchi tish milkiga tez-tez tegib tebranadi (Takrir sifati); ز — til uchi va tish orasidan jarangli sifildirilgan tovush (Safir sifati).",
+      tavsif: "ر — til uchi tish milkiga tez-tez tegib tebranadi (Jahr+Bayniyya+Izlaq; mustaqil: Inhiraf, Takrir); ز — til uchi va tish orasidan jarangli sifildirilgan tovush (Jahr+Roxova+Izlaq→Ismat; mustaqil: Safir).",
       yangiHarflar: "ر، ز",
     },
     yangiHarflar: ["ر", "ز"],
   },
   {
-    id: 7, nomi: "Sin va Shin", emoji: "🐍",
+    id: 6, nomi: "Sin va Shin", emoji: "🐍",
     mavzu: {
-      takroriy: "6-dars: Jahr (19 harf), Hams (10 harf); ر، ز; barcha juft sifatlar o'rganildi",
-      yangiSifat: "Barcha 5 juft sifat mustahkamlash: Shidda/Roxova, Iste'lo/Istefol, Itbaq/Infitah, Izlaq/Ismat, Jahr/Hams",
-      maxraj: "Lison uchi — Sin; Lison o'rtasi — Shin",
+      takroriy: "5-dars: Izlaq (ف ر م ل ن ب), Ismat; ر، ز harflari; barcha 5 juft sifat to'liq o'rganildi",
+      yangiSifat: "Barcha 5 juft sifat mustahkamlash: Jahr/Hams, Shidda/Roxova, Iste'lo/Istefol, Itbaq/Infitah, Izlaq/Ismat",
+      maxraj: "Lison uchi — Sin (Safir); Lison o'rtasi — Shin (Tafasshi)",
       amaliyot: "أ–ز، س، ش — 13 harf; mustaqil sifat: Safir (ز، س) va Tafasshi (ش)",
     },
     yangiSifatlar: [],
     maxraj: {
       joy: "Lison uchi (Sin) va Lison o'rtasi (Shin)",
-      tavsif: "س — til uchi va tish orasidan nafsiz sifildirilgan tovush (Safir); ش — til o'rtasi keng tarqalgan nafsiz tovush (Tafasshi).",
+      tavsif: "س — til uchi va tish orasidan nafsiz sifildirilgan tovush (Hams+Roxova+Istefol+Infitah+Ismat; mustaqil: Safir); ش — til o'rtasi keng tarqalgan nafsiz tovush (Hams+Roxova+Istefol+Infitah+Ismat; mustaqil: Tafasshi).",
       yangiHarflar: "س، ش",
     },
     yangiHarflar: ["س", "ش"],
   },
   {
-    id: 8, nomi: "Sod va Zod", emoji: "⚖️",
+    id: 7, nomi: "Sod va Zod", emoji: "⚖️",
     mavzu: {
-      takroriy: "7-dars: Sin va Shin; Safir sifati (ز، س), Tafasshi (ش); jami 13 harf",
-      yangiSifat: "Mustahkamlash: ص ning iste'lo+itbaq+safir; ض ning istitola sifati",
+      takroriy: "6-dars: Sin va Shin; Safir (ز، س), Tafasshi (ش); jami 13 harf",
+      yangiSifat: "Mustahkamlash: ص — Hams+Roxova+Iste'lo+Itbaq+Ismat+Safir; ض — Jahr+Roxova+Iste'lo+Itbaq+Ismat+Istitola",
       maxraj: "Lison uchi (Sod) va Lison yon tomoni (Zod)",
       amaliyot: "أ–ش، ص، ض — 15 harf",
     },
     yangiSifatlar: [],
     maxraj: {
       joy: "Lison uchi va Lison yoni",
-      tavsif: "ص — til uchi va tish yaqinida og'ir mahkam sibilyant (Iste'lo+Itbaq+Safir); ض — til yon tomoni orqa tishlar bilan, og'ir jarangli (Istitola sifati — arabtilidagi eng murakkab harf).",
+      tavsif: "ص — til uchi va tish yaqinida og'ir mahkam sibilyant (Hams+Roxova+Iste'lo+Itbaq+Ismat; mustaqil: Safir); ض — til yon tomoni orqa tishlar bilan, og'ir jarangli (Jahr+Roxova+Iste'lo+Itbaq+Ismat; mustaqil: Istitola).",
       yangiHarflar: "ص، ض",
     },
     yangiHarflar: ["ص", "ض"],
   },
   {
-    id: 9, nomi: "To va Zo", emoji: "🏋️",
+    id: 8, nomi: "To va Zo", emoji: "🏋️",
     mavzu: {
-      takroriy: "8-dars: Sod va Zod; Safir (ص), Istitola (ض); jami 15 harf",
-      yangiSifat: "Mustahkamlash: ط — shidda+iste'lo+itbaq+qalqala; ظ — roxova+iste'lo+itbaq",
+      takroriy: "7-dars: Sod va Zod; Safir (ص), Istitola (ض); jami 15 harf",
+      yangiSifat: "Mustahkamlash: ط — Jahr+Shidda+Iste'lo+Itbaq+Ismat+Qalqala; ظ — Jahr+Roxova+Iste'lo+Itbaq+Ismat",
       maxraj: "Lison uchi — tish bilan; og'ir harflar",
       amaliyot: "أ–ض، ط، ظ — 17 harf",
     },
     yangiSifatlar: [],
     maxraj: {
       joy: "Lison uchi — tish bilan (og'ir)",
-      tavsif: "ط — til uchi yuqori tishlar bilan, og'ir keskin (Shidda+Iste'lo+Itbaq+Qalqala); ظ — til uchi tish oralig'idan og'ir jarangli (Roxova+Iste'lo+Itbaq — ذ ning og'ir shakli).",
+      tavsif: "ط — til uchi yuqori tishlar bilan, og'ir keskin (Jahr+Shidda+Iste'lo+Itbaq+Ismat; mustaqil: Qalqala); ظ — til uchi tish oralig'idan og'ir jarangli (Jahr+Roxova+Iste'lo+Itbaq+Ismat — ذ ning og'ir shakli).",
       yangiHarflar: "ط، ظ",
     },
     yangiHarflar: ["ط", "ظ"],
   },
   {
-    id: 10, nomi: "Ayn va G'ayn", emoji: "👁️",
+    id: 9, nomi: "Ayn va G'ayn", emoji: "👁️",
     mavzu: {
-      takroriy: "9-dars: To va Zo; og'ir lison harflari; jami 17 harf",
-      yangiSifat: "Mustahkamlash: ع — bayniyya+halq; غ — roxova+iste'lo+halq",
+      takroriy: "8-dars: To va Zo; og'ir lison harflari; jami 17 harf",
+      yangiSifat: "Mustahkamlash: ع — Jahr+Bayniyya+Istefol+Infitah+Ismat; غ — Jahr+Roxova+Iste'lo+Infitah+Ismat",
       maxraj: "Halq o'rtasi (Ayn) va Halq yuqorisi (G'ayn)",
       amaliyot: "أ–ظ، ع، غ — 19 harf",
     },
     yangiSifatlar: [],
     maxraj: {
       joy: "Halq o'rtasi va Halq yuqorisi",
-      tavsif: "ع — halq o'rtasida tomir qisqarishi bilan jarangli (Bayniyya); غ — halq yuqorisida sirpanish tovushi bilan (خ ning jarangli shakli, Iste'lo).",
+      tavsif: "ع — halq o'rtasida tomir qisqarishi bilan jarangli (Jahr+Bayniyya+Istefol+Infitah+Ismat); غ — halq yuqorisida sirpanish tovushi bilan (Jahr+Roxova+Iste'lo+Infitah+Ismat — خ ning jarangli shakli).",
       yangiHarflar: "ع، غ",
     },
     yangiHarflar: ["ع", "غ"],
   },
   {
-    id: 11, nomi: "Fa va Qof", emoji: "💨",
+    id: 10, nomi: "Fa va Qof", emoji: "💨",
     mavzu: {
-      takroriy: "10-dars: Ayn va G'ayn; halq o'rta va yuqorisi; jami 19 harf",
-      yangiSifat: "Mustahkamlash: ف — izlaq; ق — shidda+iste'lo+qalqala",
+      takroriy: "9-dars: Ayn va G'ayn; halq o'rta va yuqorisi; jami 19 harf",
+      yangiSifat: "Mustahkamlash: ف — Hams+Roxova+Istefol+Infitah+Izlaq; ق — Jahr+Shidda+Iste'lo+Infitah+Ismat+Qalqala",
       maxraj: "Shafatayn-tish (Fa) va Lison orqasi (Qof)",
       amaliyot: "أ–غ، ف، ق — 21 harf",
     },
     yangiSifatlar: [],
     maxraj: {
       joy: "Shafatayn-tish va Lison orqasi",
-      tavsif: "ف — pastki lab va yuqori tishlar birga (Izlaq, Hams, Roxova); ق — til orqasi va uvula (tovush payi) birlashgan joydan chuqur (Shidda+Iste'lo+Qalqala).",
+      tavsif: "ف — pastki lab va yuqori tishlar birga (Hams+Roxova+Istefol+Infitah+Izlaq); ق — til orqasi va uvula (tovush payi) birlashgan joydan chuqur (Jahr+Shidda+Iste'lo+Infitah+Ismat; mustaqil: Qalqala).",
       yangiHarflar: "ف، ق",
     },
     yangiHarflar: ["ف", "ق"],
   },
   {
-    id: 12, nomi: "Kof va Lam", emoji: "🗝️",
+    id: 11, nomi: "Kof va Lam", emoji: "🗝️",
     mavzu: {
-      takroriy: "11-dars: Fa va Qof; shafatayn-tish va lison orqasi; jami 21 harf",
-      yangiSifat: "Mustahkamlash: ك — hams+shidda; ل — bayniyya+izlaq+inhiraf",
+      takroriy: "10-dars: Fa va Qof; shafatayn-tish va lison orqasi; jami 21 harf",
+      yangiSifat: "Mustahkamlash: ك — Hams+Shidda+Istefol+Infitah+Ismat; ل — Jahr+Bayniyya+Istefol+Infitah+Izlaq+Inhiraf",
       maxraj: "Lison orqasi (Kof) va Lison yoni (Lam)",
       amaliyot: "أ–ق، ك، ل — 23 harf",
     },
     yangiSifatlar: [],
     maxraj: {
       joy: "Lison orqasi va Lison yoni",
-      tavsif: "ك — til orqasi va yumshoq tanglay (ق dan biroz oldinda, Hams+Shidda); ل — til chetlari tish milklari bilan, havo yon tomondan o'tadi (Inhiraf sifati).",
+      tavsif: "ك — til orqasi va yumshoq tanglay (ق dan biroz oldinda, Hams+Shidda+Istefol+Infitah+Ismat); ل — til chetlari tish milklari bilan, havo yon tomondan o'tadi (Jahr+Bayniyya+Istefol+Infitah+Izlaq; mustaqil: Inhiraf).",
       yangiHarflar: "ك، ل",
     },
     yangiHarflar: ["ك", "ل"],
   },
   {
-    id: 13, nomi: "Mim va Nun", emoji: "🫦",
+    id: 12, nomi: "Mim va Nun", emoji: "🫦",
     mavzu: {
-      takroriy: "12-dars: Kof va Lam; lison orqasi va yoni; jami 23 harf",
-      yangiSifat: "Mustahkamlash: م — bayniyya+izlaq+shafatayn; ن — bayniyya+izlaq+xayshum",
-      maxraj: "Shafatayn (Mim) va Xayshum-Lison (Nun)",
+      takroriy: "11-dars: Kof va Lam; lison orqasi va yoni; jami 23 harf",
+      yangiSifat: "Mustahkamlash: م — Jahr+Bayniyya+Istefol+Infitah+Izlaq; ن — Jahr+Bayniyya+Istefol+Infitah+Izlaq",
+      maxraj: "Shafatayn (Mim) va Xayshum+Lison uchi (Nun)",
       amaliyot: "أ–ل، م، ن — 25 harf",
     },
     yangiSifatlar: [],
     maxraj: {
       joy: "Shafatayn va Xayshum",
-      tavsif: "م — ikki lab yopilib ochiladi, burun rezonansida (Bayniyya+Izlaq+Shafatayn); ن — til uchi oldingi tanglay bilan, burun yo'lidan ham o'tadi — Xayshum ta'siri (Bayniyya+Izlaq).",
+      tavsif: "م — ikki lab yopilib ochiladi, burun rezonansida (Jahr+Bayniyya+Istefol+Infitah+Izlaq); ن — til uchi oldingi tanglay bilan, burun yo'lidan ham o'tadi — Xayshum ta'siri (Jahr+Bayniyya+Istefol+Infitah+Izlaq).",
       yangiHarflar: "م، ن",
     },
     yangiHarflar: ["م", "ن"],
   },
   {
-    id: 14, nomi: "Ha, Wow va Ya", emoji: "🌟",
+    id: 13, nomi: "Ha, Wow va Ya", emoji: "🌟",
     mavzu: {
-      takroriy: "13-dars: Mim va Nun; shafatayn va xayshum; jami 25 harf",
-      yangiSifat: "Mustahkamlash: ه — hams+halq; و va ي — lin sifati",
-      maxraj: "Halq (Ha), Shafatayn (Wow) va Lison o'rtasi (Ya)",
-      amaliyot: "Barcha 28 harf — to'liq arab alifbosi!",
+      takroriy: "12-dars: Mim va Nun; shafatayn va xayshum; jami 25 harf",
+      yangiSifat: "Mustahkamlash: ه — Hams+Roxova+Halq; و va ي — Lin sifati (ziddi yo'q)",
+      maxraj: "Halq pastki (Ha), Shafatayn (Wow) va Lison o'rtasi (Ya)",
+      amaliyot: "Barcha 28 harf — to'liq arab alifbosi! و va ي ning Lin sifatiga alohida e'tibor",
     },
     yangiSifatlar: [],
     maxraj: {
-      joy: "Halq, Shafatayn va Lison o'rtasi",
-      tavsif: "ه — eng chuqur halqdan nafsiz nafas tovushi (Hams+Roxova); و — ikki lab dumaloqlanib biroz ochiqroq (Lin sifati: sokin о ± fatha oldidan); ي — til o'rtasi yumshoq tanglayga yaqin (Lin sifati: sokin й ± fatha oldidan).",
+      joy: "Halq pastki, Shafatayn va Lison o'rtasi",
+      tavsif: "ه — eng chuqur halqdan nafsiz nafas tovushi (Hams+Roxova+Istefol+Infitah+Ismat); و — ikki lab dumaloqlanib biroz ochiqroq (Jahr+Roxova+Istefol+Infitah+Ismat; mustaqil: Lin); ي — til o'rtasi yumshoq tanglayga yaqin (Jahr+Roxova+Istefol+Infitah+Ismat; mustaqil: Lin).",
       yangiHarflar: "ه، و، ي",
     },
     yangiHarflar: ["ه", "و", "ي"],
@@ -505,7 +492,7 @@ export const DARSLAR: Dars[] = [
 export function getLettersForLesson(lessonId: number): string[] {
   const out: string[] = [];
   for (const d of DARSLAR) {
-    if (d.id >= 2 && d.id <= lessonId) out.push(...d.yangiHarflar);
+    if (d.id >= 1 && d.id <= lessonId) out.push(...d.yangiHarflar);
   }
   return out;
 }

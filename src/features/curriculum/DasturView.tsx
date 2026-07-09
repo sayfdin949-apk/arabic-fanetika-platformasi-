@@ -54,7 +54,7 @@ function Section({
 /* ── Mavzu paneli ── */
 function MavzuPanel({ d }: { d: Dars }) {
   const rows = [
-    { label: "Takroriy", val: d.mavzu.takroriy, color: "#1d4ed8" },
+    { label: d.mavzu.kirish ? "Kirish" : "Takroriy", val: d.mavzu.takroriy, color: "#1d4ed8" },
     { label: "Yangi sifat", val: d.mavzu.yangiSifat, color: "#b45309" },
     { label: "Maxraj", val: d.mavzu.maxraj, color: "#15803d" },
     { label: "Amaliyot", val: d.mavzu.amaliyot, color: "#7c3aed" },
@@ -320,7 +320,7 @@ function DarsDetail({ d, onBack }: { d: Dars; onBack: () => void }) {
 /* ── Darslar ro'yxati (asosiy ko'rinish) ── */
 function DarslarList({ onSelect }: { onSelect: (d: Dars) => void }) {
   const pairs = [
-    "Shidda/Roxova", "Iste'lo/Istefol", "Itbaq/Infitah", "Izlaq/Ismat", "Jahr/Hams",
+    "Jahr/Hams", "Shidda/Roxova", "Iste'lo/Istefol", "Itbaq/Infitah", "Izlaq/Ismat",
   ];
   return (
     <div style={{ minHeight: "100dvh", background: T.meshLight }}>
@@ -336,7 +336,7 @@ function DarslarList({ onSelect }: { onSelect: (d: Dars) => void }) {
           </div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             {[
-              { l: "Darslar", v: "14" },
+              { l: "Darslar", v: "13" },
               { l: "Harflar", v: "28" },
               { l: "Juft sifat", v: "5 juft" },
             ].map(s => (
