@@ -170,7 +170,6 @@ function HarfKarta({ harf, lessonId }: { harf: string; lessonId: number }) {
   const taught = TAUGHT_SIFAT[lessonId] ?? TAUGHT_SIFAT[6];
   const shownZiddi = data.ziddi.filter(s => taught.includes(s));
   const shownMustaqil = data.mustaqil;
-  const hasContent = shownZiddi.length > 0 || shownMustaqil.length > 0;
 
   return (
     <div style={{
@@ -193,49 +192,59 @@ function HarfKarta({ harf, lessonId }: { harf: string; lessonId: number }) {
         }}>{harf}</div>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 14, fontWeight: 700, color: T.green }}>{data.nomi}</div>
-          <div style={{ fontSize: 11, color: T.hint, marginTop: 2, lineHeight: 1.4 }}>{data.maxraj}</div>
         </div>
       </div>
 
-      {/* Sifatlar */}
-      {hasContent && (
-        <div style={{ padding: "10px 14px" }}>
-          {/* Ziddi (juft) sifatlar */}
-          {shownZiddi.length > 0 && (
-            <div style={{ marginBottom: shownMustaqil.length > 0 ? 8 : 0 }}>
-              <div style={{ fontSize: 10, fontWeight: 700, color: T.hint, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 6 }}>
-                Juft sifatlar (o'rganilganlar)
-              </div>
-              <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
-                {shownZiddi.map(s => {
-                  const r = SIFAT_RANG[s] ?? { bg: "#6b7280", text: "#fff" };
-                  return <Badge key={s} label={s} bg={r.bg} text={r.text} />;
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Mustaqil sifatlar */}
-          {shownMustaqil.length > 0 && (
-            <div>
-              <div style={{ fontSize: 10, fontWeight: 700, color: "#b45309", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 6 }}>
-                Mustaqil sifatlar (ziddi yo'q)
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                {shownMustaqil.map(ms => (
-                  <div key={ms.nomi} style={{
-                    background: "rgba(180,83,9,.08)", border: "1px solid rgba(180,83,9,.2)",
-                    borderRadius: 8, padding: "7px 10px",
-                  }}>
-                    <span style={{ fontSize: 11, fontWeight: 800, color: "#b45309" }}>{ms.nomi}</span>
-                    <span style={{ fontSize: 11, color: T.text2, marginLeft: 6 }}>— {ms.izoh}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+      <div style={{ padding: "10px 14px", display: "flex", flexDirection: "column", gap: 8 }}>
+        {/* Maxraj */}
+        <div>
+          <div style={{ fontSize: 10, fontWeight: 700, color: "#15803d", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 5 }}>
+            Maxraj
+          </div>
+          <div style={{
+            background: "rgba(21,128,61,.07)", border: "1px solid rgba(21,128,61,.18)",
+            borderRadius: 8, padding: "7px 10px",
+            fontSize: 12, color: T.text, lineHeight: 1.5,
+          }}>
+            {data.maxraj}
+          </div>
         </div>
-      )}
+
+        {/* Ziddi (juft) sifatlar */}
+        {shownZiddi.length > 0 && (
+          <div>
+            <div style={{ fontSize: 10, fontWeight: 700, color: T.hint, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 5 }}>
+              Juft sifatlar (o'rganilganlar)
+            </div>
+            <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+              {shownZiddi.map(s => {
+                const r = SIFAT_RANG[s] ?? { bg: "#6b7280", text: "#fff" };
+                return <Badge key={s} label={s} bg={r.bg} text={r.text} />;
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Mustaqil sifatlar */}
+        {shownMustaqil.length > 0 && (
+          <div>
+            <div style={{ fontSize: 10, fontWeight: 700, color: "#b45309", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 5 }}>
+              Mustaqil sifatlar (ziddi yo'q)
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              {shownMustaqil.map(ms => (
+                <div key={ms.nomi} style={{
+                  background: "rgba(180,83,9,.08)", border: "1px solid rgba(180,83,9,.2)",
+                  borderRadius: 8, padding: "7px 10px",
+                }}>
+                  <span style={{ fontSize: 11, fontWeight: 800, color: "#b45309" }}>{ms.nomi}</span>
+                  <span style={{ fontSize: 11, color: T.text2, marginLeft: 6 }}>— {ms.izoh}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
