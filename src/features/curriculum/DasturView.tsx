@@ -338,48 +338,68 @@ function AmaliyotPanel({ d }: { d: Dars }) {
   );
 }
 
-/* ── Tajwid qoidalari paneli ── */
+/* ── Tajwid qoidalari paneli (dars 14+ asosiy kontent) ── */
 function QoidaPanel({ d }: { d: Dars }) {
   if (!d.tajwidQoidalar || d.tajwidQoidalar.length === 0) return null;
   return (
-    <Section title="Tajwid Qoidalari" icon={<Star size={16} />} defaultOpen>
-      <div style={{ paddingTop: 8, display: "flex", flexDirection: "column", gap: 10 }}>
-        {d.tajwidQoidalar.map((q: TajwidQoida, i: number) => (
-          <div key={i} style={{
-            background: "rgba(13,58,26,.04)", borderRadius: 10,
-            padding: "12px 14px", border: "1px solid rgba(13,58,26,.1)",
-          }}>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 6, flexWrap: "wrap" }}>
-              <span style={{ fontSize: 14, fontWeight: 700, color: "#0d3a1a" }}>{q.nomi}</span>
-              <span style={{ fontFamily: AR, fontSize: 15, color: "#7c3aed", direction: "rtl" }}>{q.arNomi}</span>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      {d.tajwidQoidalar.map((q: TajwidQoida, i: number) => (
+        <div key={i} style={{
+          background: "#fff", borderRadius: 14,
+          padding: "16px 16px 14px", border: "1px solid rgba(13,58,26,.12)",
+          boxShadow: "0 1px 4px rgba(0,0,0,.06)",
+        }}>
+          {/* Sarlavha */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10, flexWrap: "wrap", gap: 6 }}>
+            <span style={{ fontSize: 15, fontWeight: 800, color: "#0d3a1a" }}>{q.nomi}</span>
+            <span style={{ fontFamily: AR, fontSize: 17, color: "#7c3aed", direction: "rtl", fontWeight: 700 }}>{q.arNomi}</span>
+          </div>
+          {/* Shart */}
+          {q.shart && (
+            <div style={{
+              fontSize: 12, color: "#b45309", fontWeight: 700,
+              background: "#fef3c7", borderRadius: 7, padding: "5px 10px",
+              marginBottom: 10, display: "inline-block",
+            }}>
+              📌 {q.shart}
             </div>
-            {q.shart && (
-              <div style={{ fontSize: 12, color: "#b45309", marginBottom: 5, fontWeight: 600 }}>
-                Shart: {q.shart}
-              </div>
-            )}
-            <div style={{ fontSize: 13, color: "#374151", lineHeight: 1.6, whiteSpace: "pre-line", marginBottom: q.harflar || q.misol ? 8 : 0 }}>
-              {q.tavsif}
+          )}
+          {/* Tavsif */}
+          <div style={{ fontSize: 14, color: "#1f2937", lineHeight: 1.7, whiteSpace: "pre-line", marginBottom: 10 }}>
+            {q.tavsif}
+          </div>
+          {/* Harflar */}
+          {q.harflar && (
+            <div style={{
+              display: "flex", alignItems: "center", gap: 10,
+              background: "rgba(13,58,26,.05)", borderRadius: 8,
+              padding: "8px 12px", marginBottom: 10,
+            }}>
+              <span style={{ fontSize: 11, fontWeight: 800, color: T.lime, textTransform: "uppercase", flexShrink: 0 }}>Harflar:</span>
+              <span style={{ fontFamily: AR, fontSize: 20, color: T.green, direction: "rtl", letterSpacing: 6, flex: 1 }}>{q.harflar}</span>
             </div>
-            {q.harflar && (
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                <span style={{ fontSize: 11, fontWeight: 700, color: T.lime, textTransform: "uppercase" }}>Harflar:</span>
-                <span style={{ fontFamily: AR, fontSize: 18, color: T.green, direction: "rtl", letterSpacing: 4 }}>{q.harflar}</span>
+          )}
+          {/* Misol */}
+          {q.misol && (
+            <div style={{
+              background: "linear-gradient(135deg,rgba(13,58,26,.07),rgba(13,58,26,.03))",
+              borderRadius: 10, padding: "10px 14px",
+              borderLeft: "3px solid " + T.lime,
+            }}>
+              <div style={{ fontSize: 10, fontWeight: 800, color: T.lime, textTransform: "uppercase", marginBottom: 5, letterSpacing: ".06em" }}>
+                Misol
               </div>
-            )}
-            {q.misol && (
               <div style={{
-                background: "rgba(255,255,255,.8)", borderRadius: 8, padding: "8px 12px",
-                fontFamily: AR, fontSize: 17, color: "#0d3a1a", direction: "rtl",
-                lineHeight: 2, marginTop: 4,
+                fontFamily: AR, fontSize: 18, color: "#0d3a1a", direction: "rtl",
+                lineHeight: 2.2, letterSpacing: 1,
               }}>
                 {q.misol}
               </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </Section>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -570,13 +590,16 @@ function DarsDetail({ d, onBack }: { d: Dars; onBack: () => void }) {
 
       {/* Content */}
       <div style={{ padding: "14px 14px 40px" }}>
-        {d.id === 0 ? <KirishContent /> : (
+        {d.id === 0 ? (
+          <KirishContent />
+        ) : d.id >= 14 ? (
+          <QoidaPanel d={d} />
+        ) : (
           <>
             <MavzuPanel d={d} />
             <SifatlarPanel d={d} />
             <MaxrajPanel d={d} />
             <AmaliyotPanel d={d} />
-            <QoidaPanel d={d} />
           </>
         )}
       </div>
