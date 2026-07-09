@@ -593,7 +593,10 @@ function DarsDetail({ d, onBack }: { d: Dars; onBack: () => void }) {
         {d.id === 0 ? (
           <KirishContent />
         ) : d.id >= 14 ? (
-          <QoidaPanel d={d} />
+          <>
+            <MavzuPanel d={d} />
+            <QoidaPanel d={d} />
+          </>
         ) : (
           <>
             <MavzuPanel d={d} />
