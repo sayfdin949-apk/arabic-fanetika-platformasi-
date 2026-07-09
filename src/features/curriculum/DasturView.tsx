@@ -341,97 +341,108 @@ function AmaliyotPanel({ d }: { d: Dars }) {
   );
 }
 
-/* ── O'qish amaliyoti paneli (dars 1–13) ── */
+/* ── O'qish amaliyoti — bitta jadval ko'rinishi ── */
 function OqishPanel({ d }: { d: Dars }) {
   const letters = getLettersForLesson(d.id);
   const newSet = new Set(d.yangiHarflar);
   if (letters.length === 0) return null;
 
-  return (
-    <Section title="O'qish amaliyoti" icon={<span style={{ fontSize: 16 }}>📖</span>} defaultOpen>
-      <div style={{ paddingTop: 8, display: "flex", flexDirection: "column", gap: 4 }}>
+  const BC = 'rgba(13,58,26,.16)';
 
-        {/* Mos yozuv qatori: أَ  إِ  أُ */}
-        <div style={{
-          display: "flex", justifyContent: "flex-end", gap: 28,
-          background: "rgba(13,58,26,.05)", borderRadius: 8,
-          padding: "8px 16px", border: "1px solid rgba(13,58,26,.12)",
-          direction: "rtl",
+  const Row = ({
+    items, bg, color, size = 46, weight = 400, firstRow = false,
+  }: {
+    items: string[]; bg: string; color: string;
+    size?: number; weight?: number; firstRow?: boolean;
+  }) => (
+    <div style={{
+      display: 'grid', gridTemplateColumns: '1fr 1fr 1fr',
+      background: bg,
+      borderLeft: `1px solid ${BC}`,
+      borderRight: `1px solid ${BC}`,
+      borderBottom: `1px solid ${BC}`,
+      ...(firstRow ? { borderTop: `1px solid ${BC}` } : {}),
+      direction: 'rtl',
+    }}>
+      {items.map((ch, i) => (
+        <div key={i} style={{
+          fontFamily: AR, fontSize: size, color, lineHeight: 2.2,
+          textAlign: 'center', fontWeight: weight,
+          borderRight: i > 0 ? `1px solid ${BC}` : 'none',
+        }}>{ch}</div>
+      ))}
+    </div>
+  );
+
+  return (
+    <div style={{ marginBottom: 10, borderRadius: 12, overflow: 'hidden', border: `1px solid ${BC}` }}>
+      {/* Sarlavha */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 8,
+        padding: '10px 14px',
+        background: 'rgba(13,58,26,.06)',
+        borderBottom: `1px solid ${BC}`,
+      }}>
+        <span style={{ fontSize: 15 }}>📖</span>
+        <span style={{ fontSize: 14, fontWeight: 700, color: T.green }}>O'qish amaliyoti</span>
+      </div>
+
+      {/* Mos yozuv qatori: أَ  إِ  أُ */}
+      <Row
+        items={['أَ', 'إِ', 'أُ']}
+        bg='rgba(124,58,237,.07)'
+        color='#7c3aed'
+        size={50}
+        firstRow
+      />
+
+      {/* Har bir harf uchun bir qator */}
+      {letters.map(h => {
+        const isNew = newSet.has(h);
+        return (
+          <Row
+            key={h}
+            items={[h + 'َ', h + 'ِ', h + 'ُ']}
+            bg={isNew ? 'rgba(13,58,26,.07)' : '#fff'}
+            color={isNew ? '#15803d' : '#374151'}
+            size={isNew ? 52 : 48}
+            weight={isNew ? 700 : 400}
+          />
+        );
+      })}
+
+      {/* Hamza kombinatsiyalari */}
+      {d.yangiHarflar.map(h => (
+        <Row
+          key={'hc-' + h}
+          items={['أَ' + h + 'ْ', 'إِ' + h + 'ْ', 'أُ' + h + 'ْ']}
+          bg='rgba(180,83,9,.06)'
+          color='#b45309'
+          size={50}
+        />
+      ))}
+
+      {/* 4 shakl — yangi harflar uchun */}
+      {d.yangiHarflar.map(h => (
+        <div key={'sh-' + h} style={{
+          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
+          borderTop: `1px solid ${BC}`,
+          background: '#f9fafb',
         }}>
-          {["أَ", "إِ", "أُ"].map((ch, i) => (
-            <span key={i} style={{ fontFamily: AR, fontSize: 28, color: "#7c3aed", lineHeight: 1.8 }}>{ch}</span>
+          {[h, h + 'ـ', 'ـ' + h + 'ـ', 'ـ' + h].map((sh, i) => (
+            <div key={i} style={{
+              borderRight: i < 3 ? `1px solid ${BC}` : 'none',
+              padding: '10px 4px 8px', textAlign: 'center',
+            }}>
+              <div style={{ fontFamily: AR, fontSize: 40, color: '#15803d', lineHeight: 1.8 }}>{sh}</div>
+              <div style={{ fontSize: 9, color: T.hint, fontWeight: 600, marginTop: 2 }}>
+                {["Alohida", "Bosh", "O'rta", "Oxir"][i]}
+              </div>
+            </div>
           ))}
         </div>
-
-        {/* Har bir harf uchun bir qator: [harf+fatha]  [harf+kasra]  [harf+damma] */}
-        {letters.map(h => {
-          const isNew = newSet.has(h);
-          return (
-            <div key={h} style={{
-              display: "flex", justifyContent: "flex-end", gap: 28,
-              background: isNew ? "rgba(13,58,26,.07)" : "#fff",
-              borderRadius: 8, padding: "8px 16px",
-              border: isNew ? "1px solid rgba(13,58,26,.20)" : "1px solid rgba(0,0,0,.06)",
-              direction: "rtl",
-            }}>
-              {[h + "َ", h + "ِ", h + "ُ"].map((ch, i) => (
-                <span key={i} style={{
-                  fontFamily: AR, fontSize: 28,
-                  color: isNew ? T.green : T.text2,
-                  lineHeight: 1.8,
-                  fontWeight: isNew ? 700 : 400,
-                }}>{ch}</span>
-              ))}
-            </div>
-          );
-        })}
-
-        {/* Hamza kombinatsiyalari — yangi harflar uchun */}
-        {d.yangiHarflar.length > 0 && (
-          <>
-            <div style={{ height: 6 }} />
-            {d.yangiHarflar.map(h => (
-              <div key={"hc-" + h} style={{
-                display: "flex", justifyContent: "flex-end", gap: 28,
-                background: "rgba(180,83,9,.06)", borderRadius: 8,
-                padding: "8px 16px", border: "1px solid rgba(180,83,9,.15)",
-                direction: "rtl",
-              }}>
-                {["أَ" + h + "ْ", "إِ" + h + "ْ", "أُ" + h + "ْ"].map((ch, i) => (
-                  <span key={i} style={{
-                    fontFamily: AR, fontSize: 28, color: "#b45309", lineHeight: 1.8,
-                  }}>{ch}</span>
-                ))}
-              </div>
-            ))}
-          </>
-        )}
-
-        {/* 4 shakl — yangi harflar uchun */}
-        {d.yangiHarflar.length > 0 && (
-          <>
-            <div style={{ height: 4 }} />
-            {d.yangiHarflar.map(h => (
-              <div key={"sh-" + h} style={{
-                display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 6,
-              }}>
-                {[h, h + "ـ", "ـ" + h + "ـ", "ـ" + h].map((sh, i) => (
-                  <div key={i} style={{
-                    textAlign: "center", background: "#fff", borderRadius: 8,
-                    border: "1px solid rgba(21,128,61,.18)", padding: "6px 4px",
-                  }}>
-                    <div style={{ fontFamily: AR, fontSize: 26, color: T.green, lineHeight: 1.7 }}>{sh}</div>
-                    <div style={{ fontSize: 9, color: T.hint, fontWeight: 600 }}>
-                      {["Alohida", "Bosh", "O'rta", "Oxir"][i]}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </>
-        )}
-      </div>
-    </Section>
+      ))}
+    </div>
   );
 }
 
