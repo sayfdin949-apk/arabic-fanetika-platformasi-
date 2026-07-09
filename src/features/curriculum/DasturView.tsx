@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronDown, ChevronUp, BookOpen, Star, MapPin, PenLine } 
 import { T, AR } from "../../theme/tokens";
 import {
   DARSLAR, HARF_SIFATLAR, TAUGHT_SIFAT, SIFAT_RANG, getLettersForLesson,
-  type Dars,
+  type Dars, type TajwidQoida,
 } from "../../content/darslar";
 
 /* ── Kichik yordamchi komponentlar ── */
@@ -336,6 +336,51 @@ function AmaliyotPanel({ d }: { d: Dars }) {
   );
 }
 
+/* ── Tajwid qoidalari paneli ── */
+function QoidaPanel({ d }: { d: Dars }) {
+  if (!d.tajwidQoidalar || d.tajwidQoidalar.length === 0) return null;
+  return (
+    <Section title="Tajwid Qoidalari" icon={<Star size={16} />} defaultOpen>
+      <div style={{ paddingTop: 8, display: "flex", flexDirection: "column", gap: 10 }}>
+        {d.tajwidQoidalar.map((q: TajwidQoida, i: number) => (
+          <div key={i} style={{
+            background: "rgba(13,58,26,.04)", borderRadius: 10,
+            padding: "12px 14px", border: "1px solid rgba(13,58,26,.1)",
+          }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 6, flexWrap: "wrap" }}>
+              <span style={{ fontSize: 14, fontWeight: 700, color: "#0d3a1a" }}>{q.nomi}</span>
+              <span style={{ fontFamily: AR, fontSize: 15, color: "#7c3aed", direction: "rtl" }}>{q.arNomi}</span>
+            </div>
+            {q.shart && (
+              <div style={{ fontSize: 12, color: "#b45309", marginBottom: 5, fontWeight: 600 }}>
+                Shart: {q.shart}
+              </div>
+            )}
+            <div style={{ fontSize: 13, color: "#374151", lineHeight: 1.6, whiteSpace: "pre-line", marginBottom: q.harflar || q.misol ? 8 : 0 }}>
+              {q.tavsif}
+            </div>
+            {q.harflar && (
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                <span style={{ fontSize: 11, fontWeight: 700, color: T.lime, textTransform: "uppercase" }}>Harflar:</span>
+                <span style={{ fontFamily: AR, fontSize: 18, color: T.green, direction: "rtl", letterSpacing: 4 }}>{q.harflar}</span>
+              </div>
+            )}
+            {q.misol && (
+              <div style={{
+                background: "rgba(255,255,255,.8)", borderRadius: 8, padding: "8px 12px",
+                fontFamily: AR, fontSize: 17, color: "#0d3a1a", direction: "rtl",
+                lineHeight: 2, marginTop: 4,
+              }}>
+                {q.misol}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
 /* ── 0-dars: Arabtiliga Kirish — maxsus vizual kontent ── */
 function KirishContent() {
   const maxrajZonalar = [
@@ -529,6 +574,7 @@ function DarsDetail({ d, onBack }: { d: Dars; onBack: () => void }) {
             <SifatlarPanel d={d} />
             <MaxrajPanel d={d} />
             <AmaliyotPanel d={d} />
+            <QoidaPanel d={d} />
           </>
         )}
       </div>
@@ -555,7 +601,7 @@ function DarslarList({ onSelect }: { onSelect: (d: Dars) => void }) {
           </div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             {[
-              { l: "Darslar", v: "14" },
+              { l: "Darslar", v: "24" },
               { l: "Harflar", v: "28" },
               { l: "Juft sifat", v: "5 juft" },
             ].map(s => (

@@ -1,4 +1,4 @@
-/* Yangi dars tuzilmasi — 13 dars, 28 harf */
+/* Arab Fonetika kursi — 1-bosqich: 24 dars (0–23), 28 harf */
 
 export interface MustaqilSifat { nomi: string; izoh: string; }
 
@@ -14,6 +14,15 @@ export interface SifatInfo {
   arNomi: string;
   tavsif: string;
   harflar: string;
+}
+
+export interface TajwidQoida {
+  nomi: string;
+  arNomi: string;
+  shart: string;
+  tavsif: string;
+  harflar?: string;
+  misol?: string;
 }
 
 export interface MaxrajInfo {
@@ -40,6 +49,7 @@ export interface Dars {
   yangiSifatlar: SifatInfo[];
   maxraj: MaxrajInfo;
   yangiHarflar: string[];
+  tajwidQoidalar?: TajwidQoida[];
 }
 
 /* ── Har bir sifatning rangi ── */
@@ -214,6 +224,8 @@ export const TAUGHT_SIFAT: Record<number, string[]> = {
   4:  ["Jahr", "Hams", "Shidda", "Roxova", "Bayniyya", "Iste'lo", "Istefol", "Itbaq", "Infitah"],
   5:  _ALL, 6:  _ALL, 7:  _ALL, 8:  _ALL, 9:  _ALL,
   10: _ALL, 11: _ALL, 12: _ALL, 13: _ALL,
+  14: _ALL, 15: _ALL, 16: _ALL, 17: _ALL, 18: _ALL, 19: _ALL,
+  20: _ALL, 21: _ALL, 22: _ALL, 23: _ALL, 24: _ALL,
 };
 
 /* ── 14 darslik ma'lumot (0–13) ── */
@@ -503,6 +515,352 @@ export const DARSLAR: Dars[] = [
       yangiHarflar: "ه، و، ي",
     },
     yangiHarflar: ["ه", "و", "ي"],
+  },
+
+  /* ── 1-bosqich: Tajwid qoidalari (14–24) ── */
+  {
+    id: 14, nomi: "Hamza Turlari", emoji: "ء",
+    mavzu: {
+      takroriy: "13-dars: Ha, Wow, Ya — barcha 28 harf to'liq o'rganildi!",
+      yangiSifat: "Yangi juft sifat yo'q — tajwid qoidalariga o'tamiz",
+      maxraj: "Hamza — halqning eng yuqorisidan chiqadigan tovush (glottal stop)",
+      amaliyot: "أَكَلَ — إِسْلَام — آمَنَ — سَأَلَ — يَسْأَلُ kabi so'zlarda hamzani to'g'ri o'qish",
+    },
+    yangiSifatlar: [],
+    maxraj: {
+      joy: "Halq yuqori qismi (أَقْصَى الحَلْق) — glottal stop",
+      tavsif: "Hamza (ء) — to'xtatish tovushi (glottal stop). 2 asosiy turi:\n• Hamzat ul-Qat' (قطع) — har doim o'qiladi\n• Hamzat ul-Wasl (وصل) — so'z boshida o'qiladi, oldingi so'z bilan davom etganda tushib qoladi\nYozuv shakllari: أ إ آ ؤ ئ ء",
+      yangiHarflar: "",
+    },
+    yangiHarflar: [],
+    tajwidQoidalar: [
+      {
+        nomi: "Hamzat ul-Qat'",
+        arNomi: "هَمْزَةُ القَطْعِ",
+        shart: "So'z boshida, o'rtasida yoki oxirida yozilgan hamza",
+        tavsif: "Qat' hamzasi — 'uzish'. Har doim aniq talaffuz qilinadi. Oldida harf bo'lsa ham o'qiladi. Shakllari: أ (fatha/damma bilan), إ (kasra bilan), ء (o'rta/oxirda).",
+        harflar: "أ إ آ ؤ ئ ء",
+        misol: "أَكَلَ — إِسْلَام — آمَنَ — سَأَلَ — شَيْءٌ",
+      },
+      {
+        nomi: "Hamzat ul-Wasl",
+        arNomi: "هَمْزَةُ الوَصْلِ",
+        shart: "So'z boshida yozilib, oldida biror harakat bo'lsa tushib qoladi",
+        tavsif: "Wasl hamzasi — 'ulash'. So'z boshida o'qiladi (zaruriy holda), lekin oldingi so'z harakati bilan davom etilganda talaffuz qilinmaydi. ا belgisi bilan ko'rsatiladi (hamza belgisiz).",
+        misol: "ٱلرَّحْمَنِ — اِقْرَأْ — بِسْمِ اللَّهِ (اللَّهِ da wasl)",
+      },
+    ],
+  },
+  {
+    id: 15, nomi: "Ta Marbuta", emoji: "ة",
+    mavzu: {
+      takroriy: "14-dars: Hamza — Qat' (har doim o'qiladi) va Wasl (ulanishda tushib qoladi)",
+      yangiSifat: "Yangi juft sifat yo'q",
+      maxraj: "Ta Marbuta — tugilgan Ta, so'z oxirida t yoki h tovushi",
+      amaliyot: "رَحْمَةٌ — مَدْرَسَةٌ — فَاطِمَةُ kabi so'zlarda ta marbuta o'qish",
+    },
+    yangiSifatlar: [],
+    maxraj: {
+      joy: "Lison uchi + yuqori tish (ت ning maxraji)",
+      tavsif: "Ta Marbuta (ة) — 'tugilgan ta'. So'z oxirida ishlatiladigan maxsus shakl. Harakali: t deb o'qiladi. Vaqfda (to'xtalishda): h deb o'qiladi. Oddiy ت dan farqi — vaqfda h bo'ladi.",
+      yangiHarflar: "ة",
+    },
+    yangiHarflar: ["ة"],
+    tajwidQoidalar: [
+      {
+        nomi: "Ta Marbuta — ulanishda",
+        arNomi: "التَّاءُ المَرْبُوطَة (حَالَةُ الوَصْل)",
+        shart: "Ta Marbuta (ة) harakali bo'lsa yoki keyingi so'z bilan davom etsa",
+        tavsif: "Harakali holda ة → 't' deb o'qiladi. Fatha: 'ta', Kasra: 'ti', Damma: 'tu'. Biriktirib o'qishda keyingi so'z bilan qo'shiladi.",
+        misol: "رَحْمَةُ اللَّهِ → رَحْمَتُ اللَّهِ — نِعْمَةً كَبِيرَةً",
+      },
+      {
+        nomi: "Ta Marbuta — vaqfda",
+        arNomi: "التَّاءُ المَرْبُوطَة (حَالَةُ الوَقْف)",
+        shart: "Ta Marbuta (ة) da to'xtalish",
+        tavsif: "Vaqfda (to'xtalishda) ة → 'h' deb o'qiladi. Bu fonetik qoidadir — yozuvda ة bo'lsa-da, to'xtalishda sukun bilan 'h' chiqadi.",
+        misol: "رَحْمَة → رَحْمَهْ — مَدْرَسَة → مَدْرَسَهْ — فَاطِمَة → فَاطِمَهْ",
+      },
+    ],
+  },
+  {
+    id: 16, nomi: "Madd — Cho'zish Asoslari", emoji: "〰️",
+    mavzu: {
+      takroriy: "15-dars: Ta Marbuta — ulanishda t, vaqfda h deb o'qiladi",
+      yangiSifat: "Madd — cho'zish sifati (Lin va Madd harflari)",
+      maxraj: "Madd harflari: ا و ي — Jawf (og'iz bo'shlig'i)dan chiqadi",
+      amaliyot: "قَالَ — قِيلَ — يَقُولُ — جَاءَ — السَّمَاءِ kabi so'zlarda cho'zib o'qish",
+    },
+    yangiSifatlar: [],
+    maxraj: {
+      joy: "Jawf — og'iz bo'shlig'idan erkin chiquvchi 3 harf",
+      tavsif: "Madd (المَدّ) harflari 3 ta: ا (fathadan keyin), و (dammadan keyin), ي (kasradan keyin). Keyingi harfga qarab cho'zish mikdori o'zgaradi.",
+      yangiHarflar: "",
+    },
+    yangiHarflar: [],
+    tajwidQoidalar: [
+      {
+        nomi: "Madd Tabii",
+        arNomi: "المَدُّ الطَّبِيعِي",
+        shart: "Madd harfi (ا و ي) dan keyin hamza yoki sukun bo'lmasa",
+        tavsif: "Tabiiy (asosiy) madd — 2 harakah uzunlik. Bu madda hech narsa qo'shilmaydi, kamaytirilmaydi. Barcha madd turlarining asosi.",
+        harflar: "ا و ي",
+        misol: "قَالَ — يَقُولُ — قِيلَ — الرَّحِيمِ — كِتَاب",
+      },
+      {
+        nomi: "Madd Muttasil",
+        arNomi: "المَدُّ الوَاجِبُ المُتَّصِل",
+        shart: "Bitta so'zda: madd harfi + hamza (ء)",
+        tavsif: "Bir so'z ichida madd harfidan keyin hamza kelsa — 4–5 harakah cho'ziladi. Wajib (majburiy) madd.",
+        harflar: "ا و ي + ء",
+        misol: "جَاءَ — شَيْءٌ — سُوءَ — السَّمَاءِ",
+      },
+      {
+        nomi: "Madd Munfasil",
+        arNomi: "المَدُّ الجَائِزُ المُنفَصِل",
+        shart: "So'z oxiri madd harfi + keyingi so'z hamza bilan boshlanса",
+        tavsif: "Ikki so'z: birinchisi madd harfiga tugaydi, ikkinchisi hamza bilan boshlanadi — 4–5 harakah. Jaiz (ruxsat etilgan) madd.",
+        misol: "إِنَّا أَعْطَيْنَاكَ — وَمَا أَنزَلْنَا — قُوا أَنفُسَكُمْ",
+      },
+    ],
+  },
+  {
+    id: 17, nomi: "Tanvin — Asosiy Qoidalar", emoji: "◌ٌ",
+    mavzu: {
+      takroriy: "16-dars: Madd — Tabii (2 harakah), Muttasil va Munfasil (4–5 harakah)",
+      yangiSifat: "Yangi juft sifat yo'q",
+      maxraj: "Tanvin aslida yashirin ن tovushi — Lison uchi + Xayshum",
+      amaliyot: "كِتَابٌ — رَجُلٌ — عَلِيمٌ حَكِيمٌ kabi so'zlarda tanvinni to'g'ri o'qish",
+    },
+    yangiSifatlar: [],
+    maxraj: {
+      joy: "Xayshum (g'unna) — tanvinning asosi",
+      tavsif: "Tanvin (التَّنْوِين) — so'z oxirida qo'shimcha ن tovushi. 3 turi:\n• Fathatayn (ًً) — -an: كِتَابًا\n• Kasratayn (ٍ) — -in: كِتَابٍ\n• Dammatayn (ٌ) — -un: كِتَابٌ\n1-bosqichda: Izhor va Ixfo o'rganamiz.",
+      yangiHarflar: "",
+    },
+    yangiHarflar: [],
+    tajwidQoidalar: [
+      {
+        nomi: "Tanvin — 3 turi",
+        arNomi: "أَنْوَاعُ التَّنْوِين",
+        shart: "So'z oxirida ikki harakat belgisi (ًً ٍ ٌ) mavjud bo'lsa",
+        tavsif: "Tanvin so'z oxirida yashirin ن tovushi bilan o'qiladi. Uch turi: Fathatayn (-an) — كِتَابًا, Kasratayn (-in) — كِتَابٍ, Dammatayn (-un) — كِتَابٌ.",
+        misol: "كِتَابٌ — كِتَابًا — كِتَابٍ",
+      },
+      {
+        nomi: "Tanvin Izhor Halqi",
+        arNomi: "الإِظْهَار الحَلْقِي",
+        shart: "Tanvin + halq harflaridan biri: أ ه ع ح غ خ",
+        tavsif: "Izhor — 'aniq ko'rsatish'. Tanvin ن tovushi to'liq va ravshan talaffuz qilinadi. Halq harflari halqdan chiqishi tufayli ن ularga qo'shilmaydi.",
+        harflar: "أ ه ع ح غ خ",
+        misol: "عَلِيمٌ حَكِيمٌ — رَحِيمٌ أَلِيمٌ — سَمِيعٌ عَلِيمٌ",
+      },
+    ],
+  },
+  {
+    id: 18, nomi: "Sukun", emoji: "◌ْ",
+    mavzu: {
+      takroriy: "17-dars: Tanvin — 3 turi va Izhor halqi (halq 6 harfi bilan aniq talaffuz)",
+      yangiSifat: "Yangi juft sifat yo'q",
+      maxraj: "Sokin harf — harakatsiz; Nun sakin va Mim sakin shu mavzu ichida",
+      amaliyot: "مِنْ أَهْلِ — هُمْ بِهِ — يَذْهَبُ kabi so'zlarda sokin harflarni topish",
+    },
+    yangiSifatlar: [],
+    maxraj: {
+      joy: "Sukun — har harf o'z maxrajida harakatsiz talaffuz qilinadi",
+      tavsif: "Sukun (ْ) — harakatsizlik belgisi. Sokin harf cho'zilmaydi. Nun sakin (نْ) va Mim sakin (مْ) ham sokin harflar — halq harflari oldida aniq o'qiladi (Izhor).",
+      yangiHarflar: "",
+    },
+    yangiHarflar: [],
+    tajwidQoidalar: [
+      {
+        nomi: "Sukun — sokin harf",
+        arNomi: "السُّكُون",
+        shart: "Harfning ustida (ْ) sukun belgisi bo'lsa",
+        tavsif: "Sukun — 'tinchlik, harakatsizlik'. Harakat (fatha, kasra, damma) yo'q, harf qisqa va aniq talaffuz qilinadi. Sokin harf uzaymaydi va cho'zilmaydi.",
+        misol: "يَذْهَبُ (ذْ sokin) — كِتَابْ — مُحَمَّدْ",
+      },
+      {
+        nomi: "Nun Sakin — Izhor",
+        arNomi: "إِظْهَارُ النُّونِ السَّاكِنَة",
+        shart: "نْ + halq harflaridan biri: أ ه ع ح غ خ",
+        tavsif: "Sokin ن halq harflaridan biri oldida aniq va to'liq talaffuz qilinadi. G'unna yo'q, harflar alohida-alohida eshitiladi.",
+        harflar: "أ ه ع ح غ خ",
+        misol: "مِنْ أَهْلِ — مِنْ عِلْمٍ — مَنْ هُوَ",
+      },
+      {
+        nomi: "Mim Sakin — Izhor Shafawi",
+        arNomi: "الإِظْهَار الشَّفَوِي",
+        shart: "مْ + م va ب dan boshqa barcha harflar",
+        tavsif: "Sokin mim (مْ) م va ب dan boshqa harf oldida aniq va ravshan talaffuz qilinadi.",
+        misol: "هُمْ يَعْلَمُونَ — لَهُمْ فِيهَا — أَمْرُهُمْ",
+      },
+    ],
+  },
+  {
+    id: 19, nomi: "Qalqala — Zarb Tovushi", emoji: "⚡",
+    mavzu: {
+      takroriy: "18-dars: Sukun — sokin harf; Nun sakin — Izhor (halq 6 harf) va Ixfo (15 harf)",
+      yangiSifat: "Qalqala mustaqil sifat — oldin tanishgan edik, endi chuqur amaliyot",
+      maxraj: "Qalqala harflari 5 ta: ق ط ب ج د (qatb jad)",
+      amaliyot: "خَلَقَ — يَطْبَعُ — لَمْ يَلِدْ kabi so'zlarda qalqalani aniq ifodalash",
+    },
+    yangiSifatlar: [],
+    maxraj: {
+      joy: "Har xil maxrajlar — lekin barchasida qalqala sifati bor",
+      tavsif: "Qalqala (القَلْقَلَة) — 'tebranish, zarb'. Bu 5 harf sokin holda (sukun) yoki vaqfda qo'shimcha kuchli echo tovushi hosil bo'ladi. 5 harf: ق ط ب ج د (qatb jad).",
+      yangiHarflar: "",
+    },
+    yangiHarflar: [],
+    tajwidQoidalar: [
+      {
+        nomi: "Qalqala Sugra",
+        arNomi: "القَلْقَلَة الصُّغْرَى",
+        shart: "5 qalqala harfidan biri so'z ichida sokin (sukun) bo'lsa",
+        tavsif: "Kichik qalqala — so'z ichida. Zarb tovushi bor, lekin kuchliroq emas. Sokin holat (ْ) bo'lganda majburiy.",
+        harflar: "ق ط ب ج د",
+        misol: "يَطْمَعُ — اقْتَرَبَ — مَجْدٌ — يَبْتَغِي",
+      },
+      {
+        nomi: "Qalqala Kubra",
+        arNomi: "القَلْقَلَة الكُبْرَى",
+        shart: "5 qalqala harfidan biri so'z oxirida (vaqfda) sokin bo'lsa",
+        tavsif: "Katta qalqala — vaqfda yoki so'z oxirida. Zarb tovushi ancha kuchli eshitiladi.",
+        harflar: "ق ط ب ج د",
+        misol: "خَلَقَ — لَمْ يَلِدْ — وَلَمْ يُولَدْ — بِٱلْحَقِّ",
+      },
+    ],
+  },
+  {
+    id: 20, nomi: "Lam Shamsiyya va Qomariyya", emoji: "☀️",
+    mavzu: {
+      takroriy: "19-dars: Qalqala — 5 harf (ق ط ب ج د), Sugra va Kubra farqi",
+      yangiSifat: "Yangi juft sifat yo'q",
+      maxraj: "الـ artikli: Lam Shamsiyya — assimilyatsiya; Lam Qomariyya — aniq lam",
+      amaliyot: "الشَّمْسُ — الْقَمَرُ — النَّاسُ — الْكِتَابُ kabi so'zlarda lam turlarini farqlash",
+    },
+    yangiSifatlar: [],
+    maxraj: {
+      joy: "Lison uchi + tish pastki tomoni (ل ning maxraji)",
+      tavsif: "الـ artikli ikki xil o'qiladi:\n• Shamsiyya (quyosh): ل keyingi harfga birikadi → ال so'zida ل tovushi yo'qoladi\n• Qomariyya (oy): ل aniq va ravshan o'qiladi",
+      yangiHarflar: "",
+    },
+    yangiHarflar: [],
+    tajwidQoidalar: [
+      {
+        nomi: "Lam Shamsiyya",
+        arNomi: "اللَّامُ الشَّمْسِيَّة",
+        shart: "الـ + 14 quyosh harf: ت ث د ذ ر ز س ش ص ض ط ظ ل ن",
+        tavsif: "Quyosh harflari: الـ da ل tovushi assimilyatsiya qilinadi (keyingi harfga birikadi). Lam eshitilmaydi — keyingi harf tashdid bilan o'qiladi.",
+        harflar: "ت ث د ذ ر ز س ش ص ض ط ظ ل ن",
+        misol: "الشَّمْسُ — النَّاسُ — الرَّحِيمُ — الدِّينُ — الزَّكَاةُ",
+      },
+      {
+        nomi: "Lam Qomariyya",
+        arNomi: "اللَّامُ القَمَرِيَّة",
+        shart: "الـ + 14 oy harf: أ ب ج ح خ ع غ ف ق ك م و ه ي",
+        tavsif: "Oy harflari: الـ da ل aniq va ravshan o'qiladi. Keyingi harf tashdidsiz o'qiladi.",
+        harflar: "أ ب ج ح خ ع غ ف ق ك م و ه ي",
+        misol: "الْقَمَرُ — الْكِتَابُ — الْحَمْدُ — الْمُؤْمِنُ — الْيَوْمُ",
+      },
+    ],
+  },
+  {
+    id: 21, nomi: "Shadda va Tashdid", emoji: "◌ّ",
+    mavzu: {
+      takroriy: "20-dars: Lam Shamsiyya (assimilyatsiya) va Qomariyya (aniq lam) farqi",
+      yangiSifat: "Yangi juft sifat yo'q",
+      maxraj: "Shadda — harfni ikkilantirish, kuchli va uzun talaffuz",
+      amaliyot: "مُحَمَّدٌ — رَبِّ — حَجَّ — الضَّالِّينَ kabi so'zlarda shaddani to'g'ri o'qish",
+    },
+    yangiSifatlar: [],
+    maxraj: {
+      joy: "Shaddali harf — o'z maxrajida ikkilantirilib talaffuz qilinadi",
+      tavsif: "Shadda (ّ) — 'kuchaytirish'. Harf ikki marta — bir marta sokin, bir marta harakali talaffuz qilinadi. Shaddali harf = sokin harf + harakali harf birlashuvi. Harakat shaddadan keyin o'qiladi.",
+      yangiHarflar: "",
+    },
+    yangiHarflar: [],
+    tajwidQoidalar: [
+      {
+        nomi: "Shadda asosi",
+        arNomi: "الشَّدَّة",
+        shart: "Harfning ustida (ّ) shadda belgisi bo'lsa",
+        tavsif: "Shadda — harf ikki marta talaffuz qilinadi: birinchisi sokin, ikkinchisi harakali. Ikki bir xil harf birikuvidan hosil bo'ladi.",
+        misol: "رَبَّنَا — حَجَّ — مَكَّةُ — رَبِّ — مُحَمَّدٌ",
+      },
+      {
+        nomi: "Shadda + G'unna (Mim va Nun)",
+        arNomi: "الغُنَّة مَعَ الشَّدَّة",
+        shart: "مّ yoki نّ — shaddali mim yoki nun",
+        tavsif: "Shaddali mim (مّ) va shaddali nun (نّ) talaffuzida g'unna (burun tovushi) ancha kuchli bo'ladi — 2 harakah g'unna + shadda birikuvi.",
+        harflar: "م ن",
+        misol: "إِنَّ — ثُمَّ — مِمَّا — وَإِنَّكَ — الضَّالِّينَ",
+      },
+    ],
+  },
+  {
+    id: 22, nomi: "Vasl Hamzasi va Vaqf", emoji: "⏸️",
+    mavzu: {
+      takroriy: "21-dars: Shadda — harfni ikkilantirish; Shaddali Mim va Nun — g'unna kuchayadi",
+      yangiSifat: "Yangi juft sifat yo'q",
+      maxraj: "Vaqfda so'z oxiri sukun holga o'tadi; Wasl da hamza tushib qoladi",
+      amaliyot: "Qur'on o'qishda to'g'ri to'xtalish va davom ettirish",
+    },
+    yangiSifatlar: [],
+    maxraj: {
+      joy: "Vaqfda so'z oxiri sukun; Wasl da oldingisi bilan ulanadi",
+      tavsif: "Vaqf (الوَقْف) — to'xtalish. To'xtalishda harakat sukun bo'ladi. Tanvin fathatayn → alif: كِتَابًا → كِتَابَا. Ta Marbuta → h. Hamzat ul-Wasl oldingi so'z harakati bilan birlashganda tushib qoladi.",
+      yangiHarflar: "",
+    },
+    yangiHarflar: [],
+    tajwidQoidalar: [
+      {
+        nomi: "Vaqf qoidalari",
+        arNomi: "أَحْكَامُ الوَقْف",
+        shart: "Ayat oxirida yoki nafas tugaganda to'xtalish",
+        tavsif: "To'xtalishda: harakat (َ ِ ُ) sukun bo'ladi. Fathatayn (ًً) → alif: كِتَابًا → كِتَابَا. Ta Marbuta (ة) → h: رَحْمَةٌ → رَحْمَهْ.",
+        misol: "الرَّحِيمْ — مُحَمَّدُ الرَّسُولْ — رَحْمَهْ",
+      },
+      {
+        nomi: "Vaqf belgilari",
+        arNomi: "عَلَامَاتُ الوَقْف",
+        shart: "Qur'on matni ichida maxsus belgilar ko'rilganda",
+        tavsif: "م (Lazim) — to'xtalish majburiy. ج (Jaiz) — to'xtalish ruxsat. لا (La taqif) — to'xtalma, davom et. ط (Mutlaq) — to'xtalish yaxshi. ص (Muraxkhas) — zaruriy holda to'xtash mumkin.",
+        misol: "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ۝",
+      },
+      {
+        nomi: "Hamzat ul-Wasl qoidasi",
+        arNomi: "هَمْزَةُ الوَصْل",
+        shart: "Oldingi so'z harakati bilan davom etilganda ا boshli so'z kelsa",
+        tavsif: "Wasl hamzasi so'z boshida o'qiladi, lekin oldingi so'z bilan birga davom etilganda tushib qoladi — oldingisining harakati bilan qo'shiladi.",
+        misol: "بِسْمِ اللَّهِ → بِسْمِلْلَاهِ — مِنَ النَّاسِ (wasl ulashadi)",
+      },
+    ],
+  },
+  {
+    id: 23, nomi: "1-Bosqich Yakuniy", emoji: "🏆",
+    mavzu: {
+      takroriy: "22-dars: Vasl Hamzasi (ulanishda tushadi) va Vaqf qoidalari",
+      yangiSifat: "1-bosqich to'liq yakunlandi — barcha asosiy qoidalar o'rganildi!",
+      maxraj: "Barcha 28 harf + barcha o'rganilgan tajwid qoidalari",
+      amaliyot: "Al-Fotiha surasi — barcha qoidalarni qo'llagan holda to'liq o'qish",
+    },
+    yangiSifatlar: [],
+    maxraj: {
+      joy: "Barcha 5 maxraj zonasi — yakuniy takror",
+      tavsif: "1-bosqich yakunida siz quyidagilarni bilasiz:\n• 28 Arab harfi, ularning 4 shakli va 4 harakati\n• 5 juft sifat + 7 mustaqil sifat\n• Hamza: Qat' va Wasl\n• Ta Marbuta: t (harakali) va h (vaqfda)\n• Madd: Tabii, Muttasil, Munfasil\n• Tanvin Izhor Halqi\n• Sukun — Nun Sakin va Mim Sakin Izhor\n• Qalqala: Sugra va Kubra\n• Lam: Shamsiyya va Qomariyya\n• Shadda va Tashdid\n• Vasl va Vaqf",
+      yangiHarflar: "",
+    },
+    yangiHarflar: [],
+    tajwidQoidalar: [
+      {
+        nomi: "1-Bosqich xulosa",
+        arNomi: "خُلَاصَةُ المَرْحَلَةِ الأُولَى",
+        shart: "Barcha 24 dars (0–23) o'rganilgandan keyin",
+        tavsif: "Grammatikaga yoki 2-bosqichga o'tishga tayyor!\n\n✅ Barcha 28 harfni to'g'ri talaffuz qilasiz\n✅ Jahr/Hams, Shidda/Roxova farqlarini bilasiz\n✅ Hamza: Qat' va Wasl\n✅ Ta Marbuta: t va h\n✅ Madd harflarini cho'zib o'qiysiz\n✅ Tanvin — Izhor Halqi\n✅ Sukun, Nun Sakin va Mim Sakin — Izhor\n✅ Qalqala tovushini hosil qilasiz\n✅ Lam: Shamsiyya va Qomariyya\n✅ Shadda, Vasl va Vaqf qoidalarini bilasiz",
+        misol: "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ",
+      },
+    ],
   },
 ];
 
