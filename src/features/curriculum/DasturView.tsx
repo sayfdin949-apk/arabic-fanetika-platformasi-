@@ -54,11 +54,13 @@ function Section({
 /* ── Mavzu paneli ── */
 function MavzuPanel({ d }: { d: Dars }) {
   const rows = [
-    { label: d.mavzu.kirish ? "Kirish" : "Takroriy", val: d.mavzu.takroriy, color: "#1d4ed8" },
+    d.mavzu.takroriy
+      ? { label: d.mavzu.kirish ? "Kirish" : "Takroriy", val: d.mavzu.takroriy, color: "#1d4ed8" }
+      : null,
     { label: "Yangi sifat", val: d.mavzu.yangiSifat, color: "#b45309" },
     { label: "Maxraj", val: d.mavzu.maxraj, color: "#15803d" },
     { label: "Amaliyot", val: d.mavzu.amaliyot, color: "#7c3aed" },
-  ];
+  ].filter(Boolean) as { label: string; val: string; color: string }[];
   return (
     <Section title="Dars mavzusi" icon={<BookOpen size={16} />} defaultOpen>
       <div style={{ display: "flex", flexDirection: "column", gap: 8, paddingTop: 8 }}>

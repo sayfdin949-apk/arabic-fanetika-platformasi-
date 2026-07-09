@@ -32,8 +32,8 @@ export interface MaxrajInfo {
 }
 
 export interface DarsMavzu {
-  /** 1-dars uchun "Kirish", qolganlar uchun oldingi darslar xulosa */
-  takroriy: string;
+  /** 0–13-darslar uchun oldingi dars xulosa; 14+ da bo'lmaydi */
+  takroriy?: string;
   yangiSifat: string;
   maxraj: string;
   amaliyot: string;
@@ -521,7 +521,6 @@ export const DARSLAR: Dars[] = [
   {
     id: 14, nomi: "Hamza Turlari", emoji: "ء",
     mavzu: {
-      takroriy: "13-dars: Ha, Wow, Ya — barcha 28 harf to'liq o'rganildi!",
       yangiSifat: "Yangi juft sifat yo'q — tajwid qoidalariga o'tamiz",
       maxraj: "Hamza — halqning eng yuqorisidan chiqadigan tovush (glottal stop)",
       amaliyot: "أَكَلَ — إِسْلَام — آمَنَ — سَأَلَ — يَسْأَلُ kabi so'zlarda hamzani to'g'ri o'qish",
@@ -554,7 +553,6 @@ export const DARSLAR: Dars[] = [
   {
     id: 15, nomi: "Ta Marbuta", emoji: "ة",
     mavzu: {
-      takroriy: "14-dars: Hamza — Qat' (har doim o'qiladi) va Wasl (ulanishda tushib qoladi)",
       yangiSifat: "Yangi juft sifat yo'q",
       maxraj: "Ta Marbuta — tugilgan Ta, so'z oxirida t yoki h tovushi",
       amaliyot: "رَحْمَةٌ — مَدْرَسَةٌ — فَاطِمَةُ kabi so'zlarda ta marbuta o'qish",
@@ -586,7 +584,6 @@ export const DARSLAR: Dars[] = [
   {
     id: 16, nomi: "Madd — Cho'zish Asoslari", emoji: "〰️",
     mavzu: {
-      takroriy: "15-dars: Ta Marbuta — ulanishda t, vaqfda h deb o'qiladi",
       yangiSifat: "Madd — cho'zish sifati (Lin va Madd harflari)",
       maxraj: "Madd harflari: ا و ي — Jawf (og'iz bo'shlig'i)dan chiqadi",
       amaliyot: "قَالَ — قِيلَ — يَقُولُ — جَاءَ — السَّمَاءِ kabi so'zlarda cho'zib o'qish",
@@ -627,7 +624,6 @@ export const DARSLAR: Dars[] = [
   {
     id: 17, nomi: "Tanvin — Asosiy Qoidalar", emoji: "◌ٌ",
     mavzu: {
-      takroriy: "16-dars: Madd — Tabii (2 harakah), Muttasil va Munfasil (4–5 harakah)",
       yangiSifat: "Yangi juft sifat yo'q",
       maxraj: "Tanvin aslida yashirin ن tovushi — Lison uchi + Xayshum",
       amaliyot: "كِتَابٌ — رَجُلٌ — عَلِيمٌ حَكِيمٌ kabi so'zlarda tanvinni to'g'ri o'qish",
@@ -660,7 +656,6 @@ export const DARSLAR: Dars[] = [
   {
     id: 18, nomi: "Sukun", emoji: "◌ْ",
     mavzu: {
-      takroriy: "17-dars: Tanvin — 3 turi va Izhor halqi (halq 6 harfi bilan aniq talaffuz)",
       yangiSifat: "Yangi juft sifat yo'q",
       maxraj: "Sokin harf — harakatsiz; Nun sakin va Mim sakin shu mavzu ichida",
       amaliyot: "مِنْ أَهْلِ — هُمْ بِهِ — يَذْهَبُ kabi so'zlarda sokin harflarni topish",
@@ -700,7 +695,6 @@ export const DARSLAR: Dars[] = [
   {
     id: 19, nomi: "Qalqala — Zarb Tovushi", emoji: "⚡",
     mavzu: {
-      takroriy: "18-dars: Sukun — sokin harf; Nun sakin — Izhor (halq 6 harf) va Ixfo (15 harf)",
       yangiSifat: "Qalqala mustaqil sifat — oldin tanishgan edik, endi chuqur amaliyot",
       maxraj: "Qalqala harflari 5 ta: ق ط ب ج د (qatb jad)",
       amaliyot: "خَلَقَ — يَطْبَعُ — لَمْ يَلِدْ kabi so'zlarda qalqalani aniq ifodalash",
@@ -734,7 +728,6 @@ export const DARSLAR: Dars[] = [
   {
     id: 20, nomi: "Lam Shamsiyya va Qomariyya", emoji: "☀️",
     mavzu: {
-      takroriy: "19-dars: Qalqala — 5 harf (ق ط ب ج د), Sugra va Kubra farqi",
       yangiSifat: "Yangi juft sifat yo'q",
       maxraj: "الـ artikli: Lam Shamsiyya — assimilyatsiya; Lam Qomariyya — aniq lam",
       amaliyot: "الشَّمْسُ — الْقَمَرُ — النَّاسُ — الْكِتَابُ kabi so'zlarda lam turlarini farqlash",
@@ -768,7 +761,6 @@ export const DARSLAR: Dars[] = [
   {
     id: 21, nomi: "Shadda va Tashdid", emoji: "◌ّ",
     mavzu: {
-      takroriy: "20-dars: Lam Shamsiyya (assimilyatsiya) va Qomariyya (aniq lam) farqi",
       yangiSifat: "Yangi juft sifat yo'q",
       maxraj: "Shadda — harfni ikkilantirish, kuchli va uzun talaffuz",
       amaliyot: "مُحَمَّدٌ — رَبِّ — حَجَّ — الضَّالِّينَ kabi so'zlarda shaddani to'g'ri o'qish",
@@ -801,7 +793,6 @@ export const DARSLAR: Dars[] = [
   {
     id: 22, nomi: "Vasl Hamzasi va Vaqf", emoji: "⏸️",
     mavzu: {
-      takroriy: "21-dars: Shadda — harfni ikkilantirish; Shaddali Mim va Nun — g'unna kuchayadi",
       yangiSifat: "Yangi juft sifat yo'q",
       maxraj: "Vaqfda so'z oxiri sukun holga o'tadi; Wasl da hamza tushib qoladi",
       amaliyot: "Qur'on o'qishda to'g'ri to'xtalish va davom ettirish",
@@ -840,7 +831,6 @@ export const DARSLAR: Dars[] = [
   {
     id: 23, nomi: "1-Bosqich Yakuniy", emoji: "🏆",
     mavzu: {
-      takroriy: "22-dars: Vasl Hamzasi (ulanishda tushadi) va Vaqf qoidalari",
       yangiSifat: "1-bosqich to'liq yakunlandi — barcha asosiy qoidalar o'rganildi!",
       maxraj: "Barcha 28 harf + barcha o'rganilgan tajwid qoidalari",
       amaliyot: "Al-Fotiha surasi — barcha qoidalarni qo'llagan holda to'liq o'qish",
