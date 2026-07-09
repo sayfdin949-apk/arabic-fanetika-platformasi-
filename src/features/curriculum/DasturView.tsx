@@ -5,7 +5,6 @@ import {
   DARSLAR, HARF_SIFATLAR, TAUGHT_SIFAT, SIFAT_RANG, getLettersForLesson,
   type Dars, type TajwidQoida,
 } from "../../content/darslar";
-import { DARS_MASHQLAR } from "../../content/mashqlar";
 
 /* ── Kichik yordamchi komponentlar ── */
 
@@ -342,133 +341,95 @@ function AmaliyotPanel({ d }: { d: Dars }) {
   );
 }
 
-/* ── Yozish mashqlari paneli (dars 1–13) ── */
-function MashqlarPanel({ d }: { d: Dars }) {
-  const mashqlar = DARS_MASHQLAR[d.id];
-  if (!mashqlar) return null;
-  return (
-    <Section title="Yozish va talaffuz mashqlari" icon={<span style={{ fontSize: 16 }}>✍️</span>} defaultOpen>
-      <div style={{ paddingTop: 8, display: "flex", flexDirection: "column", gap: 14 }}>
-        {mashqlar.harflar.map((hm) => {
-          const data = HARF_SIFATLAR[hm.harf];
-          return (
-            <div key={hm.harf} style={{
-              background: "rgba(13,58,26,.02)",
-              border: "1px solid rgba(13,58,26,.10)",
-              borderRadius: 14, overflow: "hidden",
-            }}>
-              {/* Xusnixat sarlavha */}
-              <div style={{
-                background: "linear-gradient(135deg, rgba(13,58,26,.08), rgba(13,58,26,.03))",
-                borderBottom: "1px solid rgba(13,58,26,.08)",
-                padding: "12px 14px",
-                display: "flex", alignItems: "flex-start", gap: 12,
-              }}>
-                {/* Katta harf */}
-                <div style={{
-                  fontFamily: AR, fontSize: 64, color: "#15803d",
-                  background: "#fff", borderRadius: 12,
-                  padding: "0 16px", border: "2px solid rgba(21,128,61,.25)",
-                  boxShadow: "0 2px 8px rgba(21,128,61,.12)",
-                  lineHeight: 1.5, flexShrink: 0,
-                }}>
-                  {hm.harf}
-                </div>
-                {/* 4 shakl */}
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: T.hint, textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 7 }}>
-                    {data?.nomi ?? hm.harf} — 4 shakl
-                  </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 5 }}>
-                    {[
-                      { label: "Alohida", txt: hm.harf },
-                      { label: "Bosh", txt: hm.harf + "ـ" },
-                      { label: "O'rta", txt: "ـ" + hm.harf + "ـ" },
-                      { label: "Oxir", txt: "ـ" + hm.harf },
-                    ].map(f => (
-                      <div key={f.label} style={{
-                        textAlign: "center",
-                        background: "#fff", borderRadius: 8,
-                        border: "1px solid rgba(21,128,61,.18)",
-                        padding: "4px 2px",
-                      }}>
-                        <div style={{ fontFamily: AR, fontSize: 22, color: "#15803d", lineHeight: 1.7 }}>{f.txt}</div>
-                        <div style={{ fontSize: 9, color: T.hint, fontWeight: 600 }}>{f.label}</div>
-                      </div>
-                    ))}
-                  </div>
-                  {hm.xusnixatIzoh && (
-                    <div style={{ marginTop: 8, fontSize: 11, color: T.text2, lineHeight: 1.5 }}>
-                      💡 {hm.xusnixatIzoh}
-                    </div>
-                  )}
-                </div>
-              </div>
+/* ── O'qish amaliyoti paneli (dars 1–13) ── */
+function OqishPanel({ d }: { d: Dars }) {
+  const letters = getLettersForLesson(d.id);
+  const newSet = new Set(d.yangiHarflar);
+  if (letters.length === 0) return null;
 
-              {/* Mashq qatorlari */}
-              <div style={{ padding: "10px 14px", display: "flex", flexDirection: "column", gap: 5 }}>
-                {hm.qatorlar.map((qator) => (
-                  <div key={qator.nomi} style={{
-                    display: "flex", alignItems: "center", gap: 8,
-                    background: "#fff", borderRadius: 8,
-                    border: "1px solid rgba(0,0,0,.06)",
-                    padding: "7px 10px",
+  return (
+    <Section title="O'qish amaliyoti" icon={<span style={{ fontSize: 16 }}>📖</span>} defaultOpen>
+      <div style={{ paddingTop: 8, display: "flex", flexDirection: "column", gap: 4 }}>
+
+        {/* Mos yozuv qatori: أَ  إِ  أُ */}
+        <div style={{
+          display: "flex", justifyContent: "flex-end", gap: 28,
+          background: "rgba(13,58,26,.05)", borderRadius: 8,
+          padding: "8px 16px", border: "1px solid rgba(13,58,26,.12)",
+          direction: "rtl",
+        }}>
+          {["أَ", "إِ", "أُ"].map((ch, i) => (
+            <span key={i} style={{ fontFamily: AR, fontSize: 28, color: "#7c3aed", lineHeight: 1.8 }}>{ch}</span>
+          ))}
+        </div>
+
+        {/* Har bir harf uchun bir qator: [harf+fatha]  [harf+kasra]  [harf+damma] */}
+        {letters.map(h => {
+          const isNew = newSet.has(h);
+          return (
+            <div key={h} style={{
+              display: "flex", justifyContent: "flex-end", gap: 28,
+              background: isNew ? "rgba(13,58,26,.07)" : "#fff",
+              borderRadius: 8, padding: "8px 16px",
+              border: isNew ? "1px solid rgba(13,58,26,.20)" : "1px solid rgba(0,0,0,.06)",
+              direction: "rtl",
+            }}>
+              {[h + "َ", h + "ِ", h + "ُ"].map((ch, i) => (
+                <span key={i} style={{
+                  fontFamily: AR, fontSize: 28,
+                  color: isNew ? T.green : T.text2,
+                  lineHeight: 1.8,
+                  fontWeight: isNew ? 700 : 400,
+                }}>{ch}</span>
+              ))}
+            </div>
+          );
+        })}
+
+        {/* Hamza kombinatsiyalari — yangi harflar uchun */}
+        {d.yangiHarflar.length > 0 && (
+          <>
+            <div style={{ height: 6 }} />
+            {d.yangiHarflar.map(h => (
+              <div key={"hc-" + h} style={{
+                display: "flex", justifyContent: "flex-end", gap: 28,
+                background: "rgba(180,83,9,.06)", borderRadius: 8,
+                padding: "8px 16px", border: "1px solid rgba(180,83,9,.15)",
+                direction: "rtl",
+              }}>
+                {["أَ" + h + "ْ", "إِ" + h + "ْ", "أُ" + h + "ْ"].map((ch, i) => (
+                  <span key={i} style={{
+                    fontFamily: AR, fontSize: 28, color: "#b45309", lineHeight: 1.8,
+                  }}>{ch}</span>
+                ))}
+              </div>
+            ))}
+          </>
+        )}
+
+        {/* 4 shakl — yangi harflar uchun */}
+        {d.yangiHarflar.length > 0 && (
+          <>
+            <div style={{ height: 4 }} />
+            {d.yangiHarflar.map(h => (
+              <div key={"sh-" + h} style={{
+                display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 6,
+              }}>
+                {[h, h + "ـ", "ـ" + h + "ـ", "ـ" + h].map((sh, i) => (
+                  <div key={i} style={{
+                    textAlign: "center", background: "#fff", borderRadius: 8,
+                    border: "1px solid rgba(21,128,61,.18)", padding: "6px 4px",
                   }}>
-                    <span style={{
-                      fontSize: 10, fontWeight: 800,
-                      color: qator.rang ?? "#15803d",
-                      background: (qator.rang ?? "#15803d") + "15",
-                      borderRadius: 5, padding: "2px 7px",
-                      whiteSpace: "nowrap", flexShrink: 0,
-                      minWidth: 80, textAlign: "center",
-                    }}>
-                      {qator.nomi}
-                    </span>
-                    <div style={{
-                      display: "flex", gap: 10, flexWrap: "wrap",
-                      direction: "rtl", flex: 1, justifyContent: "flex-end",
-                    }}>
-                      {qator.arabcha.map((txt, i) => (
-                        <span key={i} style={{
-                          fontFamily: AR, fontSize: 22,
-                          color: qator.rang ?? "#15803d",
-                          lineHeight: 1.9,
-                        }}>
-                          {txt}
-                        </span>
-                      ))}
+                    <div style={{ fontFamily: AR, fontSize: 26, color: T.green, lineHeight: 1.7 }}>{sh}</div>
+                    <div style={{ fontSize: 9, color: T.hint, fontWeight: 600 }}>
+                      {["Alohida", "Bosh", "O'rta", "Oxir"][i]}
                     </div>
                   </div>
                 ))}
               </div>
-
-              {/* So'zlar */}
-              {hm.sozlar && hm.sozlar.length > 0 && (
-                <div style={{
-                  borderTop: "1px solid rgba(13,58,26,.08)",
-                  padding: "10px 14px",
-                  display: "flex", flexWrap: "wrap", gap: 8,
-                  justifyContent: "flex-end",
-                }}>
-                  <span style={{ fontSize: 10, fontWeight: 700, color: T.hint, alignSelf: "center", textTransform: "uppercase" }}>
-                    So'zlar:
-                  </span>
-                  {hm.sozlar.map(s => (
-                    <div key={s.arab} style={{
-                      background: "rgba(13,58,26,.06)", borderRadius: 8,
-                      padding: "5px 12px",
-                      display: "flex", flexDirection: "column", alignItems: "center", gap: 1,
-                      border: "1px solid rgba(13,58,26,.12)",
-                    }}>
-                      <span style={{ fontFamily: AR, fontSize: 20, color: T.green, direction: "rtl" }}>{s.arab}</span>
-                      <span style={{ fontSize: 10, color: T.hint, fontWeight: 600 }}>{s.ozb}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          );
-        })}
+            ))}
+          </>
+        )}
       </div>
     </Section>
   );
@@ -736,10 +697,10 @@ function DarsDetail({ d, onBack }: { d: Dars; onBack: () => void }) {
         ) : (
           <>
             <MavzuPanel d={d} />
-            <MashqlarPanel d={d} />
             <SifatlarPanel d={d} />
             <MaxrajPanel d={d} />
             <AmaliyotPanel d={d} />
+            <OqishPanel d={d} />
           </>
         )}
       </div>
