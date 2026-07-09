@@ -289,6 +289,163 @@ function AmaliyotPanel({ d }: { d: Dars }) {
   );
 }
 
+/* ── 0-dars: Arabtiliga Kirish — maxsus vizual kontent ── */
+function KirishContent() {
+  const maxrajZonalar = [
+    { rang: "#0e7490", icon: "🌬️", nomi: "Jawf", izoh: "Og'iz bo'shlig'i", harflar: "ا  و  ي", qism: "3 harf — hech qayerga urilmay to'g'ri chiqadi" },
+    { rang: "#b45309", icon: "🔴", nomi: "Halq", izoh: "Tomoq — 3 qism", harflar: "أ  ه  ع  ح  غ  خ", qism: "6 harf: pastki (أ ه) · o'rta (ع ح) · yuqori (غ خ)" },
+    { rang: "#7c3aed", icon: "👅", nomi: "Lison", izoh: "Til — 10 guruh", harflar: "ق  ك  ج  ش  ي  ض  ل  ن  ر  ط  د  ت  ص  ز  س  ث  ذ  ظ", qism: "18 harf — tilning turli qismlaridan" },
+    { rang: "#dc2626", icon: "👄", nomi: "Shafatayn", izoh: "Ikki lab", harflar: "ف  ب  م  و", qism: "4 harf: fa (tish+lab), ba (ikki lab), mim (lab+g'unna), wow (dumaloq lab)" },
+    { rang: "#15803d", icon: "👃", nomi: "Xayshum", izoh: "Burun — g'unna", harflar: "ن  م", qism: "Alohida harf emas — ن va م ning g'unna (burun) tovushi" },
+  ];
+
+  const asliyJuftlar = [
+    { a: "Jahr", b: "Hams", aIzoh: "Ovoz payi titraydi — jarangli", bIzoh: "Ovoz payi titramaydі — nafsiz" },
+    { a: "Shidda", b: "Roxova", aIzoh: "Havo to'liq to'xtaydi, keskin chiqadi", bIzoh: "Havo erkin oqib chiqadi, uzayishi mumkin" },
+    { a: "Iste'lo", b: "Istefol", aIzoh: "Til orqasi ko'tariladi — 'og'ir' harflar", bIzoh: "Til pastda qoladi — 'yengil' harflar" },
+    { a: "Itbaq", b: "Infitah", aIzoh: "Til tanglay bilan yopiladi (4 harf)", bIzoh: "Til va tanglay orasida ochiqlik qoladi" },
+    { a: "Izlaq", b: "Ismat", aIzoh: "Til/lab uchidan osonlik bilan chiqadi", bIzoh: "Chiqishi biroz qiyinroq — til ichiga kirib" },
+  ];
+
+  const mustaqil = [
+    { nomi: "Safir 🎵", izoh: "O'tkir sifildirilgan tovush (س ز ص)" },
+    { nomi: "Qalqala ⚡", izoh: "Sokin holda kuchli zarb bilan qo'shimcha jaranglash (ق ط ب ج د)" },
+    { nomi: "Lin 🌊", izoh: "Fathadagi harfdan keyin sokin kelganda yumshoq cho'zma (و ي)" },
+    { nomi: "Inhiraf ↗️", izoh: "Til yon tomonga og'ib chiqadi (ل ر)" },
+    { nomi: "Takrir 🔄", izoh: "Til uchi tez-tez takrorlanib titraydi (ر)" },
+    { nomi: "Tafasshi 💨", izoh: "Havo og'iz bo'ylab keng tarqaladi (ش)" },
+    { nomi: "Istitola ↔️", izoh: "Til yoni bo'ylab cho'zilib talaffuz (ض)" },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+
+      {/* 1 — Tarix */}
+      <Section title="Arab tili tarixi" icon={<span>📜</span>} defaultOpen>
+        <div style={{ paddingTop: 10, display: "flex", flexDirection: "column", gap: 8 }}>
+          {[
+            { kim: "Nasr ibn Osim & Yahya ibn Ya'mar", ish: "Harflarga nuqta qo'shdilar va tartibladilar" },
+            { kim: "Abu Aswad Adduali", ish: "E'rob tizimini joriy qildilar — harakatlarni qizil nuqta shaklida qo'ydilar" },
+            { kim: "Al-Xalil ibn Ahmad Al-Farohidiy", ish: "Hozirgi harakat tizimiga (fatha, kasra, damma) o'zgartirishlar kiritdilar" },
+          ].map((t, i) => (
+            <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+              <div style={{ width: 24, height: 24, borderRadius: "50%", background: T.gLime, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 800, color: T.onCta, marginTop: 1 }}>{i + 1}</div>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: T.green }}>{t.kim}</div>
+                <div style={{ fontSize: 12, color: T.text2, marginTop: 2 }}>{t.ish}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* 2 — Harflar paydo bo'lishi */}
+      <Section title="Harflar paydo bo'lishi" icon={<span>🌬️</span>} defaultOpen>
+        <div style={{ paddingTop: 10 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", justifyContent: "center", marginBottom: 12 }}>
+            {["Havo", "Urilish", "Tebranish", "Ajratish", "Shqalanish", "Tovush"].map((s, i, arr) => (
+              <div key={s} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{ background: i === arr.length - 1 ? T.gLime : "rgba(13,58,26,.09)", borderRadius: 10, padding: "7px 12px", fontSize: 12, fontWeight: 700, color: i === arr.length - 1 ? T.onCta : T.green }}>{s}</div>
+                {i < arr.length - 1 && <span style={{ color: T.lime, fontWeight: 700 }}>→</span>}
+              </div>
+            ))}
+          </div>
+          <div style={{ background: "rgba(13,58,26,.04)", borderRadius: 10, padding: "10px 12px", fontSize: 12, color: T.text2, lineHeight: 1.6 }}>
+            Havo o'pkadan chiqib, turli nutq a'zolari (til, lab, tomoq...) bilan urilib, tebranib, ajralib va ishqalanib — tovushga aylanadi. Har bir tovushning o'z <b style={{ color: T.green }}>maxraji</b> (chiqish joyi) va <b style={{ color: T.green }}>sifati</b> (xususiyati) bor.
+          </div>
+        </div>
+      </Section>
+
+      {/* 3 — Ovoz pardasi */}
+      <Section title="Ovoz pardasi — Jahr va Hams" icon={<span>🎙️</span>} defaultOpen>
+        <div style={{ paddingTop: 10, display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+            <div style={{ background: "rgba(30,27,75,.07)", border: "1px solid rgba(30,27,75,.2)", borderRadius: 10, padding: "10px 12px" }}>
+              <div style={{ fontSize: 12, fontWeight: 800, color: "#1e1b4b", marginBottom: 4 }}>⚡ JAHR — Jarangli</div>
+              <div style={{ fontSize: 11, color: T.text2, lineHeight: 1.5 }}>Ovoz payi yopiladi va tebranadi. <br />Misol: <span style={{ fontFamily: AR, fontSize: 16, color: "#1e1b4b" }}>ز</span> (Zayn) — «azz» deb aytib bo'g'izga qo'l qo'ying, tebranadi</div>
+            </div>
+            <div style={{ background: "rgba(67,56,202,.07)", border: "1px solid rgba(67,56,202,.2)", borderRadius: 10, padding: "10px 12px" }}>
+              <div style={{ fontSize: 12, fontWeight: 800, color: "#4338ca", marginBottom: 4 }}>💨 HAMS — Nafsiz</div>
+              <div style={{ fontSize: 11, color: T.text2, lineHeight: 1.5 }}>Ovoz payi ochiq qoladi, havo erkin chiqadi. <br />Misol: <span style={{ fontFamily: AR, fontSize: 16, color: "#4338ca" }}>س</span> (Sin) — «ass» deb aytib qo'lni og'iz oldiga qo'ying, havo chiqadi</div>
+            </div>
+          </div>
+          <div style={{ background: "rgba(21,128,61,.06)", border: "1px solid rgba(21,128,61,.18)", borderRadius: 10, padding: "10px 12px" }}>
+            <div style={{ fontSize: 11, fontWeight: 800, color: "#15803d", marginBottom: 6, textTransform: "uppercase", letterSpacing: ".05em" }}>✋ Tekshirish usuli</div>
+            <div style={{ fontSize: 12, color: T.text, lineHeight: 1.6 }}>
+              <b>1-qo'l</b> — bo'g'izga qo'ying (tebranishni his qilish uchun)<br />
+              <b>2-qo'l</b> — og'iz oldiga qo'ying (havo chiqishini his qilish uchun)<br />
+              Harfni <b>sukunli</b> holatda (harakatsiz) talaffuz qiling va farqni his qiling
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* 4 — Maxraj 5 zona */}
+      <Section title="Maxraj — 5 asosiy zona" icon={<span>📍</span>} defaultOpen>
+        <div style={{ paddingTop: 10, display: "flex", flexDirection: "column", gap: 8 }}>
+          {maxrajZonalar.map((z, i) => (
+            <div key={z.nomi} style={{ borderRadius: 12, overflow: "hidden", border: `1px solid ${z.rang}30` }}>
+              <div style={{ background: z.rang, padding: "8px 12px", display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ fontSize: 18 }}>{z.icon}</span>
+                <div>
+                  <span style={{ fontSize: 14, fontWeight: 800, color: "#fff" }}>{i + 1}. {z.nomi}</span>
+                  <span style={{ fontSize: 11, color: "rgba(255,255,255,.8)", marginLeft: 8 }}>{z.izoh}</span>
+                </div>
+              </div>
+              <div style={{ background: z.rang + "0D", padding: "8px 12px" }}>
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", direction: "rtl", marginBottom: 6 }}>
+                  {z.harflar.split("  ").filter(Boolean).map(h => (
+                    <span key={h} style={{ fontFamily: AR, fontSize: 22, color: z.rang, background: z.rang + "18", borderRadius: 8, padding: "3px 10px", border: `1px solid ${z.rang}30`, fontWeight: 700 }}>{h}</span>
+                  ))}
+                </div>
+                <div style={{ fontSize: 11, color: T.text2 }}>{z.qism}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* 5 — Sifatlar */}
+      <Section title="Sifatlar tushunchasi" icon={<span>⭐</span>} defaultOpen>
+        <div style={{ paddingTop: 10, display: "flex", flexDirection: "column", gap: 10 }}>
+          {/* Juft sifatlar */}
+          <div>
+            <div style={{ fontSize: 12, fontWeight: 800, color: T.green, marginBottom: 8 }}>🔄 Ziddi bor sifatlar — 5 juft (10 ta)</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              {asliyJuftlar.map(j => (
+                <div key={j.a} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+                  <div style={{ background: "rgba(30,27,75,.07)", border: "1px solid rgba(30,27,75,.15)", borderRadius: 9, padding: "7px 10px" }}>
+                    <div style={{ fontSize: 11, fontWeight: 800, color: "#1e1b4b" }}>{j.a}</div>
+                    <div style={{ fontSize: 10, color: T.text2, marginTop: 2, lineHeight: 1.4 }}>{j.aIzoh}</div>
+                  </div>
+                  <div style={{ background: "rgba(67,56,202,.07)", border: "1px solid rgba(67,56,202,.15)", borderRadius: 9, padding: "7px 10px" }}>
+                    <div style={{ fontSize: 11, fontWeight: 800, color: "#4338ca" }}>{j.b}</div>
+                    <div style={{ fontSize: 10, color: T.text2, marginTop: 2, lineHeight: 1.4 }}>{j.bIzoh}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Mustaqil sifatlar */}
+          <div>
+            <div style={{ fontSize: 12, fontWeight: 800, color: "#b45309", marginBottom: 8 }}>🌟 Ziddi yo'q (mustaqil) sifatlar — 7 ta</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+              {mustaqil.map(m => (
+                <div key={m.nomi} style={{ background: "rgba(180,83,9,.06)", border: "1px solid rgba(180,83,9,.15)", borderRadius: 9, padding: "7px 10px", display: "flex", gap: 8, alignItems: "flex-start" }}>
+                  <span style={{ fontSize: 12, fontWeight: 800, color: "#b45309", whiteSpace: "nowrap" }}>{m.nomi}</span>
+                  <span style={{ fontSize: 11, color: T.text2 }}>— {m.izoh}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Section>
+
+    </div>
+  );
+}
+
 /* ── Dars detail ko'rinishi ── */
 function DarsDetail({ d, onBack }: { d: Dars; onBack: () => void }) {
   return (
@@ -319,10 +476,14 @@ function DarsDetail({ d, onBack }: { d: Dars; onBack: () => void }) {
 
       {/* Content */}
       <div style={{ padding: "14px 14px 40px" }}>
-        <MavzuPanel d={d} />
-        <SifatlarPanel d={d} />
-        <MaxrajPanel d={d} />
-        <AmaliyotPanel d={d} />
+        {d.id === 0 ? <KirishContent /> : (
+          <>
+            <MavzuPanel d={d} />
+            <SifatlarPanel d={d} />
+            <MaxrajPanel d={d} />
+            <AmaliyotPanel d={d} />
+          </>
+        )}
       </div>
     </div>
   );
