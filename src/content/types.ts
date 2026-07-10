@@ -42,7 +42,8 @@ export interface AmalBob {
 }
 
 export interface DasturKun { k: string; d: string; m: string; }
-export interface DasturHafta { h: number; mavzu: string; kunlar: DasturKun[]; imtihon: string; }
+export interface DasturVazifa { savol: string; variantlar: string[]; togri: number; }
+export interface DasturHafta { h: number; mavzu: string; kunlar: DasturKun[]; imtihon: string; vazifalar?: DasturVazifa[]; }
 export interface DasturOy {
   oy: number;
   nomi: string;

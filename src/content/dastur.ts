@@ -29,6 +29,13 @@ export const DASTUR: DasturOy[] = [
           },
         ],
         imtihon: "Test: alifbo tartibi + harakatlar + أ ب o'qish",
+        vazifalar: [
+          { savol: "Arab yozuvi qaysi yo'nalishda o'qiladi?", variantlar: ["Chapdan o'ngga", "O'ngdan chapga", "Yuqoridan pastga", "Pastdan yuqoriga"], togri: 1 },
+          { savol: "Arab alifbosida nechta harf bor?", variantlar: ["24 ta", "26 ta", "28 ta", "30 ta"], togri: 2 },
+          { savol: "Fatha belgisi harfning qayerida yoziladi?", variantlar: ["Harf ostida", "Harf ustida", "Harf o'ngida", "Harf ichida"], togri: 1 },
+          { savol: "Sukun belgisi nimani bildiradi?", variantlar: ["Uzun tovush", "Ikkilanma tovush", "Harakat yo'qligi (unli yo'q)", "Tanvin"], togri: 2 },
+          { savol: "أ harfi bu kursda nima deb ataladi?", variantlar: ["Alif", "Ba", "Hamza", "Ta"], togri: 2 },
+        ],
       },
       {
         h: 2,
@@ -51,6 +58,13 @@ export const DASTUR: DasturOy[] = [
           },
         ],
         imtihon: "Blooket: tanvin + shaddah + ت ث ج ح harflari",
+        vazifalar: [
+          { savol: "Tanvin UN ko'rinishi qanday?", variantlar: ["Bitta kasra", "Ikki fatha", "Ikki damma", "Bitta fatha"], togri: 2 },
+          { savol: "Shaddah harfni qanday o'qitadi?", variantlar: ["Cho'zib o'qish", "Ikki marta (qo'shilgan) o'qish", "Harakat yo'qligi", "Uzun unli"], togri: 1 },
+          { savol: "ث harfi nima deb ataladi?", variantlar: ["Ta", "Sa", "Ba", "Jim"], togri: 1 },
+          { savol: "ج harfining maxraj joyi qayer?", variantlar: ["Lab", "Tomoq", "Til o'rtasi va tanglay", "Til uchi"], togri: 2 },
+          { savol: "ح harfi nima deb ataladi?", variantlar: ["Jim", "Ha (halqiy Ha)", "Xo", "Ba"], togri: 1 },
+        ],
       },
       {
         h: 3,
@@ -73,6 +87,13 @@ export const DASTUR: DasturOy[] = [
           },
         ],
         imtihon: "Test: ta marbuta + alif layyina + hamzatul vasl + خ د ذ ر harflari",
+        vazifalar: [
+          { savol: "Ta marbuta so'z oxirida to'xtaganda qanday o'qiladi?", variantlar: ["'T' deb", "'H' deb yoki jim turiladi", "'A' uzun deb", "Umuman o'qilmaydi"], togri: 1 },
+          { savol: "Alif layyina harfi asosan qayerda uchraydi?", variantlar: ["So'z boshida", "So'z o'rtasida", "So'z oxirida", "Hamma joyda"], togri: 2 },
+          { savol: "خ harfi nima deb ataladi?", variantlar: ["Ha", "Xo", "Jim", "G'ayn"], togri: 1 },
+          { savol: "ذ va ز harflarining asosiy farqi nima?", variantlar: ["Shaklida", "Maxrajida: ذ ingichka, ز til uchi+tish osti", "Nuqtalar sonida", "Ikkalasi bir xil"], togri: 1 },
+          { savol: "ر harfi qaysi maxraj guruhiga kiradi?", variantlar: ["Jawf (bo'shliq)", "Halq (tomoq)", "Lison (til)", "Shafatayn (lab)"], togri: 2 },
+        ],
       },
       {
         h: 4,
@@ -95,6 +116,13 @@ export const DASTUR: DasturOy[] = [
           },
         ],
         imtihon: "1-OY IMTIHONI: Nazariy 1–5 + Amaliy 1–6 (أ ب ت ث ج ح خ د ذ ر ز س) yozma+og'zaki",
+        vazifalar: [
+          { savol: "ز harfi nima deb ataladi?", variantlar: ["Sin", "Zayn", "Shin", "Sod"], togri: 1 },
+          { savol: "Damma qanday unli tovushni bildiradi?", variantlar: ["A tovushi", "I tovushi", "U tovushi", "E tovushi"], togri: 2 },
+          { savol: "Tanvin AN belgisi qaysi?", variantlar: ["Bitta kasra", "Bitta fatha", "Ikki fatha", "Ikki damma"], togri: 2 },
+          { savol: "Arab alifbosida tartib: أ ب ت ث — to'g'rimi?", variantlar: ["Ha, to'g'ri tartib", "Yo'q, ت ث oldin", "Yo'q, ب keyin أ", "Yo'q, ث boshqa joyda"], togri: 0 },
+          { savol: "1-oyda qaysi harflar o'rganildi?", variantlar: ["أ ب ت ث ج ح خ د ذ ر ز س", "ش ص ض ط ظ ع غ ف", "ق ك ل م ن ه و ي", "Barcha 28 harf"], togri: 0 },
+        ],
       },
     ],
   },
@@ -125,6 +153,13 @@ export const DASTUR: DasturOy[] = [
           },
         ],
         imtihon: "Test: ش ص ض ط + Jawf va Halq maxrajlari",
+        vazifalar: [
+          { savol: "Jawf (bo'shliq) maxrajiga tegishli harflar qaysilar?", variantlar: ["ب م و ف", "و ي ا (uzun unlili harflar)", "ق ط ب ج د", "غ خ ع ح ه ء"], togri: 1 },
+          { savol: "ط harfining asosiy xususiyati nima?", variantlar: ["Ingichka (tarqiq) harf", "Yo'g'on (isti'lo) harf", "Lab harfi", "Tomoq harfi"], togri: 1 },
+          { savol: "Halq maxrajiga qaysi harflar kiradi?", variantlar: ["غ خ ع ح ه ء", "و ا ي", "ب م و ف", "ن م"], togri: 0 },
+          { savol: "ض harfi nima deb ataladi?", variantlar: ["Sod", "To", "Dod", "Zo"], togri: 2 },
+          { savol: "ش va س harflarining asosiy farqi nima?", variantlar: ["Shaklida", "ش til o'rtasi+tanglay, س til uchi+tish ostida", "Nuqtalar sonida", "Ikkalasi bir xil maxrajda"], togri: 1 },
+        ],
       },
       {
         h: 6,
@@ -147,6 +182,13 @@ export const DASTUR: DasturOy[] = [
           },
         ],
         imtihon: "Blooket: ظ ع غ ف + Lison maxrajlari",
+        vazifalar: [
+          { savol: "ع harfi qaysi maxraj guruhiga kiradi?", variantlar: ["Jawf", "Halq", "Lison", "Shafatayn"], togri: 1 },
+          { savol: "Lison (til) maxraji qanday qismlarga bo'linadi?", variantlar: ["Faqat til uchi", "Til uchi, o'rtasi, yon tomoni, orqa qismi", "Faqat til orqa qismi", "Til va tishlar"], togri: 1 },
+          { savol: "غ harfi nima deb ataladi?", variantlar: ["G'ayn", "Fa", "Ayn", "Zo"], togri: 0 },
+          { savol: "ف harfining maxraji qayer?", variantlar: ["Til uchi va tish", "Yuqori tishlar va pastki lab", "Ikkala lab", "Tomoq"], togri: 1 },
+          { savol: "ظ harfi nima deb ataladi?", variantlar: ["Zal", "Ayn", "Zo", "G'ayn"], togri: 2 },
+        ],
       },
       {
         h: 7,
@@ -169,6 +211,13 @@ export const DASTUR: DasturOy[] = [
           },
         ],
         imtihon: "Test: ق ك ل م + Shafatayn va Xayshum maxrajlari",
+        vazifalar: [
+          { savol: "Shafatayn (lab) maxrajiga qaysi harflar kiradi?", variantlar: ["ب م و ف", "ن م", "ق ك", "ل ر"], togri: 0 },
+          { savol: "Xayshum (g'unna) qaysi harflar bilan bog'liq?", variantlar: ["ن va م", "ق va ك", "ل va ر", "ب va ف"], togri: 0 },
+          { savol: "ق va ك harflarining farqi nima?", variantlar: ["Farqi yo'q", "ق til orqa-tomoq chegarasida, ك til o'rta-orqa qismida", "ق lab, ك til", "ق tomoq, ك burun"], togri: 1 },
+          { savol: "ل harfining maxraji qayer?", variantlar: ["Til o'rta qismi", "Til uchi va yuqori tish eti", "Lab", "Tomoq"], togri: 1 },
+          { savol: "G'unna tovushi qayerdan chiqadi?", variantlar: ["Tomoqdan", "Burundan", "Labdan", "Til uchidan"], togri: 1 },
+        ],
       },
       {
         h: 8,
@@ -191,6 +240,13 @@ export const DASTUR: DasturOy[] = [
           },
         ],
         imtihon: "2-OY IMTIHONI: Barcha 28 harf (Amaliy 1–14) + Nazariy 6–8 maxraj ilmi yozma+og'zaki",
+        vazifalar: [
+          { savol: "Arab alifbosidagi oxirgi harf qaysi?", variantlar: ["و", "ن", "ي", "ه"], togri: 2 },
+          { savol: "و harfi qanday funksiyalarni bajarishi mumkin?", variantlar: ["Faqat undosh sifatida", "Undosh va uzun unli sifatida", "Faqat uzun unli sifatida", "Hech qanday funksiyasi yo'q"], togri: 1 },
+          { savol: "Arab harflari nechta asosiy maxraj guruhiga bo'linadi?", variantlar: ["3 ta", "5 ta", "7 ta", "10 ta"], togri: 1 },
+          { savol: "ن harfining xususiyati nima?", variantlar: ["G'unna bilan talaffuz qilinishi mumkin", "Yo'g'on harf", "Lab harfi", "Tomoq harfi"], togri: 0 },
+          { savol: "ه harfi qaysi maxraj guruhiga kiradi?", variantlar: ["Shafatayn (lab)", "Jawf (bo'shliq)", "Halq (tomoq)", "Lison (til)"], togri: 2 },
+        ],
       },
     ],
   },

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronDown, ChevronUp, BookOpen, Star, MapPin, PenLine, Lock } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
@@ -8,6 +8,7 @@ import {
 } from "../../content/darslar";
 import { NAZARIY } from "../../content/nazariy";
 import { DASTUR } from "../../content/dastur";
+import { Quiz, type QuizQuestion } from "../../components/Quiz";
 
 /* ── Kichik yordamchi komponentlar ── */
 
@@ -722,11 +723,85 @@ function DarsDetail({ d, onBack }: { d: Dars; onBack: () => void }) {
   );
 }
 
-/* ── Jadval tab: Fonetika 1 → Haftalar → Kunlar ── */
+/* ── Jadval tab: Fonetika 1 → Haftalar → Kunlar → Quiz ── */
 function JadvalTab() {
   const f1Haftalar = DASTUR.filter(m => m.oy <= 2).flatMap(m => m.haftalar);
   const [open, setOpen] = useState(false);
   const [openH, setOpenH] = useState<number | null>(null);
+  const [quizH, setQuizH] = useState<number | null>(null);
+  const [quizPct, setQuizPct] = useState<number | null>(null);
+
+  const activeHafta = f1Haftalar.find(h => h.h === quizH) ?? null;
+  const quizQuestions: QuizQuestion[] = useMemo(() => {
+    if (!activeHafta?.vazifalar) return [];
+    return activeHafta.vazifalar.map(v => ({
+      q: v.savol,
+      options: v.variantlar.map((t, i) => ({ text: t, correct: i === v.togri })),
+    }));
+  }, [activeHafta]);
+
+  const openQuiz = (h: number) => { setQuizH(h); setQuizPct(null); };
+  const closeQuiz = () => { setQuizH(null); setQuizPct(null); };
+
+  /* ── Quiz overlay ── */
+  if (quizH !== null && activeHafta) {
+    return (
+      <div style={{ padding: "12px 14px 32px" }}>
+        <div style={{
+          background: "#fff", borderRadius: 14,
+          border: "1px solid rgba(13,58,26,.12)", overflow: "hidden",
+          boxShadow: "0 1px 4px rgba(13,58,26,.06)",
+        }}>
+          {/* Quiz header */}
+          <div style={{ background: T.gGreen, padding: "12px 14px", display: "flex", alignItems: "center", gap: 10 }}>
+            <button
+              onClick={closeQuiz}
+              style={{ background: "rgba(255,255,255,.15)", border: "none", borderRadius: 8, padding: "5px 10px", color: "#fff", fontSize: 12, fontWeight: 600, cursor: "pointer" }}
+            >
+              ← Orqaga
+            </button>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: T.limeBrt }}>{activeHafta.h}-HAFTA TESTI</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginTop: 1 }}>{activeHafta.mavzu}</div>
+            </div>
+          </div>
+          <div style={{ padding: 14 }}>
+            {quizPct === null ? (
+              <Quiz
+                key={quizH}
+                questions={quizQuestions}
+                onDone={(ok, tot) => setQuizPct(Math.round((ok / tot) * 100))}
+              />
+            ) : (
+              <div style={{ textAlign: "center", padding: "20px 0" }}>
+                <div style={{ fontSize: 40, marginBottom: 10 }}>{quizPct >= 80 ? "🎉" : "📚"}</div>
+                <div style={{ fontSize: 20, fontWeight: 800, color: quizPct >= 80 ? T.green : T.red, marginBottom: 6 }}>
+                  {quizPct}%
+                </div>
+                <div style={{ fontSize: 13, color: T.text2, marginBottom: 18 }}>
+                  {quizPct >= 80 ? "Zo'r natija! Hafta testi yakunlandi." : "80% kerak. Qayta urinib ko'ring."}
+                </div>
+                <div style={{ display: "flex", gap: 10 }}>
+                  <button
+                    onClick={() => setQuizPct(null)}
+                    style={{ flex: 1, padding: "12px", borderRadius: 12, border: "1px solid rgba(13,58,26,.15)", background: "rgba(13,58,26,.04)", color: T.text2, fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+                  >
+                    Qayta boshlash
+                  </button>
+                  <button
+                    onClick={closeQuiz}
+                    style={{ flex: 1, padding: "12px", borderRadius: 12, border: "none", background: T.gGreen, color: "#fff", fontSize: 13, fontWeight: 700, cursor: "pointer" }}
+                  >
+                    Jadvalga qaytish
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: "12px 14px 32px" }}>
@@ -823,16 +898,32 @@ function JadvalTab() {
                         </div>
                       </div>
                     ))}
-                    <div style={{
-                      background: "rgba(100,188,64,.08)", border: "1px solid rgba(100,188,64,.25)",
-                      borderRadius: 10, padding: "9px 12px", display: "flex", gap: 8, alignItems: "flex-start",
-                    }}>
-                      <span style={{
-                        fontSize: 10, fontWeight: 800, color: T.lime,
-                        background: "rgba(100,188,64,.18)", borderRadius: 5,
-                        padding: "2px 7px", whiteSpace: "nowrap", flexShrink: 0,
-                      }}>TEST</span>
-                      <span style={{ fontSize: 12, color: T.text, lineHeight: 1.5 }}>{hafta.imtihon}</span>
+                    {/* TEST chip / button */}
+                    <div style={{ display: "flex", gap: 8, alignItems: "stretch" }}>
+                      <div style={{
+                        flex: 1, background: "rgba(100,188,64,.08)", border: "1px solid rgba(100,188,64,.25)",
+                        borderRadius: 10, padding: "9px 12px", display: "flex", gap: 8, alignItems: "flex-start",
+                      }}>
+                        <span style={{
+                          fontSize: 10, fontWeight: 800, color: T.lime,
+                          background: "rgba(100,188,64,.18)", borderRadius: 5,
+                          padding: "2px 7px", whiteSpace: "nowrap", flexShrink: 0,
+                        }}>TEST</span>
+                        <span style={{ fontSize: 12, color: T.text, lineHeight: 1.5 }}>{hafta.imtihon}</span>
+                      </div>
+                      {hafta.vazifalar && hafta.vazifalar.length > 0 && (
+                        <button
+                          onClick={() => openQuiz(hafta.h)}
+                          style={{
+                            background: T.gLime, border: "none", borderRadius: 10,
+                            padding: "9px 14px", cursor: "pointer", flexShrink: 0,
+                            fontSize: 12, fontWeight: 700, color: T.onCta,
+                            display: "flex", alignItems: "center", gap: 5,
+                          }}
+                        >
+                          ▶ Boshlash
+                        </button>
+                      )}
                     </div>
                   </div>
                 )}
