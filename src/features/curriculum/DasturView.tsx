@@ -523,7 +523,7 @@ function KirishContent() {
 
   const asliyJuftlar = [
     { a: "Jahr", b: "Hams", aIzoh: "Ovoz payi titraydi — jarangli", bIzoh: "Ovoz payi titramaydі — nafsiz" },
-    { a: "Shidda", b: "Roxova", aIzoh: "Havo to'liq to'xtaydi, keskin chiqadi", bIzoh: "Havo erkin oqib chiqadi, uzayishi mumkin" },
+    { a: "Shadid", b: "Raxv", aIzoh: "Havo to'liq to'xtaydi, keskin chiqadi", bIzoh: "Havo erkin oqib chiqadi, uzayishi mumkin" },
     { a: "Iste'lo", b: "Istefol", aIzoh: "Til orqasi ko'tariladi — 'og'ir' harflar", bIzoh: "Til pastda qoladi — 'yengil' harflar" },
     { a: "Itbaq", b: "Infitah", aIzoh: "Til tanglay bilan yopiladi (4 harf)", bIzoh: "Til va tanglay orasida ochiqlik qoladi" },
     { a: "Izlaq", b: "Ismat", aIzoh: "Til/lab uchidan osonlik bilan chiqadi", bIzoh: "Chiqishi biroz qiyinroq — til ichiga kirib" },
@@ -722,7 +722,7 @@ function DarsDetail({ d, onBack }: { d: Dars; onBack: () => void }) {
 /* ── Darslar ro'yxati (asosiy ko'rinish) ── */
 function DarslarList({ onSelect }: { onSelect: (d: Dars) => void }) {
   const pairs = [
-    "Jahr/Hams", "Shidda/Roxova", "Iste'lo/Istefol", "Itbaq/Infitah", "Izlaq/Ismat",
+    "Jahr/Hams", "Shadid/Raxv", "Iste'lo/Istefol", "Itbaq/Infitah", "Izlaq/Ismat",
   ];
   return (
     <div style={{ minHeight: "100dvh", background: T.meshLight }}>

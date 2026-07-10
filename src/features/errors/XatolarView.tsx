@@ -7,36 +7,43 @@ import { AMALIY } from "../../content/amaliy";
 
 const isAr = (s: string) => /[؀-ۿ]/.test(s);
 
+type NazQuestion = typeof NAZARIY[0]["vazifalar"][number];
+type AmalQuestion = typeof AMALIY[0]["test"][number];
+
+interface NazEntry {
+  id: number; nomi: string; icon: string; key: string;
+  questions: NazQuestion[]; link: string;
+}
+interface AmalEntry {
+  id: number; nomi: string; harflar: string[]; key: string;
+  questions: AmalQuestion[]; link: string;
+}
+
 export function XatolarView() {
   const navigate = useNavigate();
   const { wrongMap } = useProgress();
 
-  const nazEntries = Object.entries(wrongMap)
+  const nazEntries: NazEntry[] = Object.entries(wrongMap)
     .filter(([k, v]) => k.startsWith("naz_") && v.length > 0)
-    .map(([k, indices]) => {
+    .flatMap(([k, indices]) => {
       const id = parseInt(k.split("_")[1]);
       const dars = NAZARIY.find((d) => d.id === id);
-      return dars ? { id, nomi: dars.nomi, icon: dars.icon, key: k, questions: indices.map((i) => dars.vazifalar[i]).filter(Boolean), link: `/dars/nazariy/${id}` } : null;
-    })
-    .filter(Boolean) as NonNullable<ReturnType<typeof NAZARIY.find> & { key: string; questions: typeof NAZARIY[0]["vazifalar"]; link: string }>[];
+      if (!dars) return [];
+      return [{ id, nomi: dars.nomi, icon: dars.icon, key: k,
+        questions: indices.map((i) => dars.vazifalar[i]).filter((q): q is NazQuestion => q != null),
+        link: `/dars/nazariy/${id}` }];
+    });
 
-  const amalEntries = Object.entries(wrongMap)
+  const amalEntries: AmalEntry[] = Object.entries(wrongMap)
     .filter(([k, v]) => k.startsWith("amal_") && v.length > 0)
-    .map(([k, indices]) => {
+    .flatMap(([k, indices]) => {
       const id = parseInt(k.split("_")[1]);
       const bob = AMALIY.find((b) => b.id === id);
-      return bob
-        ? {
-            id,
-            nomi: bob.nomlar.join(", "),
-            harflar: bob.harflar,
-            key: k,
-            questions: indices.map((i) => bob.test[i]).filter(Boolean),
-            link: `/dars/amaliy/${id}`,
-          }
-        : null;
-    })
-    .filter(Boolean) as { id: number; nomi: string; harflar: string[]; key: string; questions: typeof AMALIY[0]["test"]; link: string }[];
+      if (!bob) return [];
+      return [{ id, nomi: bob.nomlar.join(", "), harflar: bob.harflar, key: k,
+        questions: indices.map((i) => bob.test[i]).filter((q): q is AmalQuestion => q != null),
+        link: `/dars/amaliy/${id}` }];
+    });
 
   const totalWrong = nazEntries.reduce((s, e) => s + e.questions.length, 0) +
     amalEntries.reduce((s, e) => s + e.questions.length, 0);

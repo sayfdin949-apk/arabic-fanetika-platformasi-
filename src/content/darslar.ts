@@ -54,9 +54,9 @@ export interface Dars {
 
 /* ── Har bir sifatning rangi ── */
 export const SIFAT_RANG: Record<string, { bg: string; text: string }> = {
-  "Shidda":   { bg: "#1d4ed8", text: "#fff" },
-  "Roxova":   { bg: "#0284c7", text: "#fff" },
-  "Bayniyya": { bg: "#7c3aed", text: "#fff" },
+  "Shadid":   { bg: "#1d4ed8", text: "#fff" },
+  "Raxv":     { bg: "#0284c7", text: "#fff" },
+  "Tavassut": { bg: "#7c3aed", text: "#fff" },
   "Iste'lo":  { bg: "#b45309", text: "#fff" },
   "Istefol":  { bg: "#4d7c0f", text: "#fff" },
   "Itbaq":    { bg: "#b91c1c", text: "#fff" },
@@ -71,52 +71,52 @@ export const SIFAT_RANG: Record<string, { bg: string; text: string }> = {
 export const HARF_SIFATLAR: Record<string, HarfSifat> = {
   "أ": {
     nomi: "Alif (Hamza)", maxraj: "Halq — eng chuqur bo'g'izdan keskin to'xtash",
-    ziddi: ["Jahr", "Shidda", "Istefol", "Infitah", "Ismat"],
+    ziddi: ["Jahr", "Shadid", "Istefol", "Infitah", "Ismat"],
     mustaqil: [],
   },
   "ب": {
     nomi: "Ba", maxraj: "Shafatayn — ikki lab yopilib keskin ochiladi",
-    ziddi: ["Jahr", "Shidda", "Istefol", "Infitah", "Izlaq"],
+    ziddi: ["Jahr", "Shadid", "Istefol", "Infitah", "Izlaq"],
     mustaqil: [{ nomi: "Qalqala", izoh: "Sokin holda talaffuzda kuchli zarb bilan qo'shimcha jaranglash hosil bo'ladi" }],
   },
   "ت": {
     nomi: "Ta", maxraj: "Lison uchi — til uchi yuqori tishlarning ichki tomoni bilan",
-    ziddi: ["Hams", "Shidda", "Istefol", "Infitah", "Ismat"],
+    ziddi: ["Hams", "Shadid", "Istefol", "Infitah", "Ismat"],
     mustaqil: [],
   },
   "ث": {
     nomi: "Sa", maxraj: "Lison uchi — til uchi pastki va yuqori tishlar orasidan",
-    ziddi: ["Hams", "Roxova", "Istefol", "Infitah", "Ismat"],
+    ziddi: ["Hams", "Raxv", "Istefol", "Infitah", "Ismat"],
     mustaqil: [],
   },
   "ج": {
     nomi: "Jim", maxraj: "Lison o'rtasi — til o'rtasi va oldingi yumshoq tanglay",
-    ziddi: ["Jahr", "Shidda", "Istefol", "Infitah", "Ismat"],
+    ziddi: ["Jahr", "Shadid", "Istefol", "Infitah", "Ismat"],
     mustaqil: [{ nomi: "Qalqala", izoh: "Sokin holda talaffuzda kuchli zarb bilan qo'shimcha jaranglash hosil bo'ladi" }],
   },
   "ح": {
     nomi: "Ha", maxraj: "Halq o'rtasi — nafas bilan, havo erkin chiqadi",
-    ziddi: ["Hams", "Roxova", "Istefol", "Infitah", "Ismat"],
+    ziddi: ["Hams", "Raxv", "Istefol", "Infitah", "Ismat"],
     mustaqil: [],
   },
   "خ": {
     nomi: "Xa", maxraj: "Halq yuqorisi — sirpanish tovushi bilan",
-    ziddi: ["Hams", "Roxova", "Iste'lo", "Infitah", "Ismat"],
+    ziddi: ["Hams", "Raxv", "Iste'lo", "Infitah", "Ismat"],
     mustaqil: [],
   },
   "د": {
     nomi: "Dal", maxraj: "Lison uchi — til uchi yuqori tishlar bilan",
-    ziddi: ["Jahr", "Shidda", "Istefol", "Infitah", "Ismat"],
+    ziddi: ["Jahr", "Shadid", "Istefol", "Infitah", "Ismat"],
     mustaqil: [{ nomi: "Qalqala", izoh: "Sokin holda talaffuzda kuchli zarb bilan qo'shimcha jaranglash hosil bo'ladi" }],
   },
   "ذ": {
     nomi: "Zal", maxraj: "Lison uchi — tish oralig'idan jarangli; ث ning jarangli shakli",
-    ziddi: ["Jahr", "Roxova", "Istefol", "Infitah", "Ismat"],
+    ziddi: ["Jahr", "Raxv", "Istefol", "Infitah", "Ismat"],
     mustaqil: [],
   },
   "ر": {
     nomi: "Ra", maxraj: "Lison uchi — milkka tegib tez titraydi",
-    ziddi: ["Jahr", "Bayniyya", "Istefol", "Infitah", "Izlaq"],
+    ziddi: ["Jahr", "Tavassut", "Istefol", "Infitah", "Izlaq"],
     mustaqil: [
       { nomi: "Inhiraf", izoh: "Til yon tomonga biroz og'ib talaffuz qilinadi, havo yon tarafdan o'tadi" },
       { nomi: "Takrir", izoh: "Til uchi tez-tez takrorlanib titraydi (trill)" },
@@ -124,104 +124,104 @@ export const HARF_SIFATLAR: Record<string, HarfSifat> = {
   },
   "ز": {
     nomi: "Zayn", maxraj: "Lison uchi — tish oralig'idan jarangli sifildirilgan tovush",
-    ziddi: ["Jahr", "Roxova", "Istefol", "Infitah", "Ismat"],
+    ziddi: ["Jahr", "Raxv", "Istefol", "Infitah", "Ismat"],
     mustaqil: [{ nomi: "Safir", izoh: "Til uchi va tish orasidan o'tkir sifildirilgan jarangli tovush chiqadi" }],
   },
   "س": {
     nomi: "Sin", maxraj: "Lison uchi — tish oralig'idan nafsiz sifildirilgan tovush",
-    ziddi: ["Hams", "Roxova", "Istefol", "Infitah", "Ismat"],
+    ziddi: ["Hams", "Raxv", "Istefol", "Infitah", "Ismat"],
     mustaqil: [{ nomi: "Safir", izoh: "Til uchi va tish orasidan o'tkir sifildirilgan nafsiz tovush chiqadi" }],
   },
   "ش": {
     nomi: "Shin", maxraj: "Lison o'rtasi — keng tarqaluvchi nafsiz tovush",
-    ziddi: ["Hams", "Roxova", "Istefol", "Infitah", "Ismat"],
+    ziddi: ["Hams", "Raxv", "Istefol", "Infitah", "Ismat"],
     mustaqil: [{ nomi: "Tafasshi", izoh: "Havo og'iz bo'ylab keng tarqalib chiqadi — sh tovushining xususiyati" }],
   },
   "ص": {
     nomi: "Sod", maxraj: "Lison uchi — tish yaqinida og'ir (mahkam) sibilyant",
-    ziddi: ["Hams", "Roxova", "Iste'lo", "Itbaq", "Ismat"],
+    ziddi: ["Hams", "Raxv", "Iste'lo", "Itbaq", "Ismat"],
     mustaqil: [{ nomi: "Safir", izoh: "Og'ir sifildirilgan tovush — س ning iste'loli, itboqli shakli" }],
   },
   "ض": {
     nomi: "Zod", maxraj: "Lison yon tomoni — til yoni orqa tishlar bilan; og'ir jarangli",
-    ziddi: ["Jahr", "Roxova", "Iste'lo", "Itbaq", "Ismat"],
+    ziddi: ["Jahr", "Raxv", "Iste'lo", "Itbaq", "Ismat"],
     mustaqil: [{ nomi: "Istitola", izoh: "Til yoni bo'ylab cho'zilib talaffuz qilinadi" }],
   },
   "ط": {
     nomi: "To", maxraj: "Lison uchi — til uchi tishlar bilan; og'ir keskin",
-    ziddi: ["Jahr", "Shidda", "Iste'lo", "Itbaq", "Ismat"],
+    ziddi: ["Jahr", "Shadid", "Iste'lo", "Itbaq", "Ismat"],
     mustaqil: [{ nomi: "Qalqala", izoh: "Sokin holda talaffuzda kuchli zarb bilan qo'shimcha jaranglash hosil bo'ladi" }],
   },
   "ظ": {
     nomi: "Zo", maxraj: "Lison uchi — tish oralig'idan og'ir jarangli; ذ ning og'ir shakli",
-    ziddi: ["Jahr", "Roxova", "Iste'lo", "Itbaq", "Ismat"],
+    ziddi: ["Jahr", "Raxv", "Iste'lo", "Itbaq", "Ismat"],
     mustaqil: [],
   },
   "ع": {
     nomi: "Ayn", maxraj: "Halq o'rtasi — jarangli bo'g'iz, tomir siqilishi bilan",
-    ziddi: ["Jahr", "Bayniyya", "Istefol", "Infitah", "Ismat"],
+    ziddi: ["Jahr", "Tavassut", "Istefol", "Infitah", "Ismat"],
     mustaqil: [],
   },
   "غ": {
     nomi: "G'ayn", maxraj: "Halq yuqorisi — jarangli sirpanish; خ ning jarangli shakli",
-    ziddi: ["Jahr", "Roxova", "Iste'lo", "Infitah", "Ismat"],
+    ziddi: ["Jahr", "Raxv", "Iste'lo", "Infitah", "Ismat"],
     mustaqil: [],
   },
   "ف": {
     nomi: "Fa", maxraj: "Shafatayn-tish — pastki lab va yuqori tishlar",
-    ziddi: ["Hams", "Roxova", "Istefol", "Infitah", "Izlaq"],
+    ziddi: ["Hams", "Raxv", "Istefol", "Infitah", "Izlaq"],
     mustaqil: [],
   },
   "ق": {
     nomi: "Qof", maxraj: "Lison orqasi — til orqasi va tovush payi (uvula)",
-    ziddi: ["Jahr", "Shidda", "Iste'lo", "Infitah", "Ismat"],
+    ziddi: ["Jahr", "Shadid", "Iste'lo", "Infitah", "Ismat"],
     mustaqil: [{ nomi: "Qalqala", izoh: "Sokin holda talaffuzda kuchli zarb bilan qo'shimcha jaranglash hosil bo'ladi" }],
   },
   "ك": {
     nomi: "Kof", maxraj: "Lison orqasi — til orqasi va yumshoq tanglay; ق dan biroz oldin",
-    ziddi: ["Hams", "Shidda", "Istefol", "Infitah", "Ismat"],
+    ziddi: ["Hams", "Shadid", "Istefol", "Infitah", "Ismat"],
     mustaqil: [],
   },
   "ل": {
     nomi: "Lam", maxraj: "Lison yon — til chetlari tish milklari bilan",
-    ziddi: ["Jahr", "Bayniyya", "Istefol", "Infitah", "Izlaq"],
+    ziddi: ["Jahr", "Tavassut", "Istefol", "Infitah", "Izlaq"],
     mustaqil: [{ nomi: "Inhiraf", izoh: "Til biroz yon tomonga og'ib chiqadi, havo yon tarafdan o'tadi" }],
   },
   "م": {
     nomi: "Mim", maxraj: "Shafatayn — ikki lab yopilib ochiladi; ب dan yumshoqroq",
-    ziddi: ["Jahr", "Bayniyya", "Istefol", "Infitah", "Izlaq"],
+    ziddi: ["Jahr", "Tavassut", "Istefol", "Infitah", "Izlaq"],
     mustaqil: [],
   },
   "ن": {
     nomi: "Nun", maxraj: "Lison uchi — til uchi va oldingi tanglay, burun yo'lidan ham",
-    ziddi: ["Jahr", "Bayniyya", "Istefol", "Infitah", "Izlaq"],
+    ziddi: ["Jahr", "Tavassut", "Istefol", "Infitah", "Izlaq"],
     mustaqil: [],
   },
   "ه": {
     nomi: "Ha (kichik)", maxraj: "Halq pastki — eng chuqur nafas tovushi",
-    ziddi: ["Hams", "Roxova", "Istefol", "Infitah", "Ismat"],
+    ziddi: ["Hams", "Raxv", "Istefol", "Infitah", "Ismat"],
     mustaqil: [],
   },
   "و": {
     nomi: "Wow", maxraj: "Shafatayn — ikki lab biroz dumaloqlanib, ochiqroq",
-    ziddi: ["Jahr", "Roxova", "Istefol", "Infitah", "Ismat"],
+    ziddi: ["Jahr", "Raxv", "Istefol", "Infitah", "Ismat"],
     mustaqil: [{ nomi: "Lin", izoh: "Fathadagi harfdan keyin sokin kelganda yumshoq cho'zma tovush hosil bo'ladi (اَوْ)" }],
   },
   "ي": {
     nomi: "Ya", maxraj: "Lison o'rtasi — til o'rtasi yumshoq tanglayga yaqin",
-    ziddi: ["Jahr", "Roxova", "Istefol", "Infitah", "Ismat"],
+    ziddi: ["Jahr", "Raxv", "Istefol", "Infitah", "Ismat"],
     mustaqil: [{ nomi: "Lin", izoh: "Fathadagi harfdan keyin sokin kelganda yumshoq cho'zma tovush hosil bo'ladi (اَيْ)" }],
   },
 };
 
 /* ── Har bir dars uchun kumulativ (jami) o'rganilgan sifatlar ── */
-const _ALL = ["Jahr", "Hams", "Shidda", "Roxova", "Bayniyya", "Iste'lo", "Istefol", "Itbaq", "Infitah", "Izlaq", "Ismat"];
+const _ALL = ["Jahr", "Hams", "Shadid", "Raxv", "Tavassut", "Iste'lo", "Istefol", "Itbaq", "Infitah", "Izlaq", "Ismat"];
 export const TAUGHT_SIFAT: Record<number, string[]> = {
   0:  [],
   1:  ["Jahr", "Hams"],
-  2:  ["Jahr", "Hams", "Shidda", "Roxova", "Bayniyya"],
-  3:  ["Jahr", "Hams", "Shidda", "Roxova", "Bayniyya", "Iste'lo", "Istefol"],
-  4:  ["Jahr", "Hams", "Shidda", "Roxova", "Bayniyya", "Iste'lo", "Istefol", "Itbaq", "Infitah"],
+  2:  ["Jahr", "Hams", "Shadid", "Raxv", "Tavassut"],
+  3:  ["Jahr", "Hams", "Shadid", "Raxv", "Tavassut", "Iste'lo", "Istefol"],
+  4:  ["Jahr", "Hams", "Shadid", "Raxv", "Tavassut", "Iste'lo", "Istefol", "Itbaq", "Infitah"],
   5:  _ALL, 6:  _ALL, 7:  _ALL, 8:  _ALL, 9:  _ALL,
   10: _ALL, 11: _ALL, 12: _ALL, 13: _ALL,
   14: _ALL, 15: _ALL, 16: _ALL, 17: _ALL, 18: _ALL, 19: _ALL,
@@ -276,33 +276,33 @@ export const DARSLAR: Dars[] = [
     yangiHarflar: ["أ", "ب", "ت"],
   },
   {
-    id: 2, nomi: "Shidda va Roxova", emoji: "💪",
+    id: 2, nomi: "Shadid va Raxv", emoji: "💪",
     mavzu: {
       takroriy: "1-dars: Jahr (19 harf: أ ب ج...), Hams (10 harf: ف ح ث...); أ، ب، ت harflari",
-      yangiSifat: "Shidda (الشِّدَّة) — keskin to'xtash; Roxova (الرَّخَاوَة) — erkin oqish; Bayniyya (الْبَيْنِيَّة) — o'rta",
+      yangiSifat: "Shadid (الشِّدَّة) — keskin to'xtash; Raxv (الرَّخَاوَة) — erkin oqish; Tavassut (الْبَيْنِيَّة) — o'rta",
       maxraj: "Lison uchi — ث (tish oralig'i); Lison o'rtasi — ج (til o'rtasi va tanglay)",
-      amaliyot: "أ، ب، ت، ث، ج — 5 harf; Jahr/Hams + Shidda/Roxova nuqtai nazaridan",
+      amaliyot: "أ، ب، ت، ث، ج — 5 harf; Jahr/Hams + Shadid/Raxv nuqtai nazaridan",
     },
     yangiSifatlar: [
       {
-        nomi: "Shidda", arNomi: "الشِّدَّة",
+        nomi: "Shadid", arNomi: "الشِّدَّة",
         tavsif: "Harf talaffuz qilinganda havo oqimi to'liq to'xtab, so'ngra keskin chiqadi. 8 ta harf: أ، ج، د، ق، ط، ب، ك، ت (eslatma: أجد قط بكت)",
         harflar: "أ ج د ق ط ب ك ت",
       },
       {
-        nomi: "Roxova", arNomi: "الرَّخَاوَة",
+        nomi: "Raxv", arNomi: "الرَّخَاوَة",
         tavsif: "Harf talaffuz qilinganda havo oqimi erkin o'tib, tovush uzayishi mumkin. 15 ta harf: ث، ح، خ، ذ، ز، س، ش، ص، ض، ظ، غ، ف، ه، و، ي",
         harflar: "ث ح خ ذ ز س ش ص ض ظ غ ف ه و ي",
       },
       {
-        nomi: "Bayniyya", arNomi: "الْبَيْنِيَّة",
-        tavsif: "Shidda va Roxova orasidagi o'rta holat — havo qisman to'xtaydi. 5 ta harf: ع، ل، م، ن، ر (eslatma: عمر لين)",
+        nomi: "Tavassut", arNomi: "الْبَيْنِيَّة",
+        tavsif: "Shadid va Raxv orasidagi o'rta holat — havo qisman to'xtaydi. 5 ta harf: ع، ل، م، ن، ر (eslatma: عمر لين)",
         harflar: "ع ل م ن ر",
       },
     ],
     maxraj: {
       joy: "Lison uchi va Lison o'rtasi",
-      tavsif: "ث — til uchi pastki va yuqori tishlar orasidan chiqadi (Hams+Roxova); ج — til o'rtasi va oldingi yumshoq tanglay birlashgan joydan chiqadi (Jahr+Shidda).",
+      tavsif: "ث — til uchi pastki va yuqori tishlar orasidan chiqadi (Hams+Raxv); ج — til o'rtasi va oldingi yumshoq tanglay birlashgan joydan chiqadi (Jahr+Shadid).",
       yangiHarflar: "ث، ج",
     },
     yangiHarflar: ["ث", "ج"],
@@ -310,7 +310,7 @@ export const DARSLAR: Dars[] = [
   {
     id: 3, nomi: "Iste'lo va Istefol", emoji: "⬆️",
     mavzu: {
-      takroriy: "2-dars: Shidda (أ ب ت ج...), Roxova, Bayniyya; ث، ج harflari; jami 5 harf",
+      takroriy: "2-dars: Shadid (أ ب ت ج...), Raxv, Tavassut; ث، ج harflari; jami 5 harf",
       yangiSifat: "Iste'lo (الاِسْتِعْلَاء) — til ko'tarilishi; Istefol (الاِسْتِفَال) — til pastligi",
       maxraj: "Halq — bo'g'izning uch qismi; ح va خ harflari",
       amaliyot: "أ، ب، ت، ث، ج، ح، خ — 7 harf; barcha o'rganilgan sifatlar bilan",
@@ -329,7 +329,7 @@ export const DARSLAR: Dars[] = [
     ],
     maxraj: {
       joy: "Halq (bo'g'iz) — uch qism",
-      tavsif: "Halq 3 qismga bo'linadi: pastki (أ, ه), o'rta (ع, ح) va yuqori (غ, خ). Bu darsda: ح — halq o'rtasidan nafas bilan (Hams+Roxova+Istefol); خ — halq yuqorisidan sirpanish tovushi bilan (Hams+Roxova+Iste'lo).",
+      tavsif: "Halq 3 qismga bo'linadi: pastki (أ, ه), o'rta (ع, ح) va yuqori (غ, خ). Bu darsda: ح — halq o'rtasidan nafas bilan (Hams+Raxv+Istefol); خ — halq yuqorisidan sirpanish tovushi bilan (Hams+Raxv+Iste'lo).",
       yangiHarflar: "ح، خ",
     },
     yangiHarflar: ["ح", "خ"],
@@ -356,7 +356,7 @@ export const DARSLAR: Dars[] = [
     ],
     maxraj: {
       joy: "Lison uchi — tish orqasi",
-      tavsif: "د — til uchi yuqori tishlarning orqa tomoni bilan (ت ga o'xshash, lekin Jahr); ذ — til uchi pastki va yuqori tishlar orasidan, jarangli (ث ning jarangli shakli — Jahr+Roxova).",
+      tavsif: "د — til uchi yuqori tishlarning orqa tomoni bilan (ت ga o'xshash, lekin Jahr); ذ — til uchi pastki va yuqori tishlar orasidan, jarangli (ث ning jarangli shakli — Jahr+Raxv).",
       yangiHarflar: "د، ذ",
     },
     yangiHarflar: ["د", "ذ"],
@@ -383,7 +383,7 @@ export const DARSLAR: Dars[] = [
     ],
     maxraj: {
       joy: "Lison uchi — Ra va Zayn",
-      tavsif: "ر — til uchi tish milkiga tez-tez tegib tebranadi (Jahr+Bayniyya+Izlaq; mustaqil: Inhiraf, Takrir); ز — til uchi va tish orasidan jarangli sifildirilgan tovush (Jahr+Roxova+Izlaq→Ismat; mustaqil: Safir).",
+      tavsif: "ر — til uchi tish milkiga tez-tez tegib tebranadi (Jahr+Tavassut+Izlaq; mustaqil: Inhiraf, Takrir); ز — til uchi va tish orasidan jarangli sifildirilgan tovush (Jahr+Raxv+Izlaq→Ismat; mustaqil: Safir).",
       yangiHarflar: "ر، ز",
     },
     yangiHarflar: ["ر", "ز"],
@@ -392,14 +392,14 @@ export const DARSLAR: Dars[] = [
     id: 6, nomi: "Sin va Shin", emoji: "🐍",
     mavzu: {
       takroriy: "5-dars: Izlaq (ف ر م ل ن ب), Ismat; ر، ز harflari; barcha 5 juft sifat to'liq o'rganildi",
-      yangiSifat: "Barcha 5 juft sifat mustahkamlash: Jahr/Hams, Shidda/Roxova, Iste'lo/Istefol, Itbaq/Infitah, Izlaq/Ismat",
+      yangiSifat: "Barcha 5 juft sifat mustahkamlash: Jahr/Hams, Shadid/Raxv, Iste'lo/Istefol, Itbaq/Infitah, Izlaq/Ismat",
       maxraj: "Lison uchi — Sin (Safir); Lison o'rtasi — Shin (Tafasshi)",
       amaliyot: "أ–ز، س، ش — 13 harf; mustaqil sifat: Safir (ز، س) va Tafasshi (ش)",
     },
     yangiSifatlar: [],
     maxraj: {
       joy: "Lison uchi (Sin) va Lison o'rtasi (Shin)",
-      tavsif: "س — til uchi va tish orasidan nafsiz sifildirilgan tovush (Hams+Roxova+Istefol+Infitah+Ismat; mustaqil: Safir); ش — til o'rtasi keng tarqalgan nafsiz tovush (Hams+Roxova+Istefol+Infitah+Ismat; mustaqil: Tafasshi).",
+      tavsif: "س — til uchi va tish orasidan nafsiz sifildirilgan tovush (Hams+Raxv+Istefol+Infitah+Ismat; mustaqil: Safir); ش — til o'rtasi keng tarqalgan nafsiz tovush (Hams+Raxv+Istefol+Infitah+Ismat; mustaqil: Tafasshi).",
       yangiHarflar: "س، ش",
     },
     yangiHarflar: ["س", "ش"],
@@ -408,14 +408,14 @@ export const DARSLAR: Dars[] = [
     id: 7, nomi: "Sod va Zod", emoji: "⚖️",
     mavzu: {
       takroriy: "6-dars: Sin va Shin; Safir (ز، س), Tafasshi (ش); jami 13 harf",
-      yangiSifat: "Mustahkamlash: ص — Hams+Roxova+Iste'lo+Itbaq+Ismat+Safir; ض — Jahr+Roxova+Iste'lo+Itbaq+Ismat+Istitola",
+      yangiSifat: "Mustahkamlash: ص — Hams+Raxv+Iste'lo+Itbaq+Ismat+Safir; ض — Jahr+Raxv+Iste'lo+Itbaq+Ismat+Istitola",
       maxraj: "Lison uchi (Sod) va Lison yon tomoni (Zod)",
       amaliyot: "أ–ش، ص، ض — 15 harf",
     },
     yangiSifatlar: [],
     maxraj: {
       joy: "Lison uchi va Lison yoni",
-      tavsif: "ص — til uchi va tish yaqinida og'ir mahkam sibilyant (Hams+Roxova+Iste'lo+Itbaq+Ismat; mustaqil: Safir); ض — til yon tomoni orqa tishlar bilan, og'ir jarangli (Jahr+Roxova+Iste'lo+Itbaq+Ismat; mustaqil: Istitola).",
+      tavsif: "ص — til uchi va tish yaqinida og'ir mahkam sibilyant (Hams+Raxv+Iste'lo+Itbaq+Ismat; mustaqil: Safir); ض — til yon tomoni orqa tishlar bilan, og'ir jarangli (Jahr+Raxv+Iste'lo+Itbaq+Ismat; mustaqil: Istitola).",
       yangiHarflar: "ص، ض",
     },
     yangiHarflar: ["ص", "ض"],
@@ -424,14 +424,14 @@ export const DARSLAR: Dars[] = [
     id: 8, nomi: "To va Zo", emoji: "🏋️",
     mavzu: {
       takroriy: "7-dars: Sod va Zod; Safir (ص), Istitola (ض); jami 15 harf",
-      yangiSifat: "Mustahkamlash: ط — Jahr+Shidda+Iste'lo+Itbaq+Ismat+Qalqala; ظ — Jahr+Roxova+Iste'lo+Itbaq+Ismat",
+      yangiSifat: "Mustahkamlash: ط — Jahr+Shadid+Iste'lo+Itbaq+Ismat+Qalqala; ظ — Jahr+Raxv+Iste'lo+Itbaq+Ismat",
       maxraj: "Lison uchi — tish bilan; og'ir harflar",
       amaliyot: "أ–ض، ط، ظ — 17 harf",
     },
     yangiSifatlar: [],
     maxraj: {
       joy: "Lison uchi — tish bilan (og'ir)",
-      tavsif: "ط — til uchi yuqori tishlar bilan, og'ir keskin (Jahr+Shidda+Iste'lo+Itbaq+Ismat; mustaqil: Qalqala); ظ — til uchi tish oralig'idan og'ir jarangli (Jahr+Roxova+Iste'lo+Itbaq+Ismat — ذ ning og'ir shakli).",
+      tavsif: "ط — til uchi yuqori tishlar bilan, og'ir keskin (Jahr+Shadid+Iste'lo+Itbaq+Ismat; mustaqil: Qalqala); ظ — til uchi tish oralig'idan og'ir jarangli (Jahr+Raxv+Iste'lo+Itbaq+Ismat — ذ ning og'ir shakli).",
       yangiHarflar: "ط، ظ",
     },
     yangiHarflar: ["ط", "ظ"],
@@ -440,14 +440,14 @@ export const DARSLAR: Dars[] = [
     id: 9, nomi: "Ayn va G'ayn", emoji: "👁️",
     mavzu: {
       takroriy: "8-dars: To va Zo; og'ir lison harflari; jami 17 harf",
-      yangiSifat: "Mustahkamlash: ع — Jahr+Bayniyya+Istefol+Infitah+Ismat; غ — Jahr+Roxova+Iste'lo+Infitah+Ismat",
+      yangiSifat: "Mustahkamlash: ع — Jahr+Tavassut+Istefol+Infitah+Ismat; غ — Jahr+Raxv+Iste'lo+Infitah+Ismat",
       maxraj: "Halq o'rtasi (Ayn) va Halq yuqorisi (G'ayn)",
       amaliyot: "أ–ظ، ع، غ — 19 harf",
     },
     yangiSifatlar: [],
     maxraj: {
       joy: "Halq o'rtasi va Halq yuqorisi",
-      tavsif: "ع — halq o'rtasida tomir qisqarishi bilan jarangli (Jahr+Bayniyya+Istefol+Infitah+Ismat); غ — halq yuqorisida sirpanish tovushi bilan (Jahr+Roxova+Iste'lo+Infitah+Ismat — خ ning jarangli shakli).",
+      tavsif: "ع — halq o'rtasida tomir qisqarishi bilan jarangli (Jahr+Tavassut+Istefol+Infitah+Ismat); غ — halq yuqorisida sirpanish tovushi bilan (Jahr+Raxv+Iste'lo+Infitah+Ismat — خ ning jarangli shakli).",
       yangiHarflar: "ع، غ",
     },
     yangiHarflar: ["ع", "غ"],
@@ -456,14 +456,14 @@ export const DARSLAR: Dars[] = [
     id: 10, nomi: "Fa va Qof", emoji: "💨",
     mavzu: {
       takroriy: "9-dars: Ayn va G'ayn; halq o'rta va yuqorisi; jami 19 harf",
-      yangiSifat: "Mustahkamlash: ف — Hams+Roxova+Istefol+Infitah+Izlaq; ق — Jahr+Shidda+Iste'lo+Infitah+Ismat+Qalqala",
+      yangiSifat: "Mustahkamlash: ف — Hams+Raxv+Istefol+Infitah+Izlaq; ق — Jahr+Shadid+Iste'lo+Infitah+Ismat+Qalqala",
       maxraj: "Shafatayn-tish (Fa) va Lison orqasi (Qof)",
       amaliyot: "أ–غ، ف، ق — 21 harf",
     },
     yangiSifatlar: [],
     maxraj: {
       joy: "Shafatayn-tish va Lison orqasi",
-      tavsif: "ف — pastki lab va yuqori tishlar birga (Hams+Roxova+Istefol+Infitah+Izlaq); ق — til orqasi va uvula (tovush payi) birlashgan joydan chuqur (Jahr+Shidda+Iste'lo+Infitah+Ismat; mustaqil: Qalqala).",
+      tavsif: "ف — pastki lab va yuqori tishlar birga (Hams+Raxv+Istefol+Infitah+Izlaq); ق — til orqasi va uvula (tovush payi) birlashgan joydan chuqur (Jahr+Shadid+Iste'lo+Infitah+Ismat; mustaqil: Qalqala).",
       yangiHarflar: "ف، ق",
     },
     yangiHarflar: ["ف", "ق"],
@@ -472,14 +472,14 @@ export const DARSLAR: Dars[] = [
     id: 11, nomi: "Kof va Lam", emoji: "🗝️",
     mavzu: {
       takroriy: "10-dars: Fa va Qof; shafatayn-tish va lison orqasi; jami 21 harf",
-      yangiSifat: "Mustahkamlash: ك — Hams+Shidda+Istefol+Infitah+Ismat; ل — Jahr+Bayniyya+Istefol+Infitah+Izlaq+Inhiraf",
+      yangiSifat: "Mustahkamlash: ك — Hams+Shadid+Istefol+Infitah+Ismat; ل — Jahr+Tavassut+Istefol+Infitah+Izlaq+Inhiraf",
       maxraj: "Lison orqasi (Kof) va Lison yoni (Lam)",
       amaliyot: "أ–ق، ك، ل — 23 harf",
     },
     yangiSifatlar: [],
     maxraj: {
       joy: "Lison orqasi va Lison yoni",
-      tavsif: "ك — til orqasi va yumshoq tanglay (ق dan biroz oldinda, Hams+Shidda+Istefol+Infitah+Ismat); ل — til chetlari tish milklari bilan, havo yon tomondan o'tadi (Jahr+Bayniyya+Istefol+Infitah+Izlaq; mustaqil: Inhiraf).",
+      tavsif: "ك — til orqasi va yumshoq tanglay (ق dan biroz oldinda, Hams+Shadid+Istefol+Infitah+Ismat); ل — til chetlari tish milklari bilan, havo yon tomondan o'tadi (Jahr+Tavassut+Istefol+Infitah+Izlaq; mustaqil: Inhiraf).",
       yangiHarflar: "ك، ل",
     },
     yangiHarflar: ["ك", "ل"],
@@ -488,14 +488,14 @@ export const DARSLAR: Dars[] = [
     id: 12, nomi: "Mim va Nun", emoji: "🫦",
     mavzu: {
       takroriy: "11-dars: Kof va Lam; lison orqasi va yoni; jami 23 harf",
-      yangiSifat: "Mustahkamlash: م — Jahr+Bayniyya+Istefol+Infitah+Izlaq; ن — Jahr+Bayniyya+Istefol+Infitah+Izlaq",
+      yangiSifat: "Mustahkamlash: م — Jahr+Tavassut+Istefol+Infitah+Izlaq; ن — Jahr+Tavassut+Istefol+Infitah+Izlaq",
       maxraj: "Shafatayn (Mim) va Xayshum+Lison uchi (Nun)",
       amaliyot: "أ–ل، م، ن — 25 harf",
     },
     yangiSifatlar: [],
     maxraj: {
       joy: "Shafatayn va Xayshum",
-      tavsif: "م — ikki lab yopilib ochiladi, burun rezonansida (Jahr+Bayniyya+Istefol+Infitah+Izlaq); ن — til uchi oldingi tanglay bilan, burun yo'lidan ham o'tadi — Xayshum ta'siri (Jahr+Bayniyya+Istefol+Infitah+Izlaq).",
+      tavsif: "م — ikki lab yopilib ochiladi, burun rezonansida (Jahr+Tavassut+Istefol+Infitah+Izlaq); ن — til uchi oldingi tanglay bilan, burun yo'lidan ham o'tadi — Xayshum ta'siri (Jahr+Tavassut+Istefol+Infitah+Izlaq).",
       yangiHarflar: "م، ن",
     },
     yangiHarflar: ["م", "ن"],
@@ -504,14 +504,14 @@ export const DARSLAR: Dars[] = [
     id: 13, nomi: "Ha, Wow va Ya", emoji: "🌟",
     mavzu: {
       takroriy: "12-dars: Mim va Nun; shafatayn va xayshum; jami 25 harf",
-      yangiSifat: "Mustahkamlash: ه — Hams+Roxova+Halq; و va ي — Lin sifati (ziddi yo'q)",
+      yangiSifat: "Mustahkamlash: ه — Hams+Raxv+Halq; و va ي — Lin sifati (ziddi yo'q)",
       maxraj: "Halq pastki (Ha), Shafatayn (Wow) va Lison o'rtasi (Ya)",
       amaliyot: "Barcha 28 harf — to'liq arab alifbosi! و va ي ning Lin sifatiga alohida e'tibor",
     },
     yangiSifatlar: [],
     maxraj: {
       joy: "Halq pastki, Shafatayn va Lison o'rtasi",
-      tavsif: "ه — eng chuqur halqdan nafsiz nafas tovushi (Hams+Roxova+Istefol+Infitah+Ismat); و — ikki lab dumaloqlanib biroz ochiqroq (Jahr+Roxova+Istefol+Infitah+Ismat; mustaqil: Lin); ي — til o'rtasi yumshoq tanglayga yaqin (Jahr+Roxova+Istefol+Infitah+Ismat; mustaqil: Lin).",
+      tavsif: "ه — eng chuqur halqdan nafsiz nafas tovushi (Hams+Raxv+Istefol+Infitah+Ismat); و — ikki lab dumaloqlanib biroz ochiqroq (Jahr+Raxv+Istefol+Infitah+Ismat; mustaqil: Lin); ي — til o'rtasi yumshoq tanglayga yaqin (Jahr+Raxv+Istefol+Infitah+Ismat; mustaqil: Lin).",
       yangiHarflar: "ه، و، ي",
     },
     yangiHarflar: ["ه", "و", "ي"],
