@@ -725,7 +725,7 @@ function DarsDetail({ d, onBack }: { d: Dars; onBack: () => void }) {
 function CurriculumList({ onSelectAmal }: { onSelectAmal: (d: Dars) => void }) {
   const navigate = useNavigate();
   const [fonetika, setFonetika] = useState<1 | 2 | 3>(1);
-  const [tab, setTab] = useState<"naz" | "am">("naz");
+  const [tab, setTab] = useState<"naz" | "am">("am");
 
   const nazF1 = NAZARIY.slice(0, 10);
 
@@ -776,11 +776,11 @@ function CurriculumList({ onSelectAmal }: { onSelectAmal: (d: Dars) => void }) {
           {/* Nazariy / Amaliy tab picker */}
           <div style={{ background: T.gGreen, padding: "0 14px 12px" }}>
             <div style={{ display: "flex", gap: 4, background: "rgba(0,0,0,.22)", borderRadius: 12, padding: 4 }}>
-              <button onClick={() => setTab("naz")} style={tabBtn(tab === "naz")}>
-                📖 Nazariy (10)
-              </button>
               <button onClick={() => setTab("am")} style={tabBtn(tab === "am")}>
                 ✍ Amaliy (14)
+              </button>
+              <button onClick={() => setTab("naz")} style={tabBtn(tab === "naz")}>
+                📖 Nazariy (10)
               </button>
             </div>
           </div>
