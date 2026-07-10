@@ -31,7 +31,7 @@ function StatChip({ icon: Icon, label, value }: { icon: typeof Clock; label: str
 export function DarsList() {
   const navigate = useNavigate();
   const { nazDone, amalDone, isNazUnlocked } = useProgress();
-  const [tur, setTur] = useState<Tur>("nazariy");
+  const [tur, setTur] = useState<Tur>("amaliy");
 
   const nazPass = Object.values(nazDone).filter((d) => d.pct >= 80).length;
   const amalCount = Object.keys(amalDone).length;
@@ -45,14 +45,14 @@ export function DarsList() {
           <div style={{ fontSize: 11, fontWeight: 600, color: T.limeBrt, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 4 }}>Kurs</div>
           <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 10 }}>Arab Fonetika Kursi</div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 18 }}>
-            <StatChip icon={BookOpen} label="Nazariy:" value={`${nazPass}/${NAZARIY.length}`} />
             <StatChip icon={Layers} label="Amaliy:" value={`${amalCount}/${AMALIY.length}`} />
+            <StatChip icon={BookOpen} label="Nazariy:" value={`${nazPass}/10`} />
             <StatChip icon={Clock} label="Har dars:" value={DURATION} />
           </div>
 
           {/* Tab switcher */}
           <div style={{ display: "flex", borderBottom: "none" }}>
-            {(["nazariy", "amaliy"] as const).map((t) => (
+            {(["amaliy", "nazariy"] as const).map((t) => (
               <button
                 key={t}
                 onClick={() => setTur(t)}
@@ -69,7 +69,7 @@ export function DarsList() {
                   transition: "all .15s",
                 }}
               >
-                {t === "nazariy" ? `Nazariy (${NAZARIY.length})` : `Amaliy (${AMALIY.length})`}
+                {t === "amaliy" ? `✍ Amaliy (${AMALIY.length})` : `📖 Nazariy (10)`}
               </button>
             ))}
           </div>
@@ -80,7 +80,7 @@ export function DarsList() {
       <div style={{ padding: "16px 16px", flex: 1 }}>
         {tur === "nazariy" ? (
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-            {NAZARIY.map((d, idx) => {
+            {NAZARIY.slice(0, 10).map((d, idx) => {
               const unlocked = isNazUnlocked(d.id);
               const done = nazDone[d.id];
               const pct = done?.pct ?? 0;
@@ -98,7 +98,7 @@ export function DarsList() {
                     padding: "14px 0",
                     background: "none",
                     border: "none",
-                    borderBottom: idx < NAZARIY.length - 1 ? "1px solid rgba(13,58,26,.07)" : "none",
+                    borderBottom: idx < 9 ? "1px solid rgba(13,58,26,.07)" : "none",
                     cursor: unlocked ? "pointer" : "not-allowed",
                     textAlign: "left",
                   }}
