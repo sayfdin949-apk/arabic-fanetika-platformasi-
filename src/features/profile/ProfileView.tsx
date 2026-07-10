@@ -208,8 +208,8 @@ export function ProfileView() {
           </div>
         </div>
 
-        {/* Password change */}
-        <div style={{ background: "#fff", borderRadius: 16, border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04), 0 4px 12px rgba(13,58,26,.06)", marginBottom: 14, overflow: "hidden" }}>
+        {/* Password change — only for CEO (password-based login) */}
+        {user?.role === "ceo" && <div style={{ background: "#fff", borderRadius: 16, border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04), 0 4px 12px rgba(13,58,26,.06)", marginBottom: 14, overflow: "hidden" }}>
           <button
             onClick={() => { setParolOpen((p) => !p); setParolErr(""); setParolOk(false); }}
             style={{ width: "100%", display: "flex", alignItems: "center", gap: 12, padding: "14px 16px", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
@@ -256,7 +256,7 @@ export function ProfileView() {
               </button>
             </div>
           )}
-        </div>
+        </div>}
 
         {/* Logout */}
         <button onClick={logout} style={{ width: "100%", background: "rgba(230,0,35,.07)", color: T.red, border: "1px solid rgba(230,0,35,.18)", borderRadius: 14, padding: "14px", fontSize: 14, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>

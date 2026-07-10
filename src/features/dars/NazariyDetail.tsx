@@ -45,7 +45,9 @@ export function NazariyDetail() {
   if (!dars) return <Navigate to="/dars" replace />;
   if (!isNazUnlocked(dars.id)) return <Navigate to="/dars" replace />;
 
-  const hasNext = dars.id < NAZARIY.length;
+  const currentIdx = NAZARIY.findIndex((d) => d.id === dars.id);
+  const nextDars = NAZARIY[currentIdx + 1] ?? null;
+  const hasNext = nextDars !== null;
   const passed = resultPct !== null && resultPct >= 80;
   const prevDone = nazDone[dars.id];
 
@@ -218,7 +220,7 @@ export function NazariyDetail() {
                   </button>
                   {passed && hasNext && (
                     <button
-                      onClick={() => navigate(`/dars/nazariy/${dars.id + 1}`)}
+                      onClick={() => navigate(`/dars/nazariy/${nextDars!.id}`)}
                       style={{ flex: 1, padding: "13px", borderRadius: 12, border: "none", background: T.gGreen, color: "#fff", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}
                     >
                       Keyingi <ArrowRight size={16} />

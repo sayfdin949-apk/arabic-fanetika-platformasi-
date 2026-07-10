@@ -26,7 +26,8 @@ const JT_OPTS: { val: Guruh["juftToq"]; label: string; desc: string }[] = [
   { val: "toq",    label: "Toq haftalar", desc: "1, 3, 5... haftalar" },
 ];
 
-const STORE_KEY = "guruhlar";
+export const GURUHLAR_KEY = "guruhlar";
+const STORE_KEY = GURUHLAR_KEY;
 
 async function loadGuruhlar(): Promise<Guruh[]> {
   return (await store.get<Guruh[]>(STORE_KEY)) ?? [];

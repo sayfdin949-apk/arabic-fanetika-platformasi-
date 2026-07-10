@@ -46,8 +46,8 @@ export function UstozlarView() {
     const res = await addUser({
       ism: form.ism.trim(),
       familya: form.familya.trim(),
-      login: `${role}_${Date.now()}`,
-      parol: Math.random().toString(36).slice(2, 10),
+      login: `${role}_${Date.now()}_${Math.floor(Math.random() * 9000 + 1000)}`,
+      parol: Array.from(crypto.getRandomValues(new Uint8Array(6))).map(b => b.toString(36).padStart(2, '0')).join('').slice(0, 8),
       role,
       tel: form.tel.trim() || undefined,
       avatar: null,

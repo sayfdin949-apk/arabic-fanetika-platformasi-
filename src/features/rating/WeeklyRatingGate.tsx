@@ -3,6 +3,7 @@ import { Star } from "lucide-react";
 import { T } from "../../theme/tokens";
 import { store } from "../../lib/storage";
 import type { Guruh } from "../guruh/GuruhlarView";
+import { GURUHLAR_KEY } from "../guruh/GuruhlarView";
 import type { User } from "../../auth/types";
 
 export interface TeacherRating {
@@ -16,7 +17,7 @@ export interface TeacherRating {
 }
 
 const RATINGS_KEY = "teacher_ratings";
-const GROUPS_KEY = "guruhlar";
+const GROUPS_KEY = GURUHLAR_KEY;
 
 function weekKey(d = new Date()): string {
   const date = new Date(d.getTime());

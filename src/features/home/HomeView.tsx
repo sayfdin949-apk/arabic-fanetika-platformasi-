@@ -122,7 +122,7 @@ function TeacherHome() {
       setAvgNaz(Math.round(totalNaz / students.length));
       setAvgAmal(Math.round(totalAmal / students.length));
     })();
-  }, [students.length]);
+  }, [students]);
 
   const keldi = students.filter((s) => todayDavomat[s.id] === "keldi").length;
   const davPct = students.length > 0 ? Math.round((keldi / students.length) * 100) : 0;

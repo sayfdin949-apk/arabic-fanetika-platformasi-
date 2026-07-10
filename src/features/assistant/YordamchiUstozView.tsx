@@ -45,7 +45,7 @@ function QrModal({ booking, onClose, onShown }: { booking: AssistantBooking; onC
     });
     onShown();
     return () => { alive = false; };
-  }, [booking.id]);
+  }, [booking.id, onShown]);
 
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.55)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 50, padding: 20 }}>
