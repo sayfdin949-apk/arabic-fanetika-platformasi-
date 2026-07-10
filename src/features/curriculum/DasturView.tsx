@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronDown, ChevronUp, BookOpen, Star, MapPin, PenLine } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { ChevronLeft, ChevronDown, ChevronUp, BookOpen, Star, MapPin, PenLine, Lock } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import {
   DARSLAR, HARF_SIFATLAR, TAUGHT_SIFAT, SIFAT_RANG, getLettersForLesson,
   type Dars, type TajwidQoida,
 } from "../../content/darslar";
+import { NAZARIY } from "../../content/nazariy";
 
 /* ── Kichik yordamchi komponentlar ── */
 
@@ -719,131 +721,180 @@ function DarsDetail({ d, onBack }: { d: Dars; onBack: () => void }) {
   );
 }
 
-/* ── Darslar ro'yxati (asosiy ko'rinish) ── */
-function DarslarList({ onSelect }: { onSelect: (d: Dars) => void }) {
-  const pairs = [
-    "Jahr/Hams", "Shadid/Raxv", "Iste'lo/Istefol", "Itbaq/Infitah", "Izlaq/Ismat",
-  ];
+/* ── Fonetika darajalari ro'yxati ── */
+function CurriculumList({ onSelectAmal }: { onSelectAmal: (d: Dars) => void }) {
+  const navigate = useNavigate();
+  const [fonetika, setFonetika] = useState<1 | 2 | 3>(1);
+  const [tab, setTab] = useState<"naz" | "am">("naz");
+
+  const nazF1 = NAZARIY.slice(0, 10);
+
+  const tabBtn = (active: boolean) => ({
+    flex: 1, padding: "9px 0", border: "none", cursor: "pointer", borderRadius: 10,
+    background: active ? T.limeBrt : "transparent",
+    color: active ? T.green : "rgba(255,255,255,.55)",
+    fontSize: 13, fontWeight: 700, transition: "all .15s",
+  });
+
   return (
     <div style={{ minHeight: "100dvh", background: T.meshLight }}>
-      {/* Hero */}
-      <div style={{ background: T.gGreen, padding: "18px 16px 20px", position: "relative", overflow: "hidden" }}>
+      {/* Hero + level tabs */}
+      <div style={{ background: T.gGreen, padding: "18px 16px 0", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 1 }}>
           <div style={{ fontSize: 10, fontWeight: 700, color: T.limeBrt, letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 4 }}>
             O'quv Dasturi
           </div>
-          <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", marginBottom: 8 }}>
+          <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", marginBottom: 14 }}>
             Arab Fonetikasi
           </div>
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            {[
-              { l: "Darslar", v: "24" },
-              { l: "Harflar", v: "28" },
-              { l: "Juft sifat", v: "5 juft" },
-            ].map(s => (
-              <div key={s.l} style={{
-                background: "rgba(255,255,255,.12)", borderRadius: 8, padding: "5px 12px",
-                display: "flex", gap: 5, alignItems: "center",
-              }}>
-                <span style={{ fontSize: 11, color: "rgba(255,255,255,.6)" }}>{s.l}:</span>
-                <span style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>{s.v}</span>
-              </div>
+          {/* Fonetika 1 / 2 / 3 */}
+          <div style={{ display: "flex", gap: 6, paddingBottom: 14 }}>
+            {([1, 2, 3] as const).map(n => (
+              <button
+                key={n}
+                onClick={() => n === 1 && setFonetika(n)}
+                style={{
+                  flex: 1, padding: "9px 0", borderRadius: 10, border: "none",
+                  cursor: n === 1 ? "pointer" : "default",
+                  background: fonetika === n ? T.limeBrt : n === 1 ? "rgba(255,255,255,.14)" : "rgba(255,255,255,.06)",
+                  color: fonetika === n ? T.green : n === 1 ? "#fff" : "rgba(255,255,255,.3)",
+                  fontSize: 13, fontWeight: 700, transition: "all .15s",
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
+                }}
+              >
+                {n > 1 && <Lock size={11} />}
+                Fonetika {n}
+              </button>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Sifat juftlari */}
-      <div style={{ padding: "14px 14px 0" }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: T.hint, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 8 }}>
-          5 juft sifat
-        </div>
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
-          {pairs.map((p, i) => (
-            <span key={p} style={{
-              fontSize: 11, fontWeight: 600, padding: "4px 10px", borderRadius: 20,
-              background: ["#1d4ed8", "#b45309", "#b91c1c", "#0e7490", "#1e1b4b"][i] + "18",
-              color: ["#1d4ed8", "#b45309", "#b91c1c", "#0e7490", "#1e1b4b"][i],
-              border: `1px solid ${["#1d4ed8", "#b45309", "#b91c1c", "#0e7490", "#1e1b4b"][i]}30`,
-            }}>{p}</span>
-          ))}
-        </div>
-      </div>
+      {fonetika === 1 ? (
+        <>
+          {/* Nazariy / Amaliy tab picker */}
+          <div style={{ background: T.gGreen, padding: "0 14px 12px" }}>
+            <div style={{ display: "flex", gap: 4, background: "rgba(0,0,0,.22)", borderRadius: 12, padding: 4 }}>
+              <button onClick={() => setTab("naz")} style={tabBtn(tab === "naz")}>
+                📖 Nazariy (10)
+              </button>
+              <button onClick={() => setTab("am")} style={tabBtn(tab === "am")}>
+                ✍ Amaliy (14)
+              </button>
+            </div>
+          </div>
 
-      {/* Darslar */}
-      <div style={{ padding: "0 14px 32px", display: "flex", flexDirection: "column", gap: 8 }}>
-        {DARSLAR.map(d => {
-          const letterCount = getLettersForLesson(d.id);
-          const isIntro = d.id === 0;
-          const hasSifat = d.yangiSifatlar.length > 0;
-          return (
-            <button
-              key={d.id}
-              onClick={() => onSelect(d)}
-              style={{
-                width: "100%", background: "#fff", border: "1px solid rgba(13,58,26,.10)",
-                borderRadius: 14, cursor: "pointer", textAlign: "left",
-                boxShadow: "0 1px 4px rgba(13,58,26,.06)",
-                padding: 0, overflow: "hidden",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 14px" }}>
-                {/* Raqam */}
-                <div style={{
-                  width: 40, height: 40, borderRadius: 12, flexShrink: 0,
-                  background: isIntro ? T.gGreen : hasSifat ? T.gLime : "rgba(13,58,26,.08)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 20, lineHeight: 1,
-                }}>
-                  {d.emoji}
-                </div>
-
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ fontSize: 10, fontWeight: 700, color: T.hint }}>{d.id}-dars</span>
-                    {hasSifat && (
-                      <span style={{
-                        fontSize: 9, fontWeight: 800, color: "#b45309",
-                        background: "#b4530912", borderRadius: 4, padding: "1px 5px",
-                      }}>YANGI SIFAT</span>
-                    )}
-                  </div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: T.green, marginTop: 1 }}>{d.nomi}</div>
-                  {d.yangiHarflar.length > 0 && (
-                    <div style={{ display: "flex", gap: 4, marginTop: 4, direction: "rtl", justifyContent: "flex-end" }}>
-                      {d.yangiHarflar.map(h => (
-                        <span key={h} style={{
-                          fontFamily: AR, fontSize: 16, color: T.green500,
-                          background: "rgba(13,58,26,.06)", borderRadius: 6,
-                          padding: "2px 8px", border: "1px solid rgba(13,58,26,.1)",
-                        }}>{h}</span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {letterCount.length > 0 && (
-                  <div style={{ flexShrink: 0, textAlign: "right" }}>
-                    <div style={{ fontSize: 18, fontWeight: 800, color: T.lime }}>{letterCount.length}</div>
-                    <div style={{ fontSize: 9, color: T.hint, fontWeight: 600 }}>HARF</div>
-                  </div>
-                )}
-              </div>
-
-              {/* Progress bar — nechta harf o'rganildi */}
-              {letterCount.length > 0 && (
-                <div style={{ height: 3, background: "rgba(13,58,26,.06)" }}>
+          {tab === "naz" ? (
+            /* ── Nazariy 1–10 ── */
+            <div style={{ padding: "12px 14px 32px", display: "flex", flexDirection: "column", gap: 8 }}>
+              {nazF1.map((naz, idx) => (
+                <button
+                  key={naz.id}
+                  onClick={() => navigate(`/dars/nazariy/${naz.id}`)}
+                  style={{
+                    width: "100%", background: "#fff", border: "1px solid rgba(13,58,26,.10)",
+                    borderRadius: 14, cursor: "pointer", textAlign: "left",
+                    boxShadow: "0 1px 4px rgba(13,58,26,.06)",
+                    padding: "12px 14px", display: "flex", alignItems: "center", gap: 12,
+                  }}
+                >
                   <div style={{
-                    height: "100%", width: `${(letterCount.length / 28) * 100}%`,
-                    background: T.gLimeH,
-                  }} />
-                </div>
-              )}
-            </button>
-          );
-        })}
-      </div>
+                    width: 40, height: 40, borderRadius: 12, flexShrink: 0,
+                    background: T.gGreen,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontFamily: AR, fontSize: 18, color: T.limeBrt,
+                  }}>
+                    {naz.icon}
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, color: T.hint }}>{idx + 1}-nazariy</div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: T.green, marginTop: 1 }}>{naz.nomi}</div>
+                  </div>
+                  <ChevronLeft size={16} color={T.hint} style={{ transform: "rotate(180deg)", flexShrink: 0 }} />
+                </button>
+              ))}
+            </div>
+          ) : (
+            /* ── Amaliy 1–14 ── */
+            <div style={{ padding: "12px 14px 32px", display: "flex", flexDirection: "column", gap: 8 }}>
+              {DARSLAR.map(d => {
+                const letterCount = getLettersForLesson(d.id);
+                const isIntro = d.id === 0;
+                const hasSifat = d.yangiSifatlar.length > 0;
+                return (
+                  <button
+                    key={d.id}
+                    onClick={() => onSelectAmal(d)}
+                    style={{
+                      width: "100%", background: "#fff", border: "1px solid rgba(13,58,26,.10)",
+                      borderRadius: 14, cursor: "pointer", textAlign: "left",
+                      boxShadow: "0 1px 4px rgba(13,58,26,.06)",
+                      padding: 0, overflow: "hidden",
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 14px" }}>
+                      <div style={{
+                        width: 40, height: 40, borderRadius: 12, flexShrink: 0,
+                        background: isIntro ? T.gGreen : hasSifat ? T.gLime : "rgba(13,58,26,.08)",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        fontSize: 20, lineHeight: 1,
+                      }}>
+                        {d.emoji}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                          <span style={{ fontSize: 10, fontWeight: 700, color: T.hint }}>{d.id}-amaliy</span>
+                          {hasSifat && (
+                            <span style={{
+                              fontSize: 9, fontWeight: 800, color: "#b45309",
+                              background: "#b4530912", borderRadius: 4, padding: "1px 5px",
+                            }}>YANGI SIFAT</span>
+                          )}
+                        </div>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: T.green, marginTop: 1 }}>{d.nomi}</div>
+                        {d.yangiHarflar.length > 0 && (
+                          <div style={{ display: "flex", gap: 4, marginTop: 4, direction: "rtl", justifyContent: "flex-end" }}>
+                            {d.yangiHarflar.map(h => (
+                              <span key={h} style={{
+                                fontFamily: AR, fontSize: 16, color: T.green500,
+                                background: "rgba(13,58,26,.06)", borderRadius: 6,
+                                padding: "2px 8px", border: "1px solid rgba(13,58,26,.1)",
+                              }}>{h}</span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      {letterCount.length > 0 && (
+                        <div style={{ flexShrink: 0, textAlign: "right" }}>
+                          <div style={{ fontSize: 18, fontWeight: 800, color: T.lime }}>{letterCount.length}</div>
+                          <div style={{ fontSize: 9, color: T.hint, fontWeight: 600 }}>HARF</div>
+                        </div>
+                      )}
+                    </div>
+                    {letterCount.length > 0 && (
+                      <div style={{ height: 3, background: "rgba(13,58,26,.06)" }}>
+                        <div style={{ height: "100%", width: `${(letterCount.length / 28) * 100}%`, background: T.gLimeH }} />
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </>
+      ) : (
+        /* ── Fonetika 2 / 3 — Tez kunda ── */
+        <div style={{ padding: "60px 24px", textAlign: "center" }}>
+          <div style={{ fontSize: 52, marginBottom: 14 }}>🔒</div>
+          <div style={{ fontSize: 18, fontWeight: 700, color: T.green, marginBottom: 8 }}>
+            Fonetika {fonetika} — Tez kunda
+          </div>
+          <div style={{ fontSize: 14, color: T.hint, lineHeight: 1.7 }}>
+            Bu daraja Fonetika {fonetika - 1} tugagandan<br />so'ng ochiladi
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -855,5 +906,5 @@ export function DasturView() {
   if (selected) {
     return <DarsDetail d={selected} onBack={() => setSelected(null)} />;
   }
-  return <DarslarList onSelect={setSelected} />;
+  return <CurriculumList onSelectAmal={setSelected} />;
 }
