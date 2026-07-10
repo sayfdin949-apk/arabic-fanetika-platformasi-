@@ -7,6 +7,7 @@ import {
   type Dars, type TajwidQoida,
 } from "../../content/darslar";
 import { NAZARIY } from "../../content/nazariy";
+import { DASTUR } from "../../content/dastur";
 
 /* ── Kichik yordamchi komponentlar ── */
 
@@ -721,11 +722,134 @@ function DarsDetail({ d, onBack }: { d: Dars; onBack: () => void }) {
   );
 }
 
+/* ── Jadval tab: Fonetika 1 → Haftalar → Kunlar ── */
+function JadvalTab() {
+  const f1Haftalar = DASTUR.filter(m => m.oy <= 2).flatMap(m => m.haftalar);
+  const [open, setOpen] = useState(false);
+  const [openH, setOpenH] = useState<number | null>(null);
+
+  return (
+    <div style={{ padding: "12px 14px 32px" }}>
+      <div style={{
+        background: "#fff", borderRadius: 14,
+        border: "1px solid rgba(13,58,26,.12)", overflow: "hidden",
+        boxShadow: "0 1px 4px rgba(13,58,26,.06)",
+      }}>
+        {/* Level 1: Fonetika 1 header */}
+        <button
+          onClick={() => setOpen(o => !o)}
+          style={{
+            width: "100%", display: "flex", alignItems: "center", gap: 12,
+            padding: "14px 14px", background: open ? "rgba(13,58,26,.04)" : "none",
+            border: "none", cursor: "pointer", textAlign: "left",
+          }}
+        >
+          <div style={{
+            width: 44, height: 44, borderRadius: 12, background: T.gGreen,
+            display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+          }}>
+            <span style={{ fontSize: 22 }}>📅</span>
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 10, fontWeight: 700, color: T.hint, letterSpacing: ".06em" }}>FONETIKA 1</div>
+            <div style={{ fontSize: 15, fontWeight: 800, color: T.green }}>2 oylik dastur</div>
+            <div style={{ fontSize: 11, color: T.hint, marginTop: 1 }}>8 hafta · 3 kun/hafta</div>
+          </div>
+          {open
+            ? <ChevronUp size={18} color={T.hint} />
+            : <ChevronDown size={18} color={T.hint} />}
+        </button>
+
+        {/* Level 2: Weeks */}
+        {open && (
+          <div style={{ borderTop: "1px solid rgba(13,58,26,.08)" }}>
+            {f1Haftalar.map((hafta, idx) => (
+              <div
+                key={hafta.h}
+                style={{ borderBottom: idx < f1Haftalar.length - 1 ? "1px solid rgba(13,58,26,.06)" : "none" }}
+              >
+                <button
+                  onClick={() => setOpenH(openH === hafta.h ? null : hafta.h)}
+                  style={{
+                    width: "100%", display: "flex", alignItems: "center", gap: 10,
+                    padding: "11px 14px",
+                    background: openH === hafta.h ? "rgba(13,58,26,.04)" : "none",
+                    border: "none", cursor: "pointer", textAlign: "left",
+                  }}
+                >
+                  <div style={{
+                    width: 32, height: 32, borderRadius: 10, background: T.gLime,
+                    display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                  }}>
+                    <span style={{ fontSize: 13, fontWeight: 800, color: T.onCta }}>{hafta.h}</span>
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, color: T.hint }}>{hafta.h}-HAFTA</div>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: T.green, lineHeight: 1.35, marginTop: 1 }}>
+                      {hafta.mavzu}
+                    </div>
+                  </div>
+                  {openH === hafta.h
+                    ? <ChevronUp size={14} color={T.hint} style={{ flexShrink: 0 }} />
+                    : <ChevronDown size={14} color={T.hint} style={{ flexShrink: 0 }} />}
+                </button>
+
+                {/* Level 3: Days */}
+                {openH === hafta.h && (
+                  <div style={{ padding: "0 12px 12px 12px", background: "rgba(13,58,26,.02)" }}>
+                    {hafta.kunlar.map((kun, ki) => (
+                      <div key={ki} style={{
+                        marginBottom: 8, background: "#fff", borderRadius: 10,
+                        border: "1px solid rgba(13,58,26,.08)", overflow: "hidden",
+                      }}>
+                        <div style={{
+                          background: T.gGreen, padding: "7px 12px",
+                          display: "flex", alignItems: "center", gap: 6,
+                        }}>
+                          <span style={{ fontSize: 11, fontWeight: 800, color: T.limeBrt }}>
+                            {ki + 1}-KUN
+                          </span>
+                          <span style={{ fontSize: 12, fontWeight: 600, color: "#fff" }}>· {kun.k}</span>
+                        </div>
+                        <div style={{ padding: "10px 12px", display: "flex", flexDirection: "column", gap: 7 }}>
+                          <div style={{ display: "flex", gap: 7, alignItems: "flex-start" }}>
+                            <BookOpen size={13} color={T.green} style={{ flexShrink: 0, marginTop: 2 }} />
+                            <span style={{ fontSize: 12, color: T.text, lineHeight: 1.5 }}>{kun.d}</span>
+                          </div>
+                          <div style={{ display: "flex", gap: 7, alignItems: "flex-start" }}>
+                            <PenLine size={13} color={T.lime} style={{ flexShrink: 0, marginTop: 2 }} />
+                            <span style={{ fontSize: 12, color: T.text2, lineHeight: 1.5 }}>{kun.m}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    <div style={{
+                      background: "rgba(100,188,64,.08)", border: "1px solid rgba(100,188,64,.25)",
+                      borderRadius: 10, padding: "9px 12px", display: "flex", gap: 8, alignItems: "flex-start",
+                    }}>
+                      <span style={{
+                        fontSize: 10, fontWeight: 800, color: T.lime,
+                        background: "rgba(100,188,64,.18)", borderRadius: 5,
+                        padding: "2px 7px", whiteSpace: "nowrap", flexShrink: 0,
+                      }}>TEST</span>
+                      <span style={{ fontSize: 12, color: T.text, lineHeight: 1.5 }}>{hafta.imtihon}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ── Fonetika darajalari ro'yxati ── */
 function CurriculumList({ onSelectAmal }: { onSelectAmal: (d: Dars) => void }) {
   const navigate = useNavigate();
   const [fonetika, setFonetika] = useState<1 | 2 | 3>(1);
-  const [tab, setTab] = useState<"naz" | "am">("am");
+  const [tab, setTab] = useState<"naz" | "am" | "jadval">("am");
 
   const nazF1 = NAZARIY.slice(0, 10);
 
@@ -773,19 +897,24 @@ function CurriculumList({ onSelectAmal }: { onSelectAmal: (d: Dars) => void }) {
 
       {fonetika === 1 ? (
         <>
-          {/* Nazariy / Amaliy tab picker */}
+          {/* Amaliy / Nazariy / Jadval tab picker */}
           <div style={{ background: T.gGreen, padding: "0 14px 12px" }}>
-            <div style={{ display: "flex", gap: 4, background: "rgba(0,0,0,.22)", borderRadius: 12, padding: 4 }}>
-              <button onClick={() => setTab("am")} style={tabBtn(tab === "am")}>
+            <div style={{ display: "flex", gap: 3, background: "rgba(0,0,0,.22)", borderRadius: 12, padding: 4 }}>
+              <button onClick={() => setTab("am")} style={{ ...tabBtn(tab === "am"), fontSize: 12 }}>
                 ✍ Amaliy (14)
               </button>
-              <button onClick={() => setTab("naz")} style={tabBtn(tab === "naz")}>
+              <button onClick={() => setTab("naz")} style={{ ...tabBtn(tab === "naz"), fontSize: 12 }}>
                 📖 Nazariy (10)
+              </button>
+              <button onClick={() => setTab("jadval")} style={{ ...tabBtn(tab === "jadval"), fontSize: 12 }}>
+                📅 Jadval
               </button>
             </div>
           </div>
 
-          {tab === "naz" ? (
+          {tab === "jadval" ? (
+            <JadvalTab />
+          ) : tab === "naz" ? (
             /* ── Nazariy 1–10 ── */
             <div style={{ padding: "12px 14px 32px", display: "flex", flexDirection: "column", gap: 8 }}>
               {nazF1.map((naz, idx) => (
