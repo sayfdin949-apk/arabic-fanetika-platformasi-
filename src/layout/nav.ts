@@ -40,7 +40,7 @@ export const NAV: NavItem[] = [
   { to: "/xatolar", label: "Xatolar", icon: AlertTriangle, roles: ALL, bottom: false },
   { to: "/juftlar", label: "Minimal juftlar", icon: BookMarked, roles: ALL, bottom: false },
   { to: "/sertifikat", label: "Sertifikat", icon: Award, roles: ALL, bottom: false },
-  { to: "/davomat", label: "Davomat", icon: ClipboardCheck, roles: ["ceo", "teacher", "student"], bottom: false },
+  { to: "/davomat", label: "Davomat", icon: ClipboardCheck, roles: ["ceo", "teacher", "assistant", "student"], bottom: false },
   { to: "/shikoyat", label: "Shikoyat", icon: MessageCircleWarning, roles: ALL, bottom: false },
   { to: "/oquvchilar", label: "O'quvchilar", icon: Users, roles: ["ceo", "teacher"], bottom: false },
   { to: "/guruhlar", label: "Guruhlar", icon: LayersIcon, roles: ["ceo", "teacher"], bottom: false },

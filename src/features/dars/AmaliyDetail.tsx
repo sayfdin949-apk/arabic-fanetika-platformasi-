@@ -239,7 +239,7 @@ export function AmaliyDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { submitAmal, amalDone, saveWrong } = useProgress();
+  const { submitAmal, amalDone, saveWrong, clearWrong } = useProgress();
   const [tab, setTab] = useState<TabKey>("maxraj");
   const tabBarRef = useRef<HTMLDivElement>(null);
 
@@ -357,7 +357,10 @@ export function AmaliyDetail() {
           tab={tab}
           questions={questions}
           onTest={(ok, tot) => submitAmal(bob.id, ok, tot)}
-          onWrong={(indices) => saveWrong(`amal_${bob.id}`, indices)}
+          onWrong={(indices) => {
+            if (indices.length === 0) clearWrong(`amal_${bob.id}`);
+            else saveWrong(`amal_${bob.id}`, indices);
+          }}
           isTeacher={user?.role === "teacher" || user?.role === "ceo"}
         />
 

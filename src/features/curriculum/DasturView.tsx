@@ -775,7 +775,7 @@ function DarslarList({ onSelect }: { onSelect: (d: Dars) => void }) {
       <div style={{ padding: "0 14px 32px", display: "flex", flexDirection: "column", gap: 8 }}>
         {DARSLAR.map(d => {
           const letterCount = getLettersForLesson(d.id);
-          const isIntro = d.id === 1;
+          const isIntro = d.id === 0;
           const hasSifat = d.yangiSifatlar.length > 0;
           return (
             <button

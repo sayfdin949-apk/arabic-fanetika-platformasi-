@@ -1,6 +1,8 @@
 import { BarChart2, Flame, TrendingUp } from "lucide-react";
+import { Navigate } from "react-router-dom";
 import { T } from "../../theme/tokens";
 import { useProgress } from "../progress/ProgressContext";
+import { useAuth } from "../../auth/AuthContext";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
 
@@ -19,7 +21,12 @@ function Bar({ pct }: { pct: number }) {
 }
 
 export function StatisticsView() {
+  const { user } = useAuth();
   const { nazDone, amalDone, streak } = useProgress();
+
+  if (user?.role === "teacher" || user?.role === "ceo" || user?.role === "assistant") {
+    return <Navigate to="/oquvchilar" replace />;
+  }
 
   const nazCompleted = Object.keys(nazDone).length;
   const nazPassed = Object.values(nazDone).filter((d) => d.pct >= 80).length;

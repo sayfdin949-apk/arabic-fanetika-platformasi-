@@ -5,9 +5,11 @@ import { T } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
 import { store } from "../../lib/storage";
 import type { DoneMap } from "../progress/ProgressContext";
+import { NAZARIY } from "../../content/nazariy";
+import { AMALIY } from "../../content/amaliy";
 
-const NAZ_TOTAL = 20;
-const AMAL_TOTAL = 14;
+const NAZ_TOTAL = NAZARIY.length;
+const AMAL_TOTAL = AMALIY.length;
 
 const inp: React.CSSProperties = {
   width: "100%",

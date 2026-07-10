@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { Award, Printer, Lock, CheckCircle, BookOpen, Layers } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import { useProgress } from "../progress/ProgressContext";
@@ -9,7 +8,6 @@ import { AMALIY } from "../../content/amaliy";
 export function SertifikatView() {
   const { nazDone, amalDone } = useProgress();
   const { user } = useAuth();
-  const certRef = useRef<HTMLDivElement>(null);
 
   const nazTotal = NAZARIY.length;
   const amalTotal = AMALIY.length;
@@ -17,7 +15,7 @@ export function SertifikatView() {
   const amalPassed = AMALIY.filter((b) => (amalDone[b.id]?.pct ?? 0) >= 80);
   const isComplete = nazPassed.length === nazTotal && amalPassed.length === amalTotal;
 
-  const total = nazTotal;
+  const total = nazTotal + amalTotal;
 
   const today = new Date().toLocaleDateString("uz-UZ", { year: "numeric", month: "long", day: "numeric" });
   const fullName = user ? `${user.ism} ${user.familya}` : "O'quvchi";
@@ -133,7 +131,7 @@ export function SertifikatView() {
         {/* Certificate card */}
         <div
           id="cert-print"
-          ref={certRef}
+
           style={{
             background: "#fff",
             borderRadius: 20,
