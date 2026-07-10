@@ -432,7 +432,7 @@ export function HomeView() {
             <Flame size={20} color="#FF6B35" style={{ flexShrink: 0 }} />
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: "#FF6B35", marginBottom: 2 }}>
-                BUGUN HALI DARS QO'LMADINGIZ
+                BUGUN HALI DARS QILMADINGIZ
               </div>
               <div style={{ fontSize: 12, color: T.text2, lineHeight: 1.4 }}>
                 {streak.days}-kunlik streakingizni saqlash uchun hozir bir dars o'ting.

@@ -640,8 +640,8 @@ interface HarakatQ { letter: typeof ALL_LETTERS[0]; diacritic: typeof DIACRITICS
 
 function generateHarakatQuestions(n: number): HarakatQ[] {
   return Array.from({ length: n }, () => ({
-    letter: ALL_LETTERS[Math.floor(Math.random() * 22)],
-    diacritic: DIACRITICS[Math.floor(Math.random() * 4)],
+    letter: ALL_LETTERS[Math.floor(Math.random() * ALL_LETTERS.length)],
+    diacritic: DIACRITICS[Math.floor(Math.random() * DIACRITICS.length)],
   }));
 }
 

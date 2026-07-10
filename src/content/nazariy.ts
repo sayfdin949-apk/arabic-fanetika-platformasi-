@@ -108,7 +108,7 @@ Harfning **ostida** yoziladi: ( ِ ) — kichik chiziq pastda.
 |------|-----------|---------|
 | كِتَاب | kitaab | kitob |
 | مِنْ | min | dan |
-| بِسْمِ | bismi | nomida |
+| بِنَاء | binaau | bino |
 | رِجَال | rijaal | erkaklar |
 
 ---
@@ -254,7 +254,7 @@ Shaddah = birinchi harf **sukun** + ikkinchi harf **harakat** bilan.
 | Yozilishi | Aslida | O'qilishi |
 |-----------|--------|-----------|
 | مَدَّ | مَدْ + دَ | madda |
-| رَبَّ | رَبْ + بَ | rabba |
+| مَرَّ | مَرْ + رَ | marra |
 | شَدَّ | شَدْ + دَ | shadda |
 
 ---
@@ -265,9 +265,9 @@ Shaddah bir vaqtning o'zida harakat bilan birga yoziladi:
 
 | Belgi | O'qilishi | Misol |
 |-------|-----------|-------|
-| ّ + َ → َّ | -kk-a | رَبَّنَا (rabbana) |
-| ّ + ِ → ِّ | -kk-i | رَبِّي (rabbii) |
-| ّ + ُ → ُّ | -kk-u | رَبُّنَا (rabbuna) |
+| ّ + َ → َّ | -kk-a | عَلَّمَ (allama) |
+| ّ + ِ → ِّ | -kk-i | مُعَلِّم (mu'allim) |
+| ّ + ُ → ُّ | -kk-u | كُلُّهُمْ (kulluhum) |
 
 ---
 
@@ -279,7 +279,7 @@ Shaddah yo'q va bor so'zlarda ma'no butunlay farqlanadi:
 |-----------|---------|----------|---------|
 | كَتَبَ | yozdi | كَتَّبَ | ko'p yozdirdi |
 | عَلَمَ | bildi | عَلَّمَ | o'rgatdi |
-| حَرَمَ | taqiqladi | حَرَّمَ | harom qildi |
+| كَسَرَ | sindirdi | كَسَّرَ | mayda qildi |
 
 ---
 
@@ -307,7 +307,7 @@ Shaddah yo'q va bor so'zlarda ma'no butunlay farqlanadi:
       {id:1,savol:"Shaddah nimani bildiradi?",variantlar:["Harfni o'tkazib yuborish","Harfni ikki marta aytish","Harfni cho'zish","Harfni o'chirib tashlash"],togri:1},
       {id:2,savol:"Shaddah qanday ko'rinishda?",variantlar:["Kichik doira","W shakli","Ikki chiziq","Kichik tosh"],togri:1},
       {id:3,savol:"Shaddah = birinchi harf ___ + ikkinchi harf harakatli",variantlar:["Fatha","Kasra","Damma","Sukun"],togri:3},
-      {id:4,savol:"رَبَّنَا so'zi qanday o'qiladi?",variantlar:["rabana","rabbana","raabana","rabbanaa"],togri:1},
+      {id:4,savol:"عَلَّمَ so'zi qanday o'qiladi?",variantlar:["alama","allama","alaama","allamaa"],togri:1},
       {id:5,savol:"عَلَّمَ va عَلَمَ farqi nima?",variantlar:["Farqi yo'q","عَلَّمَ = o'rgatdi, عَلَمَ = bildi","عَلَمَ = o'rgatdi, عَلَّمَ = bildi","Faqat yozilishida"],togri:1},
       {id:6,savol:"إِنَّ so'zida ن shaddali — qanday o'qiladi?",variantlar:["Ina","Inna (g'unna bilan 2 hisob)","Inaa","Iin"],togri:1},
       {id:7,savol:"دَرَّسَ so'zida shaddah qaysi harfda?",variantlar:["د","س","ر","ا"],togri:2},
@@ -355,9 +355,9 @@ Ushbu uchta harf arab yozuvida alohida qoidalarga ega.
 | Arab | O'qilishi | Izoh |
 |------|-----------|------|
 | هُدًى | hudan | yo'l-yo'riq |
-| مُوسَى | Muusaa | Muso (ism) |
-| عِيسَى | 'Iisaa | Iso (ism) |
-| يُصَلِّى | yusallii | namoz o'qiydi |
+| مَعْنَى | ma'naa | ma'no |
+| ذِكْرَى | dikraa | xotira |
+| يُغَنِّي | yugannii | qo'shiq aytadi |
 
 **Farq:** ي (Ya) — nuqtali, o'rtada va oxirda; ى (Alif Layyina) — nuqtasiz, faqat oxirda.
 
@@ -388,7 +388,7 @@ Ushbu uchta harf arab yozuvida alohida qoidalarga ega.
       {id:3,savol:"Ta Marbuta (ة) qayerda bo'ladi?",variantlar:["So'z boshida","So'z o'rtasida","Faqat so'z oxirida","Istalgan joyda"],togri:2},
       {id:4,savol:"Hamzatul Vasl oldingi so'zga bog'langanda qanday bo'ladi?",variantlar:["Kuchayadi","Aytilmaydi (tushadi)","Ikki marta aytiladi","Sukun oladi"],togri:1},
       {id:5,savol:"مَدْرَسَة so'zida Ta Marbuta qanday ishlatilgan?",variantlar:["Muannats shakli uchun","Tanvin uchun","Shaddah uchun","Mad uchun"],togri:0},
-      {id:6,savol:"مُوسَى so'zining oxiridagi harf qaysi?",variantlar:["ي (Ya, nuqtali)","ى (Alif Layyina, nuqtasiz)","ا (Alif)","ة (Ta Marbuta)"],togri:1},
+      {id:6,savol:"مَعْنَى so'zining oxiridagi harf qaysi?",variantlar:["ي (Ya, nuqtali)","ى (Alif Layyina, nuqtasiz)","ا (Alif)","ة (Ta Marbuta)"],togri:1},
       {id:7,savol:"اَلـ (AL-) artiklidagi hamza qaysi tur?",variantlar:["Hamzatul Qat'","Hamzatul Vasl","Alif Layyina","Ta Marbuta"],togri:1},
       {id:8,savol:"قُلِ اسْمَهُ iborasida اسْم ning boshi qanday o'qiladi?",variantlar:["is-mahu","qulis-mahu (tushadi)","qul-ismahu","i-smahu"],togri:1},
       {id:9,savol:"Quyidagi so'zlardan qaysi birida Ta Marbuta bor?",variantlar:["كِتَاب","دَرْس","رَحْمَة","عِلْم"],togri:2},
@@ -812,7 +812,7 @@ Til yon tomonga og'adi:
 
 Faqat **ر** — til uci titradi. **Aslida bir marta titrash kerak** (ko'p titrash xato).
 
-**Misol:** رَبَّنَا (rabbana) — ر bir marta titrash
+**Misol:** فَرَّ (farra) — ر bir marta titrash
 
 ---
 
@@ -1009,7 +1009,7 @@ Amaliy: Barmog'ingizni qimirlatib hisoblang: بَا — 1, اَ — 2. Shu ikki 
 | Arab | Asli | O'qilishi |
 |------|------|-----------|
 | آمَنَ | أَاْمَنَ | aamana |
-| آدَم | أَاْدَم | aadam |
+| آلَة | أَاْلَة | aalat |
 
 ---
 
@@ -1389,7 +1389,7 @@ Arab yozuvida **ikki xil** Hamza mavjud. Ular farqli qoidalarga ega.
 | Belgi | Holat | Misol |
 |-------|-------|-------|
 | أ | Fatha/damma bilan | أَكَلَ (akala) |
-| إ | Kasra bilan | إِسْلَام (islaam) |
+| إ | Kasra bilan | إِبْرَة (ibra) |
 | ؤ | O'rtada damma | يُؤْمِن (yu'min) |
 | ئ | O'rtada kasra | بِئْر (bi'r) |
 | ء | So'z oxirida | شَيْء (shay') |
@@ -1399,9 +1399,9 @@ Arab yozuvida **ikki xil** Hamza mavjud. Ular farqli qoidalarga ega.
 | Arab | O'qilishi | Izoh |
 |------|-----------|------|
 | أَكَلَ | akala | Hamzatul Qat' — boshi |
-| إِسْلَام | islaam | Hamzatul Qat' — boshi |
+| إِنْسَان | insaan | Hamzatul Qat' — boshi |
 | يُؤْمِن | yu'minu | Hamzatul Qat' — o'rta |
-| قُرْآن | Qur'aan | Hamzatul Qat' — o'rta |
+| قِرَاءَة | qiraa'a | Hamzatul Qat' — o'rta |
 
 ---
 
@@ -1446,7 +1446,7 @@ Arab yozuvida **ikki xil** Hamza mavjud. Ular farqli qoidalarga ega.
     vazifalar: [
       {id:1,savol:"Hamzatul Qat' biriktirilganda nima bo'ladi?",variantlar:["Tushib ketadi","Har doim aytiladi","G'unna bo'ladi","Sukun oladi"],togri:1},
       {id:2,savol:"Hamzatul Vasl biriktirilganda nima bo'ladi?",variantlar:["Har doim aytiladi","Tushib ketadi","Shaddah oladi","Tanvin oladi"],togri:1},
-      {id:3,savol:"إِسْلَام so'zidagi bosh hamza qaysi tur?",variantlar:["Hamzatul Vasl","Hamzatul Qat'","Alif Layyina","Ta Marbuta"],togri:1},
+      {id:3,savol:"إِبْرَة so'zidagi bosh hamza qaysi tur?",variantlar:["Hamzatul Vasl","Hamzatul Qat'","Alif Layyina","Ta Marbuta"],togri:1},
       {id:4,savol:"اَلْكِتَاب so'zidagi bosh hamza qaysi tur?",variantlar:["Hamzatul Qat'","Hamzatul Vasl","Alif Layyina","Hamza yo'q"],togri:1},
       {id:5,savol:"قُلِ اسْمَهُ da اِسْم ning boshi qanday o'qiladi?",variantlar:["is-mahu","qulis-mahu (tushadi)","qul-ismahu","i-smahu"],togri:1},
       {id:6,savol:"أَكَلَ so'zidagi hamza qaysi tur?",variantlar:["Hamzatul Vasl","Hamzatul Qat'","Ta Marbuta","Alif Layyina"],togri:1},
@@ -1477,9 +1477,9 @@ Arab yozuvida **ikki xil** Hamza mavjud. Ular farqli qoidalarga ega.
 
 | Shart | Misol | Izoh |
 |-------|-------|------|
-| ر fatha olsa | رَبَّنَا | Ra fatha — qalin |
-| ر damma olsa | رُحَمَاء | Ra damma — qalin |
-| ر sukunda, oldida fatha | مَرْيَم | ر sukun, م fatha |
+| ر fatha olsa | دَرَسَ | Ra fatha — qalin |
+| ر damma olsa | رُجُوع | Ra damma — qalin |
+| ر sukunda, oldida fatha | مَرْكَز | ر sukun, م fatha |
 | ر sukunda, oldida damma | بُرْهَان | ر sukun, ب damma |
 | ر sukunda, oldida Isti'lo harfi | قِرْطَاس | ر sukun, oldin ق |
 | ر so'z boshida, fatha/damma | رَحْمَة, رُسُل | Bosh Ra |
@@ -1510,7 +1510,7 @@ Isti'lo 7 harfi: **خ ص ض ط ظ غ ق** — DOIM qalin talaffuz:
 
 | Arab | O'qilishi | Tafxim |
 |------|-----------|--------|
-| صَلَاة | salaah | ص qalin |
+| صَبَاح | sabaah | ص qalin |
 | طَرِيق | tariiq | ط qalin |
 | ظُلْم | zulm | ظ qalin |
 | غَفُور | ghafuur | غ qalin |
@@ -1529,9 +1529,9 @@ To'xtaganda ر ga sukun tushadi. Oldingi harakatga qarab:
       {id:4,savol:"فِرْعَوْن so'zida ر qanday o'qiladi?",variantlar:["Tafxim — ra damma bor","Tarqiq — oldida kasra bor","G'unna bilan","Qalqala bilan"],togri:1},
       {id:5,savol:"Isti'lo harflari doim qanday talaffuz etiladi?",variantlar:["Tarqiq","Tafxim","G'unna","Qalqala"],togri:1},
       {id:6,savol:"Isti'lo harflari nechtasi?",variantlar:["5 ta","6 ta","7 ta","8 ta"],togri:2},
-      {id:7,savol:"رَبَّنَا so'zida ر qanday o'qiladi?",variantlar:["Tarqiq — kasra yaqin","Tafxim — ra fatha","G'unna","Qalqala"],togri:1},
+      {id:7,savol:"دَرَسَ so'zida ر qanday o'qiladi?",variantlar:["Tarqiq — kasra yaqin","Tafxim — ra fatha","G'unna","Qalqala"],togri:1},
       {id:8,savol:"قِرْطَاس da ر sukunda, oldida kasra — lekin qanday o'qiladi?",variantlar:["Tarqiq — kasra bor","Tafxim — ق Isti'lo harfi bor","G'unna","Qalqala"],togri:1},
-      {id:9,savol:"صَلَاة so'zida ص harfi qanday sifatga ega?",variantlar:["Tarqiq","Tafxim","G'unna","Lin"],togri:1},
+      {id:9,savol:"صَبَاح so'zida ص harfi qanday sifatga ega?",variantlar:["Tarqiq","Tafxim","G'unna","Lin"],togri:1},
       {id:10,savol:"بُرْهَان da ر sukunda, oldida ب damma — qanday?",variantlar:["Tarqiq — damma yo'q","Tafxim — oldida damma","G'unna","Qalqala"],togri:1},
     ]
   },
@@ -1650,8 +1650,8 @@ Ba'zi so'zlarda kasra o'rniga **damma** qo'shiladi:
 
 | Arab | O'qilishi | Izoh |
 |------|-----------|------|
-| وَقَالَتِ اخْرُجْ | wa-qaalatix-ruj | ت → kasra (odatiy) |
-| مِنَ الْجَنَّة | minaljannat | ن → kasra |
+| وَجَلَسَتِ الطِّفْلَةُ | wa-jalasatit-tiflatu | ت → kasra (odatiy) |
+| مِنَ الْبَيْت | minalbayt | ن → kasra |
 
 ---
 
