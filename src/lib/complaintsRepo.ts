@@ -12,19 +12,18 @@ export async function getComplaints(): Promise<Complaint[]> {
 }
 
 export async function addComplaint(c: Omit<Complaint, "id" | "createdAt" | "status">): Promise<Complaint> {
-  const list = await getComplaints();
   const newComplaint: Complaint = {
     ...c,
     id: "c" + Date.now(),
     createdAt: new Date().toISOString(),
     status: "open",
   };
-  await store.set(KEY, [newComplaint, ...list]);
+  await store.update<Complaint[]>(KEY, (cur) => [newComplaint, ...(cur ?? [])]);
   return newComplaint;
 }
 
 export async function setComplaintStatus(id: string, status: ComplaintStatus): Promise<void> {
-  const list = await getComplaints();
-  const updated = list.map((c) => (c.id === id ? { ...c, status } : c));
-  await store.set(KEY, updated);
+  await store.update<Complaint[]>(KEY, (cur) =>
+    (cur ?? []).map((c) => (c.id === id ? { ...c, status } : c))
+  );
 }

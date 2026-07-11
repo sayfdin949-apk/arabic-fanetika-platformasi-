@@ -1,8 +1,12 @@
 import type { User } from "./types";
 
-/* Boshlang'ich foydalanuvchilar (lokal bosqich).
- * Bosqich B'da bu ro'yxat Supabase bazasiga ko'chiriladi va parollar hash qilinadi.
- * A6'da o'qituvchi o'quvchi qo'shishi/o'chirishi qo'shiladi (localStorage bilan).
+/* DEV-ONLY fixture ma'lumotlar. Bu ro'yxat FAQAT Supabase sozlanmagan
+ * (VITE_SUPABASE_URL/VITE_SUPABASE_ANON_KEY yo'q) holatda, LocalUsersApi
+ * fallback rejimida ishlatiladi — production'da (Supabase sozlangan
+ * bo'lsa) hech qachon o'qilmaydi, real foydalanuvchilar bazadagi "users"
+ * kalitida (bcrypt bilan xeshlangan parollar) saqlanadi. Shunga qaramay,
+ * bu fayl bundle'ga qo'shiladi — shu sabab bu yerga REAL parol/PII
+ * qo'yilmasin, faqat demo qiymatlar.
  */
 export const SEED_USERS: User[] = [
   { id: "t1", login: "ustoz", parol: "1234", ism: "Ozodbek", familya: "Rahimov", role: "ceo", avatar: null },

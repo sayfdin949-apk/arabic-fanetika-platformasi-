@@ -12,6 +12,14 @@ export interface StorageAdapter {
   get<T>(key: string): Promise<T | null>;
   set<T>(key: string, value: T): Promise<void>;
   del(key: string): Promise<void>;
+  /*
+   * O'qi → o'zgartir → yoz, ziddiyatga qarshi himoya bilan (qarang:
+   * SupabaseAdapter.update — bir nechta client bir vaqtda yozganda
+   * biri ikkinchisini bosib yubormasligi uchun). LocalStorageAdapter'da
+   * bitta brauzer/tab doirasida haqiqiy poyga bo'lmagani uchun oddiy
+   * get+set yetarli.
+   */
+  update<T>(key: string, updater: (cur: T | null) => T): Promise<T>;
 }
 
 const PREFIX = "afp:";
@@ -40,6 +48,13 @@ export class LocalStorageAdapter implements StorageAdapter {
     } catch {
       /* ignore */
     }
+  }
+
+  async update<T>(key: string, updater: (cur: T | null) => T): Promise<T> {
+    const cur = await this.get<T>(key);
+    const next = updater(cur);
+    await this.set(key, next);
+    return next;
   }
 }
 

@@ -15,6 +15,7 @@ export function Login() {
   const [tgNotFound, setTgNotFound] = useState<number | null>(null);
   const [tgChecked, setTgChecked] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const copyId = (id: number) => {
     navigator.clipboard.writeText(String(id)).then(() => {
@@ -45,9 +46,17 @@ export function Login() {
   }, [auth.ready, tgChecked]);
 
   const tryLogin = async () => {
-    const u = await auth.login(login, parol, "ceo");
-    if (u) navigate("/", { replace: true });
-    else setErr("Login yoki parol xato!");
+    if (submitting) return;
+    if (!login.trim() || !parol) { setErr("Login va parolni kiriting"); return; }
+    setSubmitting(true);
+    setErr("");
+    try {
+      const res = await auth.login(login, parol, "ceo");
+      if (res.user) navigate("/", { replace: true });
+      else setErr(res.error ?? "Login yoki parol xato!");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const inp: CSSProperties = {
@@ -125,9 +134,10 @@ export function Login() {
 
       <button
         onClick={tryLogin}
-        style={{ width: "100%", background: T.gLime, border: "none", borderRadius: 10, padding: "13px", cursor: "pointer", fontSize: 14, fontWeight: 700, color: T.onCta, boxShadow: "0 4px 14px rgba(46,184,46,.4)", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
+        disabled={submitting}
+        style={{ width: "100%", background: T.gLime, border: "none", borderRadius: 10, padding: "13px", cursor: submitting ? "default" : "pointer", opacity: submitting ? 0.7 : 1, fontSize: 14, fontWeight: 700, color: T.onCta, boxShadow: "0 4px 14px rgba(46,184,46,.4)", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
       >
-        <UserCheck size={17} /> Kirish
+        <UserCheck size={17} /> {submitting ? "Tekshirilmoqda..." : "Kirish"}
       </button>
     </div>
   );

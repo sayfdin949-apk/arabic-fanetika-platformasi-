@@ -197,9 +197,8 @@ export function DavomatView() {
   if (user?.role !== "teacher" && user?.role !== "ceo") return <Navigate to="/" replace />;
 
   const set = (id: string, holat: Holat) => {
-    const next = { ...davomat, [id]: holat };
-    setDavomat(next);
-    void store.set(`davomat_${sana}`, next);
+    setDavomat((cur) => ({ ...cur, [id]: holat }));
+    void store.update<DavomatMap>(`davomat_${sana}`, (cur) => ({ ...(cur ?? {}), [id]: holat }));
   };
 
   const kel = students.filter((s) => davomat[s.id] === "keldi").length;

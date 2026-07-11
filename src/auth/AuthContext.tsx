@@ -3,6 +3,7 @@ import type { User, Role } from "./types";
 import { SEED_USERS } from "./users";
 import { usersApi } from "../lib/usersApi";
 import { store } from "../lib/storage";
+import { getSessionToken, setSessionToken } from "../lib/session";
 import { isTelegramMiniApp, getTelegramInitData, initTelegramApp } from "../lib/telegram";
 
 interface AuthValue {
@@ -10,7 +11,7 @@ interface AuthValue {
   ready: boolean;
   avatar: string | null;
   users: User[];
-  login: (login: string, parol: string, role: Role) => Promise<User | null>;
+  login: (login: string, parol: string, role: Role) => Promise<{ user: User | null; error?: string }>;
   loginWithTelegram: (initData: string) => Promise<User | null>;
   logout: () => void;
   updateAvatar: (dataUrl: string) => void;
@@ -30,28 +31,28 @@ const AuthCtx = createContext<AuthValue | null>(null);
 // avtomatik shu hisobga kirgizib yuborardi.
 const SESSION_KEY = "afp:session_user_id";
 // Login paytida olingan sessiya tokeni — "yozish" so'rovlarida (addUser/
-// removeUser/patchUser/updateProfile/changePassword) chaqiruvchini server
-// tomonida tasdiqlash uchun localStorage'da sessiya id'si bilan birga
-// saqlanadi (qarang: supabase-migration-v5-session-tokens.sql).
-const SESSION_TOKEN_KEY = "afp:session_token";
+// removeUser/patchUser/updateProfile/changePassword, va endi afp_kv_get/
+// afp_kv_set/afp_kv_del orqali barcha boshqa ma'lumotlar) chaqiruvchini
+// server tomonida tasdiqlash uchun ishlatiladi (qarang: src/lib/session.ts,
+// supabase-migration-v5-session-tokens.sql, supabase-migration-v6-lockdown-kv.sql).
 
 function getLocalSession(): { id: string; token: string } | null {
   try {
     const id = localStorage.getItem(SESSION_KEY);
-    const token = localStorage.getItem(SESSION_TOKEN_KEY);
+    const token = getSessionToken();
     return id && token ? { id, token } : null;
   } catch { return null; }
 }
 function setLocalSession(id: string, token: string): void {
   try {
     localStorage.setItem(SESSION_KEY, id);
-    localStorage.setItem(SESSION_TOKEN_KEY, token);
+    setSessionToken(token);
   } catch { /* ignore */ }
 }
 function clearLocalSession(): void {
   try {
     localStorage.removeItem(SESSION_KEY);
-    localStorage.removeItem(SESSION_TOKEN_KEY);
+    setSessionToken(null);
   } catch { /* ignore */ }
 }
 
@@ -112,15 +113,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })();
   }, []);
 
-  const login = async (login: string, parol: string, role: Role): Promise<User | null> => {
+  const login = async (login: string, parol: string, role: Role): Promise<{ user: User | null; error?: string }> => {
     const res = await usersApi.login(login, parol, role);
+    if (res && "locked" in res) {
+      const mins = Math.max(1, Math.ceil((new Date(res.until).getTime() - Date.now()) / 60000));
+      return { user: null, error: `Juda ko'p noto'g'ri urinish. ${mins} daqiqadan keyin qayta urinib ko'ring.` };
+    }
     if (res) {
       setUser(res.user);
       setToken(res.token);
       setLocalSession(res.user.id, res.token);
       void loadAvatar(res.user.id);
+      return { user: res.user };
     }
-    return res?.user ?? null;
+    return { user: null, error: "Login yoki parol xato!" };
   };
 
   const loginWithTelegram = async (initData: string): Promise<User | null> => {
@@ -177,8 +183,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const changePassword = async (eskiParol: string, yangiParol: string): Promise<{ ok: boolean; error?: string }> => {
-    if (!token) return { ok: false, error: "Foydalanuvchi topilmadi" };
-    return usersApi.changePassword(token, eskiParol, yangiParol);
+    if (!token || !user) return { ok: false, error: "Foydalanuvchi topilmadi" };
+    const res = await usersApi.changePassword(token, eskiParol, yangiParol);
+    // Parol o'zgargach server eski sessiya tokenini (shu jumladan joriysini)
+    // bekor qiladi va YANGI token qaytaradi — shuni saqlamasak, foydalanuvchi
+    // o'zini o'zi tizimdan chiqarib qo'yadi (qarang: afp_change_password v7).
+    if (res.ok && res.token) {
+      setToken(res.token);
+      setLocalSession(user.id, res.token);
+    }
+    return res;
   };
 
   return (

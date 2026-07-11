@@ -1,6 +1,6 @@
 import type { User, Role } from "../auth/types";
 import { getUsers, saveUsers } from "./usersRepo";
-import type { LoginResult, MutationResult, UsersApi } from "./usersApi";
+import type { LoginLocked, LoginResult, MutationResult, UsersApi } from "./usersApi";
 
 function parseUnverifiedTelegramId(initData: string): number | null {
   try {
@@ -26,7 +26,7 @@ export class LocalUsersApi implements UsersApi {
     return getUsers();
   }
 
-  async login(login: string, parol: string, role: Role): Promise<LoginResult | null> {
+  async login(login: string, parol: string, role: Role): Promise<LoginResult | LoginLocked | null> {
     const users = await getUsers();
     const user = users.find(
       (x) => x.login.toLowerCase() === login.trim().toLowerCase() && x.parol === parol && x.role === role

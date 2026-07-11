@@ -1,6 +1,6 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { User, Role } from "../auth/types";
-import type { LoginResult, MutationResult, UsersApi } from "./usersApi";
+import type { LoginLocked, LoginResult, MutationResult, UsersApi } from "./usersApi";
 
 /*
  * Supabase rejimida foydalanuvchilar bilan ishlash — FAQAT server tomonidagi
@@ -28,13 +28,15 @@ export class SupabaseUsersApi implements UsersApi {
     return data as User[];
   }
 
-  async login(login: string, parol: string, role: Role): Promise<LoginResult | null> {
+  async login(login: string, parol: string, role: Role): Promise<LoginResult | LoginLocked | null> {
     const { data, error } = await this.client.rpc("afp_login", {
       p_login: login,
       p_parol: parol,
       p_role: role,
     });
     if (error || !data) return null;
+    if ((data as { locked?: boolean }).locked) return data as LoginLocked;
+    if (!(data as { user?: User }).user) return null;
     return data as LoginResult;
   }
 
@@ -82,13 +84,17 @@ export class SupabaseUsersApi implements UsersApi {
     return res as MutationResult;
   }
 
-  async changePassword(token: string, eskiParol: string, yangiParol: string): Promise<{ ok: boolean; error?: string }> {
+  async changePassword(
+    token: string,
+    eskiParol: string,
+    yangiParol: string
+  ): Promise<{ ok: boolean; error?: string; token?: string }> {
     const { data, error } = await this.client.rpc("afp_change_password", {
       p_session_token: token,
       p_eski_parol: eskiParol,
       p_yangi_parol: yangiParol,
     });
     if (error || !data) return { ok: false, error: "Server xatosi" };
-    return data as { ok: boolean; error?: string };
+    return data as { ok: boolean; error?: string; token?: string };
   }
 }

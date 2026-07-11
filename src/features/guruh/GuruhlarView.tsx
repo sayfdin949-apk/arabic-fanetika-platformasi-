@@ -31,8 +31,8 @@ const STORE_KEY = "guruhlar";
 async function loadGuruhlar(): Promise<Guruh[]> {
   return (await store.get<Guruh[]>(STORE_KEY)) ?? [];
 }
-async function saveGuruhlar(list: Guruh[]): Promise<void> {
-  await store.set(STORE_KEY, list);
+async function mutateGuruhlar(fn: (cur: Guruh[]) => Guruh[]): Promise<Guruh[]> {
+  return store.update<Guruh[]>(STORE_KEY, (cur) => fn(cur ?? []));
 }
 
 function juftToqBadge(jt: Guruh["juftToq"]) {
@@ -101,24 +101,23 @@ export function GuruhlarView() {
     if (form.kunlar.length === 0) { setErr("Kamida bitta kun tanlang"); return; }
 
     const ogtuvchiId = form.ogtuvchiId || undefined;
-    let next: Guruh[];
-    if (modal.editId) {
-      next = guruhlar.map((g) => g.id === modal.editId
-        ? { ...g, nom: form.nom.trim(), kunlar: form.kunlar, soat: form.soat, juftToq: form.juftToq, oquvchiIds: form.oquvchiIds, ogtuvchiId }
-        : g);
-    } else {
+    const editId = modal.editId;
+    const next = await mutateGuruhlar((cur) => {
+      if (editId) {
+        return cur.map((g) => g.id === editId
+          ? { ...g, nom: form.nom.trim(), kunlar: form.kunlar, soat: form.soat, juftToq: form.juftToq, oquvchiIds: form.oquvchiIds, ogtuvchiId }
+          : g);
+      }
       const newG: Guruh = { id: "g" + Date.now(), nom: form.nom.trim(), kunlar: form.kunlar, soat: form.soat, juftToq: form.juftToq, oquvchiIds: form.oquvchiIds, ogtuvchiId };
-      next = [...guruhlar, newG];
-    }
-    await saveGuruhlar(next);
+      return [...cur, newG];
+    });
     setGuruhlar(next);
     closeModal();
   };
 
   const remove = async (id: string) => {
     if (!isCeo) return;
-    const next = guruhlar.filter((g) => g.id !== id);
-    await saveGuruhlar(next);
+    const next = await mutateGuruhlar((cur) => cur.filter((g) => g.id !== id));
     setGuruhlar(next);
     if (expanded === id) setExpanded(null);
   };

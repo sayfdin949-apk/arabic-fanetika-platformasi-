@@ -31,9 +31,19 @@ export interface LoginResult {
   token: string;
 }
 
+/**
+ * Login urinishlari serverda cheklanadi (qarang:
+ * supabase-migration-v7-ratelimit-session-revoke.sql) — ketma-ket bir
+ * necha marta noto'g'ri parol kiritilsa, hisob vaqtincha bloklanadi.
+ */
+export interface LoginLocked {
+  locked: true;
+  until: string;
+}
+
 export interface UsersApi {
   getUsers(): Promise<User[]>;
-  login(login: string, parol: string, role: Role): Promise<LoginResult | null>;
+  login(login: string, parol: string, role: Role): Promise<LoginResult | LoginLocked | null>;
   loginWithTelegram(initData: string): Promise<LoginResult | null>;
   addUser(token: string, u: Omit<User, "id">): Promise<MutationResult>;
   removeUser(token: string, id: string): Promise<void>;
@@ -42,7 +52,14 @@ export interface UsersApi {
     token: string,
     data: { ism: string; familya: string; tel?: string; tugilgan?: string }
   ): Promise<MutationResult>;
-  changePassword(token: string, eskiParol: string, yangiParol: string): Promise<{ ok: boolean; error?: string }>;
+  /** Muvaffaqiyatli bo'lsa, YANGI sessiya tokeni ham qaytadi — eski token
+   * (shu jumladan chaqiruvchining o'zinikidan boshqasi) darhol bekor
+   * bo'lgani uchun joriy sessiyani shu bilan yangilash kerak. */
+  changePassword(
+    token: string,
+    eskiParol: string,
+    yangiParol: string
+  ): Promise<{ ok: boolean; error?: string; token?: string }>;
 }
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
