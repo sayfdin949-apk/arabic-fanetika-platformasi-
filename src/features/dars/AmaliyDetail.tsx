@@ -244,8 +244,9 @@ export function AmaliyDetail() {
   const tabBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setTab("maxraj");
     window.scrollTo(0, 0);
+    const t = setTimeout(() => setTab("maxraj"), 0);
+    return () => clearTimeout(t);
   }, [id]);
 
   const bob = AMALIY.find((b) => b.id === Number(id));

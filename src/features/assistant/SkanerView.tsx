@@ -22,6 +22,15 @@ export function SkanerView() {
   const rafRef = useRef<number | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
+  const stop = () => {
+    setScanning(false);
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    streamRef.current?.getTracks().forEach((t) => t.stop());
+    streamRef.current = null;
+  };
+
+  useEffect(() => () => stop(), []);
+
   if (user?.role !== "assistant") return <Navigate to="/" replace />;
 
   const upcoming = bookings
@@ -50,13 +59,6 @@ export function SkanerView() {
     }
   };
 
-  const stop = () => {
-    setScanning(false);
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    streamRef.current?.getTracks().forEach((t) => t.stop());
-    streamRef.current = null;
-  };
-
   const loop = () => {
     const v = videoRef.current, c = canvasRef.current;
     if (!v || !c || v.readyState !== v.HAVE_ENOUGH_DATA) {
@@ -76,8 +78,6 @@ export function SkanerView() {
     }
     rafRef.current = requestAnimationFrame(loop);
   };
-
-  useEffect(() => () => stop(), []);
 
   const submitManual = () => {
     if (!manual.trim()) return;

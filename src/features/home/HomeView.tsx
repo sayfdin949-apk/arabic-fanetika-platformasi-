@@ -122,6 +122,10 @@ function TeacherHome() {
       setAvgNaz(Math.round(totalNaz / students.length));
       setAvgAmal(Math.round(totalAmal / students.length));
     })();
+    // students va todayISO qasddan chiqarib tashlangan: students o'zgarmas
+    // massiv identifikatori har renderda yangilanadi, shu sabab faqat uzunligi
+    // o'zgarganda qayta yuklaymiz; todayISO esa parametrsiz sof funksiya.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [students.length]);
 
   const keldi = students.filter((s) => todayDavomat[s.id] === "keldi").length;
@@ -316,6 +320,14 @@ export function HomeView() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { nazDone, amalDone, streak } = useProgress();
+  // Kunning maslahati — sahifa ochilgan paytda bir marta tanlanadi (render
+  // ichida to'g'ridan-to'g'ri Date.now() chaqirilmaydi, chunki render sof
+  // bo'lishi kerak). Har doim bir xil tartibda chaqirilishi uchun shartli
+  // "return"lardan OLDIN hisoblanadi.
+  const [tip] = useState(() => {
+    const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
+    return TIPS[dayOfYear % TIPS.length];
+  });
 
   if (user?.role === "teacher" || user?.role === "ceo") return <TeacherHome />;
   if (user?.role === "assistant") return <AssistantHome />;
@@ -325,9 +337,6 @@ export function HomeView() {
   const nazPct = Math.round((nazPass / NAZARIY.length) * 100);
   const amalPct = Math.round((amalDoneCount / AMALIY.length) * 100);
   const overall = Math.round((nazPct + amalPct) / 2);
-
-  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
-  const tip = TIPS[dayOfYear % TIPS.length];
 
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Xayrli tong" : hour < 17 ? "Xayrli kun" : "Xayrli kech";

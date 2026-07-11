@@ -1,4 +1,4 @@
-import { useState, useEffect, type CSSProperties } from "react";
+import { useState, useEffect, useRef, type CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
 import { BookOpen, UserCheck, Send, XCircle, Eye, EyeOff, Copy, Check } from "lucide-react";
 import { T, FONT } from "../theme/tokens";
@@ -13,7 +13,7 @@ export function Login() {
   const [showParol, setShowParol] = useState(false);
   const [err, setErr] = useState("");
   const [tgNotFound, setTgNotFound] = useState<number | null>(null);
-  const [tgChecked, setTgChecked] = useState(false);
+  const tgChecked = useRef(false);
   const [copied, setCopied] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -25,8 +25,8 @@ export function Login() {
   };
 
   useEffect(() => {
-    if (!auth.ready || tgChecked) return;
-    setTgChecked(true);
+    if (!auth.ready || tgChecked.current) return;
+    tgChecked.current = true;
     if (!isTelegramMiniApp()) return;
     initTelegramApp();
     const tgUser = getTelegramUser();
@@ -43,7 +43,11 @@ export function Login() {
         setTgNotFound(tgUser.id);
       }
     })();
-  }, [auth.ready, tgChecked]);
+    // auth/navigate qasddan chiqarib tashlangan: bu tekshiruv faqat
+    // auth.ready true bo'lganda, brauzer sessiyasi davomida bir marta
+    // ishga tushishi kerak (tgChecked ref bilan qo'riqlanadi).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.ready]);
 
   const tryLogin = async () => {
     if (submitting) return;

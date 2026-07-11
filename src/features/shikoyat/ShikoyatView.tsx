@@ -20,7 +20,11 @@ export function ShikoyatView() {
   };
 
   useEffect(() => {
-    void load();
+    (async () => {
+      const all = await getComplaints();
+      setList(all);
+      setLoading(false);
+    })();
   }, []);
 
   if (!user) return null;

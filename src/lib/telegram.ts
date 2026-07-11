@@ -6,6 +6,13 @@ declare global {
   }
 }
 
+interface TelegramSafeAreaInset {
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+}
+
 interface TelegramWebApp {
   ready(): void;
   expand(): void;
@@ -18,6 +25,10 @@ interface TelegramWebApp {
       username?: string;
     };
   };
+  safeAreaInset?: TelegramSafeAreaInset;
+  contentSafeAreaInset?: TelegramSafeAreaInset;
+  onEvent?(eventType: string, callback: () => void): void;
+  offEvent?(eventType: string, callback: () => void): void;
 }
 
 export function isTelegramMiniApp(): boolean {
@@ -51,7 +62,7 @@ export function initTelegramApp() {
 }
 
 export function getTelegramSafeInsets(): { top: number; bottom: number } {
-  const twa = window.Telegram?.WebApp as any;
+  const twa = window.Telegram?.WebApp;
   if (!twa) return { top: 0, bottom: 0 };
 
   // safeAreaInset  → device edges (iOS status bar, home indicator)

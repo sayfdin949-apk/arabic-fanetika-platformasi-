@@ -200,29 +200,34 @@ function MatchingGame({ onBack }: { onBack: () => void }) {
     if (s > hi) saveHi(gi, s);
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   useEffect(() => {
     if (phase !== "playing") return;
-    if (timeLeft <= 0) { endGame(score); return; }
-    const id = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
+    const id = setTimeout(() => {
+      if (timeLeft <= 0) endGame(score);
+      else setTimeLeft((t) => t - 1);
+    }, timeLeft <= 0 ? 0 : 1000);
     return () => clearTimeout(id);
   });
 
   useEffect(() => {
     if (leftSel === null || rightSel === null) return;
-    const lp = leftOrder[leftSel];
-    const rp = rightOrder[rightSel];
-    if (lp === rp) {
-      const nm = new Set(matched).add(lp);
-      setMatched(nm);
-      const ns = score + 10;
-      setScore(ns); setLeftSel(null); setRightSel(null);
-      if (nm.size === PAIR_COUNT) endGame(ns);
-    } else {
-      setWrongLeft(leftSel); setWrongRight(rightSel);
-      setScore((s) => Math.max(0, s - 3));
-      setTimeout(() => { setWrongLeft(null); setWrongRight(null); setLeftSel(null); setRightSel(null); }, 600);
-    }
+    const id = setTimeout(() => {
+      const lp = leftOrder[leftSel];
+      const rp = rightOrder[rightSel];
+      if (lp === rp) {
+        const nm = new Set(matched).add(lp);
+        setMatched(nm);
+        const ns = score + 10;
+        setScore(ns); setLeftSel(null); setRightSel(null);
+        if (nm.size === PAIR_COUNT) endGame(ns);
+      } else {
+        setWrongLeft(leftSel); setWrongRight(rightSel);
+        setScore((s) => Math.max(0, s - 3));
+        setTimeout(() => { setWrongLeft(null); setWrongRight(null); setLeftSel(null); setRightSel(null); }, 600);
+      }
+    }, 0);
+    return () => clearTimeout(id);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [leftSel, rightSel]);
 
@@ -340,11 +345,13 @@ function AbjadGame({ onBack }: { onBack: () => void }) {
     if (s > hi) saveHi(gi, s);
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   useEffect(() => {
     if (phase !== "playing") return;
-    if (timeLeft <= 0) { endGame(score); return; }
-    const id = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
+    const id = setTimeout(() => {
+      if (timeLeft <= 0) endGame(score);
+      else setTimeLeft((t) => t - 1);
+    }, timeLeft <= 0 ? 0 : 1000);
     return () => clearTimeout(id);
   });
 

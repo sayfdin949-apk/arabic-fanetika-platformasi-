@@ -60,6 +60,9 @@ function StudentDavomatView() {
       if (alive) { setHist(Object.fromEntries(entries)); setLoading(false); }
     })();
     return () => { alive = false; };
+    // days/user qasddan chiqarib tashlangan: tarix faqat komponent
+    // ochilganda bir marta yuklanadi.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const came = days.filter((iso) => hist[iso] === "keldi").length;
@@ -191,6 +194,9 @@ export function DavomatView() {
       if (alive) setHistory(Object.fromEntries(entries));
     })();
     return () => { alive = false; };
+    // histDays qasddan chiqarib tashlangan: mode "kunlik"dan
+    // "tarix"ga o'zgarganda yetarli, kunlar ro'yxati o'sha paytdagi holat.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
   if (user?.role === "student") return <StudentDavomatView />;

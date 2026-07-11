@@ -45,6 +45,10 @@ function QrModal({ booking, onClose, onShown }: { booking: AssistantBooking; onC
     });
     onShown();
     return () => { alive = false; };
+    // onShown qasddan chiqarib tashlangan: faqat booking.id o'zgarganda
+    // (modal boshqa buyurtma uchun qayta ochilganda) bir marta ishga
+    // tushishi kerak, onShown identifikatori har renderda o'zgarishi mumkin.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [booking.id]);
 
   return (
@@ -71,17 +75,25 @@ export function YordamchiUstozView() {
   const [err, setErr] = useState("");
   const [ok, setOk] = useState(false);
   const [qrFor, setQrFor] = useState<AssistantBooking | null>(null);
+  // Booking vaqtlarini "hozir" bilan solishtirish uchun — render ichida
+  // to'g'ridan-to'g'ri Date.now() chaqirilmaydi (render sof bo'lishi
+  // kerak), buning o'rniga davriy yangilanadigan state ishlatiladi.
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 30_000);
+    return () => clearInterval(id);
+  }, []);
+  const myBookings = useMemo(
+    () => bookings.filter((b) => b.studentId === user?.id).sort((a, b) => b.scheduledAt.localeCompare(a.scheduledAt)),
+    [bookings, user?.id],
+  );
 
   if (user?.role !== "student") return <Navigate to="/" replace />;
 
   const assistants = users.filter((u) => u.role === "assistant");
-  const myBookings = useMemo(
-    () => bookings.filter((b) => b.studentId === user.id).sort((a, b) => b.scheduledAt.localeCompare(a.scheduledAt)),
-    [bookings, user.id],
-  );
 
-  const blockedUntil = user.assistantBlockedUntil && new Date(user.assistantBlockedUntil).getTime() > Date.now() ? user.assistantBlockedUntil : null;
-  const daysLeft = blockedUntil ? Math.ceil((new Date(blockedUntil).getTime() - Date.now()) / 86_400_000) : 0;
+  const blockedUntil = user.assistantBlockedUntil && new Date(user.assistantBlockedUntil).getTime() > now ? user.assistantBlockedUntil : null;
+  const daysLeft = blockedUntil ? Math.ceil((new Date(blockedUntil).getTime() - now) / 86_400_000) : 0;
 
   const book = () => {
     setErr(""); setOk(false);
@@ -161,7 +173,7 @@ export function YordamchiUstozView() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {myBookings.map((b) => {
-            const canCancel = b.status === "scheduled" && Date.now() < new Date(b.scheduledAt).getTime();
+            const canCancel = b.status === "scheduled" && now < new Date(b.scheduledAt).getTime();
             const inWindow = b.status === "scheduled" && withinBookingWindow(b.scheduledAt);
             return (
               <div key={b.id} style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04)", padding: 14 }}>

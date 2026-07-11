@@ -24,11 +24,14 @@ export function NazariyDetail() {
   const dars = NAZARIY.find((d) => d.id === Number(id));
 
   useEffect(() => {
-    setPhase("mavzu");
-    setResultPct(null);
-    setWrongIndices([]);
-    setRetryQuestions(null);
     window.scrollTo(0, 0);
+    const t = setTimeout(() => {
+      setPhase("mavzu");
+      setResultPct(null);
+      setWrongIndices([]);
+      setRetryQuestions(null);
+    }, 0);
+    return () => clearTimeout(t);
   }, [id]);
 
   const questions: QuizQuestion[] = useMemo(

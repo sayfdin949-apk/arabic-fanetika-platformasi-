@@ -131,7 +131,8 @@ export function AppShell() {
   // Sahifa o'zgarganda kontentni yuqoriga scroll qilish
   useEffect(() => {
     mainRef.current?.scrollTo({ top: 0 });
-    setMoreOpen(false);
+    const id = setTimeout(() => setMoreOpen(false), 0);
+    return () => clearTimeout(id);
   }, [pathname]);
 
   const toggleCollapsed = () =>
@@ -154,7 +155,7 @@ export function AppShell() {
     initTelegramApp();
     const update = () => setTgInsets(getTelegramSafeInsets());
     update();
-    const twa = window.Telegram?.WebApp as any;
+    const twa = window.Telegram?.WebApp;
     twa?.onEvent?.("viewportChanged", update);
     return () => twa?.offEvent?.("viewportChanged", update);
   }, []);
