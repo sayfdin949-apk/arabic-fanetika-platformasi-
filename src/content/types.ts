@@ -30,6 +30,9 @@ export interface AmalBob {
   id: number;
   harflar: string[];
   nomlar: string[];
+  /** Sifat-juftlik mavzusi (masalan "Jahr va Hams") — mavjud bo'lsa,
+   * bob sarlavhasi sifatida harf nomlari o'rniga shu ko'rsatiladi. */
+  mavzu?: string;
   maxraj: AmalMaxraj[];
   sifatlar: AmalSifat[];
   shakllar: AmalShakl[];

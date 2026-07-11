@@ -237,7 +237,7 @@ export function DarsList() {
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: 10, color: T.hint, marginBottom: 2 }}>{b.id}-bob</div>
                     <div style={{ fontSize: 14, fontWeight: 600, color: T.green, lineHeight: 1.3, marginBottom: 5 }}>
-                      {b.nomlar.join(" · ")}
+                      {b.mavzu ?? b.nomlar.join(" · ")}
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 4, color: T.hint, fontSize: 11 }}>

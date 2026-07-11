@@ -308,7 +308,7 @@ export function AmaliyDetail() {
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: 10, color: T.limeBrt, fontWeight: 600 }}>{bob.id}-BOB / {AMALIY.length} DAN</div>
-              <div style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>{bob.nomlar.join(" · ")}</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>{bob.mavzu ?? bob.nomlar.join(" · ")}</div>
             </div>
           </div>
 

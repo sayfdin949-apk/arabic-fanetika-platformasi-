@@ -6,11 +6,11 @@ export const DASTUR: DasturOy[] = [
     oy: 1,
     nomi: "1-OY: Arab Yozuvi va Birinchi Harflar",
     color: T.gGreen,
-    imtihon: "Arab yozuvi, 4 ta harakat, tanvin, shaddah, maxsus harflar va أ–س (Amaliy 1–6) bo'yicha yozma+og'zaki test",
+    imtihon: "Arab yozuvi, 4 ta harakat, tanvin, shaddah, maxsus harflar va أ–ش (Amaliy 1–6) bo'yicha yozma+og'zaki test",
     haftalar: [
       {
         h: 1,
-        mavzu: "Nazariy 1–2 + Amaliy 1 (أ ب)",
+        mavzu: "Nazariy 1–2 + Amaliy 1 (أ ب ت — Jahr va Hams)",
         kunlar: [
           {
             k: "Dushanba",
@@ -24,64 +24,64 @@ export const DASTUR: DasturOy[] = [
           },
           {
             k: "Juma",
-            d: "Amaliy Bob 1: أ (Hamza) va ب (Ba) — maxraj, sifat, to'rt shakl",
-            m: "أ ب ni barcha harakatlar bilan yozish va o'qish",
+            d: "Amaliy Bob 1 (Jahr va Hams): أ (Hamza), ب (Ba) va ت (Ta) — maxraj, sifat, shakl",
+            m: "أ ب ت ni barcha harakatlar bilan yozish va o'qish",
           },
         ],
-        imtihon: "Test: alifbo tartibi + harakatlar + أ ب o'qish",
+        imtihon: "Test: alifbo tartibi + harakatlar + أ ب ت o'qish",
       },
       {
         h: 2,
-        mavzu: "Nazariy 3–4 + Amaliy 2–3 (ت ث | ج ح)",
+        mavzu: "Nazariy 3–4 + Amaliy 2–3 (ج ث | ح خ)",
         kunlar: [
           {
             k: "Dushanba",
-            d: "Nazariy 3: Tanvin (AN, IN, UN) — qoidalari va yozilishi; Amaliy Bob 2: ت (Ta) va ث (Sa)",
-            m: "Tanvinli so'zlarni o'qish; ت ث ni yozish va talaffuz mashqi",
+            d: "Nazariy 3: Tanvin (AN, IN, UN) — qoidalari va yozilishi; Amaliy Bob 2 (Shadid va Raxv): ج (Jim) va ث (Sa)",
+            m: "Tanvinli so'zlarni o'qish; ج ث ni yozish va talaffuz mashqi",
           },
           {
             k: "Chorshanba",
-            d: "Nazariy 4: Shaddah — ta'rifi, yozilishi va talaffuzi; Amaliy Bob 3: ج (Jim) va ح (Ha)",
-            m: "Shaddalik so'zlarni o'qish; ج ح maxraj va sifatini o'rganish",
+            d: "Nazariy 4: Shaddah — ta'rifi, yozilishi va talaffuzi; Amaliy Bob 3 (Iste'lo va Istefol): ح (Ha) va خ (Xo)",
+            m: "Shaddalik so'zlarni o'qish; ح خ maxraj va sifatini o'rganish",
           },
           {
             k: "Juma",
-            d: "Hafta takrori: tanvin, shaddah, ت ث ج ح birgalikda o'qish",
+            d: "Hafta takrori: tanvin, shaddah, ج ث ح خ birgalikda o'qish",
             m: "Diktant: tanvinli va shaddalik so'zlar",
           },
         ],
-        imtihon: "Blooket: tanvin + shaddah + ت ث ج ح harflari",
+        imtihon: "Blooket: tanvin + shaddah + ج ث ح خ harflari",
       },
       {
         h: 3,
-        mavzu: "Nazariy 5 + Amaliy 4–5 (خ د | ذ ر)",
+        mavzu: "Nazariy 5 + Amaliy 4–5 (ذ د | ز ر)",
         kunlar: [
           {
             k: "Dushanba",
-            d: "Nazariy 5: Ta marbuta, Alif layyina, Hamzatul vasl — qoidalar va misollar; Amaliy Bob 4: خ (Xo) va د (Dal)",
-            m: "Maxsus harflarni aniqlash; خ د ni yozish va o'qish",
+            d: "Nazariy 5: Ta marbuta, Alif layyina, Hamzatul vasl — qoidalar va misollar; Amaliy Bob 4 (Itbaq va Infitah): ذ (Zal) va د (Dal)",
+            m: "Maxsus harflarni aniqlash; ذ د ni yozish va o'qish",
           },
           {
             k: "Chorshanba",
-            d: "Amaliy Bob 5: ذ (Zal) va ر (Ra) — maxraj, sifat, shakl va so'zlardagi qo'llanishi",
-            m: "ذ ر bilan tuzilgan so'zlarni o'qish va talaffuz mashqi",
+            d: "Amaliy Bob 5 (Izlaq va Ismat): ز (Zayn) va ر (Ra) — maxraj, sifat, shakl va so'zlardagi qo'llanishi",
+            m: "ز ر bilan tuzilgan so'zlarni o'qish va talaffuz mashqi",
           },
           {
             k: "Juma",
-            d: "Hafta takrori: Nazariy 5 + خ د ذ ر birgalikda o'qish va yozish",
-            m: "So'z tuzish mashqi: خ د ذ ر ishtirokida",
+            d: "Hafta takrori: Nazariy 5 + ذ د ز ر birgalikda o'qish va yozish",
+            m: "So'z tuzish mashqi: ذ د ز ر ishtirokida",
           },
         ],
-        imtihon: "Test: ta marbuta + alif layyina + hamzatul vasl + خ د ذ ر harflari",
+        imtihon: "Test: ta marbuta + alif layyina + hamzatul vasl + ذ د ز ر harflari",
       },
       {
         h: 4,
-        mavzu: "Amaliy 6 (ز س) + 1-Oy Takrori",
+        mavzu: "Amaliy 6 (ش س — Sin va Shin) + 1-Oy Takrori",
         kunlar: [
           {
             k: "Dushanba",
-            d: "Amaliy Bob 6: ز (Zayn) va س (Sin) — maxraj, sifat, to'rt shakl va so'zlar",
-            m: "ز س ni barcha harakatlar bilan yozish, so'z tuzish",
+            d: "Amaliy Bob 6 (Sin va Shin): ش (Shin) va س (Sin) — maxraj, sifat, to'rt shakl va so'zlar",
+            m: "ش س ni barcha harakatlar bilan yozish, so'z tuzish",
           },
           {
             k: "Chorshanba",
@@ -91,10 +91,10 @@ export const DASTUR: DasturOy[] = [
           {
             k: "Juma",
             d: "1-oy imtihoniga tayyorgarlik: barcha o'tilgan mavzular bo'yicha diktant",
-            m: "Diktant va og'zaki so'rov: أ–س harflari va asosiy qoidalar",
+            m: "Diktant va og'zaki so'rov: أ–ش harflari va asosiy qoidalar",
           },
         ],
-        imtihon: "1-OY IMTIHONI: Nazariy 1–5 + Amaliy 1–6 (أ ب ت ث ج ح خ د ذ ر ز س) yozma+og'zaki",
+        imtihon: "1-OY IMTIHONI: Nazariy 1–5 + Amaliy 1–6 (أ ب ت ث ج ح خ د ذ ر ز س ش) yozma+og'zaki",
       },
     ],
   },
@@ -106,12 +106,12 @@ export const DASTUR: DasturOy[] = [
     haftalar: [
       {
         h: 5,
-        mavzu: "Amaliy 7–8 (ش ص | ض ط) + Nazariy 6 (Maxraj: Jawf+Halq)",
+        mavzu: "Amaliy 7–8 (ص | ض ط) + Nazariy 6 (Maxraj: Jawf+Halq)",
         kunlar: [
           {
             k: "Dushanba",
-            d: "Amaliy Bob 7: ش (Shin) va ص (Sod) — maxraj, sifat, shakl va so'zlardagi qo'llanishi",
-            m: "ش ص yozish, so'zlar bilan o'qish mashqi",
+            d: "Amaliy Bob 7: ص (Sod) — maxraj, sifat, shakl va so'zlardagi qo'llanishi",
+            m: "ص yozish, so'zlar bilan o'qish mashqi",
           },
           {
             k: "Chorshanba",
@@ -124,7 +124,7 @@ export const DASTUR: DasturOy[] = [
             m: "Jawf va Halq harflarini maxrajiga ko'ra guruhlash va talaffuz",
           },
         ],
-        imtihon: "Test: ش ص ض ط + Jawf va Halq maxrajlari",
+        imtihon: "Test: ص ض ط + Jawf va Halq maxrajlari",
       },
       {
         h: 6,
