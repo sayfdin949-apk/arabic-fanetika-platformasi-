@@ -6,6 +6,7 @@ export interface NazVazifa {
   variantlar: string[];
   togri: number;
 }
+export interface NazMashq { ar: string; oq: string; }
 export interface NazDars {
   id: number;
   nomi: string;
@@ -13,6 +14,7 @@ export interface NazDars {
   color: string;
   mavzu: string;
   vazifalar: NazVazifa[];
+  mashq?: NazMashq[];
 }
 
 export interface AmalMaxraj { h: string; mx: string; iz: string; }

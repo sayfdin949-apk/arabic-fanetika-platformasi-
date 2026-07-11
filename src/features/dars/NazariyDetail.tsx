@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
-import { ChevronLeft, BookOpen, ClipboardCheck, ArrowRight, Clock, RotateCcw } from "lucide-react";
+import { ChevronLeft, BookOpen, ClipboardCheck, ArrowRight, Clock, RotateCcw, Eye } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { MD } from "../../lib/md";
@@ -16,10 +16,11 @@ export function NazariyDetail() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { isNazUnlocked, submitNaz, nazDone, saveWrong, clearWrong } = useProgress();
-  const [phase, setPhase] = useState<"mavzu" | "test">("mavzu");
+  const [phase, setPhase] = useState<"mavzu" | "test" | "mashq">("mavzu");
   const [resultPct, setResultPct] = useState<number | null>(null);
   const [wrongIndices, setWrongIndices] = useState<number[]>([]);
   const [retryQuestions, setRetryQuestions] = useState<QuizQuestion[] | null>(null);
+  const [revealed, setRevealed] = useState<Set<number>>(new Set());
 
   const dars = NAZARIY.find((d) => d.id === Number(id));
 
@@ -28,6 +29,7 @@ export function NazariyDetail() {
     setResultPct(null);
     setWrongIndices([]);
     setRetryQuestions(null);
+    setRevealed(new Set());
     window.scrollTo(0, 0);
   }, [id]);
 
@@ -97,7 +99,11 @@ export function NazariyDetail() {
 
           {/* Phase tabs */}
           <div style={{ display: "flex", padding: "10px 16px 0" }}>
-            {([ { k: "mavzu" as const, label: "Mavzu", icon: BookOpen }, { k: "test" as const, label: "Test", icon: ClipboardCheck } ]).map((p) => (
+            {([
+              { k: "mavzu" as const, label: "Mavzu", icon: BookOpen },
+              ...(dars.mashq?.length ? [{ k: "mashq" as const, label: "Mashq", icon: Eye }] : []),
+              { k: "test" as const, label: "Test", icon: ClipboardCheck },
+            ]).map((p) => (
               <button
                 key={p.k}
                 onClick={() => setPhase(p.k)}
@@ -127,7 +133,46 @@ export function NazariyDetail() {
 
       {/* Content */}
       <div style={{ padding: 16 }}>
-        {phase === "mavzu" ? (
+        {phase === "mashq" ? (
+          <>
+            <Card style={{ padding: "12px 14px", marginBottom: 12, background: "rgba(13,58,26,.04)", border: "1px solid rgba(13,58,26,.12)" }}>
+              <div style={{ fontSize: 12, color: T.text2, lineHeight: 1.5 }}>
+                <Eye size={13} style={{ verticalAlign: "middle", marginRight: 5 }} />
+                Har so'zni o'qib, pastidagi tugmani bosib tekshiring
+              </div>
+            </Card>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+              {(dars.mashq ?? []).map((w, i) => (
+                <button
+                  key={i}
+                  onClick={() => setRevealed((prev) => { const s = new Set(prev); s.has(i) ? s.delete(i) : s.add(i); return s; })}
+                  style={{
+                    background: revealed.has(i) ? "rgba(13,58,26,.07)" : "#fff",
+                    border: `1px solid ${revealed.has(i) ? "rgba(13,58,26,.25)" : "rgba(0,0,0,.08)"}`,
+                    borderRadius: 10,
+                    padding: "14px 8px 10px",
+                    cursor: "pointer",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 6,
+                    boxShadow: revealed.has(i) ? "none" : "0 1px 4px rgba(0,0,0,.06)",
+                    transition: "all .15s",
+                  }}
+                >
+                  <span style={{ fontFamily: AR, fontSize: 28, lineHeight: 1.3, direction: "rtl", color: T.text }}>{w.ar}</span>
+                  <span style={{ fontSize: 11, color: revealed.has(i) ? T.green : "transparent", fontWeight: 600, letterSpacing: 0.3, transition: "color .15s" }}>{w.oq}</span>
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => setRevealed(new Set())}
+              style={{ width: "100%", marginTop: 14, padding: "11px", background: "none", border: "1px solid rgba(0,0,0,.12)", borderRadius: 10, fontSize: 13, color: T.text2, cursor: "pointer", fontWeight: 500 }}
+            >
+              Barchasini yashirish
+            </button>
+          </>
+        ) : phase === "mavzu" ? (
           <>
             <Card style={{ padding: 16, marginBottom: 16 }}>
               <MD text={dars.mavzu} />
