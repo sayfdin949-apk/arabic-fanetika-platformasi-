@@ -102,21 +102,21 @@ export const DASTUR: DasturOy[] = [
     oy: 2,
     nomi: "2-OY: Qolgan Harflar va Maxraj Ilmi",
     color: T.gDeep,
-    imtihon: "Barcha 28 arab harfi (Amaliy 7–14) + Nazariy 6–8 maxraj ilmi bo'yicha yozma+og'zaki test",
+    imtihon: "Barcha 28 arab harfi (Amaliy 7–13) + Nazariy 6–8 maxraj ilmi bo'yicha yozma+og'zaki test",
     haftalar: [
       {
         h: 5,
-        mavzu: "Amaliy 7–8 (ص | ض ط) + Nazariy 6 (Maxraj: Jawf+Halq)",
+        mavzu: "Amaliy 7–8 (ص ض | ط ظ) + Nazariy 6 (Maxraj: Jawf+Halq)",
         kunlar: [
           {
             k: "Dushanba",
-            d: "Amaliy Bob 7: ص (Sod) — maxraj, sifat, shakl va so'zlardagi qo'llanishi",
-            m: "ص yozish, so'zlar bilan o'qish mashqi",
+            d: "Amaliy Bob 7 (Sod va Zod): ص (Sod) va ض (Dod) — maxraj, sifat, shakl va so'zlardagi qo'llanishi",
+            m: "ص ض yozish, so'zlar bilan o'qish mashqi",
           },
           {
             k: "Chorshanba",
-            d: "Amaliy Bob 8: ض (Dod) va ط (To) — maxraj, sifat, shakl va talaffuz",
-            m: "ض ط ni barcha harakatlar bilan yozish va o'qish",
+            d: "Amaliy Bob 8 (To va Zo): ط (To) va ظ (Zo) — maxraj, sifat, shakl va talaffuz",
+            m: "ط ظ ni barcha harakatlar bilan yozish va o'qish",
           },
           {
             k: "Juma",
@@ -124,21 +124,21 @@ export const DASTUR: DasturOy[] = [
             m: "Jawf va Halq harflarini maxrajiga ko'ra guruhlash va talaffuz",
           },
         ],
-        imtihon: "Test: ص ض ط + Jawf va Halq maxrajlari",
+        imtihon: "Test: ص ض ط ظ + Jawf va Halq maxrajlari",
       },
       {
         h: 6,
-        mavzu: "Amaliy 9–10 (ظ ع | غ ف) + Nazariy 7 (Maxraj: Lison)",
+        mavzu: "Amaliy 9–10 (ع غ | ف ق) + Nazariy 7 (Maxraj: Lison)",
         kunlar: [
           {
             k: "Dushanba",
-            d: "Amaliy Bob 9: ظ (Zo) va ع (Ayn) — maxraj, sifat, shakl va so'zlar",
-            m: "ظ ع ni yozish va o'qish, ع talaffuziga alohida e'tibor",
+            d: "Amaliy Bob 9 (Ayn va G'ayn): ع (Ayn) va غ (G'ayn) — maxraj, sifat, shakl va so'zlar",
+            m: "ع غ ni yozish va o'qish, ع talaffuziga alohida e'tibor",
           },
           {
             k: "Chorshanba",
-            d: "Amaliy Bob 10: غ (G'ayn) va ف (Fa) — maxraj, sifat, shakl va so'zlar",
-            m: "غ ف bilan so'z tuzish va o'qish mashqi",
+            d: "Amaliy Bob 10 (Fa va Qof): ف (Fa) va ق (Qof) — maxraj, sifat, shakl va so'zlar",
+            m: "ف ق bilan so'z tuzish va o'qish mashqi",
           },
           {
             k: "Juma",
@@ -146,21 +146,21 @@ export const DASTUR: DasturOy[] = [
             m: "Lison harflarini maxrajiga ko'ra guruhlash va talaffuz taqqoslash",
           },
         ],
-        imtihon: "Blooket: ظ ع غ ف + Lison maxrajlari",
+        imtihon: "Blooket: ع غ ف ق + Lison maxrajlari",
       },
       {
         h: 7,
-        mavzu: "Amaliy 11–12 (ق ك | ل م) + Nazariy 8 (Maxraj: Shafatayn+Xayshum)",
+        mavzu: "Amaliy 11–12 (ك ل | م ن) + Nazariy 8 (Maxraj: Shafatayn+Xayshum)",
         kunlar: [
           {
             k: "Dushanba",
-            d: "Amaliy Bob 11: ق (Qof) va ك (Kof) — maxraj, sifat, shakl va so'zlar",
-            m: "ق ك yozish va o'qish; ق va ك farqini talaffuzda o'rgatish",
+            d: "Amaliy Bob 11 (Kof va Lam): ك (Kof) va ل (Lom) — maxraj, sifat, shakl va so'zlar",
+            m: "ك ل yozish va o'qish; ك va ق farqini talaffuzda o'rgatish",
           },
           {
             k: "Chorshanba",
-            d: "Amaliy Bob 12: ل (Lom) va م (Mim) — maxraj, sifat, shakl va so'zlar",
-            m: "ل م bilan so'z tuzish va o'qish mashqi",
+            d: "Amaliy Bob 12 (Mim va Nun): م (Mim) va ن (Nun) — maxraj, sifat, shakl va so'zlar",
+            m: "م ن bilan so'z tuzish va o'qish mashqi",
           },
           {
             k: "Juma",
@@ -168,20 +168,20 @@ export const DASTUR: DasturOy[] = [
             m: "Lab harflari va xayshum talaffuzini mashq qilish",
           },
         ],
-        imtihon: "Test: ق ك ل م + Shafatayn va Xayshum maxrajlari",
+        imtihon: "Test: ك ل م ن + Shafatayn va Xayshum maxrajlari",
       },
       {
         h: 8,
-        mavzu: "Amaliy 13–14 (ن ه | و ي) + 2-Oy Takrori",
+        mavzu: "Amaliy 13 (ه و ي) + 2-Oy Takrori",
         kunlar: [
           {
             k: "Dushanba",
-            d: "Amaliy Bob 13: ن (Nun) va ه (Ha) — maxraj, sifat, shakl; Amaliy Bob 14: و (Vov) va ي (Ya)",
-            m: "ن ه و ي yozish va o'qish — 28 ta harf yakunlandi!",
+            d: "Amaliy Bob 13 (Ha, Wow va Ya): ه (Ha), و (Vov) va ي (Ya) — maxraj, sifat, shakl",
+            m: "ه و ي yozish va o'qish — 28 ta harf yakunlandi!",
           },
           {
             k: "Chorshanba",
-            d: "2-oy umumiy takrori: Amaliy 7–14 harflari va Nazariy 6–8 maxraj ilmi",
+            d: "2-oy umumiy takrori: Amaliy 7–13 harflari va Nazariy 6–8 maxraj ilmi",
             m: "Barcha 28 harfni maxrajiga ko'ra talaffuz qilish va yozish",
           },
           {
@@ -190,7 +190,7 @@ export const DASTUR: DasturOy[] = [
             m: "Diktant va og'zaki: barcha 28 harf + Jawf, Halq, Lison, Shafatayn, Xayshum",
           },
         ],
-        imtihon: "2-OY IMTIHONI: Barcha 28 harf (Amaliy 1–14) + Nazariy 6–8 maxraj ilmi yozma+og'zaki",
+        imtihon: "2-OY IMTIHONI: Barcha 28 harf (Amaliy 1–13) + Nazariy 6–8 maxraj ilmi yozma+og'zaki",
       },
     ],
   },
@@ -398,7 +398,7 @@ export const DASTUR: DasturOy[] = [
         kunlar: [
           {
             k: "Dushanba",
-            d: "Takror 1: 28 harf (Amaliy 1–14) + Maxraj ilmi (Nazariy 6–8) — harflarni maxrajiga ko'ra guruhlash",
+            d: "Takror 1: 28 harf (Amaliy 1–13) + Maxraj ilmi (Nazariy 6–8) — harflarni maxrajiga ko'ra guruhlash",
             m: "Barcha harflarni maxrajiga ko'ra shart-jadvali bilan takrorlash",
           },
           {
@@ -434,7 +434,7 @@ export const DASTUR: DasturOy[] = [
             m: "Yakuniy imtihon: yozma test + og'zaki so'rov + arab matnlarini tajwidli o'qish",
           },
         ],
-        imtihon: "YAKUNIY IMTIHON: Nazariy 1–20 + Amaliy 1–14 — to'liq yozma, og'zaki va amaliy baholash",
+        imtihon: "YAKUNIY IMTIHON: Nazariy 1–20 + Amaliy 1–13 — to'liq yozma, og'zaki va amaliy baholash",
       },
     ],
   },
