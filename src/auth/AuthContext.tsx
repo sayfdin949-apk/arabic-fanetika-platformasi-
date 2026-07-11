@@ -70,45 +70,50 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Mount: foydalanuvchilarni va sessiyani yuklash
   useEffect(() => {
     (async () => {
-      const list = await usersApi.getUsers();
-      setUsers(list);
+      try {
+        const list = await usersApi.getUsers();
+        setUsers(list);
 
-      // Telegram Mini App ichida bo'lsak, Telegram orqali HMAC bilan
-      // tasdiqlangan joriy hisob HAR DOIM shu qurilmada eski saqlangan
-      // sessiyadan (masalan, avval CEO parol bilan kirilgan bo'lsa) ustun
-      // turishi kerak — aks holda bitta qurilmada avval boshqa hisob bilan
-      // kirilgan bo'lsa, Telegram orqali ochilganda ham o'sha eski
-      // foydalanuvchi ko'rsatilib qolar edi.
-      if (isTelegramMiniApp()) {
-        initTelegramApp();
-        const initData = getTelegramInitData();
-        if (initData) {
-          const res = await usersApi.loginWithTelegram(initData);
-          if (res) {
-            setUser(res.user);
-            setToken(res.token);
-            setLocalSession(res.user.id, res.token);
-            await loadAvatar(res.user.id);
-            setReady(true);
-            return;
+        // Telegram Mini App ichida bo'lsak, Telegram orqali HMAC bilan
+        // tasdiqlangan joriy hisob HAR DOIM shu qurilmada eski saqlangan
+        // sessiyadan (masalan, avval CEO parol bilan kirilgan bo'lsa) ustun
+        // turishi kerak — aks holda bitta qurilmada avval boshqa hisob bilan
+        // kirilgan bo'lsa, Telegram orqali ochilganda ham o'sha eski
+        // foydalanuvchi ko'rsatilib qolar edi.
+        if (isTelegramMiniApp()) {
+          initTelegramApp();
+          const initData = getTelegramInitData();
+          if (initData) {
+            const res = await usersApi.loginWithTelegram(initData);
+            if (res) {
+              setUser(res.user);
+              setToken(res.token);
+              setLocalSession(res.user.id, res.token);
+              await loadAvatar(res.user.id);
+              setReady(true);
+              return;
+            }
           }
         }
-      }
 
-      const session = getLocalSession();
-      if (session) {
-        // Sessiyadagi foydalanuvchi sanitizatsiya qilingan ro'yxatda bo'lmasligi
-        // mumkin emas (parolsiz ham id/role saqlanadi), shuning uchun shu yerdan topiladi.
-        const u = list.find((x) => x.id === session.id);
-        if (u) {
-          setUser(u);
-          setToken(session.token);
-          await loadAvatar(u.id);
-        } else {
-          clearLocalSession();
+        const session = getLocalSession();
+        if (session) {
+          // Sessiyadagi foydalanuvchi sanitizatsiya qilingan ro'yxatda bo'lmasligi
+          // mumkin emas (parolsiz ham id/role saqlanadi), shuning uchun shu yerdan topiladi.
+          const u = list.find((x) => x.id === session.id);
+          if (u) {
+            setUser(u);
+            setToken(session.token);
+            await loadAvatar(u.id);
+          } else {
+            clearLocalSession();
+          }
         }
+      } catch {
+        // Supabase yoki boshqa tarmoq xatosi — SEED_USERS bilan davom etamiz
+      } finally {
+        setReady(true);
       }
-      setReady(true);
     })();
   }, []);
 
