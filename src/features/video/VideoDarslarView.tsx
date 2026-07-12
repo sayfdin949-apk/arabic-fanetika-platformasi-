@@ -4,6 +4,15 @@ import { T } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
 import { VIDEO_DARSLAR, VIDEO_TOIFALAR, type VideoDars } from "../../content/videoDarslar";
 
+function getEmbedUrl(url: string): string {
+  const watchMatch = url.match(/[?&]v=([A-Za-z0-9_-]{11})/);
+  if (watchMatch) return `https://www.youtube.com/embed/${watchMatch[1]}?rel=0`;
+  const shortMatch = url.match(/youtu\.be\/([A-Za-z0-9_-]{11})/);
+  if (shortMatch) return `https://www.youtube.com/embed/${shortMatch[1]}?rel=0`;
+  if (url.includes("youtube.com/embed/")) return url;
+  return url;
+}
+
 const watchedKey = (uid: string) => `afp:video_watched_${uid}`;
 
 function loadWatched(uid: string): Set<number> {
@@ -131,24 +140,36 @@ function VideoModal({
         {/* Handle */}
         <div style={{ width: 40, height: 4, background: "rgba(13,58,26,.15)", borderRadius: 2, margin: "0 auto 16px" }} />
 
-        {/* Video player placeholder */}
-        <div style={{
-          background: `linear-gradient(135deg,${dars.rang}33,${dars.rang}66)`,
-          borderRadius: 14, height: 180, display: "flex", flexDirection: "column",
-          alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 16,
-          border: `2px solid ${dars.rang}40`,
-        }}>
+        {/* Video player */}
+        {dars.videoUrl ? (
+          <div style={{ borderRadius: 14, overflow: "hidden", marginBottom: 16, background: "#000", position: "relative", paddingTop: "56.25%" }}>
+            <iframe
+              src={getEmbedUrl(dars.videoUrl)}
+              title={dars.sarlavha}
+              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
+        ) : (
           <div style={{
-            width: 56, height: 56, borderRadius: "50%",
-            background: dars.rang, display: "flex", alignItems: "center", justifyContent: "center",
-            boxShadow: `0 4px 16px ${dars.rang}60`,
+            background: `linear-gradient(135deg,${dars.rang}33,${dars.rang}66)`,
+            borderRadius: 14, height: 180, display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 16,
+            border: `2px solid ${dars.rang}40`,
           }}>
-            <Play size={22} color="#fff" fill="#fff" />
+            <div style={{
+              width: 56, height: 56, borderRadius: "50%",
+              background: dars.rang, display: "flex", alignItems: "center", justifyContent: "center",
+              boxShadow: `0 4px 16px ${dars.rang}60`,
+            }}>
+              <Play size={22} color="#fff" fill="#fff" />
+            </div>
+            <div style={{ fontSize: 12, color: `${dars.rang}cc`, fontWeight: 600 }}>
+              Tez orada qo'shiladi
+            </div>
           </div>
-          <div style={{ fontSize: 12, color: `${dars.rang}cc`, fontWeight: 600 }}>
-            {dars.videoUrl ? "Video yuklanmoqda…" : "Tez orada qo'shiladi"}
-          </div>
-        </div>
+        )}
 
         {/* Info */}
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, marginBottom: 12 }}>

@@ -42,6 +42,7 @@ export const VIDEO_DARSLAR: VideoDars[] = [
     thumbnail: "أ",
     rang: "#0891B2",
     korinishlar: 1240,
+    videoUrl: "https://www.youtube.com/watch?v=9XJBWVrXBMU",
   },
   {
     id: 2,
@@ -53,6 +54,7 @@ export const VIDEO_DARSLAR: VideoDars[] = [
     thumbnail: "ج",
     rang: "#0891B2",
     korinishlar: 980,
+    videoUrl: "https://www.youtube.com/watch?v=Ql8vBPi8UOQ",
   },
   {
     id: 3,
@@ -64,6 +66,7 @@ export const VIDEO_DARSLAR: VideoDars[] = [
     thumbnail: "ر",
     rang: "#0891B2",
     korinishlar: 870,
+    videoUrl: "https://www.youtube.com/watch?v=WKVNJ0LHwXA",
   },
   {
     id: 4,
@@ -75,6 +78,7 @@ export const VIDEO_DARSLAR: VideoDars[] = [
     thumbnail: "◌َ",
     rang: "#0891B2",
     korinishlar: 1120,
+    videoUrl: "https://www.youtube.com/watch?v=0v1EiApBiEM",
   },
   // A1 — ism va olmoshlar
   {
