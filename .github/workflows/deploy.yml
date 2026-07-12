@@ -6,20 +6,11 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
+  contents: write
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - uses: actions/checkout@v4
@@ -35,20 +26,12 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          # GitHub Secrets → Settings → Secrets and variables → Actions da sozlang:
-          #   VITE_SUPABASE_URL  = https://xxxx.supabase.co
-          #   VITE_SUPABASE_ANON_KEY = eyJ...
-          # Secret yo'q bo'lsa, .env faylidan o'qiladi (agar commit qilingan bo'lsa)
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
-      - uses: actions/configure-pages@v4
-
-      - name: Dist papkasini yuklash
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
       - name: GitHub Pages ga joylash
-        uses: actions/deploy-pages@v4
-        id: deployment
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: gh-pages
+          clean: true
