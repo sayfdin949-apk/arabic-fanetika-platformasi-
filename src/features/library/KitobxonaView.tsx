@@ -2,6 +2,8 @@ import { useState } from "react";
 import { ChevronRight, X, FileText, BookMarked, List, BookCopy, Bookmark, CheckCircle, AArrowUp, AArrowDown } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
+import { useProgress } from "../progress/ProgressContext";
+import { useCoins } from "../../context/CoinContext";
 import { KITOBLAR, type Kitob, type KitobBob } from "../../content/kitoblar";
 
 const TUR_LABEL: Record<string, string> = {
@@ -112,6 +114,8 @@ function KitobCard({ kitob, readCount, onClick }: { kitob: Kitob; readCount: num
 // ─── KitobReader ─────────────────────────────────────────────────────────────
 function KitobReader({ kitob, onClose }: { kitob: Kitob; onClose: () => void }) {
   const { user } = useAuth();
+  const { touchStreak } = useProgress();
+  const { addCoins } = useCoins();
   const uid = user?.id ?? "";
 
   const [activeBob, setActiveBob] = useState<KitobBob>(kitob.boblar[0]);
@@ -126,10 +130,13 @@ function KitobReader({ kitob, onClose }: { kitob: Kitob; onClose: () => void }) 
   const bookmarkCount = [...bookmarks].filter((k) => k.startsWith(`${kitob.id}_`)).length;
 
   const markRead = () => {
+    if (readBobs.has(currentBobKey)) return;
     const next = new Set(readBobs);
     next.add(currentBobKey);
     setReadBobs(next);
     saveReadBobs(uid, next);
+    touchStreak();
+    addCoins(2);
   };
 
   const toggleBookmark = (bobId: number, i: number) => {

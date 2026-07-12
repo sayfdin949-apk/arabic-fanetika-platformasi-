@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { CheckCircle, XCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
+import { useProgress } from "../progress/ProgressContext";
+import { useCoins } from "../../context/CoinContext";
 
 interface Letter {
   ar: string;
@@ -97,6 +99,8 @@ const GROUPS: Group[] = [
 ];
 
 export function MinimalPairsView() {
+  const { touchStreak } = useProgress();
+  const { addCoins } = useCoins();
   const [groupIdx, setGroupIdx] = useState(0);
   const [phase, setPhase] = useState<"learn" | "quiz">("learn");
   const [qIdx, setQIdx] = useState(0);
@@ -113,11 +117,17 @@ export function MinimalPairsView() {
     setShowResult(false);
   };
 
+  const handleShowResult = () => {
+    touchStreak();
+    addCoins(2);
+    setShowResult(true);
+  };
+
   const handleAnswer = (opt: string) => {
     if (answers[qIdx] !== undefined) return;
     const next = { ...answers, [qIdx]: opt };
     setAnswers(next);
-    if (Object.keys(next).length === group.questions.length) setShowResult(true);
+    if (Object.keys(next).length === group.questions.length) handleShowResult();
   };
 
   const correct = group.questions.filter((q, i) => answers[i] === q.correct).length;
@@ -278,7 +288,7 @@ export function MinimalPairsView() {
                               Keyingi <ChevronRight size={15} />
                             </button>
                           ) : (
-                            <button onClick={() => setShowResult(true)} style={{ flex: 1, padding: "12px", borderRadius: 11, border: "none", background: T.gLime, color: T.onCta, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>
+                            <button onClick={handleShowResult} style={{ flex: 1, padding: "12px", borderRadius: 11, border: "none", background: T.gLime, color: T.onCta, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>
                               Natijani ko'rish
                             </button>
                           )}
