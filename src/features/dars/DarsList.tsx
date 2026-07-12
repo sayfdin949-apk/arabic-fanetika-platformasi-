@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Lock, CheckCircle, PlayCircle, Clock, BookOpen, Layers } from "lucide-react";
+import { Lock, CheckCircle, PlayCircle, Clock, BookOpen, Layers, Unlock } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
 import { useProgress } from "../progress/ProgressContext";
+import { useAuth } from "../../auth/AuthContext";
 
 type Tur = "nazariy" | "amaliy";
 
@@ -30,8 +31,17 @@ function StatChip({ icon: Icon, label, value }: { icon: typeof Clock; label: str
 
 export function DarsList() {
   const navigate = useNavigate();
-  const { nazDone, amalDone, isNazUnlocked } = useProgress();
-  const [tur, setTur] = useState<Tur>("nazariy");
+  const { user } = useAuth();
+  const { nazDone, amalDone, isNazUnlocked, consumeLessonUnlock } = useProgress();
+  const [tur, setTur] = useState<Tur>("amaliy");
+
+  const lessonUnlockCount = (() => {
+    try {
+      const raw = localStorage.getItem(`afp:market_purchases_${user?.id ?? ""}`);
+      const p = raw ? JSON.parse(raw) as Record<string, { count: number }> : {};
+      return p["lesson_unlock"]?.count ?? 0;
+    } catch { return 0; }
+  })();
 
   const nazPass = Object.values(nazDone).filter((d) => d.pct >= 80).length;
   const amalCount = Object.keys(amalDone).length;
@@ -45,14 +55,14 @@ export function DarsList() {
           <div style={{ fontSize: 11, fontWeight: 600, color: T.limeBrt, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 4 }}>Kurs</div>
           <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 10 }}>Arab Fonetika Kursi</div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 18 }}>
-            <StatChip icon={BookOpen} label="Nazariy:" value={`${nazPass}/${NAZARIY.length}`} />
             <StatChip icon={Layers} label="Amaliy:" value={`${amalCount}/${AMALIY.length}`} />
+            <StatChip icon={BookOpen} label="Nazariy:" value={`${nazPass}/${NAZARIY.length}`} />
             <StatChip icon={Clock} label="Har dars:" value={DURATION} />
           </div>
 
           {/* Tab switcher */}
           <div style={{ display: "flex", borderBottom: "none" }}>
-            {(["nazariy", "amaliy"] as const).map((t) => (
+            {(["amaliy", "nazariy"] as const).map((t) => (
               <button
                 key={t}
                 onClick={() => setTur(t)}
@@ -69,7 +79,7 @@ export function DarsList() {
                   transition: "all .15s",
                 }}
               >
-                {t === "nazariy" ? `Nazariy (${NAZARIY.length})` : `Amaliy (${AMALIY.length})`}
+                {t === "amaliy" ? `✍ Amaliy (${AMALIY.length})` : `📖 Nazariy (${NAZARIY.length})`}
               </button>
             ))}
           </div>
@@ -84,12 +94,20 @@ export function DarsList() {
               const unlocked = isNazUnlocked(d.id);
               const done = nazDone[d.id];
               const pct = done?.pct ?? 0;
+              const canUnlockWithItem = !unlocked && lessonUnlockCount > 0;
 
               return (
                 <button
                   key={d.id}
-                  disabled={!unlocked}
-                  onClick={() => navigate(`/dars/nazariy/${d.id}`)}
+                  disabled={!unlocked && !canUnlockWithItem}
+                  onClick={() => {
+                    if (unlocked) {
+                      navigate(`/dars/nazariy/${d.id}`);
+                    } else if (canUnlockWithItem) {
+                      consumeLessonUnlock(d.id);
+                      navigate(`/dars/nazariy/${d.id}`);
+                    }
+                  }}
                   style={{
                     width: "100%",
                     display: "flex",
@@ -99,7 +117,7 @@ export function DarsList() {
                     background: "none",
                     border: "none",
                     borderBottom: idx < NAZARIY.length - 1 ? "1px solid rgba(13,58,26,.07)" : "none",
-                    cursor: unlocked ? "pointer" : "not-allowed",
+                    cursor: unlocked || canUnlockWithItem ? "pointer" : "not-allowed",
                     textAlign: "left",
                   }}
                 >
@@ -113,6 +131,8 @@ export function DarsList() {
                         ? done && pct >= 80
                           ? "linear-gradient(135deg,#2EB82E,#1a8a1a)"
                           : T.gGreen
+                        : canUnlockWithItem
+                        ? "linear-gradient(135deg,#7C3AED,#5B21B6)"
                         : "rgba(13,58,26,.1)",
                       display: "flex",
                       alignItems: "center",
@@ -123,7 +143,11 @@ export function DarsList() {
                     }}
                   >
                     {!unlocked ? (
-                      <Lock size={20} color="rgba(13,58,26,.3)" />
+                      canUnlockWithItem ? (
+                        <Unlock size={20} color="rgba(255,255,255,.9)" />
+                      ) : (
+                        <Lock size={20} color="rgba(13,58,26,.3)" />
+                      )
                     ) : (
                       <>
                         <span style={{ fontFamily: AR, fontSize: 26, color: "#fff", lineHeight: 1 }}>{d.icon}</span>
@@ -163,7 +187,11 @@ export function DarsList() {
                         </div>
                       )}
                       {!unlocked && (
-                        <div style={{ fontSize: 10, color: T.hint }}>Oldingi darsni yakunlang</div>
+                        canUnlockWithItem ? (
+                          <div style={{ fontSize: 10, color: "#7C3AED", fontWeight: 600 }}>🔓 Qulfdan chiqarish ({lessonUnlockCount})</div>
+                        ) : (
+                          <div style={{ fontSize: 10, color: T.hint }}>Oldingi darsni yakunlang</div>
+                        )
                       )}
                     </div>
                     {done && <ProgressBar pct={pct} />}
@@ -172,7 +200,9 @@ export function DarsList() {
                   {/* Status icon */}
                   <div style={{ flexShrink: 0, marginTop: 4 }}>
                     {!unlocked ? (
-                      <Lock size={15} color="rgba(13,58,26,.25)" />
+                      canUnlockWithItem
+                        ? <Unlock size={15} color="#7C3AED" />
+                        : <Lock size={15} color="rgba(13,58,26,.25)" />
                     ) : done && pct >= 80 ? (
                       <CheckCircle size={18} color={T.lime} />
                     ) : (

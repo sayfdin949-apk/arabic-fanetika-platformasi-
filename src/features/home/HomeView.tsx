@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, Layers, ArrowRight, Star, Users, ClipboardCheck, BarChart2, Flame, ScanLine, Clock, UserCog, LayersIcon } from "lucide-react";
+import { BookOpen, Layers, ArrowRight, Star, Users, ClipboardCheck, BarChart2, Flame, ScanLine, Clock, UserCog, LayersIcon, PlayCircle, Library, ClipboardList, Sparkles, Mic2, Globe, Mic, Baby, BookOpenText, Gamepad2 } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
 import { useAuth } from "../../auth/AuthContext";
 import { useProgress } from "../progress/ProgressContext";
+import { useCoins } from "../../context/CoinContext";
 import { useAssistant } from "../assistant/AssistantContext";
 import { store } from "../../lib/storage";
 import type { DoneMap } from "../progress/ProgressContext";
@@ -122,7 +123,7 @@ function TeacherHome() {
       setAvgNaz(Math.round(totalNaz / students.length));
       setAvgAmal(Math.round(totalAmal / students.length));
     })();
-  }, [students.length]);
+  }, [students]);
 
   const keldi = students.filter((s) => todayDavomat[s.id] === "keldi").length;
   const davPct = students.length > 0 ? Math.round((keldi / students.length) * 100) : 0;
@@ -312,10 +313,24 @@ function AssistantHome() {
   );
 }
 
+const MODULLAR = [
+  { to: "/grammatika",     icon: BookOpenText, label: "Grammatika",       sub: "Qoida va mashqlar",      color: "#7C3AED" },
+  { to: "/video",          icon: PlayCircle,   label: "Video darslar",    sub: "17 ta dars",             color: "#DC2626" },
+  { to: "/kitobxona",      icon: Library,      label: "Kitobxona",        sub: "5 ta kitob",             color: "#059669" },
+  { to: "/mocktest",       icon: ClipboardList,label: "Mock test",        sub: "Bilimingizni sinang",    color: "#CA8A04" },
+  { to: "/ovoz",           icon: Mic,          label: "Ovoz yozish",      sub: "Talaffuz mashqlari",     color: "#0891B2" },
+  { to: "/matn-tahlil",    icon: Sparkles,     label: "Matn tahlili",     sub: "Arabcha matn tekshiruv", color: "#9333EA" },
+  { to: "/oyun",           icon: Gamepad2,     label: "O'yin",            sub: "O'ynab o'rgan",          color: "#2563EB" },
+  { to: "/speaking-club",  icon: Mic2,         label: "Speaking Club",    sub: "Jonli amaliyot",         color: "#0E7490" },
+  { to: "/mehmon-ustozlar",icon: Globe,        label: "Mehmon ustozlar",  sub: "Mutaxassis darslar",     color: "#D97706" },
+  { to: "/ota-ona",        icon: Baby,         label: "Ota-ona paneli",   sub: "Farzand progressi",      color: "#BE185D" },
+];
+
 export function HomeView() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { nazDone, amalDone, streak } = useProgress();
+  const { coins } = useCoins();
 
   if (user?.role === "teacher" || user?.role === "ceo") return <TeacherHome />;
   if (user?.role === "assistant") return <AssistantHome />;
@@ -370,6 +385,8 @@ export function HomeView() {
           <div style={{ display: "flex", gap: 10, marginTop: 18 }}>
             <StatCard icon={BookOpen} label="Nazariy" value={`${nazPass}/${NAZARIY.length}`} color={T.limeBrt} />
             <StatCard icon={Layers} label="Amaliy" value={`${amalDoneCount}/${AMALIY.length}`} color={T.limeBrt} />
+            <StatCard icon={Flame} label="Streak" value={`${streak.days} kun`} color="#FF6B35" />
+            <StatCard icon={Star} label="Tanga" value={`${coins}`} color="#EAB308" />
           </div>
         </div>
       </div>
@@ -423,6 +440,31 @@ export function HomeView() {
           <ArrowRight size={20} />
         </button>
 
+        {/* Barcha modullar */}
+        <div style={{ marginBottom: 14 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
+            <div style={{ width: 4, height: 16, borderRadius: 2, background: T.gLime, flexShrink: 0 }} />
+            <span style={{ fontSize: 13, fontWeight: 600, color: T.green }}>Barcha modullar</span>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            {MODULLAR.map((m) => (
+              <button
+                key={m.to}
+                onClick={() => navigate(m.to)}
+                style={{ background: "#fff", border: "1px solid rgba(13,58,26,.08)", borderRadius: 14, padding: "12px 12px", cursor: "pointer", display: "flex", alignItems: "center", gap: 10, textAlign: "left", boxShadow: "0 1px 4px rgba(13,58,26,.06)" }}
+              >
+                <div style={{ width: 38, height: 38, borderRadius: 11, background: `${m.color}18`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <m.icon size={18} color={m.color} />
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: T.green, marginBottom: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{m.label}</div>
+                  <div style={{ fontSize: 10, color: T.hint, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{m.sub}</div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Streak ogohlantirish */}
         {!hasLessonToday && streak.days > 0 && (
           <div
@@ -432,7 +474,7 @@ export function HomeView() {
             <Flame size={20} color="#FF6B35" style={{ flexShrink: 0 }} />
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: "#FF6B35", marginBottom: 2 }}>
-                BUGUN HALI DARS QO'LMADINGIZ
+                BUGUN HALI DARS QILMADINGIZ
               </div>
               <div style={{ fontSize: 12, color: T.text2, lineHeight: 1.4 }}>
                 {streak.days}-kunlik streakingizni saqlash uchun hozir bir dars o'ting.

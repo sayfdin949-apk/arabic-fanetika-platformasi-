@@ -194,6 +194,7 @@ export function DavomatView() {
   }, [mode]);
 
   if (user?.role === "student") return <StudentDavomatView />;
+  if (user?.role === "assistant") return <StudentDavomatView />;
   if (user?.role !== "teacher" && user?.role !== "ceo") return <Navigate to="/" replace />;
 
   const set = (id: string, holat: Holat) => {

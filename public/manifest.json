@@ -1,0 +1,21 @@
+{
+  "name": "Arab Fonetika Platformasi",
+  "short_name": "AraFon",
+  "description": "Arabcha fonetika va grammatika o'rganish platformasi",
+  "start_url": "/arabic-fanetika-platformasi-/",
+  "scope": "/arabic-fanetika-platformasi-/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0d3a1a",
+  "theme_color": "#1a6632",
+  "lang": "uz",
+  "categories": ["education"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

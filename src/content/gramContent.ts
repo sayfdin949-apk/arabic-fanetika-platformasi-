@@ -1,0 +1,2419 @@
+import type { GramDars, GramDarajaInfo } from "./gramTypes";
+
+export const GRAM_DARSLAR: GramDars[] = [
+  // ─── A0 ─────────────────────────────────────────────────────────────────────
+  {
+    id: 4,
+    nomi: "Arab alifbosi — harflar",
+    daraja: "A0",
+    icon: "🔤",
+    rang: "#0891B2",
+    mavzu: "28 ta arab harfi va ularning shakllari",
+    qoida: [
+      {
+        sarlavha: "Arab alifbosining asoslari",
+        tavsif:
+          "Arab alifbosida 28 ta harf bor. Ular o'ngdan chapga yoziladi. " +
+          "Har bir harfning 4 xil shakli bo'ladi: alohida, so'z boshida, o'rtasida va oxirida.",
+        jadval: [
+          { arabcha: "أ", oqilishi: "alif", tarjima: "a/o'", izoh: "birinchi harf" },
+          { arabcha: "ب", oqilishi: "ba", tarjima: "b", izoh: "1 nuqta pastda" },
+          { arabcha: "ت", oqilishi: "ta", tarjima: "t", izoh: "2 nuqta ustida" },
+          { arabcha: "ث", oqilishi: "tha", tarjima: "th (inglizcha)", izoh: "3 nuqta ustida" },
+          { arabcha: "ج", oqilishi: "jim", tarjima: "j", izoh: "1 nuqta ichida" },
+          { arabcha: "ح", oqilishi: "ha", tarjima: "h (tomoqdan)", izoh: "nuqtasiz" },
+          { arabcha: "خ", oqilishi: "xo", tarjima: "x", izoh: "1 nuqta ustida" },
+          { arabcha: "د", oqilishi: "dal", tarjima: "d", izoh: "nuqtasiz" },
+        ],
+      },
+      {
+        sarlavha: "Qolgan harflar",
+        tavsif:
+          "Arabcha 28 harfning qolgan 20 tasi. Ko'p harflar o'xshash shaklga ega — " +
+          "ularni nuqtalar (noqat) bilan ajratish mumkin.",
+        jadval: [
+          { arabcha: "ذ", oqilishi: "zal", tarjima: "z (til uchi)", izoh: "1 nuqta ustida" },
+          { arabcha: "ر", oqilishi: "ro", tarjima: "r", izoh: "nuqtasiz" },
+          { arabcha: "ز", oqilishi: "zay", tarjima: "z", izoh: "1 nuqta ustida" },
+          { arabcha: "س", oqilishi: "sin", tarjima: "s", izoh: "nuqtasiz (3 tish)" },
+          { arabcha: "ش", oqilishi: "shin", tarjima: "sh", izoh: "3 nuqta ustida" },
+          { arabcha: "ص", oqilishi: "sod", tarjima: "s (qattiq)", izoh: "nuqtasiz" },
+          { arabcha: "ض", oqilishi: "dod", tarjima: "d (qattiq)", izoh: "1 nuqta ustida" },
+          { arabcha: "ع", oqilishi: "'ayn", tarjima: "' (tomoqdan)", izoh: "xos arab harfi" },
+        ],
+        misol: [
+          "ف (fa) — 1 nuqta oldida",
+          "ق (qof) — 2 nuqta ustida",
+          "ك (kof) — k",
+          "ل (lam) — l",
+          "م (mim) — m",
+          "ن (nun) — n, 1 nuqta ustida",
+          "ه (ha) — h (yengil)",
+          "و (wow) — v/u",
+          "ي (ya) — y/i",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "بَيْت", oqilishi: "bayt", tarjima: "uy", izoh: "ب + يت" },
+      { arabcha: "كِتَاب", oqilishi: "kitab", tarjima: "kitob", izoh: "ك + ت + ا + ب" },
+      { arabcha: "قَلَم", oqilishi: "qalam", tarjima: "qalam", izoh: "ق + ل + م" },
+      { arabcha: "بَاب", oqilishi: "bab", tarjima: "eshik", izoh: "ب + ا + ب" },
+      { arabcha: "سَمَاء", oqilishi: "sama", tarjima: "osmon", izoh: "س + م + ا + ء" },
+      { arabcha: "أَرْض", oqilishi: "ard", tarjima: "yer", izoh: "أ + ر + ض" },
+    ],
+    istima: [
+      { arabcha: "ب", oqilishi: "ba", tarjima: "b harfi", izoh: "pastda 1 nuqta" },
+      { arabcha: "ت", oqilishi: "ta", tarjima: "t harfi", izoh: "ustida 2 nuqta" },
+      { arabcha: "ث", oqilishi: "tha", tarjima: "th harfi", izoh: "ustida 3 nuqta" },
+      { arabcha: "ج", oqilishi: "jim", tarjima: "j harfi", izoh: "ichida 1 nuqta" },
+      { arabcha: "س", oqilishi: "sin", tarjima: "s harfi", izoh: "3 tishli, nuqtasiz" },
+      { arabcha: "ش", oqilishi: "shin", tarjima: "sh harfi", izoh: "3 tishli, 3 nuqta" },
+    ],
+    kitoba: [
+      { topshiriq: "Quyidagi harflarni tartibda yozing: ب، ت، ث", misol: "→ ب ت ث" },
+      { topshiriq: "بَيْت so'zini tashkil qiluvchi harflarni aniqlang", misol: "→ ب + ي + ت" },
+      { topshiriq: "Sin va shin harflarining farqini tushuntiring", misol: "→ س (nuqtasiz), ش (3 nuqta)" },
+      { topshiriq: "Quyidagi harflardan 3 ta so'z tuzing: ب، ا، ب، ت", misol: "→ بَاب (eshik)" },
+    ],
+    test: [
+      { savol: "ب harfi qanday talaffuz qilinadi?", variantlar: ["ta", "ba", "sa", "na"], togri: 1 },
+      { savol: "ش harfining belgisi nechta nuqtaga ega?", variantlar: ["1", "2", "3", "0"], togri: 2 },
+      { savol: "Arab harflari qaysi yo'nalishda yoziladi?", variantlar: ["Chapdan o'ngga", "O'ngdan chapga", "Yuqoridan pastga", "Pastdan yuqoriga"], togri: 1 },
+      { savol: "Arab alifbosida nechta harf bor?", variantlar: ["24", "26", "28", "30"], togri: 2 },
+      { savol: "ت va ث harflari o'rtasidagi farq nima?", variantlar: ["Shakli boshqa", "Nuqtalar soni", "Kattaligi", "Rangi"], togri: 1 },
+    ],
+  },
+
+  {
+    id: 5,
+    nomi: "Harakat belgilari",
+    daraja: "A0",
+    icon: "✨",
+    rang: "#2563EB",
+    mavzu: "Fatha, kasra, damma, sukun — harflar ustidagi belgilar",
+    qoida: [
+      {
+        sarlavha: "Asosiy harakat belgilari",
+        tavsif:
+          "Harakat belgilari (tashkil) harflar qanday o'qilishini bildiradi. " +
+          "Ular asosan o'quv kitoblarida va boshlang'ich darslarda ishlatiladi.",
+        jadval: [
+          { arabcha: "بَ", oqilishi: "ba", tarjima: "ba (a ovozi bilan)", izoh: "fatha — ustida kichik chiziq" },
+          { arabcha: "بِ", oqilishi: "bi", tarjima: "bi (i ovozi bilan)", izoh: "kasra — ostida kichik chiziq" },
+          { arabcha: "بُ", oqilishi: "bu", tarjima: "bu (u ovozi bilan)", izoh: "damma — ustida kichik o' shakl" },
+          { arabcha: "بْ", oqilishi: "b (undosh)", tarjima: "b, unli yo'q", izoh: "sukun — ustida kichik doira" },
+          { arabcha: "بَّ", oqilishi: "bba", tarjima: "b ikki marta", izoh: "shadda — ustida tish belgisi" },
+        ],
+      },
+      {
+        sarlavha: "Tanvin — ikki harakat",
+        tavsif:
+          "Tanvin — so'z oxirida ikki harakat belgisi qo'yiladi va n ovozi qo'shiladi. " +
+          "Tanvin faqat aniqlanmagan otlarda so'z oxirida ishlatiladi.",
+        jadval: [
+          { arabcha: "بَيْتٌ", oqilishi: "baytun", tarjima: "uy (aniqlanmagan)", izoh: "tanvin damma — un ovozi" },
+          { arabcha: "بَيْتٍ", oqilishi: "baytin", tarjima: "uyning (tushum)", izoh: "tanvin kasra — in ovozi" },
+          { arabcha: "بَيْتاً", oqilishi: "baytan", tarjima: "uyni (tushum)", izoh: "tanvin fatha — an ovozi" },
+          { arabcha: "كِتَابٌ", oqilishi: "kitabun", tarjima: "kitob (aniqlanmagan)", izoh: "tanvin damma" },
+        ],
+        misol: [
+          "بَ = ba (fatha = a ovozi)",
+          "بِ = bi (kasra = i ovozi)",
+          "بُ = bu (damma = u ovozi)",
+          "بْ = b (sukun = unli yo'q)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "بَ بِ بُ بْ", oqilishi: "ba — bi — bu — b", tarjima: "Ba harfi to'rt holatda" },
+      { arabcha: "كَتَبَ", oqilishi: "kataba", tarjima: "yozdi", izoh: "k-a + t-a + b-a" },
+      { arabcha: "كِتَابٌ", oqilishi: "kitabun", tarjima: "kitob", izoh: "tanvin damma" },
+      { arabcha: "قَلَمٌ", oqilishi: "qalamun", tarjima: "qalam", izoh: "tanvin damma" },
+      { arabcha: "بَيْتٌ كَبِيرٌ", oqilishi: "baytun kabirun", tarjima: "katta uy", izoh: "ikki tanvin" },
+      { arabcha: "مَدْرَسَةٌ", oqilishi: "madrasatun", tarjima: "maktab", izoh: "tanvin + ta marbuta" },
+    ],
+    istima: [
+      { arabcha: "بَ", oqilishi: "ba", tarjima: "fatha bilan", izoh: "ustida — a ovozi" },
+      { arabcha: "بِ", oqilishi: "bi", tarjima: "kasra bilan", izoh: "ostida — i ovozi" },
+      { arabcha: "بُ", oqilishi: "bu", tarjima: "damma bilan", izoh: "ustida doira — u ovozi" },
+      { arabcha: "بْ", oqilishi: "b", tarjima: "sukun bilan", izoh: "ustida o — unli yo'q" },
+      { arabcha: "كِتَابٌ", oqilishi: "kitabun", tarjima: "kitob", izoh: "tanvin damma so'z oxirida" },
+      { arabcha: "بَيْتاً", oqilishi: "baytan", tarjima: "uyni", izoh: "tanvin fatha" },
+    ],
+    kitoba: [
+      { topshiriq: "بَ، بِ، بُ ni yozing va talaffuz qiling", misol: "ba, bi, bu" },
+      { topshiriq: "كِتَابٌ so'zida qanday harakat belgilari bor?", misol: "→ kasra (ki), fatha (ta), damma tanvin (bun)" },
+      { topshiriq: "Fatha, kasra, damma farqini misollar bilan tushuntiring", misol: "بَ=ba, بِ=bi, بُ=bu" },
+      { topshiriq: "بَيْتٌ so'zini yozing va barcha harakatlarini aniqlang", misol: "→ b(fatha)y(sukun)t(tanvin damma)" },
+    ],
+    test: [
+      { savol: "Fatha qanday ovoz beradi?", variantlar: ["i", "u", "a", "n"], togri: 2 },
+      { savol: "Kasra belgisi harfning qayeriga qo'yiladi?", variantlar: ["Ustiga", "Ostiga", "O'rtasiga", "Ichiga"], togri: 1 },
+      { savol: "Sukun nimani bildiradi?", variantlar: ["a ovozi", "Harf ikkilanishi", "Unli ovoz yo'q", "n ovozi"], togri: 2 },
+      { savol: "كِتَابٌ so'zidagi ٌ belgisi nima?", variantlar: ["Fatha", "Kasra", "Tanvin damma", "Shadda"], togri: 2 },
+      { savol: "Shadda ( ّ ) nimani bildiradi?", variantlar: ["a ovozi", "Harf ikki marta talaffuz", "Sukun", "Tanvin"], togri: 1 },
+    ],
+  },
+
+  {
+    id: 6,
+    nomi: "Aniqlik artikli — الـ",
+    daraja: "A0",
+    icon: "🔑",
+    rang: "#059669",
+    mavzu: "ال (al-) artikli: quyosh va oy harflari",
+    qoida: [
+      {
+        sarlavha: "الـ artikli nima?",
+        tavsif:
+          "الـ (al-) — aniqlik artikli. Inglizcha 'the' kabi ishlaydi. " +
+          "Otning oldiga qo'shilganda u aniq, ma'lum narsani bildiradi. " +
+          "Artikl qo'shilganda tanvin (un/in/an) tushib qoladi.",
+        jadval: [
+          { arabcha: "بَيْتٌ → الْبَيْتُ", oqilishi: "baytun → al-baytu", tarjima: "uy → uy (ma'lum)", izoh: "al + muzakkar ot" },
+          { arabcha: "كِتَابٌ → الْكِتَابُ", oqilishi: "kitabun → al-kitabu", tarjima: "kitob → kitob (ma'lum)", izoh: "al + muzakkar ot" },
+          { arabcha: "مَدْرَسَةٌ → الْمَدْرَسَةُ", oqilishi: "madrasatun → al-madrasatu", tarjima: "maktab → maktab (ma'lum)", izoh: "al + muannash ot" },
+          { arabcha: "سَيَّارَةٌ → السَّيَّارَةُ", oqilishi: "sayyaratun → as-sayyaratu", tarjima: "mashina → mashina (ma'lum)", izoh: "quyosh harfi — l o'zgaradi" },
+        ],
+      },
+      {
+        sarlavha: "Quyosh va oy harflari",
+        tavsif:
+          "الـ artikli harf turiga qarab ikki xil o'qiladi. " +
+          "Oy harflarida 'al-' to'liq o'qiladi. " +
+          "Quyosh harflarida 'al-' ning 'l' si o'rniga keyingi harf ikkilanadi.",
+        jadval: [
+          { arabcha: "الْكِتَابُ", oqilishi: "al-kitabu", tarjima: "kitob (ma'lum)", izoh: "ك — oy harfi, al to'liq o'qiladi" },
+          { arabcha: "الْبَيْتُ", oqilishi: "al-baytu", tarjima: "uy (ma'lum)", izoh: "ب — oy harfi, al to'liq" },
+          { arabcha: "الشَّمْسُ", oqilishi: "ash-shamsu", tarjima: "quyosh", izoh: "ش — quyosh harfi, l→sh" },
+          { arabcha: "النَّجْمُ", oqilishi: "an-najmu", tarjima: "yulduz", izoh: "ن — quyosh harfi, l→n" },
+          { arabcha: "الطَّالِبُ", oqilishi: "at-talibu", tarjima: "o'quvchi (ma'lum)", izoh: "ط — quyosh harfi, l→t" },
+          { arabcha: "الْمُعَلِّمُ", oqilishi: "al-muallimu", tarjima: "o'qituvchi (ma'lum)", izoh: "م — oy harfi, al to'liq" },
+        ],
+        misol: [
+          "Oy harflari (al- to'liq): ا ب ج ح خ ع غ ف ق ك م ه و ي",
+          "Quyosh harflari (l ikkilanadi): ت ث د ذ ر ز س ش ص ض ط ظ ل ن",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "الْبَيْتُ كَبِيرٌ", oqilishi: "al-baytu kabirun", tarjima: "Uy katta" },
+      { arabcha: "الْكِتَابُ جَدِيدٌ", oqilishi: "al-kitabu jadidun", tarjima: "Kitob yangi" },
+      { arabcha: "الطَّالِبُ مُجْتَهِدٌ", oqilishi: "at-talibu mujtahidun", tarjima: "O'quvchi tirishqoq" },
+      { arabcha: "الشَّمْسُ مُشْرِقَةٌ", oqilishi: "ash-shamsu mushriqatun", tarjima: "Quyosh charaqlamoqda" },
+      { arabcha: "الْمَدْرَسَةُ بَعِيدَةٌ", oqilishi: "al-madrasatu ba'idatun", tarjima: "Maktab uzoqda" },
+      { arabcha: "السَّيَّارَةُ سَرِيعَةٌ", oqilishi: "as-sayyaratu sari'atun", tarjima: "Mashina tez" },
+    ],
+    istima: [
+      { arabcha: "الْكِتَابُ", oqilishi: "al-kitabu", tarjima: "kitob (ma'lum)", izoh: "oy harfi — al to'liq" },
+      { arabcha: "الشَّمْسُ", oqilishi: "ash-shamsu", tarjima: "quyosh", izoh: "quyosh harfi — l→sh" },
+      { arabcha: "الطَّالِبُ", oqilishi: "at-talibu", tarjima: "o'quvchi", izoh: "quyosh harfi — l→t" },
+      { arabcha: "الْمُعَلِّمُ", oqilishi: "al-muallimu", tarjima: "o'qituvchi", izoh: "oy harfi — al to'liq" },
+      { arabcha: "الْبَيْتُ", oqilishi: "al-baytu", tarjima: "uy", izoh: "oy harfi — al to'liq" },
+      { arabcha: "النَّجْمُ", oqilishi: "an-najmu", tarjima: "yulduz", izoh: "quyosh harfi — l→n" },
+    ],
+    kitoba: [
+      { topshiriq: "بَيْتٌ so'ziga الـ artikl qo'shing", misol: "→ الْبَيْتُ (al-baytu)" },
+      { topshiriq: "مَدْرَسَةٌ so'ziga الـ artikl qo'shing", misol: "→ الْمَدْرَسَةُ (al-madrasatu)" },
+      { topshiriq: "الشَّمْسُ dan qaysi harf quyosh harfi ekanini aniqlang", misol: "→ ش (shin) — quyosh harfi" },
+      { topshiriq: "Quyidagi so'zlarga الـ qo'shing: قَلَمٌ، سَيَّارَةٌ، طَالِبٌ", misol: "الْقَلَمُ، السَّيَّارَةُ، الطَّالِبُ" },
+    ],
+    test: [
+      { savol: "الـ artikli qanday ma'no bildiradi?", variantlar: ["Ko'plik", "Aniqlik (the)", "Inkor", "Savol"], togri: 1 },
+      { savol: "الشَّمْسُ so'zi qanday o'qiladi?", variantlar: ["al-shamsu", "ash-shamsu", "al-shhamsu", "a-shamsu"], togri: 1 },
+      { savol: "Quyosh harfi qaysi?", variantlar: ["ك", "م", "ب", "ن"], togri: 3 },
+      { savol: "الْكِتَابُ so'zi qanday o'qiladi?", variantlar: ["ak-kitabu", "ash-kitabu", "al-kitabu", "a-kitabu"], togri: 2 },
+      { savol: "بَيْتٌ so'ziga الـ qo'shilsa nima bo'ladi?", variantlar: ["البَيْتَ", "الْبَيْتُ", "بَيْتال", "الَّبَيْتُ"], togri: 1 },
+    ],
+  },
+
+  // ─── A1 ─────────────────────────────────────────────────────────────────────
+  {
+    id: 1,
+    nomi: "Ismlar — Muzakkar va Muannash",
+    daraja: "A1",
+    icon: "🏷️",
+    rang: "#2563EB",
+    mavzu: "Arabchada ism jinslari: erkak va ayol shakllari",
+    qoida: [
+      {
+        sarlavha: "Arabchada ism jinsi",
+        tavsif:
+          "Arabchada har bir ism muzakkar (erkak) yoki muannash (ayol) jinsiga mansub. " +
+          "Muannash ismlar ko'pincha ة (ta marbutah) harfi bilan tugaydi.",
+        jadval: [
+          { arabcha: "مُعَلِّم", oqilishi: "muallim", tarjima: "o'qituvchi (erkak)", izoh: "muzakkar" },
+          { arabcha: "مُعَلِّمَة", oqilishi: "muallimat", tarjima: "o'qituvchi (ayol)", izoh: "muannash — ة qo'shildi" },
+          { arabcha: "طَالِب", oqilishi: "tolib", tarjima: "o'quvchi (erkak)", izoh: "muzakkar" },
+          { arabcha: "طَالِبَة", oqilishi: "toliba", tarjima: "o'quvchi (ayol)", izoh: "muannash — ة qo'shildi" },
+          { arabcha: "مُدِير", oqilishi: "mudir", tarjima: "direktor (erkak)", izoh: "muzakkar" },
+          { arabcha: "مُدِيرَة", oqilishi: "mudira", tarjima: "direktor (ayol)", izoh: "muannash — ة qo'shildi" },
+          { arabcha: "صَدِيق", oqilishi: "sadiq", tarjima: "do'st (erkak)", izoh: "muzakkar" },
+          { arabcha: "صَدِيقَة", oqilishi: "sadiqa", tarjima: "do'st (ayol)", izoh: "muannash — ة qo'shildi" },
+        ],
+        misol: [
+          "كِتَاب (kitob) — muzakkar, ة yo'q",
+          "شَجَرَة (daraxt) — muannash, ة bilan tugaydi",
+          "يَد (qo'l) — muannash (ma'no jihatdan)",
+        ],
+      },
+      {
+        sarlavha: "Qoida yodlash",
+        tavsif:
+          "Agar ismning oxirida ة bo'lsa — u muannash. " +
+          "Agar ة bo'lmasa — odatda muzakkar. " +
+          "Lekin ba'zi istisnolar bor: ayrim jufta a'zolar (ko'z, qo'l, oyoq) va mamlakatlar muannash bo'ladi.",
+        misol: [
+          "مَدْرَسَة = maktab (muannash, ة bor)",
+          "بَيْت = uy (muzakkar, ة yo'q)",
+          "سَيَّارَة = mashina (muannash, ة bor)",
+          "قَلَم = qalam (muzakkar, ة yo'q)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "هَذَا مُعَلِّمٌ", oqilishi: "Haza muallimun", tarjima: "Bu o'qituvchi (erkak)" },
+      { arabcha: "هَذِهِ مُعَلِّمَةٌ", oqilishi: "Hazihi muallimatun", tarjima: "Bu o'qituvchi (ayol)" },
+      { arabcha: "الطَّالِبُ مُجْتَهِدٌ", oqilishi: "At-tolibu mujtahidun", tarjima: "O'quvchi (erkak) tirishqoq" },
+      { arabcha: "الطَّالِبَةُ مُجْتَهِدَةٌ", oqilishi: "At-tolibatu mujtahidatun", tarjima: "O'quvchi (ayol) tirishqoq" },
+      { arabcha: "الْكِتَابُ جَدِيدٌ", oqilishi: "Al-kitobu jadidun", tarjima: "Kitob yangi" },
+      { arabcha: "السَّيَّارَةُ سَرِيعَةٌ", oqilishi: "As-sayyaratu sari'atun", tarjima: "Mashina tez" },
+    ],
+    istima: [
+      { arabcha: "مُعَلِّم", oqilishi: "muallim", tarjima: "o'qituvchi (erkak)", izoh: "m-u-a-ll-i-m" },
+      { arabcha: "مُعَلِّمَة", oqilishi: "muallimat", tarjima: "o'qituvchi (ayol)", izoh: "m-u-a-ll-i-m-a-t" },
+      { arabcha: "طَالِب", oqilishi: "tolib", tarjima: "o'quvchi (erkak)", izoh: "t-o-l-i-b" },
+      { arabcha: "طَالِبَة", oqilishi: "toliba", tarjima: "o'quvchi (ayol)", izoh: "t-o-l-i-b-a" },
+      { arabcha: "مَدْرَسَة", oqilishi: "madrasa", tarjima: "maktab", izoh: "m-a-d-r-a-s-a" },
+      { arabcha: "سَيَّارَة", oqilishi: "sayyara", tarjima: "mashina", izoh: "s-a-yy-a-r-a" },
+    ],
+    kitoba: [
+      { topshiriq: "مُعَلِّم so'zining muannash shaklini yozing", misol: "→ مُعَلِّمَة" },
+      { topshiriq: "طَالِب so'zining muannash shaklini yozing", misol: "→ طَالِبَة" },
+      { topshiriq: "مُدِير so'zining muannash shaklini yozing", misol: "→ مُدِيرَة" },
+      { topshiriq: "Quyidagi ismlardan muannashlarini aniqlang: كِتَاب، مَدْرَسَة، قَلَم، شَجَرَة، بَيْت", misol: "→ مَدْرَسَة, شَجَرَة" },
+    ],
+    test: [
+      { savol: "طَالِبَة so'zi qaysi jinsga mansub?", variantlar: ["Muzakkar", "Muannash", "Ikkisi ham", "Hech biri"], togri: 1 },
+      { savol: "Muannash ismlar odatda qaysi harf bilan tugaydi?", variantlar: ["ب", "ة", "ن", "م"], togri: 1 },
+      { savol: "مُدِير so'zining muannash shakli qaysi?", variantlar: ["مُدِيرُون", "مُدِيرَة", "الْمُدِير", "مُدَرِّس"], togri: 1 },
+      { savol: "كِتَاب so'zi qaysi jinsga mansub?", variantlar: ["Muzakkar", "Muannash", "Ikkalasi", "Aniqlab bo'lmaydi"], togri: 0 },
+      { savol: "Quyidagilardan qaysi biri muannash?", variantlar: ["بَاب", "قَلَم", "مَدْرَسَة", "طَالِب"], togri: 2 },
+    ],
+  },
+
+  {
+    id: 2,
+    nomi: "Shaxs olmoshlari",
+    daraja: "A1",
+    icon: "👤",
+    rang: "#7C3AED",
+    mavzu: "أنا، أنتَ، هو — men, sen, u va boshqa olmoshlar",
+    qoida: [
+      {
+        sarlavha: "Yagona shaxs olmoshlari",
+        tavsif:
+          "Arabchada shaxs olmoshlari jins va songa ko'ra farqlanadi. " +
+          "Birinchi shaxs (men/biz), ikkinchi shaxs (sen), uchinchi shaxs (u).",
+        jadval: [
+          { arabcha: "أنا", oqilishi: "ana", tarjima: "Men", izoh: "1-shaxs yagona" },
+          { arabcha: "أنتَ", oqilishi: "anta", tarjima: "Sen (erkak)", izoh: "2-shaxs yagona erkak" },
+          { arabcha: "أنتِ", oqilishi: "anti", tarjima: "Sen (ayol)", izoh: "2-shaxs yagona ayol" },
+          { arabcha: "هو", oqilishi: "huva", tarjima: "U (erkak)", izoh: "3-shaxs yagona erkak" },
+          { arabcha: "هي", oqilishi: "hiya", tarjima: "U (ayol)", izoh: "3-shaxs yagona ayol" },
+        ],
+      },
+      {
+        sarlavha: "Ko'plik shaxs olmoshlari",
+        tavsif: "Ko'plikda ham jins bo'yicha farqlanish saqlanadi.",
+        jadval: [
+          { arabcha: "نَحْنُ", oqilishi: "nahnu", tarjima: "Biz", izoh: "1-shaxs ko'plik" },
+          { arabcha: "أنتُمْ", oqilishi: "antum", tarjima: "Sizlar (erkaklar)", izoh: "2-shaxs ko'plik erkak" },
+          { arabcha: "أنتُنَّ", oqilishi: "antunna", tarjima: "Sizlar (ayollar)", izoh: "2-shaxs ko'plik ayol" },
+          { arabcha: "هُمْ", oqilishi: "hum", tarjima: "Ular (erkaklar)", izoh: "3-shaxs ko'plik erkak" },
+          { arabcha: "هُنَّ", oqilishi: "hunna", tarjima: "Ular (ayollar)", izoh: "3-shaxs ko'plik ayol" },
+        ],
+        misol: [
+          "أنتُمَا (antuma) — Ikkalangiz (juft shakl)",
+          "هُمَا (huma) — Ikkalasi (juft shakl, erkak va ayol uchun ham)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "أنا طَالِبٌ", oqilishi: "Ana tolibun", tarjima: "Men o'quvchiman" },
+      { arabcha: "أنتَ مُعَلِّمٌ", oqilishi: "Anta muallimun", tarjima: "Sen o'qituvchisan (erkak)" },
+      { arabcha: "هو مُدِيرٌ", oqilishi: "Huva mudirun", tarjima: "U direktorda (erkak)" },
+      { arabcha: "هي طَبِيبَةٌ", oqilishi: "Hiya tabibatun", tarjima: "U shifokor (ayol)" },
+      { arabcha: "نَحْنُ أصدقاءُ", oqilishi: "Nahnu asdiqa'u", tarjima: "Biz do'stmiz" },
+      { arabcha: "هُمْ طُلَّابٌ", oqilishi: "Hum tullabun", tarjima: "Ular o'quvchilar" },
+    ],
+    istima: [
+      { arabcha: "أنا", oqilishi: "ana", tarjima: "Men", izoh: "a-na" },
+      { arabcha: "أنتَ", oqilishi: "anta", tarjima: "Sen (erkak)", izoh: "an-ta" },
+      { arabcha: "أنتِ", oqilishi: "anti", tarjima: "Sen (ayol)", izoh: "an-ti" },
+      { arabcha: "هو", oqilishi: "huva", tarjima: "U (erkak)", izoh: "hu-va" },
+      { arabcha: "هي", oqilishi: "hiya", tarjima: "U (ayol)", izoh: "hi-ya" },
+      { arabcha: "نَحْنُ", oqilishi: "nahnu", tarjima: "Biz", izoh: "nah-nu" },
+    ],
+    kitoba: [
+      { topshiriq: "أنا ishlatib gap tuzing (misol: أنا طَالِبٌ)", misol: "أنا مُعَلِّمٌ — Men o'qituvchiman" },
+      { topshiriq: "هو ni هي ga almashtiring: هو مُدِيرٌ → ?", misol: "→ هي مُدِيرَةٌ" },
+      { topshiriq: "نَحْنُ ishlatib gap tuzing", misol: "نَحْنُ طُلَّابٌ — Biz o'quvchilamiz" },
+      { topshiriq: "Quyidagi olmoshlarni tarjima qiling: أنتَ، هُمْ، هي", misol: "Sen (erkak), Ular (erkaklar), U (ayol)" },
+    ],
+    test: [
+      { savol: "أنتِ olmoshi nimani anglatadi?", variantlar: ["Men", "U (ayol)", "Sen (ayol)", "Biz"], togri: 2 },
+      { savol: "Biz arabchada qanday aytiladi?", variantlar: ["أنتُم", "نَحْنُ", "هُمْ", "أنا"], togri: 1 },
+      { savol: "هو va هي olmoshlari qanday farqlanadi?", variantlar: ["Sonda", "Jinsda", "Shaxsda", "Farq yo'q"], togri: 1 },
+      { savol: "Erkak uchun 2-shaxs yagona olmoshi qaysi?", variantlar: ["أنتِ", "أنتَ", "أنا", "هو"], togri: 1 },
+      { savol: "Ular (erkak ko'plik) arabchada qanday?", variantlar: ["هُنَّ", "أنتُم", "هُمْ", "نَحْنُ"], togri: 2 },
+    ],
+  },
+
+  {
+    id: 3,
+    nomi: "Ishorali olmoshlar",
+    daraja: "A1",
+    icon: "👉",
+    rang: "#059669",
+    mavzu: "هذا، هذه، ذلك، تلك — bu va o'sha",
+    qoida: [
+      {
+        sarlavha: "Yaqin narsalarga ishora",
+        tavsif:
+          "هذا (haza) — bu (muzakkar ismlar uchun). " +
+          "هذه (hazihi) — bu (muannash ismlar uchun). " +
+          "Ishorali olmosh jinsda ism bilan mos kelishi shart.",
+        jadval: [
+          { arabcha: "هَذَا كِتَابٌ", oqilishi: "Haza kitabun", tarjima: "Bu kitob", izoh: "كِتَاب — muzakkar → هذا" },
+          { arabcha: "هَذِهِ مَدْرَسَةٌ", oqilishi: "Hazihi madrasatun", tarjima: "Bu maktab", izoh: "مَدْرَسَة — muannash → هذه" },
+          { arabcha: "هَذَا قَلَمٌ", oqilishi: "Haza qalamun", tarjima: "Bu qalam", izoh: "قَلَم — muzakkar → هذا" },
+          { arabcha: "هَذِهِ سَيَّارَةٌ", oqilishi: "Hazihi sayyaratun", tarjima: "Bu mashina", izoh: "سَيَّارَة — muannash → هذه" },
+        ],
+      },
+      {
+        sarlavha: "Uzoq narsalarga ishora",
+        tavsif:
+          "ذلك (zalika) — u/o'sha (muzakkar). " +
+          "تلك (tilka) — u/o'sha (muannash). " +
+          "Ko'plik uchun: هؤلاء (ha'ula'i) — bular, أولئك (ula'ika) — o'shalar.",
+        jadval: [
+          { arabcha: "ذلك", oqilishi: "zalika", tarjima: "U/o'sha (muzakkar)", izoh: "uzoq + muzakkar" },
+          { arabcha: "تلك", oqilishi: "tilka", tarjima: "U/o'sha (muannash)", izoh: "uzoq + muannash" },
+          { arabcha: "هؤلاء", oqilishi: "ha'ula'i", tarjima: "Bular (ko'plik)", izoh: "yaqin ko'plik" },
+          { arabcha: "أولئك", oqilishi: "ula'ika", tarjima: "O'shalar (ko'plik)", izoh: "uzoq ko'plik" },
+        ],
+        misol: [
+          "ذلك بَيْتٌ (Zalika baytun) — O'sha uy",
+          "تلك شَجَرَةٌ (Tilka shajaratun) — O'sha daraxt",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "هَذَا قَلَمٌ", oqilishi: "Haza qalamun", tarjima: "Bu qalam" },
+      { arabcha: "هَذِهِ حَقِيبَةٌ", oqilishi: "Hazihi haqibatun", tarjima: "Bu sumka" },
+      { arabcha: "ذَلِكَ بَيْتٌ كَبِيرٌ", oqilishi: "Zalika baytun kabirun", tarjima: "O'sha katta uy" },
+      { arabcha: "تِلْكَ سَيَّارَةٌ جَدِيدَةٌ", oqilishi: "Tilka sayyaratun jadidatun", tarjima: "O'sha yangi mashina" },
+      { arabcha: "هَذَا الْكِتَابُ جَدِيدٌ", oqilishi: "Hazal-kitobu jadidun", tarjima: "Bu kitob yangi" },
+      { arabcha: "هَؤُلاءِ طُلَّابٌ مُجْتَهِدُونَ", oqilishi: "Ha'ula'i tullabun mujtahidun", tarjima: "Bular tirishqoq o'quvchilar" },
+    ],
+    istima: [
+      { arabcha: "هذا", oqilishi: "haza", tarjima: "bu (muzakkar)", izoh: "ha-za" },
+      { arabcha: "هذه", oqilishi: "hazihi", tarjima: "bu (muannash)", izoh: "ha-zi-hi" },
+      { arabcha: "ذلك", oqilishi: "zalika", tarjima: "o'sha (muzakkar)", izoh: "za-li-ka" },
+      { arabcha: "تلك", oqilishi: "tilka", tarjima: "o'sha (muannash)", izoh: "til-ka" },
+      { arabcha: "هَذَا بَيْتٌ", oqilishi: "Haza baytun", tarjima: "Bu uy", izoh: "yaqin + muzakkar" },
+      { arabcha: "تِلْكَ مَدْرَسَةٌ", oqilishi: "Tilka madrasatun", tarjima: "O'sha maktab", izoh: "uzoq + muannash" },
+    ],
+    kitoba: [
+      { topshiriq: "هذا yoki هذه ni to'g'ri tanlang: ___ كِتَابٌ", misol: "→ هذا كِتَابٌ (muzakkar)" },
+      { topshiriq: "ذلك yoki تلك ni to'g'ri tanlang: ___ شَجَرَةٌ", misol: "→ تلك شَجَرَةٌ (muannash)" },
+      { topshiriq: "هذا kabi jumla tuzing: Bu qalam → arabchada yozing", misol: "→ هذا قَلَمٌ" },
+      { topshiriq: "Bu maktab → arabchada yozing (مَدْرَسَة — muannash)", misol: "→ هذه مَدْرَسَةٌ" },
+    ],
+    test: [
+      { savol: "Bu (muannash) arabchada qanday?", variantlar: ["هذا", "ذلك", "هذه", "تلك"], togri: 2 },
+      { savol: "ذلك nimani anglatadi?", variantlar: ["Bu (muzakkar)", "Bu (muannash)", "U/o'sha (muzakkar)", "U/o'sha (muannash)"], togri: 2 },
+      { savol: "هَذِهِ سَيَّارَةٌ gapini tarjima qiling", variantlar: ["U mashina", "Bu mashina", "O'sha mashina", "Mashina bor"], togri: 1 },
+      { savol: "هَذَا olmoshi qaysi ism bilan ishlatiladi?", variantlar: ["Muannash", "Muzakkar", "Ko'plik", "Aniqlanmagan"], togri: 1 },
+      { savol: "Yaqin + muannash uchun qaysi olmosh ishlatiladi?", variantlar: ["ذلك", "تلك", "هذا", "هذه"], togri: 3 },
+    ],
+  },
+
+  // ─── A2 ─────────────────────────────────────────────────────────────────────
+  {
+    id: 7,
+    nomi: "O'tgan zamon fe'li",
+    daraja: "A2",
+    icon: "⏰",
+    rang: "#CA8A04",
+    mavzu: "الفعل الماضي — o'tgan zamonda fe'l tuslanishi",
+    qoida: [
+      {
+        sarlavha: "O'tgan zamon fe'lining asosi",
+        tavsif:
+          "Arabcha o'tgan zamon fe'li (fi'l madi) ildizdan hosil bo'ladi. " +
+          "Asosiy shakl 3-shaxs yagona erkak (u qildi) hisoblanadi. " +
+          "Fe'l shaxs, jins va songa qarab o'zgaradi — so'z oxiriga qo'shimcha qo'shiladi.",
+        jadval: [
+          { arabcha: "كَتَبَ", oqilishi: "kataba", tarjima: "u yozdi (erkak)", izoh: "3-shaxs yagona erkak — asosiy shakl" },
+          { arabcha: "كَتَبَتْ", oqilishi: "katabat", tarjima: "u yozdi (ayol)", izoh: "3-shaxs yagona ayol — ت qo'shildi" },
+          { arabcha: "كَتَبْتُ", oqilishi: "katabtu", tarjima: "men yozdim", izoh: "1-shaxs yagona — تُ qo'shildi" },
+          { arabcha: "كَتَبْتَ", oqilishi: "katabta", tarjima: "sen yozding (erkak)", izoh: "2-shaxs yagona erkak — تَ qo'shildi" },
+          { arabcha: "كَتَبْتِ", oqilishi: "katabti", tarjima: "sen yozding (ayol)", izoh: "2-shaxs yagona ayol — تِ qo'shildi" },
+          { arabcha: "كَتَبْنَا", oqilishi: "katabna", tarjima: "biz yozdik", izoh: "1-shaxs ko'plik — نَا qo'shildi" },
+        ],
+      },
+      {
+        sarlavha: "Ko'plik shakllari",
+        tavsif:
+          "Ko'plikda fe'l qo'shimchalari o'zgaradi. " +
+          "Ko'plik 3-shaxs: ular (erkaklar) — وا qo'shimchasi, ular (ayollar) — نَ qo'shimchasi.",
+        jadval: [
+          { arabcha: "كَتَبُوا", oqilishi: "katabu", tarjima: "ular yozdi (erkaklar)", izoh: "3-shaxs ko'plik erkak — وا" },
+          { arabcha: "كَتَبْنَ", oqilishi: "katabna", tarjima: "ular yozdi (ayollar)", izoh: "3-shaxs ko'plik ayol — نَ" },
+          { arabcha: "كَتَبْتُمْ", oqilishi: "katabtum", tarjima: "sizlar yozdingiz (erkaklar)", izoh: "2-shaxs ko'plik erkak — تُمْ" },
+          { arabcha: "كَتَبْتُنَّ", oqilishi: "katabtunna", tarjima: "sizlar yozdingiz (ayollar)", izoh: "2-shaxs ko'plik ayol — تُنَّ" },
+        ],
+        misol: [
+          "ذَهَبَ (zahaba) — u bordi",
+          "ذَهَبْتُ (zahabtu) — men bordim",
+          "ذَهَبُوا (zahabu) — ular bordi",
+          "أَكَلَ (akala) — u yedi",
+          "شَرِبَ (shariba) — u ichdi",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "ذَهَبَ الطَّالِبُ إِلَى الْمَدْرَسَةِ", oqilishi: "zahaba t-talibu ilal-madrasati", tarjima: "O'quvchi maktabga bordi" },
+      { arabcha: "كَتَبَتِ الطَّالِبَةُ الدَّرْسَ", oqilishi: "katabatit-tolibatud-darsa", tarjima: "O'quvchi (ayol) darsni yozdi" },
+      { arabcha: "أَكَلْتُ التُّفَّاحَةَ", oqilishi: "akaltu t-tuffaha", tarjima: "Men olmani yedim" },
+      { arabcha: "شَرِبْنَا الْمَاءَ", oqilishi: "sharibnal-ma'a", tarjima: "Biz suv ichdik" },
+      { arabcha: "فَتَحْتَ الْبَابَ", oqilishi: "fatahtal-baba", tarjima: "Sen eshikni ochdim" },
+      { arabcha: "جَلَسُوا فِي الْغُرْفَةِ", oqilishi: "jalasufi l-ghurfati", tarjima: "Ular xonada o'tirishdi" },
+    ],
+    istima: [
+      { arabcha: "كَتَبَ", oqilishi: "kataba", tarjima: "u yozdi", izoh: "3-shaxs yagona erkak" },
+      { arabcha: "كَتَبَتْ", oqilishi: "katabat", tarjima: "u yozdi (ayol)", izoh: "3-shaxs yagona ayol" },
+      { arabcha: "كَتَبْتُ", oqilishi: "katabtu", tarjima: "men yozdim", izoh: "1-shaxs" },
+      { arabcha: "كَتَبُوا", oqilishi: "katabu", tarjima: "ular yozdi", izoh: "ko'plik erkak" },
+      { arabcha: "ذَهَبَ", oqilishi: "zahaba", tarjima: "u bordi", izoh: "asosiy shakl" },
+      { arabcha: "ذَهَبْنَا", oqilishi: "zahabna", tarjima: "biz bordik", izoh: "ko'plik" },
+    ],
+    kitoba: [
+      { topshiriq: "كَتَبَ fe'lini 1-shaxs yagona shaklida yozing", misol: "→ كَتَبْتُ (katabtu)" },
+      { topshiriq: "كَتَبَ ni ayol uchun 3-shaxsga o'zgartiring", misol: "→ كَتَبَتْ (katabat)" },
+      { topshiriq: "ذَهَبَ fe'lini ko'plik (ular-erkak) shaklida yozing", misol: "→ ذَهَبُوا (zahabu)" },
+      { topshiriq: "Quyidagi fe'lni tarjima qiling: شَرِبْتُمْ", misol: "→ Sizlar (erkaklar) ichdingiz" },
+    ],
+    test: [
+      { savol: "كَتَبَتْ so'zi nimani bildiradi?", variantlar: ["Men yozdim", "U yozdi (erkak)", "U yozdi (ayol)", "Ular yozdi"], togri: 2 },
+      { savol: "1-shaxs yagona o'tgan zamon qo'shimchasi qaysi?", variantlar: ["تَ", "تُ", "نَا", "وا"], togri: 1 },
+      { savol: "كَتَبُوا so'zi kim haqida gapiradi?", variantlar: ["Men", "Sen (ayol)", "U (erkak)", "Ular (erkaklar)"], togri: 3 },
+      { savol: "Biz yozdik arabchada qanday?", variantlar: ["كَتَبُوا", "كَتَبْتُمْ", "كَتَبْنَا", "كَتَبَ"], togri: 2 },
+      { savol: "O'tgan zamon fe'lining asosiy shakli qaysi shaxs?", variantlar: ["1-shaxs erkak", "2-shaxs ayol", "3-shaxs erkak yagona", "Ko'plik"], togri: 2 },
+    ],
+  },
+
+  {
+    id: 8,
+    nomi: "Kelishik harflari",
+    daraja: "A2",
+    icon: "🔗",
+    rang: "#DC2626",
+    mavzu: "حروف الجر — oldindi, ustida, dan, ga va boshqa predloglar",
+    qoida: [
+      {
+        sarlavha: "Asosiy kelishik harflari",
+        tavsif:
+          "Arabchada kelishik harflari (harf al-jarr) otdan oldin kelib, " +
+          "joy, yo'nalish va munosabatni bildiradi. " +
+          "Kelishik harfidan keyin ot kasra (i) harakati oladi.",
+        jadval: [
+          { arabcha: "فِي", oqilishi: "fi", tarjima: "da/da ichida", izoh: "joy bildiradi" },
+          { arabcha: "عَلَى", oqilishi: "'ala", tarjima: "ustida/ustiga", izoh: "ustki joy" },
+          { arabcha: "مِنْ", oqilishi: "min", tarjima: "dan/dan chiqib", izoh: "manba, asl" },
+          { arabcha: "إِلَى", oqilishi: "ila", tarjima: "ga/tomon", izoh: "yo'nalish" },
+          { arabcha: "عَنْ", oqilishi: "'an", tarjima: "haqida/dan (narida)", izoh: "mavzu, uzoqlashish" },
+          { arabcha: "مَعَ", oqilishi: "ma'a", tarjima: "bilan", izoh: "birgalik" },
+          { arabcha: "بِ", oqilishi: "bi", tarjima: "bilan (vosita)", izoh: "vosita, qo'shni" },
+          { arabcha: "لِ", oqilishi: "li", tarjima: "uchun/ga (egalik)", izoh: "maqsad, egalik" },
+        ],
+      },
+      {
+        sarlavha: "Misollar va qo'llanilishi",
+        tavsif:
+          "Kelishik harflaridan keyin ot kasra oladi (garr holati). " +
+          "الـ bilan birikkan otda bu kasra artikl ichida ko'rinmaydi.",
+        jadval: [
+          { arabcha: "فِي الْبَيْتِ", oqilishi: "fi l-bayti", tarjima: "uyda", izoh: "fi + aniq ot" },
+          { arabcha: "عَلَى الطَّاوِلَةِ", oqilishi: "'alat-tawilati", tarjima: "stolning ustida", izoh: "'ala + aniq muannash" },
+          { arabcha: "مِنَ الْمَدْرَسَةِ", oqilishi: "minal-madrasati", tarjima: "maktabdan", izoh: "min + aniq muannash" },
+          { arabcha: "إِلَى الْبَيْتِ", oqilishi: "ilal-bayti", tarjima: "uyga", izoh: "ila + aniq muzakkar" },
+          { arabcha: "مَعَ صَدِيقِي", oqilishi: "ma'a sadiqiy", tarjima: "do'stim bilan", izoh: "ma'a + egalik" },
+          { arabcha: "لِلطَّالِبِ", oqilishi: "lit-talibi", tarjima: "o'quvchi uchun", izoh: "li + aniq muzakkar" },
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "الْكِتَابُ عَلَى الطَّاوِلَةِ", oqilishi: "al-kitabu 'alat-tawilati", tarjima: "Kitob stolning ustida" },
+      { arabcha: "ذَهَبْتُ إِلَى الْمَدْرَسَةِ", oqilishi: "zahabtu ilal-madrasati", tarjima: "Men maktabga bordim" },
+      { arabcha: "جِئْتُ مِنَ الْبَيْتِ", oqilishi: "ji'tu minal-bayti", tarjima: "Men uydan keldim" },
+      { arabcha: "الْقَلَمُ فِي الْحَقِيبَةِ", oqilishi: "al-qalamu fil-haqibati", tarjima: "Qalam sumkada" },
+      { arabcha: "ذَهَبَ مَعَ أَخِيهِ", oqilishi: "zahaba ma'a axiyhi", tarjima: "U ukasi bilan bordi" },
+      { arabcha: "هَذَا الْكِتَابُ لِلْمُعَلِّمِ", oqilishi: "hazal-kitabu lil-muallimi", tarjima: "Bu kitob o'qituvchi uchun" },
+    ],
+    istima: [
+      { arabcha: "فِي", oqilishi: "fi", tarjima: "da/ichida", izoh: "joy" },
+      { arabcha: "عَلَى", oqilishi: "'ala", tarjima: "ustida", izoh: "yuqori joy" },
+      { arabcha: "مِنْ", oqilishi: "min", tarjima: "dan", izoh: "manba" },
+      { arabcha: "إِلَى", oqilishi: "ila", tarjima: "ga/tomon", izoh: "yo'nalish" },
+      { arabcha: "فِي الْبَيْتِ", oqilishi: "fil-bayti", tarjima: "uyda", izoh: "fi + aniq ot" },
+      { arabcha: "مِنَ الْمَدْرَسَةِ", oqilishi: "minal-madrasati", tarjima: "maktabdan", izoh: "min + aniq" },
+    ],
+    kitoba: [
+      { topshiriq: "Kitob stolning ustida → arabchada yozing", misol: "→ الْكِتَابُ عَلَى الطَّاوِلَةِ" },
+      { topshiriq: "Men maktabga bordim → arabchada yozing", misol: "→ ذَهَبْتُ إِلَى الْمَدْرَسَةِ" },
+      { topshiriq: "فِي va عَلَى farqini misollar bilan tushuntiring", misol: "فِي الْبَيْتِ=uyda, عَلَى الطَّاوِلَةِ=stolda" },
+      { topshiriq: "لِ harfini ishlatib gap tuzing", misol: "هَذَا لِلطَّالِبِ — Bu o'quvchi uchun" },
+    ],
+    test: [
+      { savol: "فِي harfi qanday ma'no bildiradi?", variantlar: ["Ustida", "Da/ichida", "Dan", "Ga/tomon"], togri: 1 },
+      { savol: "إِلَى harfi qanday ma'no bildiradi?", variantlar: ["Bilan", "Da", "Uchun", "Ga/tomon"], togri: 3 },
+      { savol: "الْكِتَابُ عَلَى الطَّاوِلَةِ gapini tarjima qiling", variantlar: ["Kitob sumkada", "Kitob stolning ustida", "Kitob yerda", "Kitob o'qituvchida"], togri: 1 },
+      { savol: "مِنْ harfi qanday ma'no bildiradi?", variantlar: ["Ga/tomon", "Uchun", "Dan/manba", "Bilan"], togri: 2 },
+      { savol: "Kelishik harfidan keyin ot qanday harakat oladi?", variantlar: ["Fatha (a)", "Damma (u)", "Kasra (i)", "Sukun"], togri: 2 },
+    ],
+  },
+
+  {
+    id: 9,
+    nomi: "Sifat moslashuvi",
+    daraja: "A2",
+    icon: "🎨",
+    rang: "#7C3AED",
+    mavzu: "النعت — sifat jins, son va aniqlikda ism bilan mos keladi",
+    qoida: [
+      {
+        sarlavha: "Arabchada sifat qoidasi",
+        tavsif:
+          "Arabchada sifat (na't) doimo ot (man'ut) dan KEYIN keladi. " +
+          "Sifat otning jinsi, soni va aniqligiga mos kelishi shart. " +
+          "Bu ingliz tilidan farqli — inglizda sifat otdan oldin keladi.",
+        jadval: [
+          { arabcha: "كِتَابٌ كَبِيرٌ", oqilishi: "kitabun kabirun", tarjima: "katta kitob", izoh: "muzakkar + aniqlanmagan" },
+          { arabcha: "مَدْرَسَةٌ كَبِيرَةٌ", oqilishi: "madrasatun kabiratun", tarjima: "katta maktab", izoh: "muannash — ة qo'shildi" },
+          { arabcha: "الْكِتَابُ الْكَبِيرُ", oqilishi: "al-kitabul-kabiru", tarjima: "katta kitob (ma'lum)", izoh: "aniq — al qo'shildi" },
+          { arabcha: "الْمَدْرَسَةُ الْكَبِيرَةُ", oqilishi: "al-madrasatul-kabiratu", tarjima: "katta maktab (ma'lum)", izoh: "aniq muannash" },
+          { arabcha: "طُلَّابٌ مُجْتَهِدُونَ", oqilishi: "tullabun mujtahidun", tarjima: "tirishqoq o'quvchilar", izoh: "ko'plik erkak — ون" },
+          { arabcha: "بَيْتٌ جَدِيدٌ", oqilishi: "baytun jadidun", tarjima: "yangi uy", izoh: "muzakkar + aniqlanmagan" },
+        ],
+      },
+      {
+        sarlavha: "Keng tarqalgan sifatlar",
+        tavsif:
+          "Ko'p ishlatiladigan sifatlar va ularning muzakkar/muannash shakllari. " +
+          "Muannash sifat hosil qilish uchun ko'pincha ة qo'shiladi.",
+        jadval: [
+          { arabcha: "كَبِير / كَبِيرَة", oqilishi: "kabir / kabira", tarjima: "katta", izoh: "erkak / ayol" },
+          { arabcha: "صَغِير / صَغِيرَة", oqilishi: "saghir / saghira", tarjima: "kichik", izoh: "erkak / ayol" },
+          { arabcha: "جَدِيد / جَدِيدَة", oqilishi: "jadid / jadida", tarjima: "yangi", izoh: "erkak / ayol" },
+          { arabcha: "قَدِيم / قَدِيمَة", oqilishi: "qadim / qadima", tarjima: "eski, qadim", izoh: "erkak / ayol" },
+          { arabcha: "جَمِيل / جَمِيلَة", oqilishi: "jamil / jamila", tarjima: "chiroyli", izoh: "erkak / ayol" },
+          { arabcha: "طَوِيل / طَوِيلَة", oqilishi: "tawil / tawila", tarjima: "uzun/baland", izoh: "erkak / ayol" },
+          { arabcha: "قَصِير / قَصِيرَة", oqilishi: "qasir / qasira", tarjima: "qisqa/past", izoh: "erkak / ayol" },
+          { arabcha: "سَرِيع / سَرِيعَة", oqilishi: "sari' / sari'a", tarjima: "tez", izoh: "erkak / ayol" },
+        ],
+        misol: [
+          "بَيْتٌ كَبِيرٌ (katta uy) — muzakkar + muzakkar sifat",
+          "سَيَّارَةٌ سَرِيعَةٌ (tez mashina) — muannash + muannash sifat",
+          "الْبَيْتُ الْكَبِيرُ (katta uy, ma'lum) — al + al",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "هَذَا بَيْتٌ كَبِيرٌ", oqilishi: "Haza baytun kabirun", tarjima: "Bu katta uy" },
+      { arabcha: "هَذِهِ سَيَّارَةٌ سَرِيعَةٌ", oqilishi: "Hazihi sayyaratun sari'atun", tarjima: "Bu tez mashina" },
+      { arabcha: "الْكِتَابُ الْجَدِيدُ عَلَى الطَّاوِلَةِ", oqilishi: "al-kitabul-jadidu 'alat-tawilati", tarjima: "Yangi kitob stolda" },
+      { arabcha: "الْمَدْرَسَةُ الْكَبِيرَةُ بَعِيدَةٌ", oqilishi: "al-madrasatul-kabirati ba'idatun", tarjima: "Katta maktab uzoqda" },
+      { arabcha: "رَأَيْتُ طَالِبًا مُجْتَهِدًا", oqilishi: "ra'aytu taliban mujtahidan", tarjima: "Men tirishqoq o'quvchini ko'rdim" },
+      { arabcha: "اشْتَرَيْتُ قَلَمًا جَدِيدًا", oqilishi: "ishtaraytu qalaman jadidan", tarjima: "Men yangi qalam sotib oldim" },
+    ],
+    istima: [
+      { arabcha: "كَبِير", oqilishi: "kabir", tarjima: "katta (muzakkar)", izoh: "k-a-b-i-r" },
+      { arabcha: "كَبِيرَة", oqilishi: "kabira", tarjima: "katta (muannash)", izoh: "ة qo'shildi" },
+      { arabcha: "جَدِيد", oqilishi: "jadid", tarjima: "yangi (muzakkar)", izoh: "j-a-d-i-d" },
+      { arabcha: "جَدِيدَة", oqilishi: "jadida", tarjima: "yangi (muannash)", izoh: "ة qo'shildi" },
+      { arabcha: "بَيْتٌ كَبِيرٌ", oqilishi: "baytun kabirun", tarjima: "katta uy", izoh: "muzakkar + muzakkar sifat" },
+      { arabcha: "سَيَّارَةٌ جَدِيدَةٌ", oqilishi: "sayyaratun jadidatun", tarjima: "yangi mashina", izoh: "muannash + muannash sifat" },
+    ],
+    kitoba: [
+      { topshiriq: "كَبِير sifatini مَدْرَسَة bilan ishlating (muannash)", misol: "→ مَدْرَسَةٌ كَبِيرَةٌ" },
+      { topshiriq: "جَدِيد sifatini الْكِتَابُ bilan ishlating (aniq)", misol: "→ الْكِتَابُ الْجَدِيدُ" },
+      { topshiriq: "Yangi mashina → arabchada yozing (سَيَّارَة — muannash)", misol: "→ سَيَّارَةٌ جَدِيدَةٌ" },
+      { topshiriq: "Quyidagi birikmalarda xatoni toping: سَيَّارَةٌ كَبِيرٌ", misol: "→ Xato: سَيَّارَة muannash, sifat ham muannash bo'lishi kerak: سَيَّارَةٌ كَبِيرَةٌ" },
+    ],
+    test: [
+      { savol: "سَيَّارَةٌ كَبِيرَةٌ nimani anglatadi?", variantlar: ["Kichik mashina", "Yangi mashina", "Katta mashina", "Tez mashina"], togri: 2 },
+      { savol: "Arabchada sifat ismdan qayerda turadi?", variantlar: ["Oldida", "Keyin", "O'rtada", "Alohida gapda"], togri: 1 },
+      { savol: "كَبِيرَة qanday sifat?", variantlar: ["Muzakkar", "Muannash", "Ko'plik", "Aniqlanmagan"], togri: 1 },
+      { savol: "الْكِتَابُ الْجَدِيدُ da sifat aniqmi?", variantlar: ["Yo'q, aniqlanmagan", "Ha, الـ bor", "Ha, tanvin bor", "Aniq emas"], togri: 1 },
+      { savol: "Yangi kitob arabchada qanday?", variantlar: ["كِتَابٌ جَدِيدَةٌ", "جَدِيدٌ كِتَابٌ", "كِتَابٌ جَدِيدٌ", "الْكِتَابُ جَدِيدَةٌ"], togri: 2 },
+    ],
+  },
+
+  // ─── B1 ─────────────────────────────────────────────────────────────────────
+  {
+    id: 10,
+    nomi: "Hozirgi/kelasi zamon fe'li",
+    daraja: "B1",
+    icon: "▶️",
+    rang: "#2563EB",
+    mavzu: "الفعل المضارع — hozirda va kelajakda qilinadigan ishlar",
+    qoida: [
+      {
+        sarlavha: "Mudori' fe'lining yasalishi",
+        tavsif:
+          "Hozirgi/kelasi zamon fe'li (fi'l mudori') o'tgan zamon asosiga " +
+          "shaxs prefikslari (أ، ت، ي، ن) qo'shish bilan hosil bo'ladi. " +
+          "Fe'l oxiri odatda damma (u) bilan tugaydi.",
+        jadval: [
+          { arabcha: "أَكْتُبُ", oqilishi: "aktubu", tarjima: "men yozaman", izoh: "1-shaxs yagona — أَ prefiksi" },
+          { arabcha: "تَكْتُبُ", oqilishi: "taktubu", tarjima: "sen yozasan (erkak)", izoh: "2-shaxs yagona erkak — تَ prefiksi" },
+          { arabcha: "تَكْتُبِينَ", oqilishi: "taktubina", tarjima: "sen yozasan (ayol)", izoh: "2-shaxs yagona ayol — تَ + ينَ" },
+          { arabcha: "يَكْتُبُ", oqilishi: "yaktubu", tarjima: "u yozadi (erkak)", izoh: "3-shaxs yagona erkak — يَ prefiksi" },
+          { arabcha: "تَكْتُبُ", oqilishi: "taktubu", tarjima: "u yozadi (ayol)", izoh: "3-shaxs yagona ayol — تَ prefiksi" },
+          { arabcha: "نَكْتُبُ", oqilishi: "naktubu", tarjima: "biz yozamiz", izoh: "1-shaxs ko'plik — نَ prefiksi" },
+        ],
+      },
+      {
+        sarlavha: "Ko'plik va kelasi zamon",
+        tavsif:
+          "Ko'plik shakllari o'zgacha qo'shimchalarga ega. " +
+          "سَ yoki سَوْفَ qo'shilsa fe'l kelasi zamonni bildiradi.",
+        jadval: [
+          { arabcha: "يَكْتُبُونَ", oqilishi: "yaktubun", tarjima: "ular yozadi (erkaklar)", izoh: "3-shaxs ko'plik erkak — ونَ" },
+          { arabcha: "يَكْتُبْنَ", oqilishi: "yaktubna", tarjima: "ular yozadi (ayollar)", izoh: "3-shaxs ko'plik ayol — نَ" },
+          { arabcha: "تَكْتُبُونَ", oqilishi: "taktubun", tarjima: "sizlar yozasiz", izoh: "2-shaxs ko'plik — تَ + ونَ" },
+          { arabcha: "سَأَكْتُبُ", oqilishi: "sa-aktubu", tarjima: "men yozaman (kelasi)", izoh: "سَ prefiksi — kelasi zamon" },
+          { arabcha: "سَوْفَ يَذْهَبُ", oqilishi: "sawfa yazhabu", tarjima: "u borad (kelasi)", izoh: "سَوْفَ — kelasi zamon" },
+        ],
+        misol: [
+          "أَذْهَبُ كُلَّ يَوْمٍ (men har kuni boraman)",
+          "يَأْكُلُ الطِّفْلُ (bola yeyapti)",
+          "سَنَذْهَبُ غَدًا (biz erta boramiz)",
+          "هَلْ تَفْهَمُ؟ (tushunasanmi?)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "أَذْهَبُ إِلَى الْعَمَلِ كُلَّ يَوْمٍ", oqilishi: "azhabu ilal-'amali kulla yawm", tarjima: "Men har kuni ishga boraman" },
+      { arabcha: "يَدْرُسُ الطَّالِبُ فِي الْمَكْتَبَةِ", oqilishi: "yadrusu t-talibu fil-maktabati", tarjima: "O'quvchi kutubxonada o'qiydi" },
+      { arabcha: "مَاذَا تَأْكُلُ فِي الْغَدَاء؟", oqilishi: "maza ta'kulu fil-ghada'?", tarjima: "Tushlikda nima eysan?" },
+      { arabcha: "سَنَذْهَبُ إِلَى الْمَطَارِ غَدًا", oqilishi: "sanazhbu ilal-matari ghadan", tarjima: "Erta biz aeroportga boramiz" },
+      { arabcha: "هَلْ تَتَكَلَّمُ الْعَرَبِيَّةَ؟", oqilishi: "hal tatakallamu l-'arabiyya?", tarjima: "Arabcha gaplashasan?" },
+      { arabcha: "يَكْتُبُونَ الدَّرْسَ الْآنَ", oqilishi: "yaktubun ad-darsa l-an", tarjima: "Ular hozir darsni yozishmoqda" },
+    ],
+    istima: [
+      { arabcha: "أَكْتُبُ", oqilishi: "aktubu", tarjima: "men yozaman", izoh: "1-shaxs, أ- prefiksi" },
+      { arabcha: "يَكْتُبُ", oqilishi: "yaktubu", tarjima: "u yozadi (erkak)", izoh: "3-shaxs erkak, يَ prefiksi" },
+      { arabcha: "نَكْتُبُ", oqilishi: "naktubu", tarjima: "biz yozamiz", izoh: "1-shaxs ko'plik, نَ prefiksi" },
+      { arabcha: "يَكْتُبُونَ", oqilishi: "yaktubun", tarjima: "ular yozadi", izoh: "ko'plik erkak, ونَ qo'shimchasi" },
+      { arabcha: "سَأَكْتُبُ", oqilishi: "sa-aktubu", tarjima: "men yozaman (kelajak)", izoh: "سَ + mudori'" },
+      { arabcha: "تَكْتُبُ", oqilishi: "taktubu", tarjima: "u yozadi (ayol)", izoh: "3-shaxs ayol yoki 2-shaxs erkak" },
+    ],
+    kitoba: [
+      { topshiriq: "يَكْتُبُ ni 1-shaxsga o'zgartiring", misol: "→ أَكْتُبُ (men yozaman)" },
+      { topshiriq: "يَذْهَبُ ni ko'plik (ular-erkak) shaklida yozing", misol: "→ يَذْهَبُونَ (ular boradilar)" },
+      { topshiriq: "سَ ishlatib kelasi zamon gapi tuzing", misol: "→ سَأَذْهَبُ غَدًا (men erta boraman)" },
+      { topshiriq: "أَكَلَ (yedi) dan hozirgi zamon yasang, 3-shaxs erkak", misol: "→ يَأْكُلُ (u yeydi)" },
+    ],
+    test: [
+      { savol: "يَكْتُبُ so'zi qaysi shaxs?", variantlar: ["1-shaxs erkak", "2-shaxs erkak", "3-shaxs erkak", "3-shaxs ayol"], togri: 2 },
+      { savol: "Men boraman arabchada qanday?", variantlar: ["يَذْهَبُ", "تَذْهَبُ", "أَذْهَبُ", "نَذْهَبُ"], togri: 2 },
+      { savol: "سَ prefiksi nima bildiradi?", variantlar: ["O'tgan zamon", "Inkor", "Kelasi zamon", "Buyruq"], togri: 2 },
+      { savol: "Biz yozamiz arabchada qanday?", variantlar: ["أَكْتُبُ", "يَكْتُبُ", "تَكْتُبُ", "نَكْتُبُ"], togri: 3 },
+      { savol: "يَكْتُبُونَ so'zi kim haqida?", variantlar: ["Men", "Sen", "U (erkak)", "Ular (erkaklar)"], togri: 3 },
+    ],
+  },
+
+  {
+    id: 11,
+    nomi: "Inkor va buyruq mayli",
+    daraja: "B1",
+    icon: "🚫",
+    rang: "#DC2626",
+    mavzu: "النفي والأمر — yo'q deyish va buyurish usullari",
+    qoida: [
+      {
+        sarlavha: "Inkor shakllari",
+        tavsif:
+          "Arabchada inkor qilish fe'l turiga qarab turlicha ifodalanadi. " +
+          "لَا + mudori' = hozirgi inkor. لَمْ + majzum = o'tgan inkor. لَنْ + mansub = kelajak inkor.",
+        jadval: [
+          { arabcha: "لَا أَفْهَمُ", oqilishi: "la afham", tarjima: "Men tushunmayman", izoh: "لَا + mudori' = hozirgi inkor" },
+          { arabcha: "لَمْ أَذْهَبْ", oqilishi: "lam azhhab", tarjima: "Men bormadim", izoh: "لَمْ + majzum = o'tgan inkor" },
+          { arabcha: "لَنْ أَكْتُبَ", oqilishi: "lan aktuba", tarjima: "Men yozmayman (kelajakda)", izoh: "لَنْ + mansub = kelajak inkor" },
+          { arabcha: "لَيْسَ كَبِيرًا", oqilishi: "laysa kabiran", tarjima: "U katta emas", izoh: "لَيْسَ = emas (ot inkori)" },
+          { arabcha: "لَا تَذْهَبْ!", oqilishi: "la tazhab!", tarjima: "Borma!", izoh: "لَا + majzum = taqiq buyruq" },
+        ],
+      },
+      {
+        sarlavha: "Buyruq mayli (fi'l amr)",
+        tavsif:
+          "Buyruq mayli ikkinchi shaxsga qaratilgan buyruq yoki iltimos bildiradi. " +
+          "U mudori' fe'lidan تَ prefiksini olib, oxirida sukun qo'yish bilan yasaladi.",
+        jadval: [
+          { arabcha: "اُكْتُبْ!", oqilishi: "uktub!", tarjima: "Yoz! (erkakka)", izoh: "2-shaxs yagona erkak buyruq" },
+          { arabcha: "اُكْتُبِي!", oqilishi: "uktubi!", tarjima: "Yoz! (ayolga)", izoh: "2-shaxs yagona ayol — ي qo'shildi" },
+          { arabcha: "اُكْتُبُوا!", oqilishi: "uktubu!", tarjima: "Yozinglar! (erkaklarga)", izoh: "2-shaxs ko'plik erkak — وا" },
+          { arabcha: "اِذْهَبْ!", oqilishi: "izhhab!", tarjima: "Bor!", izoh: "ذَهَبَ dan buyruq" },
+          { arabcha: "تَعَالَ!", oqilishi: "ta'ala!", tarjima: "Kel! (erkakka)", izoh: "keng ishlatiladigan buyruq" },
+          { arabcha: "اِجْلِسْ!", oqilishi: "ijlis!", tarjima: "O'tir!", izoh: "جَلَسَ dan buyruq" },
+        ],
+        misol: [
+          "لَا تَأْكُلْ كَثِيرًا (ko'p yema!)",
+          "اِقْرَأ هَذَا الْكِتَابَ (bu kitobni o'qi!)",
+          "لَمْ يَذْهَبْ أَحَدٌ (hech kim bormadi)",
+          "لَنْ أَنْسَى هَذَا (men buni hech unutmayman)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "لَا أُحِبُّ الطَّقْسَ الْبَارِدَ", oqilishi: "la uhibbu t-taqsa l-barid", tarjima: "Men sovuq havoni yoqtirmayman" },
+      { arabcha: "لَمْ أَنَمْ جَيِّدًا الْبَارِحَةَ", oqilishi: "lam anam jayyidan al-bariha", tarjima: "Kecha yaxshi uxlamadim" },
+      { arabcha: "لَنْ أَنْسَى هَذَا الْيَوْمَ", oqilishi: "lan ansa haza l-yawm", tarjima: "Men bu kunni unutmayman (hech qachon)" },
+      { arabcha: "اِجْلِسْ وَاسْمَعْ جَيِّدًا", oqilishi: "ijlis wasma' jayyidan", tarjima: "O'tir va yaxshilab tingla" },
+      { arabcha: "لَا تَتَأَخَّرْ غَدًا", oqilishi: "la tata'akhkhar ghadan", tarjima: "Erta kechikma" },
+      { arabcha: "لَيْسَ هَذَا صَعْبًا", oqilishi: "laysa haza sa'ban", tarjima: "Bu qiyin emas" },
+    ],
+    istima: [
+      { arabcha: "لَا أَعْرِفُ", oqilishi: "la a'rifu", tarjima: "Men bilmayman", izoh: "لَا + mudori' inkor" },
+      { arabcha: "لَمْ يَذْهَبْ", oqilishi: "lam yazhhab", tarjima: "U bormadi", izoh: "لَمْ + majzum" },
+      { arabcha: "لَنْ أَرْجِعَ", oqilishi: "lan arji'a", tarjima: "Men qaytmayman", izoh: "لَنْ + mansub" },
+      { arabcha: "اُكْتُبْ!", oqilishi: "uktub!", tarjima: "Yoz!", izoh: "buyruq mayli" },
+      { arabcha: "لَا تَذْهَبْ!", oqilishi: "la tazhab!", tarjima: "Borma!", izoh: "taqiq buyruq" },
+      { arabcha: "لَيْسَ هُنَا", oqilishi: "laysa huna", tarjima: "U bu yerda emas", izoh: "لَيْسَ — emas" },
+    ],
+    kitoba: [
+      { topshiriq: "أَذْهَبُ ni o'tgan zamon inkori (لَمْ) bilan yozing", misol: "→ لَمْ أَذْهَبْ (men bormadim)" },
+      { topshiriq: "يَكْتُبُ ni hozirgi inkor (لَا) bilan yozing", misol: "→ لَا يَكْتُبُ (u yozmaydi)" },
+      { topshiriq: "اِذْهَبْ dan taqiq shakl yasang (لَا bilan)", misol: "→ لَا تَذْهَبْ! (borma!)" },
+      { topshiriq: "لَيْسَ ishlatib gap tuzing", misol: "→ لَيْسَ الطَّقْسُ جَيِّدًا (havo yaxshi emas)" },
+    ],
+    test: [
+      { savol: "لَمْ أَذْهَبْ gapini tarjima qiling", variantlar: ["Men boraman", "Men bormadim", "Men bormayman (kelajak)", "U bormadi"], togri: 1 },
+      { savol: "Kelajak inkori uchun qaysi zarracha ishlatiladi?", variantlar: ["لَا", "لَمْ", "لَنْ", "لَيْسَ"], togri: 2 },
+      { savol: "اُكْتُبْ! so'zi nima?", variantlar: ["Hozirgi zamon", "O'tgan zamon", "Buyruq mayli", "Inkor"], togri: 2 },
+      { savol: "لَا تَذْهَبْ! nima degan ma'no?", variantlar: ["Bor!", "Sen borasan", "Borma!", "U bormadi"], togri: 2 },
+      { savol: "لَيْسَ qanday ma'no bildiradi?", variantlar: ["Bor/mavjud", "Emas/yo'q", "Va", "Lekin"], togri: 1 },
+    ],
+  },
+
+  {
+    id: 12,
+    nomi: "Masdar va ism fa'il",
+    daraja: "B1",
+    icon: "🔧",
+    rang: "#059669",
+    mavzu: "المصدر واسم الفاعل — harakat nomi va bajaruvchi",
+    qoida: [
+      {
+        sarlavha: "Masdar — harakat nomi",
+        tavsif:
+          "Masdar fe'lning ot shakli — harakat nomi. " +
+          "U arabchada bir necha vazn (wazn) bo'yicha yasaladi. " +
+          "Eng ko'p uchraydigan vazn: فِعَالَة, فُعُول, فَعْل, تَفْعِيل.",
+        jadval: [
+          { arabcha: "كِتَابَة", oqilishi: "kitaba", tarjima: "yozish", izoh: "كَتَبَ → فِعَالَة vazni" },
+          { arabcha: "قِرَاءَة", oqilishi: "qira'a", tarjima: "o'qish", izoh: "قَرَأَ → فِعَالَة vazni" },
+          { arabcha: "ذَهَاب", oqilishi: "zahab", tarjima: "borish", izoh: "ذَهَبَ → فَعَال vazni" },
+          { arabcha: "تَعَلُّم", oqilishi: "ta'allum", tarjima: "o'rganish", izoh: "تَعَلَّمَ → تَفَعُّل vazni" },
+          { arabcha: "دِرَاسَة", oqilishi: "dirasa", tarjima: "o'qish/ta'lim", izoh: "دَرَسَ → فِعَالَة vazni" },
+          { arabcha: "عَمَل", oqilishi: "'amal", tarjima: "ish/ishlash", izoh: "عَمِلَ → فَعَل vazni" },
+        ],
+      },
+      {
+        sarlavha: "Ism fa'il va ism maf'ul",
+        tavsif:
+          "Ism fa'il — ish bajaruvchi (faol). Vazni: فَاعِل. " +
+          "Ism maf'ul — ish bajarilgan ob'ekt (passiv). Vazni: مَفْعُول.",
+        jadval: [
+          { arabcha: "كَاتِب", oqilishi: "katib", tarjima: "yozuvchi", izoh: "ism fa'il: فَاعِل vazni" },
+          { arabcha: "قَارِئ", oqilishi: "qari'", tarjima: "o'quvchi (kitob)", izoh: "ism fa'il: فَاعِل vazni" },
+          { arabcha: "مُعَلِّم", oqilishi: "muallim", tarjima: "o'qituvchi", izoh: "ism fa'il: مُفَعِّل vazni" },
+          { arabcha: "مَكْتُوب", oqilishi: "maktub", tarjima: "yozilgan (xat)", izoh: "ism maf'ul: مَفْعُول vazni" },
+          { arabcha: "مَفْتُوح", oqilishi: "maftuh", tarjima: "ochilgan", izoh: "ism maf'ul: مَفْعُول vazni" },
+          { arabcha: "مَسْمُوع", oqilishi: "masmu'", tarjima: "eshitilgan", izoh: "ism maf'ul: مَفْعُول vazni" },
+        ],
+        misol: [
+          "كَاتِب (yozuvchi) — ism fa'il",
+          "مَكْتُوب (yozilgan) — ism maf'ul",
+          "تَعَلُّم الْعَرَبِيَّة مُمْتِع (arabcha o'rganish qiziq)",
+          "الدِّرَاسَةُ مُهِمَّةٌ (o'qish muhim)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "الْكِتَابَةُ مَهَارَةٌ مُهِمَّةٌ", oqilishi: "al-kitabatu maharatun muhimma", tarjima: "Yozish muhim ko'nikma" },
+      { arabcha: "هُوَ كَاتِبٌ مَشْهُورٌ", oqilishi: "huwa katibun mashhur", tarjima: "U mashhur yozuvchi" },
+      { arabcha: "هَذِهِ الرِّسَالَةُ مَكْتُوبَةٌ بِالْعَرَبِيَّةِ", oqilishi: "hazihi r-risalatu maktubatun bil-'arabiyya", tarjima: "Bu xat arabcha yozilgan" },
+      { arabcha: "أُحِبُّ الْقِرَاءَةَ كُلَّ يَوْمٍ", oqilishi: "uhibbu l-qira'ata kulla yawm", tarjima: "Men har kuni o'qishni yaxshi ko'raman" },
+      { arabcha: "الْبَابُ مَفْتُوحٌ", oqilishi: "al-babu maftuh", tarjima: "Eshik ochiq (ochilgan)" },
+      { arabcha: "تَعَلُّمُ لُغَةٍ جَدِيدَةٍ صَعْبٌ وَمُمْتِعٌ", oqilishi: "ta'allumal lughatun jadidatin sa'bun wa mumti'", tarjima: "Yangi til o'rganish qiyin va qiziqarli" },
+    ],
+    istima: [
+      { arabcha: "كِتَابَة", oqilishi: "kitaba", tarjima: "yozish (masdar)", izoh: "فِعَالَة vazni" },
+      { arabcha: "دِرَاسَة", oqilishi: "dirasa", tarjima: "o'qish/ta'lim (masdar)", izoh: "فِعَالَة vazni" },
+      { arabcha: "كَاتِب", oqilishi: "katib", tarjima: "yozuvchi (ism fa'il)", izoh: "فَاعِل vazni" },
+      { arabcha: "مَكْتُوب", oqilishi: "maktub", tarjima: "yozilgan (ism maf'ul)", izoh: "مَفْعُول vazni" },
+      { arabcha: "مَفْتُوح", oqilishi: "maftuh", tarjima: "ochilgan", izoh: "مَفْعُول vazni" },
+      { arabcha: "تَعَلُّم", oqilishi: "ta'allum", tarjima: "o'rganish (masdar)", izoh: "تَفَعُّل vazni" },
+    ],
+    kitoba: [
+      { topshiriq: "كَتَبَ dan masdar (harakat nomi) yasang", misol: "→ كِتَابَة (yozish)" },
+      { topshiriq: "كَتَبَ dan ism fa'il yasang", misol: "→ كَاتِب (yozuvchi)" },
+      { topshiriq: "كَتَبَ dan ism maf'ul yasang", misol: "→ مَكْتُوب (yozilgan)" },
+      { topshiriq: "مَفْتُوح so'zini gapda ishlating", misol: "→ الْبَابُ مَفْتُوحٌ (eshik ochiq)" },
+    ],
+    test: [
+      { savol: "كِتَابَة so'zi nima?", variantlar: ["Fe'l", "Sifat", "Masdar (harakat nomi)", "Olmosh"], togri: 2 },
+      { savol: "Ism fa'il qanday vazn bo'yicha yasaladi?", variantlar: ["مَفْعُول", "فَاعِل", "فِعَالَة", "تَفَعُّل"], togri: 1 },
+      { savol: "مَكْتُوب so'zi nima ma'noni anglatadi?", variantlar: ["Yozuvchi", "Yozish", "Yozilgan", "Yozmoq"], togri: 2 },
+      { savol: "قَارِئ so'zi nima?", variantlar: ["O'qilgan", "O'qish", "O'quvchi (kitob)", "O'qituvchi"], togri: 2 },
+      { savol: "مَفْتُوح qaysi vazn?", variantlar: ["فَاعِل", "فِعَالَة", "مَفْعُول", "تَفَعُّل"], togri: 2 },
+    ],
+  },
+
+  // ─── B2 ─────────────────────────────────────────────────────────────────────
+  {
+    id: 13,
+    nomi: "Kaan va naqis fe'llar",
+    daraja: "B2",
+    icon: "⚡",
+    rang: "#CA8A04",
+    mavzu: "كَانَ وَأَخَوَاتُهَا — o'tgan davomli holat fe'llari",
+    qoida: [
+      {
+        sarlavha: "كَانَ va uning qo'llanilishi",
+        tavsif:
+          "كَانَ (kana) — 'edi/bo'ldi' ma'nosidagi naqis fe'l. " +
+          "U gapning mubtado (ega) va xabarini (kesim) bog'laydi. " +
+          "كَانَ dan keyin mubtado rafa' (damma), xabar esa nasb (fatha) oladi.",
+        jadval: [
+          { arabcha: "كَانَ الطَّقْسُ بَارِدًا", oqilishi: "kanat-taqsu baridan", tarjima: "Havo sovuq edi", izoh: "كَانَ + mubtado(rafa') + xabar(nasb)" },
+          { arabcha: "كُنْتُ طَالِبًا", oqilishi: "kuntu taliban", tarjima: "Men o'quvchi edim", izoh: "كَانَ 1-shaxs yagona" },
+          { arabcha: "كَانَتِ الْمَدِينَةُ صَغِيرَةً", oqilishi: "kanatil-madinatu saghiratan", tarjima: "Shahar kichik edi", izoh: "muannash + xabar nasb" },
+          { arabcha: "كَانُوا أَصْدِقَاءَ", oqilishi: "kanu asdiqa'a", tarjima: "Ular do'st edilar", izoh: "ko'plik shakli" },
+          { arabcha: "كَانَ يَعْمَلُ هُنَا", oqilishi: "kana ya'malu huna", tarjima: "U bu yerda ishlar edi", izoh: "كَانَ + mudori' = davomli o'tgan" },
+        ],
+      },
+      {
+        sarlavha: "Kaan ning inkor va boshqa naqis fe'llar",
+        tavsif:
+          "كَانَ ning inkori: لَمْ يَكُنْ (bo'lmadi/emas edi). " +
+          "Boshqa naqis fe'llar: أَصْبَحَ (bo'ldi/tong bo'ldi), صَارَ (aylandi), لَيْسَ (emas hozir).",
+        jadval: [
+          { arabcha: "لَمْ يَكُنْ مَوْجُودًا", oqilishi: "lam yakun mawjudan", tarjima: "U mavjud emas edi", izoh: "لَمْ + يَكُنْ = o'tgan inkor" },
+          { arabcha: "لَيْسَ الْجَوُّ حَارًّا", oqilishi: "laysa l-jawwu harran", tarjima: "Havo issiq emas", izoh: "لَيْسَ = hozirgi inkor" },
+          { arabcha: "أَصْبَحَ مُهَنْدِسًا", oqilishi: "asbaha muhandisan", tarjima: "U muhandis bo'ldi", izoh: "أَصْبَحَ = bo'ldi" },
+          { arabcha: "صَارَ الطِّفْلُ كَبِيرًا", oqilishi: "sarat-tiflul kabiran", tarjima: "Bola katta bo'ldi", izoh: "صَارَ = aylandi/bo'ldi" },
+        ],
+        misol: [
+          "كُنَّا أَصْدِقَاءَ (biz do'st edik)",
+          "كَانَ الْجَوُّ جَمِيلًا (havo chiroyli edi)",
+          "لَيْسَ هَذَا صَحِيحًا (bu to'g'ri emas)",
+          "أَصْبَحَ مَشْهُورًا (u mashhur bo'ldi)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "كَانَتِ السَّمَاءُ صَافِيَةً أَمْسِ", oqilishi: "kanatissama'u safiyatan amsi", tarjima: "Kecha osmon ochiq edi" },
+      { arabcha: "كُنْتُ أَعِيشُ فِي مَدِينَةٍ صَغِيرَةٍ", oqilishi: "kuntu a'ishu fi madinatin saghiratin", tarjima: "Men kichik shaharda yashar edim" },
+      { arabcha: "لَمْ يَكُنِ الطَّرِيقُ مُزْدَحِمًا", oqilishi: "lam yakunit-tariqu muzdahiman", tarjima: "Yo'l gavjum emas edi" },
+      { arabcha: "أَصْبَحَتِ الشَّرِكَةُ كَبِيرَةً", oqilishi: "asbahatish-sharikatu kabiratan", tarjima: "Kompaniya katta bo'ldi" },
+      { arabcha: "لَيْسَ الْأَمْرُ بِتِلْكَ الصُّعُوبَةِ", oqilishi: "laysal-amru bitilkas-su'uba", tarjima: "Ish o'sha qadar qiyin emas" },
+      { arabcha: "كَانَ يَدْرُسُ كُلَّ لَيْلَةٍ", oqilishi: "kana yadrusu kulla layla", tarjima: "U har kecha o'qir edi" },
+    ],
+    istima: [
+      { arabcha: "كَانَ", oqilishi: "kana", tarjima: "edi/bo'ldi (erkak)", izoh: "naqis fe'l asosiy shakli" },
+      { arabcha: "كُنْتُ", oqilishi: "kuntu", tarjima: "men edim", izoh: "1-shaxs yagona" },
+      { arabcha: "كَانُوا", oqilishi: "kanu", tarjima: "ular edilar", izoh: "ko'plik erkak" },
+      { arabcha: "لَمْ يَكُنْ", oqilishi: "lam yakun", tarjima: "u emas edi", izoh: "inkor shakl" },
+      { arabcha: "لَيْسَ", oqilishi: "laysa", tarjima: "emas (hozir)", izoh: "hozirgi inkor naqis fe'l" },
+      { arabcha: "أَصْبَحَ", oqilishi: "asbaha", tarjima: "bo'ldi/aylandi", izoh: "kaan ning sinonimlari" },
+    ],
+    kitoba: [
+      { topshiriq: "كَانَ ishlatib gap tuzing (o'tgan holat)", misol: "→ كَانَ الطَّقْسُ جَمِيلًا (havo chiroyli edi)" },
+      { topshiriq: "كُنْتُ بilan o'tgan davomli gap tuzing", misol: "→ كُنْتُ أَعْمَلُ فِي الْمَكْتَبِ (idorada ishlar edim)" },
+      { topshiriq: "لَيْسَ ishlatib inkor gapi tuzing", misol: "→ لَيْسَ هَذَا صَحِيحًا (bu to'g'ri emas)" },
+      { topshiriq: "كَانَ ning ko'plik shaklini yozing", misol: "→ كَانُوا طُلَّابًا (ular o'quvchi edilar)" },
+    ],
+    test: [
+      { savol: "كَانَ الطَّقْسُ بَارِدًا gapini tarjima qiling", variantlar: ["Havo sovuq", "Havo sovuq edi", "Havo sovuq bo'ladi", "Havo sovuq emas"], togri: 1 },
+      { savol: "كَانَ ning inkori qanday?", variantlar: ["لَا كَانَ", "لَمْ يَكُنْ", "لَنْ يَكُنَ", "لَيْسَ كَانَ"], togri: 1 },
+      { savol: "لَيْسَ va لَمْ يَكُنْ farqi nima?", variantlar: ["Farq yo'q", "لَيْسَ hozirgi, لَمْ يَكُنْ o'tgan", "لَيْسَ o'tgan, لَمْ يَكُنْ hozirgi", "Ikkalasi kelajak"], togri: 1 },
+      { savol: "أَصْبَحَ فَنَّانًا gapini tarjima qiling", variantlar: ["U rassom edi", "U rassom bo'ldi", "U rassom emas", "U rassom bo'ladi"], togri: 1 },
+      { savol: "كُنَّا أَصْدِقَاءَ gapini tarjima qiling", variantlar: ["Biz do'stmiz", "Biz do'st edik", "Ular do'st edilar", "Men do'st edim"], togri: 1 },
+    ],
+  },
+
+  {
+    id: 14,
+    nomi: "Shart gaplari",
+    daraja: "B2",
+    icon: "🔀",
+    rang: "#0E7490",
+    mavzu: "الجملة الشرطية — agar ... bo'lsa ... tuzilmasi",
+    qoida: [
+      {
+        sarlavha: "إِذَا — voqelikka yaqin shart",
+        tavsif:
+          "إِذَا (iza) — voqelikka yaqin yoki muqarrar shartni bildiradi. " +
+          "Shart qismi o'tgan zamonda, natija qismi ham o'tgan yoki hozirgi zamonda bo'ladi. " +
+          "إِنْ (in) ham xuddi shu ma'noda ishlatiladi.",
+        jadval: [
+          { arabcha: "إِذَا دَرَسْتَ نَجَحْتَ", oqilishi: "iza darastal najahta", tarjima: "Agar o'qisang, muvaffaq bo'lasan", izoh: "إِذَا + o'tgan + natija" },
+          { arabcha: "إِذَا أَكَلْتَ كَثِيرًا سَمِنْتَ", oqilishi: "iza akaltal kathiran samintal", tarjima: "Agar ko'p yesang, semirasan", izoh: "tabiiy shart" },
+          { arabcha: "إِنْ جِئْتَ مُبَكِّرًا وَجَدْتَ مَكَانًا", oqilishi: "in ji'tal mubakkiran wajadtal makanal", tarjima: "Erta kelsan, joy topasan", izoh: "إِنْ = إِذَا (zamonaviy)" },
+          { arabcha: "إِذَا أَرَدْتَ النَّجَاحَ فَاعْمَلْ", oqilishi: "iza araddtan-najaha fa'mal", tarjima: "Muvaffaqiyat istasang, ish qil", izoh: "natijada buyruq mayli" },
+        ],
+      },
+      {
+        sarlavha: "لَوْ — xayoliy (haqiqatga zid) shart",
+        tavsif:
+          "لَوْ (law) — haqiqatda bo'lmagan yoki imkonsiz shartni bildiradi. " +
+          "Ikkala qism ham o'tgan zamonda bo'ladi. " +
+          "Natija qismida ko'pincha لَ prefiksi keladi.",
+        jadval: [
+          { arabcha: "لَوْ دَرَسْتَ لَنَجَحْتَ", oqilishi: "law darastal lanajahta", tarjima: "O'qiganingda edi, muvaffaq bo'lar eding", izoh: "haqiqatda o'qimadi" },
+          { arabcha: "لَوْ كَانَ مَعِي لَسَاعَدَنِي", oqilishi: "law kana ma'i lasa'adani", tarjima: "Yonimda bo'lganida, yordam berar edi", izoh: "haqiqatda yonida emas edi" },
+          { arabcha: "لَوْ كُنْتُ طَيَّارًا لَطِرْتُ", oqilishi: "law kuntu tayyaran latirtu", tarjima: "Uchuvchi bo'lganimda, uchgan bo'lardim", izoh: "imkonsiz shart" },
+        ],
+        misol: [
+          "إِذَا تَعِبْتَ اسْتَرِحْ (charchasan, dam ol)",
+          "إِنْ أَرَدْتَ أُسَاعِدُكَ (istasang, yordam beraman)",
+          "لَوْ عَرَفْتُ لَأَخْبَرْتُكَ (bilganimda, aytib berar edim)",
+          "لَوْ كَانَ الْأَمْرُ سَهْلًا... (ish oson bo'lganda edi...)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "إِذَا أَرَدْتَ النَّجَاحَ فَابْدَأْ الْآنَ", oqilishi: "iza araddtan-najaha fabda' al-an", tarjima: "Muvaffaqiyat istasang, hoziroq boshla" },
+      { arabcha: "إِنْ سَاعَدْتَنِي سَأُسَاعِدُكَ", oqilishi: "in sa'adtani sa-usa'iduka", tarjima: "Yordam bersang, men ham yordam beraman" },
+      { arabcha: "لَوْ كُنْتُ أَعْرِفُ لَأَخْبَرْتُكَ", oqilishi: "law kuntu a'rifu la-akhbartuka", tarjima: "Bilganimda aytib berar edim" },
+      { arabcha: "إِذَا جَاءَ الْمَطَرُ أَبْقَى فِي الْبَيْتِ", oqilishi: "iza ja'al-mataru abqa fil-bayt", tarjima: "Yomg'ir yog'sa, uyda qolaman" },
+      { arabcha: "لَوْ كَانَ عِنْدِي وَقْتٌ لَزُرْتُكَ", oqilishi: "law kana 'indi waqtun lazurtuka", tarjima: "Vaqtim bo'lganida, huzuringga borardim" },
+      { arabcha: "إِنْ تَجْتَهِدْ تَنْجَحْ", oqilishi: "in tajtahid tanjih", tarjima: "Tirishsang, muvaffaq bo'lasan" },
+    ],
+    istima: [
+      { arabcha: "إِذَا", oqilishi: "iza", tarjima: "agar (voqelikka yaqin)", izoh: "shart bog'lovchisi" },
+      { arabcha: "إِنْ", oqilishi: "in", tarjima: "agar (qisqa shakl)", izoh: "إِذَا ning qisqa shakli" },
+      { arabcha: "لَوْ", oqilishi: "law", tarjima: "agar (xayoliy)", izoh: "haqiqatga zid shart" },
+      { arabcha: "إِذَا دَرَسْتَ نَجَحْتَ", oqilishi: "iza darastal najahta", tarjima: "O'qisang, muvaffaq bo'lasan", izoh: "voqelikka yaqin shart" },
+      { arabcha: "لَوْ دَرَسْتَ لَنَجَحْتَ", oqilishi: "law darastal lanajahta", tarjima: "O'qiganingda, muvaffaq bo'lar eding", izoh: "xayoliy shart" },
+      { arabcha: "إِنْ جِئْتَ وَجَدْتَنِي", oqilishi: "in ji'tal wajadtani", tarjima: "Kelsan, meni topasan", izoh: "إِنْ shart" },
+    ],
+    kitoba: [
+      { topshiriq: "إِذَا ishlatib shart gapi tuzing", misol: "→ إِذَا أَكَلْتَ كَثِيرًا مَرِضْتَ (ko'p yesang, kasal bo'lasan)" },
+      { topshiriq: "لَوْ ishlatib xayoliy shart tuzing", misol: "→ لَوْ كُنْتُ غَنِيًّا لَسَافَرْتُ (boy bo'lganimda, sayohat qilardim)" },
+      { topshiriq: "إِذَا va لَوْ farqini misollar bilan tushuntiring", misol: "إِذَا = muqarrar shart, لَوْ = amalga oshmaydigan shart" },
+      { topshiriq: "إِنْ تَجْتَهِدْ تَنْجَحْ gapini tarjima qiling", misol: "→ Tirishsang, muvaffaq bo'lasan" },
+    ],
+    test: [
+      { savol: "إِذَا va لَوْ o'rtasidagi asosiy farq nima?", variantlar: ["Farq yo'q", "إِذَا voqelikka yaqin, لَوْ xayoliy", "إِذَا kelajak, لَوْ o'tgan", "إِذَا inkor, لَوْ tasdiq"], togri: 1 },
+      { savol: "لَوْ دَرَسْتَ لَنَجَحْتَ gapini tarjima qiling", variantlar: ["O'qisang, muvaffaq bo'lasan", "O'qiganingda, muvaffaq bo'lar eding", "O'qi va muvaffaq bo'l", "O'qimadim, muvaffaq bo'lmadim"], togri: 1 },
+      { savol: "إِذَا dan keyin fe'l qaysi zamonda keladi?", variantlar: ["Hozirgi zamon", "O'tgan zamon (shart uchun)", "Kelasi zamon", "Buyruq"], togri: 1 },
+      { savol: "إِنْ تَجْتَهِدْ تَنْجَحْ gapini tarjima qiling", variantlar: ["Tirishtim, muvaffaq bo'ldim", "Tirishsang, muvaffaq bo'lasan", "Tirishganimda, muvaffaq bo'lar edim", "Tirish va muvaffaq bo'l"], togri: 1 },
+      { savol: "لَوْ shart gapida natija qismida odatda qanday prefiks keladi?", variantlar: ["سَ", "لَ", "لَنْ", "لَمْ"], togri: 1 },
+    ],
+  },
+
+  {
+    id: 15,
+    nomi: "Fe'l tizimlari (mazid)",
+    daraja: "B2",
+    icon: "🌳",
+    rang: "#7C3AED",
+    mavzu: "الأفعال المزيدة — fe'l ildizidan yasalgan kengaytirilgan shakllar",
+    qoida: [
+      {
+        sarlavha: "Mujarrad va mazid fe'llar",
+        tavsif:
+          "Arabcha fe'llarning asosi 3 harfli ildiz (mujarrad). " +
+          "Bu ildizga harf qo'shib yangi ma'noli mazid fe'llar hosil qilinadi. " +
+          "Eng ko'p ishlatiladigan vazn II: fakkala — ikkinchi harf ikkilanadi va ma'no kuchayadi.",
+        jadval: [
+          { arabcha: "كَتَبَ → كَتَّبَ", oqilishi: "kataba → kattaba", tarjima: "yozdi → yozdirib topshirdi", izoh: "vazn II: ikkinchi harf ikkilanadi" },
+          { arabcha: "دَرَسَ → دَرَّسَ", oqilishi: "darasa → darrasa", tarjima: "o'qidi → o'qitdi", izoh: "vazn II: o'qituvchi qilish" },
+          { arabcha: "خَرَجَ → أَخْرَجَ", oqilishi: "kharaja → akhraja", tarjima: "chiqdi → chiqardi", izoh: "vazn IV: أَ prefiksi = sabab" },
+          { arabcha: "فَهِمَ → فَهَّمَ", oqilishi: "fahima → fahhama", tarjima: "tushundi → tushuntirdi", izoh: "vazn II: tushuntirish" },
+          { arabcha: "جَلَسَ → أَجْلَسَ", oqilishi: "jalasa → ajlasa", tarjima: "o'tirdi → o'tqizdi", izoh: "vazn IV: sabab bildirish" },
+          { arabcha: "عَلِمَ → عَلَّمَ", oqilishi: "'alima → 'allama", tarjima: "bildi → o'rgatti", izoh: "vazn II" },
+        ],
+      },
+      {
+        sarlavha: "Vazn V va VI — o'zlikka va o'zaro",
+        tavsif:
+          "Vazn V (تَفَعَّلَ): o'zlik ma'nosini bildiradi — o'z-o'ziga bajarilgan ish. " +
+          "Vazn VI (تَفَاعَلَ): o'zaro, ikki tomon o'rtasidagi ish.",
+        jadval: [
+          { arabcha: "عَلَّمَ → تَعَلَّمَ", oqilishi: "'allama → ta'allama", tarjima: "o'rgatti → o'rgandi", izoh: "vazn V: تَ prefiksi = o'zlik" },
+          { arabcha: "كَسَرَ → تَكَسَّرَ", oqilishi: "kasara → takassara", tarjima: "sindirdi → sindi (o'z-o'zidan)", izoh: "vazn V: passiv o'zlik" },
+          { arabcha: "كَتَبَ → تَكَاتَبَ", oqilishi: "kataba → takataba", tarjima: "yozdi → yozishdillar (bir-biriga)", izoh: "vazn VI: o'zaro" },
+          { arabcha: "صَادَقَ → تَصَادَقَ", oqilishi: "sadaqa → tasadaqa", tarjima: "do'stlashdi → o'zaro do'stlashdi", izoh: "vazn VI: ikki taraflama" },
+        ],
+        misol: [
+          "دَرَّسَ الْمُعَلِّمُ (o'qituvchi o'qitdi) — vazn II",
+          "تَعَلَّمَ الطَّالِبُ (o'quvchi o'rgandi) — vazn V",
+          "أَخْرَجَ الْمُدِيرُ الْمَلَفَّ (direktor faylni chiqardi) — vazn IV",
+          "تَكَاتَبَ الْأَصْدِقَاءُ (do'stlar xat yozdillar) — vazn VI",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "دَرَّسَ الْأُسْتَاذُ النَّحْوَ بِوُضُوح", oqilishi: "darrasa l-ustazu n-nahwa biwuduh", tarjima: "Ustoz grammatikani aniq o'qitdi" },
+      { arabcha: "تَعَلَّمَ مُحَمَّدٌ الْإِنْجِلِيزِيَّةَ بِسُرْعَة", oqilishi: "ta'allama muhammadun al-injiliziyya bisur'a", tarjima: "Muhammad inglizchani tez o'rgandi" },
+      { arabcha: "أَخْرَجَ الطَّبِيبُ الْمَرِيضَ مِنَ الْمُسْتَشْفَى", oqilishi: "akhrajat-tabibu l-marida minal-mustashfa", tarjima: "Shifokor bemorni kasalxonadan chiqardi" },
+      { arabcha: "تَكَاتَبَ الصَّدِيقَانِ كُلَّ أُسْبُوع", oqilishi: "takataba s-sadiqani kulla usbu'", tarjima: "Ikki do'st har hafta xat yozishdi" },
+      { arabcha: "كَسَرَ الطِّفْلُ الْكُوبَ وَتَكَسَّرَ", oqilishi: "kasarat-tiflu l-kuba watakassara", tarjima: "Bola kosani sindirdi va u sindi" },
+      { arabcha: "عَلَّمَنِي أَبِي الرِّيَاضِيَّات", oqilishi: "'allamani abi r-riyadiyyat", tarjima: "Otam menga matematika o'rgatti" },
+    ],
+    istima: [
+      { arabcha: "دَرَّسَ", oqilishi: "darrasa", tarjima: "o'qitdi (vazn II)", izoh: "دَرَسَ → دَرَّسَ" },
+      { arabcha: "تَعَلَّمَ", oqilishi: "ta'allama", tarjima: "o'rgandi (vazn V)", izoh: "عَلَّمَ → تَعَلَّمَ" },
+      { arabcha: "أَخْرَجَ", oqilishi: "akhraja", tarjima: "chiqardi (vazn IV)", izoh: "خَرَجَ → أَخْرَجَ" },
+      { arabcha: "فَهَّمَ", oqilishi: "fahhama", tarjima: "tushuntirdi (vazn II)", izoh: "فَهِمَ → فَهَّمَ" },
+      { arabcha: "تَكَاتَبَ", oqilishi: "takataba", tarjima: "xat yozishdi (vazn VI)", izoh: "o'zaro fe'l" },
+      { arabcha: "أَجْلَسَ", oqilishi: "ajlasa", tarjima: "o'tqizdi (vazn IV)", izoh: "جَلَسَ → أَجْلَسَ" },
+    ],
+    kitoba: [
+      { topshiriq: "دَرَسَ dan vazn II yasang va ma'nosini ayting", misol: "→ دَرَّسَ (o'qitdi)" },
+      { topshiriq: "عَلَّمَ dan vazn V yasang va ma'nosini ayting", misol: "→ تَعَلَّمَ (o'rgandi)" },
+      { topshiriq: "خَرَجَ dan vazn IV yasang va ma'nosini ayting", misol: "→ أَخْرَجَ (chiqardi/chiqazdi)" },
+      { topshiriq: "Vazn II va V ning asosiy farqini misollar bilan tushuntiring", misol: "دَرَّسَ = o'qitdi (boshqaga), تَعَلَّمَ = o'rgandi (o'zi)" },
+    ],
+    test: [
+      { savol: "دَرَّسَ so'zi qaysi vazn?", variantlar: ["Mujarrad (I)", "Vazn II", "Vazn IV", "Vazn V"], togri: 1 },
+      { savol: "تَعَلَّمَ so'zi qaysi mujarrad fe'ldan yasalgan?", variantlar: ["دَرَسَ", "كَتَبَ", "عَلَّمَ", "عَلِمَ"], togri: 3 },
+      { savol: "Vazn IV (أَفْعَلَ) qanday ma'no qo'shadi?", variantlar: ["O'zlik", "Sabab/ettirish", "O'zaro", "Ko'plik"], togri: 1 },
+      { savol: "أَخْرَجَ so'zi nima degan ma'no?", variantlar: ["Chiqdi", "Chiqardi/chiqazdi", "Chiqing!", "Chiqqan"], togri: 1 },
+      { savol: "Vazn VI (تَفَاعَلَ) qanday ma'no bildiradi?", variantlar: ["O'zlik (o'z-o'ziga)", "O'zaro (ikki taraf)", "Sabab", "Passiv"], togri: 1 },
+    ],
+  },
+
+  // ─── C1 ─────────────────────────────────────────────────────────────────────
+  {
+    id: 16,
+    nomi: "Passiv nisbat",
+    daraja: "C1",
+    icon: "🔄",
+    rang: "#0E7490",
+    mavzu: "الفعل المجهول — noma'lum subyekt bilan fe'l shakli",
+    qoida: [
+      {
+        sarlavha: "Passiv nisbat: ta'rif",
+        tavsif: "Arabchada passiv nisbat (الفعل المجهول) ishlatilganda subyekt noma'lum yoki ahamiyatsiz bo'ladi. O'tgan zamonda birinchi harf zaml, ikkinchi harf kasra bo'ladi.",
+        jadval: [
+          { arabcha: "كَتَبَ", oqilishi: "kataba", tarjima: "yozdi (faol)", izoh: "ma'lum subyekt" },
+          { arabcha: "كُتِبَ", oqilishi: "kutiba", tarjima: "yozildi (passiv)", izoh: "noma'lum subyekt" },
+          { arabcha: "فَتَحَ", oqilishi: "fataha", tarjima: "ochdi (faol)", izoh: "ma'lum subyekt" },
+          { arabcha: "فُتِحَ", oqilishi: "futia", tarjima: "ochildi (passiv)", izoh: "noma'lum subyekt" },
+          { arabcha: "قَرَأَ", oqilishi: "qara'a", tarjima: "o'qidi (faol)", izoh: "ma'lum subyekt" },
+          { arabcha: "قُرِئَ", oqilishi: "quri'a", tarjima: "o'qildi (passiv)", izoh: "noma'lum subyekt" },
+        ],
+        misol: ["كُتِبَ الْكِتَابُ (Kitob yozildi)", "فُتِحَ الْبَابُ (Eshik ochildi)"],
+      },
+      {
+        sarlavha: "Hozirgi zamon passivi",
+        tavsif: "Hozirgi zamonda birinchi harf zaml, oxirgi unli kasra bo'ladi: يُفْعَلُ shakli.",
+        jadval: [
+          { arabcha: "يُكْتَبُ", oqilishi: "yuktabu", tarjima: "yoziladi", izoh: "hozirgi passiv" },
+          { arabcha: "يُفْتَحُ", oqilishi: "yuftahu", tarjima: "ochiladi", izoh: "hozirgi passiv" },
+          { arabcha: "يُدَرَّسُ", oqilishi: "yudarrasu", tarjima: "o'qitiladi (vazn II)", izoh: "hozirgi passiv" },
+          { arabcha: "يُسْتَخْدَمُ", oqilishi: "yustakhdamu", tarjima: "ishlatiladi (vazn X)", izoh: "hozirgi passiv" },
+        ],
+        misol: ["يُكْتَبُ التَّقْرِيرُ يَوْمِيًّا (Hisobot har kuni yoziladi)", "يُفْتَحُ الْمَتْحَفُ صَبَاحًا (Muzey ertalab ochiladi)"],
+      },
+      {
+        sarlavha: "Noyib fa'il — passiv subyekt",
+        tavsif: "Passiv gapda asosiy ot noyib fa'il (نَائِبُ الْفَاعِل) deyiladi va marf' (ko'tarilgan) holatda bo'ladi.",
+        misol: [
+          "كُتِبَ الدَّرْسُ ← الدَّرْسُ noyib fa'il (marf')",
+          "فُتِحَتِ النَّوَافِذُ ← النَّوَافِذُ noyib fa'il",
+          "يُدَرَّسُ الْعِلْمُ فِي الْجَامِعَةِ ← الْعِلْمُ noyib fa'il",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "كُتِبَ الدَّرْسُ عَلَى السَّبُّورَةِ", oqilishi: "kutiba d-darsu 'ala s-sabbura", tarjima: "Dars doskaga yozildi" },
+      { arabcha: "فُتِحَتِ الْمَدْرَسَةُ فِي الصَّبَاحِ", oqilishi: "futihat il-madrasatu fi s-sabah", tarjima: "Maktab ertalab ochildi" },
+      { arabcha: "يُبْنَى الْجِسْرُ الْجَدِيدُ", oqilishi: "yubnaa l-jisru l-jadid", tarjima: "Yangi ko'prik qurilmoqda" },
+      { arabcha: "صُنِعَتِ الْآلَةُ فِي الْمَصْنَعِ", oqilishi: "suni'at il-aalatu fi l-masna'", tarjima: "Mashina zavodda ishlab chiqarildi" },
+      { arabcha: "يُسْتَخْدَمُ الْحَاسُوبُ فِي كُلِّ مَكَان", oqilishi: "yustakhdamu l-hasbu fi kulli makan", tarjima: "Kompyuter hamma joyda ishlatiladi" },
+    ],
+    istima: [
+      { arabcha: "كُتِبَ", oqilishi: "kutiba", tarjima: "yozildi", izoh: "كَتَبَ passivi" },
+      { arabcha: "فُتِحَ", oqilishi: "futia", tarjima: "ochildi", izoh: "فَتَحَ passivi" },
+      { arabcha: "يُكْتَبُ", oqilishi: "yuktabu", tarjima: "yoziladi", izoh: "hozirgi passiv" },
+      { arabcha: "يُدَرَّسُ", oqilishi: "yudarrasu", tarjima: "o'qitiladi", izoh: "vazn II passivi" },
+      { arabcha: "بُنِيَ", oqilishi: "buniya", tarjima: "qurildi", izoh: "بَنَى passivi" },
+      { arabcha: "يُحْفَظُ", oqilishi: "yuhfazu", tarjima: "saqlanadi", izoh: "حَفِظَ passivi" },
+    ],
+    kitoba: [
+      { topshiriq: "Quyidagi faol fe'llarni passivga o'tkazing: كَتَبَ، فَتَحَ، بَنَى، دَرَّسَ", misol: "كَتَبَ → كُتِبَ (o'tgan), يُكْتَبُ (hozirgi)" },
+      { topshiriq: "5 ta passiv gap tuzing, har birida noyib fa'ilni belgilang" },
+      { topshiriq: "Matnni o'qib, barcha passiv fe'llarni toping va faolga o'tkizing" },
+    ],
+    test: [
+      { savol: "كَتَبَ ning passiv shakli qaysi?", variantlar: ["كَتِبَ", "كُتِبَ", "كَتَّبَ", "يَكْتُبُ"], togri: 1 },
+      { savol: "يُفْتَحُ so'zi qaysi zamondagi passiv?", variantlar: ["O'tgan zamon", "Hozirgi/kelasi zamon", "Buyruq mayli", "Inkor"], togri: 1 },
+      { savol: "Passiv gapda asosiy ot nima deyiladi?", variantlar: ["Fa'il", "Maf'ul bihi", "Noyib fa'il", "Mubtada"], togri: 2 },
+      { savol: "بُنِيَ so'zining faol shakli qaysi?", variantlar: ["بَنَّى", "أَبْنَى", "بَنَى", "تَبَنَّى"], togri: 2 },
+      { savol: "يُدَرَّسُ qaysi vaznning passivi?", variantlar: ["Vazn I", "Vazn II", "Vazn IV", "Vazn V"], togri: 1 },
+      { savol: "O'tgan zamon passivida birinchi harf qaysi harakat oladi?", variantlar: ["Fatha", "Kasra", "Damma", "Sukun"], togri: 2 },
+      { savol: "كُتِبَ الدَّرْسُ gapida نَائِبُ الْفَاعِل qaysi so'z?", variantlar: ["كُتِبَ", "الدَّرْسُ", "عَلَى", "الْكِتَابُ"], togri: 1 },
+      { savol: "Passiv nisbatning arabcha grammatik nomi nima?", variantlar: ["الْفِعْلُ الْمَعْلُوم", "الْفِعْلُ الْمَجْهُول", "الْفِعْلُ الْمُضَارِع", "الْفِعْلُ اللَّازِم"], togri: 1 },
+      { savol: "يُسْتَخْدَمُ qaysi vaznning passivi?", variantlar: ["Vazn VI", "Vazn VIII", "Vazn X", "Vazn XII"], togri: 2 },
+      { savol: "فُتِحَتِ الْمَدْرَسَةُ gapining ma'nosi nima?", variantlar: ["Maktab ochiq", "Maktab ochildi", "Maktab ochiladi", "Maktabni oching"], togri: 1 },
+    ],
+  },
+  {
+    id: 17,
+    nomi: "Nisbiy va hal jumlalar",
+    daraja: "C1",
+    icon: "🔍",
+    rang: "#7C3AED",
+    mavzu: "الجملة الوصفية والحالية — aniqlovchi va holat jumlalari",
+    qoida: [
+      {
+        sarlavha: "Nisbiy olmoshlar (الأسماء الموصولة)",
+        tavsif: "Nisbiy olmoshlar oldingi otni aniqlovchi jumla bilan bog'laydi. Jins va songa qarab o'zgaradi.",
+        jadval: [
+          { arabcha: "الَّذِي", oqilishi: "allazi", tarjima: "u (erkak, birlik)", izoh: "muzakkar birlik" },
+          { arabcha: "الَّتِي", oqilishi: "allati", tarjima: "u (ayol, birlik)", izoh: "muannash birlik" },
+          { arabcha: "الَّذِينَ", oqilishi: "allazina", tarjima: "ular (erkak, ko'plik)", izoh: "muzakkar ko'plik" },
+          { arabcha: "اللَّوَاتِي", oqilishi: "allawati", tarjima: "ular (ayol, ko'plik)", izoh: "muannash ko'plik" },
+          { arabcha: "مَا", oqilishi: "ma", tarjima: "nima/u (narsalar)", izoh: "narsalar uchun" },
+          { arabcha: "مَنْ", oqilishi: "man", tarjima: "kim/u (shaxslar)", izoh: "shaxslar uchun" },
+        ],
+        misol: [
+          "الطَّالِبُ الَّذِي دَرَسَ نَجَحَ (O'qigan talaba o'tdi)",
+          "الْكِتَابُ الَّذِي اشْتَرَيْتُهُ مُمْتَازٌ (Men sotib olgan kitob zo'r)",
+        ],
+      },
+      {
+        sarlavha: "Sifat jumlasi (الجملة الوصفية)",
+        tavsif: "Nisbiy olmosh orqali ot aniqlanadi. Aniqlovchi jumla nisbiy olmoshdan keyin keladi va noaniq otdan keyin kelganda olmosh ishlatilmasligi ham mumkin.",
+        misol: [
+          "رَأَيْتُ طَالِبًا يَدْرُسُ (Men o'qiyotgan talabani ko'rdim) — noaniq ot",
+          "رَأَيْتُ الطَّالِبَ الَّذِي يَدْرُسُ (Men o'qiyotgan talabani ko'rdim) — aniq ot",
+          "هَذَا هُوَ الرَّجُلُ الَّذِي سَاعَدَنِي (Bu menga yordam bergan odam)",
+        ],
+      },
+      {
+        sarlavha: "Hal jumlasi (الجملة الحالية)",
+        tavsif: "Hal jumlasi harakat paytidagi holatni bildiradi va odatda واو hal bilan yoki fe'l bilan boshlanadi. U asosiy jumlaga qo'shimcha ma'lumot beradi.",
+        misol: [
+          "جَاءَ أَحْمَدُ وَهُوَ يَبْتَسِمُ (Ahmad kulib keldi — hal jumlasi)",
+          "خَرَجَ الطُّلَّابُ وَهُمْ فَرِحُونَ (Talabalar xursand chiqishdi)",
+          "قَرَأْتُ الْكِتَابَ وَأَنَا جَالِسٌ (Kitobni o'tirib o'qidim)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "الْكِتَابُ الَّذِي قَرَأْتُهُ مُفِيدٌ جِدًّا", oqilishi: "al-kitabu llazi qara'tuhu mufidun jiddan", tarjima: "O'qigan kitobim juda foydali" },
+      { arabcha: "رَأَيْتُ الطِّفْلَ الَّذِي يَلْعَبُ فِي الْحَدِيقَةِ", oqilishi: "ra'aytu t-tifla llazi yal'abu fi l-hadiqa", tarjima: "Bog'da o'ynayotgan bolani ko'rdim" },
+      { arabcha: "جَاءَ الْمُعَلِّمُ وَهُوَ يَحْمِلُ الْكُتُبَ", oqilishi: "ja'a l-mu'allimu wa-huwa yahmilu l-kutub", tarjima: "O'qituvchi kitoblarni ko'tarib keldi" },
+      { arabcha: "مَا تَفْعَلُهُ الْيَوْمَ يَنْعَكِسُ عَلَى الْغَدِ", oqilishi: "ma taf'aluhu l-yawma yan'akisu 'ala l-ghad", tarjima: "Bugun qilgan ishing ertaga ta'sir qiladi" },
+      { arabcha: "مَنْ يَعْمَلُ بِجِدٍّ يَصِلُ إِلَى هَدَفِهِ", oqilishi: "man ya'malu bi-jiddin yasilu ila hadafihi", tarjima: "Tirishib ishlaydigan kishigina maqsadiga etadi" },
+    ],
+    istima: [
+      { arabcha: "الَّذِي", oqilishi: "allazi", tarjima: "u (erkak)", izoh: "muzakkar nisbiy olmosh" },
+      { arabcha: "الَّتِي", oqilishi: "allati", tarjima: "u (ayol)", izoh: "muannash nisbiy olmosh" },
+      { arabcha: "الَّذِينَ", oqilishi: "allazina", tarjima: "ular (erkaklar)", izoh: "ko'plik nisbiy olmosh" },
+      { arabcha: "وَهُوَ يَبْتَسِمُ", oqilishi: "wa-huwa yabtasimu", tarjima: "kulib (hal jumlasi)", izoh: "واو hal + jumlat ismiya" },
+      { arabcha: "وَهِيَ تَقْرَأُ", oqilishi: "wa-hiya taqra'u", tarjima: "o'qiyotib (hal jumlasi)", izoh: "ayol uchun hal" },
+      { arabcha: "مَنْ يَتَعَلَّمُ", oqilishi: "man yata'allamu", tarjima: "o'rganadigan kishi", izoh: "shaxs uchun nisbiy" },
+    ],
+    kitoba: [
+      { topshiriq: "Har bir nisbiy olmosh bilan 2 ta gap tuzing: الَّذِي، الَّتِي، الَّذِينَ، مَا، مَنْ", misol: "الرَّجُلُ الَّذِي يَعْمَلُ هُنَا مُجْتَهِدٌ" },
+      { topshiriq: "Quyidagi gaplarga hal jumlasi qo'shing: جَاءَ الطَّالِبُ — جَلَسَتِ الْمَرْأَةُ", misol: "جَاءَ الطَّالِبُ وَهُوَ يَحْمِلُ حَقِيبَتَهُ" },
+      { topshiriq: "Berilgan matndan nisbiy olmoshlarni va hal jumlalarini toping va tahlil qiling" },
+    ],
+    test: [
+      { savol: "الَّذِي olmoshi qaysi jins va son uchun?", variantlar: ["Muannash birlik", "Muzakkar birlik", "Muzakkar ko'plik", "Muannash ko'plik"], togri: 1 },
+      { savol: "الَّذِينَ olmoshi qaysi jins va son uchun?", variantlar: ["Muzakkar birlik", "Muannash birlik", "Muzakkar ko'plik", "Muannash ko'plik"], togri: 2 },
+      { savol: "مَا nisbiy olmoshi nima uchun ishlatiladi?", variantlar: ["Faqat shaxslar uchun", "Faqat narsalar uchun", "Faqat erkaklar uchun", "Faqat ko'plik uchun"], togri: 1 },
+      { savol: "جَاءَ أَحْمَدُ وَهُوَ يَبْتَسِمُ gapida hal jumlasi qaysi qism?", variantlar: ["جَاءَ أَحْمَدُ", "وَهُوَ يَبْتَسِمُ", "أَحْمَدُ", "يَبْتَسِمُ"], togri: 1 },
+      { savol: "Nisbiy olmosh noaniq otdan keyin kelsa nima bo'ladi?", variantlar: ["Albatta ishlatiladi", "Ishlatilmasligi mumkin", "Ko'plikka o'tadi", "Olmosh o'zgaradi"], togri: 1 },
+      { savol: "الْكِتَابُ الَّذِي قَرَأْتُهُ gapida الَّذِي ning o'rnini qaysi olmosh bosishi mumkin edi?", variantlar: ["الَّتِي", "الَّذِينَ", "مَا", "مَنْ"], togri: 2 },
+      { savol: "Hal jumlasi qanday harakat yoki holatni bildiradi?", variantlar: ["Kelgusidagi holat", "Asosiy harakat paytidagi holat", "O'tmishdagi holat", "Taxminiy holat"], togri: 1 },
+      { savol: "مَنْ يَعْمَلُ بِجِدٍّ يَصِلُ gapida مَنْ ning roli nima?", variantlar: ["Savol olmoshi", "Nisbiy olmosh (shaxslar uchun)", "Inkor yuklamasi", "Noaniq olmosh"], togri: 1 },
+      { savol: "Sifat jumlasida nisbiy olmosh qaysi holatda tushirilishi mumkin?", variantlar: ["Aniq otdan keyin", "Noaniq otdan keyin", "Hech qachon tushirilmaydi", "Faqat ko'plikda"], togri: 1 },
+      { savol: "اللَّوَاتِي olmoshi qaysi jins va son uchun?", variantlar: ["Muzakkar ko'plik", "Muannash ko'plik", "Muzakkar birlik", "Muannash birlik"], togri: 1 },
+    ],
+  },
+  {
+    id: 18,
+    nomi: "Taajjub va mubalacha",
+    daraja: "C1",
+    icon: "😲",
+    rang: "#DC2626",
+    mavzu: "التعجب والمبالغة — hayrat ifodalash va kuchaytirish",
+    qoida: [
+      {
+        sarlavha: "Taajjub I vazni: مَا أَفْعَلَهُ",
+        tavsif: "Birinchi taajjub vazni مَا bilan boshlanadi: مَا + أَفْعَلَ + maf'ul bihi. Bu shakl «qanchalik ... !» ma'nosini beradi.",
+        jadval: [
+          { arabcha: "مَا أَجْمَلَ الطَّبِيعَةَ", oqilishi: "ma ajmala t-tabi'a", tarjima: "Tabiat qanchalik go'zal!", izoh: "جَمِيل ← أَجْمَلَ" },
+          { arabcha: "مَا أَسْرَعَ السَّيَّارَةَ", oqilishi: "ma asra'a s-sayyara", tarjima: "Mashina qanchalik tez!", izoh: "سَرِيع ← أَسْرَعَ" },
+          { arabcha: "مَا أَكْبَرَ الْجَبَلَ", oqilishi: "ma akbara l-jabal", tarjima: "Tog' qanchalik ulkan!", izoh: "كَبِير ← أَكْبَرَ" },
+          { arabcha: "مَا أَعْظَمَ الْعِلْمَ", oqilishi: "ma a'zama l-'ilm", tarjima: "Ilm qanchalik buyuk!", izoh: "عَظِيم ← أَعْظَمَ" },
+        ],
+      },
+      {
+        sarlavha: "Taajjub II vazni: أَفْعِلْ بِهِ",
+        tavsif: "Ikkinchi taajjub vazni أَفْعِلْ + بِـ bilan keladi: «qanchalik ... !» ma'nosini beradi. Bu ham hayrat ifodalaydi.",
+        jadval: [
+          { arabcha: "أَجْمِلْ بِالطَّبِيعَةِ", oqilishi: "ajmil bit-tabi'a", tarjima: "Tabiat qanchalik go'zal!", izoh: "I vazn bilan bir xil ma'no" },
+          { arabcha: "أَسْرِعْ بِالطَّائِرِ", oqilishi: "asri' bit-ta'ir", tarjima: "Qush qanchalik tez!", izoh: "سَرِيع asosi" },
+          { arabcha: "أَكْبِرْ بِالْجِبَالِ", oqilishi: "akbir bil-jibal", tarjima: "Tog'lar qanchalik ulkan!", izoh: "كَبِير asosi" },
+        ],
+      },
+      {
+        sarlavha: "Mubalacha og'irlari",
+        tavsif: "Mubalacha (kuchaytirish) uchun maxsus vazn-og'irlar mavjud. Ular sifatni juda yuqori darajada ifodalaydi.",
+        jadval: [
+          { arabcha: "فَعَّال", oqilishi: "fa''al", tarjima: "Ko'p qiladigan", izoh: "كَذَّاب (ko'p yolg'onchi)" },
+          { arabcha: "فَعُول", oqilishi: "fa'ul", tarjima: "Kuchli xususiyatli", izoh: "صَبُور (juda sabr qiluvchi)" },
+          { arabcha: "فَعِيل", oqilishi: "fa'il", tarjima: "Sifat kuchaytirish", izoh: "كَرِيم (juda saxiy)" },
+          { arabcha: "مِفْعَال", oqilishi: "mif'al", tarjima: "Tabiatiga xos", izoh: "مِعْطَاء (ko'p beruvchi)" },
+          { arabcha: "فَعِل", oqilishi: "fa'il", tarjima: "Tabiiy xususiyat", izoh: "حَذِر (juda ehtiyotkor)" },
+        ],
+        misol: ["هُوَ صَبُورٌ جِدًّا (U juda sabr qiluvchi)", "هِيَ كَرِيمَةٌ (U juda saxiy)", "هُوَ كَذَّابٌ (U ko'p yolg'on gapiradi)"],
+      },
+    ],
+    qiroa: [
+      { arabcha: "مَا أَجْمَلَ الطَّبِيعَةَ فِي الرَّبِيعِ", oqilishi: "ma ajmala t-tabi'ata fi r-rabi'", tarjima: "Bahorgi tabiat qanchalik go'zal!" },
+      { arabcha: "مَا أَسْرَعَ الزَّمَانَ وَمَا أَقْصَرَ الْعُمُرَ", oqilishi: "ma asra'a z-zamana wa-ma aqsara l-'umr", tarjima: "Vaqt qanchalik tez o'tadi va umr qanchalik qisqa!" },
+      { arabcha: "أَجْمِلْ بِالْمَدِينَةِ لَيْلًا", oqilishi: "ajmil bil-madinati laylan", tarjima: "Shahar kechasi qanchalik go'zal!" },
+      { arabcha: "هُوَ طَالِبٌ مُجْتَهِدٌ وَصَبُورٌ", oqilishi: "huwa talibun mujtahidun wa-saburun", tarjima: "U g'ayratli va sabr qiluvchi talaba" },
+      { arabcha: "مَا أَعْظَمَ تَأْثِيرَ الْعِلْمِ عَلَى الْحَيَاةِ", oqilishi: "ma a'zama ta'thira l-'ilmi 'ala l-hayah", tarjima: "Ilmning hayotga ta'siri qanchalik buyuk!" },
+    ],
+    istima: [
+      { arabcha: "مَا أَجْمَلَ", oqilishi: "ma ajmala", tarjima: "qanchalik go'zal!", izoh: "I taajjub vazni" },
+      { arabcha: "مَا أَسْرَعَ", oqilishi: "ma asra'a", tarjima: "qanchalik tez!", izoh: "I taajjub vazni" },
+      { arabcha: "أَكْبِرْ بِهِ", oqilishi: "akbir bihi", tarjima: "u qanchalik ulkan!", izoh: "II taajjub vazni" },
+      { arabcha: "صَبُور", oqilishi: "sabur", tarjima: "juda sabr qiluvchi", izoh: "فَعُول mubalacha" },
+      { arabcha: "كَذَّاب", oqilishi: "kazzab", tarjima: "ko'p yolg'onchi", izoh: "فَعَّال mubalacha" },
+      { arabcha: "كَرِيم", oqilishi: "karim", tarjima: "juda saxiy", izoh: "فَعِيل mubalacha" },
+    ],
+    kitoba: [
+      { topshiriq: "Quyidagi sifatlardan I va II taajjub vaznlarini yasang: جَمِيل، سَرِيع، كَبِير، طَوِيل", misol: "جَمِيل → مَا أَجْمَلَهُ! / أَجْمِلْ بِهِ!" },
+      { topshiriq: "5 ta mubalacha og'irini ishlatib gaplar tuzing", misol: "هُوَ صَبُورٌ فِي عَمَلِهِ (U ishida juda sabr qiluvchi)" },
+      { topshiriq: "Siz yaxshi ko'rgan narsa yoki joyni taajjub vaznlari bilan tasvirlab yozing (5-7 gap)" },
+    ],
+    test: [
+      { savol: "مَا أَجْمَلَ الطَّبِيعَةَ gapining ma'nosi nima?", variantlar: ["Tabiat go'zal emas", "Tabiat qanchalik go'zal!", "Tabiatni seving", "Tabiat haqida"], togri: 1 },
+      { savol: "I taajjub vazni qanday tuziladi?", variantlar: ["فَعِيل shakli", "مَا + أَفْعَلَ + maf'ul", "أَفْعِلْ + bihi", "Vazn II fe'l"], togri: 1 },
+      { savol: "II taajjub vazni qanday tuziladi?", variantlar: ["مَا + أَفْعَلَ", "أَفْعِلْ + بِـ", "فَعَّال og'iri", "Vazn IV"], togri: 1 },
+      { savol: "صَبُور so'zi qaysi mubalacha og'iri?", variantlar: ["فَعَّال", "فَعُول", "مِفْعَال", "فَعِيل"], togri: 1 },
+      { savol: "كَذَّاب so'zi qaysi mubalacha og'iri?", variantlar: ["فَعُول", "فَعِيل", "فَعَّال", "مِفْعَال"], togri: 2 },
+      { savol: "مَا أَسْرَعَ السَّيَّارَةَ gapida taajjub nimaga oid?", variantlar: ["Mashina rangi", "Mashina tezligi", "Mashina hajmi", "Mashina narxi"], togri: 1 },
+      { savol: "Mubalacha vazni qanday ma'no beradi?", variantlar: ["Kamaytirish", "O'rtacha daraja", "Juda yuqori daraja (kuchaytirish)", "Salbiy ma'no"], togri: 2 },
+      { savol: "أَجْمِلْ بِالطَّبِيعَةِ ning ma'nosi qaysi?", variantlar: ["Tabiatni go'zallash", "Tabiat qanchalik go'zal!", "Go'zal tabiat kerak", "Tabiatni ko'ring"], togri: 1 },
+      { savol: "مِعْطَاء so'zi qaysi mubalacha og'iri?", variantlar: ["فَعَّال", "فَعُول", "فَعِيل", "مِفْعَال"], togri: 3 },
+      { savol: "I va II taajjub vaznlari ma'no jihatidan qanday?", variantlar: ["Farqli ma'no beradi", "Bir xil ma'no beradi", "II inkor shakli", "I buyruq shakli"], togri: 1 },
+    ],
+  },
+
+  // ─── C2 ─────────────────────────────────────────────────────────────────────
+  {
+    id: 19,
+    nomi: "Arabcha balaghat asoslari",
+    daraja: "C2",
+    icon: "✍️",
+    rang: "#CA8A04",
+    mavzu: "البلاغة — arabcha uslub va go'zal so'zlash san'ati",
+    qoida: [
+      {
+        sarlavha: "Tashabuh — o'xshatish (التشبيه)",
+        tavsif: "Tashabuh ikki narsa o'rtasidagi o'xshashlikni ifodalaydi. Tarkibi: mushabbah (o'xshatiladigan) + adatu t-tashabuh (o'xshatish vositasi: كَ, مِثْل, كَأَنَّ) + mushabbah bihi (o'xshatilgan).",
+        jadval: [
+          { arabcha: "الطِّفْلُ كَالْوَرْدَةِ", oqilishi: "at-tiflu kal-warda", tarjima: "Bola guldek (go'zal)", izoh: "كَـ vositasi" },
+          { arabcha: "الْعِلْمُ كَالنُّورِ", oqilishi: "al-'ilmu kan-nur", tarjima: "Ilm nurdek (yorug')", izoh: "کَـ vositasi" },
+          { arabcha: "كَأَنَّ النُّجُومَ دُرَرٌ", oqilishi: "ka'anna n-nujuma durarun", tarjima: "Yulduzlar go'yo marvaridlar", izoh: "كَأَنَّ vositasi" },
+          { arabcha: "مِثْلُ الْعَقْلِ كَالْمِيزَانِ", oqilishi: "mithlu l-'aqli kal-mizan", tarjima: "Aql tarozidek (to'g'ri)", izoh: "مِثْل vositasi" },
+        ],
+        misol: [
+          "Mushabbah: الطِّفْل (bola)",
+          "Adatu t-tashabuh: كَـ (kabi/dek)",
+          "Mushabbah bihi: الْوَرْدَة (gul)",
+        ],
+      },
+      {
+        sarlavha: "Isti'ora — ko'chma ma'no (الاستعارة)",
+        tavsif: "Isti'ora o'xshatish vositasisiz ishlatilgan o'xshatishdir. O'xshatilgan narsa o'rniga o'xshash narsa nom oladi.",
+        misol: [
+          "رَأَيْتُ أَسَدًا يُحَاضِرُ (Men sher ma'ruza qilayotganini ko'rdim — aslida jasur odam)",
+          "الشَّمْسُ تَبْتَسِمُ (Quyosh kulyapti — quyoshni tirik narsa sifatida ifodalash)",
+          "غَرِقَ فِي الْكِتَابِ (Kitobga cho'mdi — juda ko'p o'qidi)",
+        ],
+      },
+      {
+        sarlavha: "Kinoya — ramziy ifoda (الكناية)",
+        tavsif: "Kinoya - bir narsani to'g'ridan-to'g'ri aytmasdan uning belgisi orqali ifodalash. Majoziy ma'no va haqiqiy ma'no ham mumkin.",
+        misol: [
+          "هُوَ طَوِيلُ الْيَدِ (U qo'li uzun — ya'ni saxiy YOKI o'g'ri, kontekstga qarab)",
+          "هِيَ بَيْضَاءُ الْوَجْهِ (U yuzining oppoqligi — ya'ni pok vijdonli, sharafli)",
+          "فُلَانٌ كَثِيرُ الرَّمَادِ (U kulining ko'pligi — ya'ni mehmon ko'p qabul qiladi)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "الْعِلْمُ كَالنُّورِ يُضِيءُ الْعُقُولَ", oqilishi: "al-'ilmu kan-nuri yudi'u l-'uqul", tarjima: "Ilm aqllarni yoritadigan nurdek" },
+      { arabcha: "كَأَنَّ السَّمَاءَ بِسَاطٌ مِنَ الْحَرِيرِ", oqilishi: "ka'anna s-sama'a bisatun mina l-harir", tarjima: "Osmon go'yo ipak gilamday" },
+      { arabcha: "الطَّالِبُ الْمُجْتَهِدُ أَسَدٌ فِي الدِّرَاسَةِ", oqilishi: "at-talibu l-mujtahidu asadun fi d-dirasa", tarjima: "G'ayratli talaba o'qishda sherday" },
+      { arabcha: "غَرِقَ الْكَاتِبُ فِي أَفْكَارِهِ", oqilishi: "ghariqa l-katibu fi afkarihi", tarjima: "Yozuvchi fikrlariga cho'mib ketdi" },
+      { arabcha: "رَأَيْتُ أَسَدًا يَخْطُبُ فِي الْجَمَاهِيرِ", oqilishi: "ra'aytu asadan yakhtbu fi l-jamahir", tarjima: "Sher odamlar oldida nutq so'zlayotganini ko'rdim" },
+    ],
+    istima: [
+      { arabcha: "التَّشْبِيه", oqilishi: "at-tashbih", tarjima: "o'xshatish", izoh: "balaghat asosi" },
+      { arabcha: "الاِسْتِعَارَة", oqilishi: "al-isti'ara", tarjima: "ko'chma ma'no", izoh: "o'xshatish vositasisiz" },
+      { arabcha: "الْكِنَايَة", oqilishi: "al-kinaya", tarjima: "ramziy ifoda", izoh: "bilvosita ifodalash" },
+      { arabcha: "الْمُشَبَّه", oqilishi: "al-mushabbah", tarjima: "o'xshatiladigan narsa", izoh: "tashabuh tarkibi" },
+      { arabcha: "الْمُشَبَّه بِهِ", oqilishi: "al-mushabbah bihi", tarjima: "o'xshash narsa", izoh: "tashabuh tarkibi" },
+      { arabcha: "أَدَاةُ التَّشْبِيه", oqilishi: "adatu t-tashbih", tarjima: "o'xshatish vositasi", izoh: "كَـ, مِثْل, كَأَنَّ" },
+    ],
+    kitoba: [
+      { topshiriq: "3 ta tashabuh jumlasi tuzing va har birining mushabbah, adatu t-tashabuh, mushabbah bihini belgilang" },
+      { topshiriq: "Quyidagi isti'oralarning haqiqiy ma'nosini tushuntiring: رَأَيْتُ بَحْرًا يَتَكَلَّمُ — غَرِقَ فِي الْمَشَاكِل", misol: "رَأَيْتُ بَحْرًا يَتَكَلَّمُ — bilimli kishini ko'rdim" },
+      { topshiriq: "3 ta kinoya iborasi yozing va ularning majoziy ma'nosini izohlang" },
+    ],
+    test: [
+      { savol: "الْعِلْمُ كَالنُّورِ gapidagi balaghat san'ati nima?", variantlar: ["Isti'ora", "Tashabuh", "Kinoya", "Taajjub"], togri: 1 },
+      { savol: "Tashabuhning to'liq tarkibini belgilang", variantlar: ["Mushabbah + mushabbah bihi", "Mushabbah + adatu t-tashabuh + mushabbah bihi", "Adatu t-tashabuh + mushabbah bihi", "Faqat mushabbah"], togri: 1 },
+      { savol: "Isti'ora tashabuhdanqanday farqlanadi?", variantlar: ["Mushabbah yo'q", "Mushabbah bihi yo'q", "O'xshatish vositasi yo'q", "Hech qanday farqi yo'q"], togri: 2 },
+      { savol: "رَأَيْتُ أَسَدًا يُحَاضِرُ gapida qanday balaghat ishlatilgan?", variantlar: ["Tashabuh", "Kinoya", "Isti'ora", "Taajjub"], togri: 2 },
+      { savol: "كَأَنَّ السَّمَاءَ بِسَاطٌ gapidagi o'xshatish vositasi nima?", variantlar: ["كَـ", "مِثْل", "كَأَنَّ", "شَبِيه"], togri: 2 },
+      { savol: "Kinoya nimani ifodalaydi?", variantlar: ["To'g'ridan-to'g'ri ta'rif", "Narsa belgisi orqali bilvosita ifoda", "Savol shakli", "Inkor shakli"], togri: 1 },
+      { savol: "هُوَ طَوِيلُ الْيَدِ kinoyasining bir ma'nosi nima?", variantlar: ["Qo'li kasal", "Saxiy", "Mehnatkash", "Baland bo'yli"], togri: 1 },
+      { savol: "Tashabuhda mushabbah qaysi element?", variantlar: ["O'xshash narsa", "O'xshatish vositasi", "O'xshatiladigan narsa", "Miqdor ko'rsatkichi"], togri: 2 },
+      { savol: "غَرِقَ فِي الْكِتَابِ gapida qanday balaghat san'ati ishlatilgan?", variantlar: ["Tashabuh (كَـ bilan)", "Kinoya", "Isti'ora", "Mubalacha"], togri: 2 },
+      { savol: "Balaghat fanining asosiy maqsadi nima?", variantlar: ["Grammatika xatolarini tuzatish", "So'zning ta'sirli va go'zal bo'lishini ta'minlash", "Lug'at boyitish", "Tarjima qilish"], togri: 1 },
+    ],
+  },
+  {
+    id: 20,
+    nomi: "Murakkab grammatik tuzilmalar",
+    daraja: "C2",
+    icon: "🏛️",
+    rang: "#2563EB",
+    mavzu: "التراكيب المعقدة — arabcha matnda murakkab tuzilmalar",
+    qoida: [
+      {
+        sarlavha: "Ta'kid uslublari (التوكيد)",
+        tavsif: "Arabchada ma'noni kuchaytirish uchun ta'kid vositalari ishlatiladi: إِنَّ/أَنَّ, لَـ kuchaytirish lomi, قَدْ, ن ta'kid.",
+        jadval: [
+          { arabcha: "إِنَّ الْعِلْمَ نُورٌ", oqilishi: "inna l-'ilma nurun", tarjima: "Albatta, ilm nurdur", izoh: "إِنَّ ta'kidi" },
+          { arabcha: "لَقَدْ نَجَحَ الطُّلَّابُ", oqilishi: "laqad najaha t-tullab", tarjima: "Talabalar, haqiqatan, o'tishdi", izoh: "لَقَدْ ta'kidi" },
+          { arabcha: "إِنَّكَ لَمُجْتَهِدٌ", oqilishi: "innaka la-mujtahidun", tarjima: "Sen, albatta, tirishqoqsan", izoh: "إِنَّ + لَـ ikki ta'kid" },
+          { arabcha: "قَدْ فَهِمْتُ الدَّرْسَ", oqilishi: "qad fahimtu d-darsa", tarjima: "Darsni tushundim (tasdiqlash)", izoh: "قَدْ o'tgan zamon ta'kidi" },
+        ],
+      },
+      {
+        sarlavha: "I'tirod jumlalari (الجمل الاعتراضية)",
+        tavsif: "I'tirod jumlasi asosiy jumla ichiga kiritilgan qo'shimcha jumladir. Ko'pincha tire (-) yoki vergul bilan ajratiladi.",
+        misol: [
+          "مُحَمَّدٌ — وَهُوَ طَالِبٌ مُجْتَهِدٌ — نَجَحَ فِي الاِمْتِحَانِ (Muhammad — u tirishqoq talaba — imtihondan o'tdi)",
+          "الْكِتَابُ — كَمَا تَعْلَمُ — مُفِيدٌ (Kitob — bilganingdek — foydali)",
+          "هَذَا الْمَشْرُوعُ — فِي رَأْيِي — مُمْتَازٌ (Bu loyiha — mening fikrimcha — ajoyib)",
+        ],
+      },
+      {
+        sarlavha: "Murakkab shart va qasam birikmalari",
+        tavsif: "Arabchada qasam va shart birga kelishi mumkin. Qasam birinchi kelsa, shart javobsiz qoladi va qasam javobiga shart kiradi.",
+        jadval: [
+          { arabcha: "وَاللَّهِ لَأَجْتَهِدَنَّ", oqilishi: "wallahi la-ajtahidanna", tarjima: "Xudo haqqi, tirishaman", izoh: "qasam + kuchaytirish" },
+          { arabcha: "إِنْ تَدْرُسْ تَنْجَحْ", oqilishi: "in tadrus tanjah", tarjima: "Agar o'qisang, o'tasan", izoh: "shart + jawab" },
+          { arabcha: "لَوْ دَرَسْتَ لَنَجَحْتَ", oqilishi: "law darasata la-najahta", tarjima: "O'qiganingda o'tarding", izoh: "noreal shart + jawab" },
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "إِنَّ الْعِلْمَ — كَمَا يَقُولُ الْعُلَمَاءُ — نُورٌ يَهْدِي الْعُقُولَ", oqilishi: "inna l-'ilma — kama yaqulu l-'ulama — nurun yahdi l-'uqul", tarjima: "Ilm — olimlar aytganidek — aqllarni yo'llovchi nurdur" },
+      { arabcha: "لَقَدْ أَثْبَتَ الطُّلَّابُ أَنَّهُمْ مُجْتَهِدُونَ", oqilishi: "laqad athbata t-tullabu annahum mujtahidun", tarjima: "Talabalar, haqiqatan, o'zlarining tirishqoq ekanligini isbotlashdi" },
+      { arabcha: "إِنْ تَعْمَلْ بِجِدٍّ تُحَقِّقْ أَهْدَافَكَ", oqilishi: "in ta'mal bi-jiddin tuhaqqiq ahdafak", tarjima: "Agar tirishib ishlasang, maqsadlaringga erishasiz" },
+      { arabcha: "الطَّالِبُ — وَهُوَ يَسْتَمِعُ — يَفْهَمُ أَكْثَرَ", oqilishi: "at-talibu — wa-huwa yastami'u — yafhamu akthara", tarjima: "Talaba — tinglaganda — ko'proq tushunadi" },
+      { arabcha: "قَدْ تَكُونُ الصُّعُوبَاتُ بِدَايَةَ النَّجَاحِ", oqilishi: "qad takunu s-su'ubatu bidayata n-najah", tarjima: "Qiyinchiliklar muvaffaqiyatning boshi bo'lishi mumkin" },
+    ],
+    istima: [
+      { arabcha: "إِنَّ", oqilishi: "inna", tarjima: "albatta, haqiqatan", izoh: "ta'kid vositasi" },
+      { arabcha: "لَقَدْ", oqilishi: "laqad", tarjima: "haqiqatan (o'tgan)", izoh: "لَـ + قَدْ ta'kid" },
+      { arabcha: "قَدْ", oqilishi: "qad", tarjima: "tasdiqlash yuklamasi", izoh: "fe'l oldidan ta'kid" },
+      { arabcha: "الْجُمْلَة الاِعْتِرَاضِيَّة", oqilishi: "al-jumla l-i'tiradiyya", tarjima: "i'tirod jumlasi", izoh: "kiritma jumla" },
+      { arabcha: "جَوَابُ الشَّرْط", oqilishi: "jawab ash-shart", tarjima: "shart javobi", izoh: "shart tuzilmasi" },
+      { arabcha: "لَوْ", oqilishi: "law", tarjima: "agar (noreal shart)", izoh: "noreal shart yuklama" },
+    ],
+    kitoba: [
+      { topshiriq: "إِنَّ va لَقَدْ ta'kid vositalaridan foydalanib 5 ta gap tuzing", misol: "إِنَّ الْعَمَلَ الْجَادَّ يُؤَدِّي إِلَى النَّجَاح" },
+      { topshiriq: "I'tirod jumlasini o'z ichiga olgan 3 ta murakkab gap tuzing", misol: "الْمَشْرُوعُ — كَمَا اتَّفَقْنَا — سَيَبْدَأُ غَدًا" },
+      { topshiriq: "إِنْ va لَوْ bilan 4 ta shart gapi tuzing va farqini tushuntiring" },
+    ],
+    test: [
+      { savol: "إِنَّ الْعِلْمَ نُورٌ gapida إِنَّ ning vazifasi nima?", variantlar: ["Savol berish", "Inkor qilish", "Ta'kid (kuchaytirish)", "O'xshatish"], togri: 2 },
+      { savol: "لَقَدْ tarkibi qanday?", variantlar: ["لَـ + قَدْ", "لا + قَدْ", "لَمْ + قَدْ", "لَنْ + قَدْ"], togri: 0 },
+      { savol: "I'tirod jumlasining asosiy xususiyati nima?", variantlar: ["Asosiy gap o'rnini oladi", "Asosiy gap ichiga kiritiladi", "Savol shakli", "Inkor shakli"], togri: 1 },
+      { savol: "قَدْ o'tgan zamon fe'li oldidan qo'llanganda qanday ma'no beradi?", variantlar: ["Kelasi zamon", "Tasdiqlash/ta'kid", "Inkor", "Hayrat"], togri: 1 },
+      { savol: "لَوْ shart yuklamas qaysi tur shart uchun?", variantlar: ["Real shart", "Noreal (bajarib bo'lmaydigan) shart", "Buyruq shart", "Inkor shart"], togri: 1 },
+      { savol: "إِنْ shart yuklamas qaysi tur shart uchun?", variantlar: ["Noreal shart", "Real (mumkin) shart", "O'tgan shart", "Qasam"], togri: 1 },
+      { savol: "إِنَّكَ لَمُجْتَهِدٌ gapida nechta ta'kid vositasi bor?", variantlar: ["Bitta", "Ikkita", "Uchta", "Hech biri yo'q"], togri: 1 },
+      { savol: "الطَّالِبُ — وَهُوَ يَسْتَمِعُ — يَفْهَمُ gapida qaysi tuzilma ishlatilgan?", variantlar: ["Tashabuh", "I'tirod jumlasi", "Shart", "Inkor"], togri: 1 },
+      { savol: "إِنْ تَدْرُسْ تَنْجَحْ gapida shart va javob qaysilar?", variantlar: ["إِنْ تَدْرُسْ — shart, تَنْجَحْ — javob", "تَنْجَحْ — shart, إِنْ تَدْرُسْ — javob", "Ikkalasi shart", "Ikkalasi javob"], togri: 0 },
+      { savol: "قَدْ hozirgi/kelasi zamon fe'li oldidan qo'llansa qanday ma'no beradi?", variantlar: ["Tasdiqlash", "Ehtimollilik (mumkin)", "Inkor", "Buyruq"], togri: 1 },
+    ],
+  },
+  {
+    id: 21,
+    nomi: "Matn tahlili va ilmiy yozuv",
+    daraja: "C2",
+    icon: "📜",
+    rang: "#059669",
+    mavzu: "تحليل النصوص والكتابة الأكاديمية — arabcha matnni tahlil va yozish",
+    qoida: [
+      {
+        sarlavha: "Arabcha matn tuzilmasi",
+        tavsif: "Akademik arabcha matn odatda uch qismdan iborat: muqaddima (kirish), matn tanasi (asosiy g'oya), xotima (xulosa). Har bir qism o'z aloqa so'zlari va mantiqiy bog'lovchilariga ega.",
+        jadval: [
+          { arabcha: "الْمُقَدِّمَة", oqilishi: "al-muqaddima", tarjima: "Kirish qismi", izoh: "maqsad va ko'lamni belgilash" },
+          { arabcha: "صُلْبُ الْمَوْضُوع", oqilishi: "sulbu l-mawdu'", tarjima: "Asosiy qism", izoh: "g'oyalar rivojlanishi" },
+          { arabcha: "الْخَاتِمَة", oqilishi: "al-khatima", tarjima: "Xulosa qismi", izoh: "natija va tavsiyalar" },
+          { arabcha: "الْمَرَاجِع", oqilishi: "al-maraji'", tarjima: "Manbalar ro'yxati", izoh: "adabiyotlar" },
+        ],
+      },
+      {
+        sarlavha: "Mantiqiy bog'lovchilar va aloqa so'zlari",
+        tavsif: "Matn uyg'unligini ta'minlash uchun bog'lovchilar zarur. Ular fikrlarni bog'laydi, qarama-qarshi qo'yadi yoki xulosa chiqaradi.",
+        jadval: [
+          { arabcha: "أَوَّلًا / ثَانِيًا / ثَالِثًا", oqilishi: "awwalan / thaniyan / thalithan", tarjima: "Birinchidan / ikkinchidan / uchinchidan", izoh: "tartib bildiradi" },
+          { arabcha: "وَبِالتَّالِي", oqilishi: "wa-bit-tali", tarjima: "shuning uchun, binobarin", izoh: "natija bildiradi" },
+          { arabcha: "عَلَى الرَّغْمِ مِنْ", oqilishi: "'ala r-raghmi min", tarjima: "garchi... bo'lsa ham", izoh: "qarama-qarshilik" },
+          { arabcha: "فَضْلًا عَنْ ذَلِكَ", oqilishi: "fadlan 'an dhalik", tarjima: "bundan tashqari", izoh: "qo'shimcha ma'lumot" },
+          { arabcha: "فِي ضَوْءِ مَا سَبَقَ", oqilishi: "fi daw'i ma sabaqa", tarjima: "yuqorida aytilganlar asosida", izoh: "xulosa kirishi" },
+          { arabcha: "يَتَّضِحُ مِمَّا سَبَقَ", oqilishi: "yattadihu mimma sabaqa", tarjima: "yuqoridagilardan ma'lum bo'ladi", izoh: "xulosa iborasi" },
+        ],
+      },
+      {
+        sarlavha: "Ilmiy uslub xususiyatlari",
+        tavsif: "Ilmiy arabcha matnda passiv nisbat, masdar, ob'ektiv ton va aniq terminologiya ishlatiladi.",
+        misol: [
+          "Passiv ko'p: يُلَاحَظُ أَنَّ... (kuzatiladi ki...)",
+          "Masdar ko'p: إِنَّ دِرَاسَةَ اللُّغَةِ مُهِمَّةٌ (Til o'rganish muhimdir)",
+          "Ob'ektiv ton: تُشِيرُ الدِّرَاسَاتُ إِلَى... (Tadqiqotlar ko'rsatadi...)",
+          "Aniq tavsif: يُعَرَّفُ الْمُصْطَلَحُ بِأَنَّهُ... (Atama shunday ta'riflanadi...)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "يُلَاحَظُ أَنَّ تَعَلُّمَ اللُّغَاتِ يُطَوِّرُ الْقُدُرَاتِ الذِّهْنِيَّةَ", oqilishi: "yulahazo anna ta'alluma l-lughati yutawwiru l-qudurat az-zihniyya", tarjima: "Kuzatiladi ki, til o'rganish aqliy qobiliyatlarni rivojlantiradi" },
+      { arabcha: "فِي ضَوْءِ مَا سَبَقَ، يَتَّضِحُ أَهَمِّيَّةُ الْقِرَاءَةِ الْمُنْتَظِمَة", oqilishi: "fi daw'i ma sabaqa, yattadihu ahammiyyatu l-qira'a l-muntazama", tarjima: "Yuqorida aytilganlar asosida, muntazam o'qishning ahamiyati ma'lum bo'ladi" },
+      { arabcha: "تُشِيرُ الدِّرَاسَاتُ إِلَى أَنَّ التَّكْرَارَ يُعَزِّزُ الْحِفْظَ", oqilishi: "tushiru d-dirasatu ila anna t-tikrara yu'azzizu l-hifz", tarjima: "Tadqiqotlar takrorlashning yodlashni mustahkamlashini ko'rsatadi" },
+      { arabcha: "أَوَّلًا، سَنَتَنَاوَلُ الْأَسْبَابَ؛ ثَانِيًا، النَّتَائِجَ", oqilishi: "awwalan, sanatanawalu l-asbab; thaniyan, an-nata'ij", tarjima: "Birinchidan, sabablarni ko'rib chiqamiz; ikkinchidan, natijalarni" },
+      { arabcha: "عَلَى الرَّغْمِ مِنَ الصُّعُوبَاتِ، حَقَّقَ الْفَرِيقُ نَجَاحًا بَارِزًا", oqilishi: "'ala r-raghmi mina s-su'ubat, haqqaqa l-fariqu najahan bariza", tarjima: "Qiyinchiliklarga qaramay, jamoa ajoyib muvaffaqiyat qozondi" },
+    ],
+    istima: [
+      { arabcha: "الْمُقَدِّمَة", oqilishi: "al-muqaddima", tarjima: "kirish", izoh: "matn tuzilmasi" },
+      { arabcha: "الْخَاتِمَة", oqilishi: "al-khatima", tarjima: "xulosa", izoh: "matn tuzilmasi" },
+      { arabcha: "وَبِالتَّالِي", oqilishi: "wa-bit-tali", tarjima: "binobarin/shuning uchun", izoh: "natija bog'lovchisi" },
+      { arabcha: "فَضْلًا عَنْ ذَلِكَ", oqilishi: "fadlan 'an dhalik", tarjima: "bundan tashqari", izoh: "qo'shimcha bog'lovchi" },
+      { arabcha: "يُلَاحَظُ أَنَّ", oqilishi: "yulahazo anna", tarjima: "kuzatiladi ki", izoh: "ilmiy passiv ibora" },
+      { arabcha: "تُشِيرُ الدِّرَاسَاتُ", oqilishi: "tushiru d-dirasatu", tarjima: "tadqiqotlar ko'rsatadi", izoh: "ilmiy ibora" },
+    ],
+    kitoba: [
+      { topshiriq: "Siz bilgan mavzu bo'yicha 150-200 so'zlik arabcha matn yozing. Tuzilma: muqaddima, asosiy qism, xotima", misol: "Mavzu: Til o'rganishning foydalari — فَوَائِدُ تَعَلُّمِ اللُّغَاتِ" },
+      { topshiriq: "Quyidagi bog'lovchilardan har birini ishlatib gaplar tuzing: وَبِالتَّالِي، عَلَى الرَّغْمِ مِنْ، فَضْلًا عَنْ ذَلِكَ، يَتَّضِحُ مِمَّا سَبَقَ" },
+      { topshiriq: "Berilgan qisqa matnni tahlil qiling: mavzusini, asosiy g'oyasini, va ishlatilgan bog'lovchilarni belgilang" },
+    ],
+    test: [
+      { savol: "Akademik arabcha matnning birinchi qismi nima deyiladi?", variantlar: ["الْخَاتِمَة", "صُلْبُ الْمَوْضُوع", "الْمُقَدِّمَة", "الْمَرَاجِع"], togri: 2 },
+      { savol: "وَبِالتَّالِي bog'lovchisi qanday ma'no beradi?", variantlar: ["Qarama-qarshilik", "Qo'shimcha ma'lumot", "Natija/binobarin", "Tartib"], togri: 2 },
+      { savol: "عَلَى الرَّغْمِ مِنْ iborasi qanday ma'no bildiradi?", variantlar: ["Shuning uchun", "Garchi... bo'lsa ham", "Birinchidan", "Bundan tashqari"], togri: 1 },
+      { savol: "Ilmiy uslubda qaysi fe'l shakli ko'p ishlatiladi?", variantlar: ["Buyruq mayli", "Passiv nisbat", "Taajjub vazni", "Inkor shakli"], togri: 1 },
+      { savol: "يُلَاحَظُ أَنَّ iborasining ma'nosi nima?", variantlar: ["Buyuriladi ki", "Kuzatiladi ki", "So'raladi ki", "Taqiqlanadi ki"], togri: 1 },
+      { savol: "فَضْلًا عَنْ ذَلِكَ iborasi qanday bog'lovchi?", variantlar: ["Natija bildiradi", "Qo'shimcha ma'lumot bildiradi", "Qarama-qarshi qo'yadi", "Tartib bildiradi"], togri: 1 },
+      { savol: "Matn xulosa qismiga kirish uchun qaysi ibora ishlatiladi?", variantlar: ["أَوَّلًا", "عَلَى الرَّغْمِ", "فِي ضَوْءِ مَا سَبَقَ", "وَبِالتَّالِي"], togri: 2 },
+      { savol: "Ilmiy arabcha matnda ob'ektiv ton uchun qaysi tuzilma ko'p qo'llanadi?", variantlar: ["I shaxs fe'li", "Passiv nisbat va masdar", "Taajjub vaznlari", "Buyruq mayli"], togri: 1 },
+      { savol: "تُشِيرُ الدِّرَاسَاتُ إِلَى أَنَّ iborasining ma'nosi nima?", variantlar: ["Talabalar o'rganadi", "Tadqiqotlar ko'rsatadi ki", "O'qituvchilar tushuntiradi", "Kitoblar yozadi"], togri: 1 },
+      { savol: "Akademik matnda مَرَاجِع nima?", variantlar: ["Kirish qism", "Asosiy g'oyalar", "Manbalar/adabiyotlar ro'yxati", "Xulosa"], togri: 2 },
+    ],
+  },
+];
+
+export const GRAM_DARAJALAR: GramDarajaInfo[] = [
+  {
+    kod: "A0-A1",
+    nomi: "Boshlang'ich daraja",
+    rang: "#2563EB",
+    davomiyligi: "2 oy",
+    oylar: 2,
+    haftalar: 8,
+    jami_kunlar: 48,
+    darslar: 16,
+    jadval: [
+      {
+        hafta: 1,
+        kunlar: [
+          { kuni: 1, mavzu: "Kirish — arabcha va grammatika nima?", tur: "dars" },
+          { kuni: 2, mavzu: "Ismlar: muzakkar va muannash (1-dars)", darsId: 1, tur: "dars" },
+          { kuni: 3, mavzu: "1-darsni tahlil va mashq qilish", tur: "tahlil" },
+          { kuni: 4, mavzu: "Shaxs olmoshlari — yagona (2-dars)", darsId: 2, tur: "dars" },
+          { kuni: 5, mavzu: "2-darsni tahlil va mashq qilish", tur: "tahlil" },
+          { kuni: 6, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 2,
+        kunlar: [
+          { kuni: 7, mavzu: "Ko'plik olmoshlari (2-dars davomi)", darsId: 2, tur: "dars" },
+          { kuni: 8, mavzu: "Ishorali olmoshlar (3-dars)", darsId: 3, tur: "dars" },
+          { kuni: 9, mavzu: "3-darsni tahlil va mashq", tur: "tahlil" },
+          { kuni: 10, mavzu: "1–3 darslar takrori", tur: "tahlil" },
+          { kuni: 11, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 12, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 3,
+        kunlar: [
+          { kuni: 13, mavzu: "Al- aniqlik artikli", tur: "dars" },
+          { kuni: 14, mavzu: "Al- mashq va misollar", tur: "tahlil" },
+          { kuni: 15, mavzu: "Ot va sifat birikmas", tur: "dars" },
+          { kuni: 16, mavzu: "Sifat mosligi mashqi", tur: "tahlil" },
+          { kuni: 17, mavzu: "Yangi lug'atlar: kundalik hayot so'zlari", tur: "dars" },
+          { kuni: 18, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 4,
+        kunlar: [
+          { kuni: 19, mavzu: "Oddiy gap tuzilmasi (SVO)", tur: "dars" },
+          { kuni: 20, mavzu: "Gap tuzilmasi mashqi", tur: "tahlil" },
+          { kuni: 21, mavzu: "Tanishuv jumlalari", tur: "dars" },
+          { kuni: 22, mavzu: "Tanishuv dialogini yozish", tur: "tahlil" },
+          { kuni: 23, mavzu: "Oy davomidagi o'quv natijalarini tahlil qilish", tur: "tahlil" },
+          { kuni: 24, mavzu: "1-oy yakuniy imtihon", tur: "imtihon" },
+        ],
+      },
+      {
+        hafta: 5,
+        kunlar: [
+          { kuni: 25, mavzu: "Sonlar 1–10", tur: "dars" },
+          { kuni: 26, mavzu: "Sonlar 11–100", tur: "dars" },
+          { kuni: 27, mavzu: "Son + ism birikmas", tur: "tahlil" },
+          { kuni: 28, mavzu: "Ranglar va tavsif", tur: "dars" },
+          { kuni: 29, mavzu: "Ranglar mashqi", tur: "tahlil" },
+          { kuni: 30, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 6,
+        kunlar: [
+          { kuni: 31, mavzu: "Predloglar: في، على، من، إلى", tur: "dars" },
+          { kuni: 32, mavzu: "Predloglar bilan gaplar tuzish", tur: "tahlil" },
+          { kuni: 33, mavzu: "Fe'l: o'tgan zamon kirish", tur: "dars" },
+          { kuni: 34, mavzu: "Fe'l o'tgan zamon mashqi", tur: "tahlil" },
+          { kuni: 35, mavzu: "Dialog: Qayerda turasan?", tur: "dars" },
+          { kuni: 36, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 7,
+        kunlar: [
+          { kuni: 37, mavzu: "Fe'l: hozirgi zamon kirish", tur: "dars" },
+          { kuni: 38, mavzu: "Fe'l hozirgi zamon mashqi", tur: "tahlil" },
+          { kuni: 39, mavzu: "Savol gaplari: هل va ما", tur: "dars" },
+          { kuni: 40, mavzu: "Savol-javob mashqi", tur: "tahlil" },
+          { kuni: 41, mavzu: "Inkor shakli: لا va لَيْسَ", tur: "dars" },
+          { kuni: 42, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 8,
+        kunlar: [
+          { kuni: 43, mavzu: "Kundalik hayot dialoglari", tur: "dars" },
+          { kuni: 44, mavzu: "Barcha mavzular takrori", tur: "tahlil" },
+          { kuni: 45, mavzu: "Yozma test (A0-A1 barcha mavzulari)", tur: "imtihon" },
+          { kuni: 46, mavzu: "Og'zaki dialog mashqi", tur: "tahlil" },
+          { kuni: 47, mavzu: "Natijalar tahlili va A1 sertifikat", tur: "tahlil" },
+          { kuni: 48, mavzu: "A0-A1 yakuniy imtihon", tur: "imtihon" },
+        ],
+      },
+    ],
+  },
+  {
+    kod: "A1-A2",
+    nomi: "Boshlang'ich-o'rta daraja",
+    rang: "#0891B2",
+    davomiyligi: "2 oy",
+    oylar: 2,
+    haftalar: 8,
+    jami_kunlar: 48,
+    darslar: 20,
+    jadval: [
+      {
+        hafta: 1,
+        kunlar: [
+          { kuni: 1, mavzu: "Kirish — A1 dan A2 ga o'tish", tur: "dars" },
+          { kuni: 2, mavzu: "O'tgan zamon fe'li: tuzilishi (7-dars)", darsId: 7, tur: "dars" },
+          { kuni: 3, mavzu: "O'tgan zamon: 3 va 2-shaxs shakllari", darsId: 7, tur: "dars" },
+          { kuni: 4, mavzu: "O'tgan zamon mashqi va misollar", darsId: 7, tur: "tahlil" },
+          { kuni: 5, mavzu: "O'tgan zamon: inkor shakli", darsId: 7, tur: "dars" },
+          { kuni: 6, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 2,
+        kunlar: [
+          { kuni: 7, mavzu: "O'tgan zamon: savol shakllari", darsId: 7, tur: "dars" },
+          { kuni: 8, mavzu: "O'tgan zamon: murakkab gaplar", darsId: 7, tur: "tahlil" },
+          { kuni: 9, mavzu: "O'tgan zamon — yozma mashq", tur: "tahlil" },
+          { kuni: 10, mavzu: "O'tgan zamon takrori", tur: "tahlil" },
+          { kuni: 11, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 12, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 3,
+        kunlar: [
+          { kuni: 13, mavzu: "Kelishik harflari: في، على، من (8-dars)", darsId: 8, tur: "dars" },
+          { kuni: 14, mavzu: "Kelishik harflari: إلى، عن، مع", darsId: 8, tur: "dars" },
+          { kuni: 15, mavzu: "Kelishik harflari mashqi", darsId: 8, tur: "tahlil" },
+          { kuni: 16, mavzu: "Kelishik harflari bilan gaplar", darsId: 8, tur: "tahlil" },
+          { kuni: 17, mavzu: "Kelishik harflari: ko'p ma'noli ishlatish", darsId: 8, tur: "dars" },
+          { kuni: 18, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 4,
+        kunlar: [
+          { kuni: 19, mavzu: "Kelishik harflari takrori", darsId: 8, tur: "tahlil" },
+          { kuni: 20, mavzu: "Kelishik va o'tgan zamon birga", tur: "tahlil" },
+          { kuni: 21, mavzu: "Oy yakuniy test (o'tgan zamon + kelishik)", tur: "imtihon" },
+          { kuni: 22, mavzu: "Xatolar ustida ishlash", tur: "tahlil" },
+          { kuni: 23, mavzu: "Sifat moslashuvi kirish (9-dars)", darsId: 9, tur: "dars" },
+          { kuni: 24, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 5,
+        kunlar: [
+          { kuni: 25, mavzu: "Sifat: muzakkar va muannash moslashuvi", darsId: 9, tur: "dars" },
+          { kuni: 26, mavzu: "Sifat: aniq va noaniq holat", darsId: 9, tur: "dars" },
+          { kuni: 27, mavzu: "Sifat moslashuvi mashqi", darsId: 9, tur: "tahlil" },
+          { kuni: 28, mavzu: "Sifat ko'pligi", darsId: 9, tur: "dars" },
+          { kuni: 29, mavzu: "Sifat + ot birikmalari", darsId: 9, tur: "tahlil" },
+          { kuni: 30, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 6,
+        kunlar: [
+          { kuni: 31, mavzu: "Sifat: taqqoslash darajasi", darsId: 9, tur: "dars" },
+          { kuni: 32, mavzu: "Sifat mashqi — gaplar tuzish", darsId: 9, tur: "tahlil" },
+          { kuni: 33, mavzu: "Murakkab sifat birikmalari", darsId: 9, tur: "dars" },
+          { kuni: 34, mavzu: "O'tgan zamon + kelishik + sifat birga", tur: "tahlil" },
+          { kuni: 35, mavzu: "Dialog: tavsif qilish", tur: "dars" },
+          { kuni: 36, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 7,
+        kunlar: [
+          { kuni: 37, mavzu: "Barcha A2 mavzulari takrori", tur: "tahlil" },
+          { kuni: 38, mavzu: "Og'zaki amaliyot: qisqa matn", tur: "tahlil" },
+          { kuni: 39, mavzu: "Yozma mashq: 5-7 ta gap", tur: "tahlil" },
+          { kuni: 40, mavzu: "Lug'at: A2 asosiy so'zlar", tur: "dars" },
+          { kuni: 41, mavzu: "Mock test — A1-A2 umumiy", tur: "imtihon" },
+          { kuni: 42, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 8,
+        kunlar: [
+          { kuni: 43, mavzu: "Xatolar tahlili va mustahkamlash", tur: "tahlil" },
+          { kuni: 44, mavzu: "Yozma imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 45, mavzu: "A1-A2 yakuniy yozma imtihon", tur: "imtihon" },
+          { kuni: 46, mavzu: "Og'zaki imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 47, mavzu: "Natijalar tahlili va A2 sertifikat", tur: "tahlil" },
+          { kuni: 48, mavzu: "A1-A2 yakuniy imtihon", tur: "imtihon" },
+        ],
+      },
+    ],
+  },
+  {
+    kod: "A2-B1",
+    nomi: "O'rta daraja",
+    rang: "#16A34A",
+    davomiyligi: "3 oy",
+    oylar: 3,
+    haftalar: 12,
+    jami_kunlar: 72,
+    darslar: 28,
+    jadval: [
+      {
+        hafta: 1,
+        kunlar: [
+          { kuni: 1, mavzu: "Kirish — B1 darajasiga kirish", tur: "dars" },
+          { kuni: 2, mavzu: "Hozirgi zamon fe'li: tuzilishi (10-dars)", darsId: 10, tur: "dars" },
+          { kuni: 3, mavzu: "Hozirgi zamon: shaxs-son qo'shimchalari", darsId: 10, tur: "dars" },
+          { kuni: 4, mavzu: "Hozirgi zamon mashqi va misollar", darsId: 10, tur: "tahlil" },
+          { kuni: 5, mavzu: "Kelasi zamon: o'zgarishlar va foydalanish", darsId: 10, tur: "dars" },
+          { kuni: 6, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 2,
+        kunlar: [
+          { kuni: 7, mavzu: "Hozirgi va kelasi zamon taqqoslash", darsId: 10, tur: "tahlil" },
+          { kuni: 8, mavzu: "Fe'l zamonlari: uch zamon birga", darsId: 10, tur: "dars" },
+          { kuni: 9, mavzu: "Zamon fe'llari mashqi", tur: "tahlil" },
+          { kuni: 10, mavzu: "Zamon fe'llari — yozma mashq", tur: "tahlil" },
+          { kuni: 11, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 12, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 3,
+        kunlar: [
+          { kuni: 13, mavzu: "Hozirgi zamon murakkab shakllari", darsId: 10, tur: "dars" },
+          { kuni: 14, mavzu: "Fe'l zamon: gap ichida qo'llash", darsId: 10, tur: "tahlil" },
+          { kuni: 15, mavzu: "Matn yozish: zamon fe'llari bilan", tur: "tahlil" },
+          { kuni: 16, mavzu: "10-dars yakuniy takror", darsId: 10, tur: "tahlil" },
+          { kuni: 17, mavzu: "1-oy imtihon (10-dars)", tur: "imtihon" },
+          { kuni: 18, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 4,
+        kunlar: [
+          { kuni: 19, mavzu: "Inkor shakllari: لا va لَمْ (11-dars)", darsId: 11, tur: "dars" },
+          { kuni: 20, mavzu: "Inkor: لَيْسَ va مَا", darsId: 11, tur: "dars" },
+          { kuni: 21, mavzu: "Inkor shakllari mashqi", darsId: 11, tur: "tahlil" },
+          { kuni: 22, mavzu: "Buyruq mayli: musbat shakl", darsId: 11, tur: "dars" },
+          { kuni: 23, mavzu: "Buyruq mayli: inkor shakl", darsId: 11, tur: "dars" },
+          { kuni: 24, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 5,
+        kunlar: [
+          { kuni: 25, mavzu: "Buyruq mayli mashqi", darsId: 11, tur: "tahlil" },
+          { kuni: 26, mavzu: "Inkor + buyruq mayli birga", darsId: 11, tur: "tahlil" },
+          { kuni: 27, mavzu: "Dialog: buyruq va taqiq ifodalash", darsId: 11, tur: "dars" },
+          { kuni: 28, mavzu: "11-dars yakuniy mashq", darsId: 11, tur: "tahlil" },
+          { kuni: 29, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 30, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 6,
+        kunlar: [
+          { kuni: 31, mavzu: "Inkor va buyruq: amaliy matn", darsId: 11, tur: "tahlil" },
+          { kuni: 32, mavzu: "2-oy imtihon (10 va 11-darslar)", tur: "imtihon" },
+          { kuni: 33, mavzu: "Masdar: ta'rif va turlari (12-dars)", darsId: 12, tur: "dars" },
+          { kuni: 34, mavzu: "Masdar: qo'llanishi va misollar", darsId: 12, tur: "dars" },
+          { kuni: 35, mavzu: "Masdar mashqi", darsId: 12, tur: "tahlil" },
+          { kuni: 36, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 7,
+        kunlar: [
+          { kuni: 37, mavzu: "Ism fa'il: fa'ollik shakli", darsId: 12, tur: "dars" },
+          { kuni: 38, mavzu: "Ism maf'ul: passiv shakl", darsId: 12, tur: "dars" },
+          { kuni: 39, mavzu: "Masdar va ism fa'il mashqi", darsId: 12, tur: "tahlil" },
+          { kuni: 40, mavzu: "Masdar va ism fa'il: gaplarda", darsId: 12, tur: "tahlil" },
+          { kuni: 41, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 42, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 8,
+        kunlar: [
+          { kuni: 43, mavzu: "12-dars: murakkab misollar", darsId: 12, tur: "dars" },
+          { kuni: 44, mavzu: "Masdar bilan gaplar tuzish", darsId: 12, tur: "tahlil" },
+          { kuni: 45, mavzu: "B1 mavzulari takrori (zamon, inkor, masdar)", tur: "tahlil" },
+          { kuni: 46, mavzu: "Og'zaki amaliyot: B1 mavzulari", tur: "tahlil" },
+          { kuni: 47, mavzu: "Mock test — A2-B1 umumiy", tur: "imtihon" },
+          { kuni: 48, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 9,
+        kunlar: [
+          { kuni: 49, mavzu: "B1 yozma amaliyot: qisqa insho", tur: "tahlil" },
+          { kuni: 50, mavzu: "Lug'at: B1 asosiy so'zlar", tur: "dars" },
+          { kuni: 51, mavzu: "B1 grammatika mustahkamlash", tur: "tahlil" },
+          { kuni: 52, mavzu: "Tinglab tushunish mashqi", tur: "tahlil" },
+          { kuni: 53, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 54, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 10,
+        kunlar: [
+          { kuni: 55, mavzu: "B1 matn tahlili", tur: "tahlil" },
+          { kuni: 56, mavzu: "B1 barcha mavzular takrori", tur: "tahlil" },
+          { kuni: 57, mavzu: "Yozma mashq: 10+ ta gap", tur: "tahlil" },
+          { kuni: 58, mavzu: "3-oy imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 59, mavzu: "Mock test — B1 yakuniy", tur: "imtihon" },
+          { kuni: 60, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 11,
+        kunlar: [
+          { kuni: 61, mavzu: "Xatolar tahlili va mustahkamlash", tur: "tahlil" },
+          { kuni: 62, mavzu: "Og'zaki imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 63, mavzu: "Yozma imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 64, mavzu: "B1 yakuniy yozma imtihon", tur: "imtihon" },
+          { kuni: 65, mavzu: "Natijalar tahlili", tur: "tahlil" },
+          { kuni: 66, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 12,
+        kunlar: [
+          { kuni: 67, mavzu: "B1 og'zaki imtihon", tur: "imtihon" },
+          { kuni: 68, mavzu: "B1 barcha test takrori", tur: "tahlil" },
+          { kuni: 69, mavzu: "A2-B1 yakuniy imtihon", tur: "imtihon" },
+          { kuni: 70, mavzu: "Natijalar muhokamasi", tur: "tahlil" },
+          { kuni: 71, mavzu: "B1 sertifikat va B2 rejasi", tur: "tahlil" },
+          { kuni: 72, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+    ],
+  },
+  {
+    kod: "B1-B2",
+    nomi: "O'rta-yuqori daraja",
+    rang: "#CA8A04",
+    davomiyligi: "3 oy",
+    oylar: 3,
+    haftalar: 12,
+    jami_kunlar: 72,
+    darslar: 28,
+    jadval: [
+      {
+        hafta: 1,
+        kunlar: [
+          { kuni: 1, mavzu: "Kirish — B2 darajasiga kirish", tur: "dars" },
+          { kuni: 2, mavzu: "Kaan va naqis fe'llar: kirish (13-dars)", darsId: 13, tur: "dars" },
+          { kuni: 3, mavzu: "Kaan: o'tgan zamon ifodalash", darsId: 13, tur: "dars" },
+          { kuni: 4, mavzu: "Naqis fe'llar: tur va shakllari", darsId: 13, tur: "dars" },
+          { kuni: 5, mavzu: "Kaan va naqis fe'llar mashqi", darsId: 13, tur: "tahlil" },
+          { kuni: 6, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 2,
+        kunlar: [
+          { kuni: 7, mavzu: "Naqis fe'llar: inkor va savol shakli", darsId: 13, tur: "dars" },
+          { kuni: 8, mavzu: "Kaan va naqis fe'llar: gaplarda qo'llash", darsId: 13, tur: "tahlil" },
+          { kuni: 9, mavzu: "Murakkab misollar tahlili", darsId: 13, tur: "tahlil" },
+          { kuni: 10, mavzu: "13-dars yozma mashqi", tur: "tahlil" },
+          { kuni: 11, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 12, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 3,
+        kunlar: [
+          { kuni: 13, mavzu: "Kaan va naqis fe'llar takrori", darsId: 13, tur: "tahlil" },
+          { kuni: 14, mavzu: "13-dars: matn tahlili", darsId: 13, tur: "tahlil" },
+          { kuni: 15, mavzu: "Og'zaki amaliyot: naqis fe'llar", darsId: 13, tur: "tahlil" },
+          { kuni: 16, mavzu: "1-oy imtihon (13-dars)", tur: "imtihon" },
+          { kuni: 17, mavzu: "Shart gaplari kirish (14-dars)", darsId: 14, tur: "dars" },
+          { kuni: 18, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 4,
+        kunlar: [
+          { kuni: 19, mavzu: "Shart: إِنْ bilan real shart", darsId: 14, tur: "dars" },
+          { kuni: 20, mavzu: "Shart: لَوْ bilan noreal shart", darsId: 14, tur: "dars" },
+          { kuni: 21, mavzu: "Shart gaplari mashqi", darsId: 14, tur: "tahlil" },
+          { kuni: 22, mavzu: "Shart gaplari: murakkab tuzilmalar", darsId: 14, tur: "dars" },
+          { kuni: 23, mavzu: "Shart gaplari yozma mashqi", darsId: 14, tur: "tahlil" },
+          { kuni: 24, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 5,
+        kunlar: [
+          { kuni: 25, mavzu: "Shart gaplari: dialog va amaliyot", darsId: 14, tur: "tahlil" },
+          { kuni: 26, mavzu: "Shart gaplari takrori", darsId: 14, tur: "tahlil" },
+          { kuni: 27, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 28, mavzu: "14-dars: matn tahlili", darsId: 14, tur: "tahlil" },
+          { kuni: 29, mavzu: "Kaan + shart gaplari birga", tur: "tahlil" },
+          { kuni: 30, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 6,
+        kunlar: [
+          { kuni: 31, mavzu: "2-oy imtihon (13 va 14-darslar)", tur: "imtihon" },
+          { kuni: 32, mavzu: "Fe'l tizimlari (mazid): kirish (15-dars)", darsId: 15, tur: "dars" },
+          { kuni: 33, mavzu: "Mazid: II tizim (فَعَّلَ shakli)", darsId: 15, tur: "dars" },
+          { kuni: 34, mavzu: "Mazid: III tizim (فَاعَلَ shakli)", darsId: 15, tur: "dars" },
+          { kuni: 35, mavzu: "II va III tizimlar mashqi", darsId: 15, tur: "tahlil" },
+          { kuni: 36, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 7,
+        kunlar: [
+          { kuni: 37, mavzu: "Mazid: IV tizim (أَفْعَلَ shakli)", darsId: 15, tur: "dars" },
+          { kuni: 38, mavzu: "Mazid: V tizim (تَفَعَّلَ shakli)", darsId: 15, tur: "dars" },
+          { kuni: 39, mavzu: "IV va V tizimlar mashqi", darsId: 15, tur: "tahlil" },
+          { kuni: 40, mavzu: "Mazid: VI tizim (تَفَاعَلَ shakli)", darsId: 15, tur: "dars" },
+          { kuni: 41, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 42, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 8,
+        kunlar: [
+          { kuni: 43, mavzu: "Mazid: VII–X tizimlar kirish", darsId: 15, tur: "dars" },
+          { kuni: 44, mavzu: "Mazid tizimlar: ma'no o'zgarishlari", darsId: 15, tur: "tahlil" },
+          { kuni: 45, mavzu: "Mazid fe'llar mashqi — gaplar tuzish", darsId: 15, tur: "tahlil" },
+          { kuni: 46, mavzu: "15-dars: matn tahlili", darsId: 15, tur: "tahlil" },
+          { kuni: 47, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 48, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 9,
+        kunlar: [
+          { kuni: 49, mavzu: "B2 barcha mavzular takrori", tur: "tahlil" },
+          { kuni: 50, mavzu: "Og'zaki amaliyot: B2 mavzulari", tur: "tahlil" },
+          { kuni: 51, mavzu: "Yozma mashq: B2 grammatika", tur: "tahlil" },
+          { kuni: 52, mavzu: "Lug'at: B2 asosiy so'zlar", tur: "dars" },
+          { kuni: 53, mavzu: "Mock test — B1-B2 umumiy", tur: "imtihon" },
+          { kuni: 54, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 10,
+        kunlar: [
+          { kuni: 55, mavzu: "B2 matn tahlili va tarjima", tur: "tahlil" },
+          { kuni: 56, mavzu: "Murakkab gaplar tahlili", tur: "tahlil" },
+          { kuni: 57, mavzu: "Yozma insho: 15+ ta gap", tur: "tahlil" },
+          { kuni: 58, mavzu: "3-oy imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 59, mavzu: "Mock test — B2 yakuniy", tur: "imtihon" },
+          { kuni: 60, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 11,
+        kunlar: [
+          { kuni: 61, mavzu: "Xatolar tahlili va mustahkamlash", tur: "tahlil" },
+          { kuni: 62, mavzu: "Og'zaki imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 63, mavzu: "Yozma imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 64, mavzu: "B2 yakuniy yozma imtihon", tur: "imtihon" },
+          { kuni: 65, mavzu: "Natijalar tahlili", tur: "tahlil" },
+          { kuni: 66, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 12,
+        kunlar: [
+          { kuni: 67, mavzu: "B2 og'zaki imtihon", tur: "imtihon" },
+          { kuni: 68, mavzu: "B2 barcha test takrori", tur: "tahlil" },
+          { kuni: 69, mavzu: "B1-B2 yakuniy imtihon", tur: "imtihon" },
+          { kuni: 70, mavzu: "Natijalar muhokamasi", tur: "tahlil" },
+          { kuni: 71, mavzu: "B2 sertifikat va C1 rejasi", tur: "tahlil" },
+          { kuni: 72, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+    ],
+  },
+  {
+    kod: "B2-C1",
+    nomi: "Yuqori daraja",
+    rang: "#DC2626",
+    davomiyligi: "4 oy",
+    oylar: 4,
+    haftalar: 16,
+    jami_kunlar: 96,
+    darslar: 36,
+    jadval: [
+      {
+        hafta: 1,
+        kunlar: [
+          { kuni: 1, mavzu: "Kirish — C1 darajasiga kirish", tur: "dars" },
+          { kuni: 2, mavzu: "Passiv nisbat: ta'rif va o'tgan zamon (16-dars)", darsId: 16, tur: "dars" },
+          { kuni: 3, mavzu: "Passiv nisbat: hozirgi zamon شakli", darsId: 16, tur: "dars" },
+          { kuni: 4, mavzu: "Noyib fa'il tushunchasi va mashqi", darsId: 16, tur: "tahlil" },
+          { kuni: 5, mavzu: "Passiv nisbat: mazid fe'llar passivi", darsId: 16, tur: "dars" },
+          { kuni: 6, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 2,
+        kunlar: [
+          { kuni: 7, mavzu: "Passiv nisbat: gaplarda qo'llash", darsId: 16, tur: "tahlil" },
+          { kuni: 8, mavzu: "Passiv nisbat: matn tahlili", darsId: 16, tur: "tahlil" },
+          { kuni: 9, mavzu: "Faol → passiv o'tkazish mashqi", tur: "tahlil" },
+          { kuni: 10, mavzu: "16-dars yozma mashqi", tur: "tahlil" },
+          { kuni: 11, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 12, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 3,
+        kunlar: [
+          { kuni: 13, mavzu: "Nisbiy olmoshlar: الَّذِي، الَّتِي، الَّذِينَ (17-dars)", darsId: 17, tur: "dars" },
+          { kuni: 14, mavzu: "Nisbiy olmoshlar: مَا، مَنْ", darsId: 17, tur: "dars" },
+          { kuni: 15, mavzu: "Sifat jumlasi: aniq va noaniq ot", darsId: 17, tur: "dars" },
+          { kuni: 16, mavzu: "Nisbiy jumlalar mashqi", darsId: 17, tur: "tahlil" },
+          { kuni: 17, mavzu: "Hal jumlasi: tuzilishi va ishlatilishi", darsId: 17, tur: "dars" },
+          { kuni: 18, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 4,
+        kunlar: [
+          { kuni: 19, mavzu: "Hal jumlasi mashqi", darsId: 17, tur: "tahlil" },
+          { kuni: 20, mavzu: "Nisbiy + hal jumlalar birga", darsId: 17, tur: "tahlil" },
+          { kuni: 21, mavzu: "1-oy imtihon (16 va 17-darslar)", tur: "imtihon" },
+          { kuni: 22, mavzu: "Xatolar tahlili", tur: "tahlil" },
+          { kuni: 23, mavzu: "Taajjub I vazni: مَا أَفْعَلَهُ (18-dars)", darsId: 18, tur: "dars" },
+          { kuni: 24, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 5,
+        kunlar: [
+          { kuni: 25, mavzu: "Taajjub II vazni: أَفْعِلْ بِهِ", darsId: 18, tur: "dars" },
+          { kuni: 26, mavzu: "Mubalacha og'irlari: فَعَّال، فَعُول", darsId: 18, tur: "dars" },
+          { kuni: 27, mavzu: "Mubalacha: مِفْعَال، فَعِيل", darsId: 18, tur: "dars" },
+          { kuni: 28, mavzu: "Taajjub va mubalacha mashqi", darsId: 18, tur: "tahlil" },
+          { kuni: 29, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 30, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 6,
+        kunlar: [
+          { kuni: 31, mavzu: "Taajjub: matn va muloqotda qo'llash", darsId: 18, tur: "tahlil" },
+          { kuni: 32, mavzu: "2-oy imtihon (17 va 18-darslar)", tur: "imtihon" },
+          { kuni: 33, mavzu: "C1 passiv, nisbiy, taajjub takrori", tur: "tahlil" },
+          { kuni: 34, mavzu: "Og'zaki amaliyot: C1 mavzulari", tur: "tahlil" },
+          { kuni: 35, mavzu: "Yozma mashq: C1 tuzilmalar", tur: "tahlil" },
+          { kuni: 36, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 7,
+        kunlar: [
+          { kuni: 37, mavzu: "C1 lug'at: yuqori daraja so'zlari", tur: "dars" },
+          { kuni: 38, mavzu: "Matn tahlili: passiv ishlatilgan matn", tur: "tahlil" },
+          { kuni: 39, mavzu: "Matn tahlili: nisbiy jumlali matn", tur: "tahlil" },
+          { kuni: 40, mavzu: "Mock test — B2-C1 umumiy", tur: "imtihon" },
+          { kuni: 41, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 42, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 8,
+        kunlar: [
+          { kuni: 43, mavzu: "C1 barcha mavzular chuqurlashtirilishi", tur: "tahlil" },
+          { kuni: 44, mavzu: "Aralash mashq: passiv + nisbiy + taajjub", tur: "tahlil" },
+          { kuni: 45, mavzu: "3-oy imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 46, mavzu: "Yozma imtihon: C1 tuzilmalar", tur: "imtihon" },
+          { kuni: 47, mavzu: "Og'zaki imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 48, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 9,
+        kunlar: [
+          { kuni: 49, mavzu: "C1 matn yozish: tasviriy uslub", tur: "tahlil" },
+          { kuni: 50, mavzu: "C1 matn yozish: tahliliy uslub", tur: "tahlil" },
+          { kuni: 51, mavzu: "Tinglab tushunish: C1 sath", tur: "tahlil" },
+          { kuni: 52, mavzu: "Og'zaki nutq: C1 mavzulari", tur: "tahlil" },
+          { kuni: 53, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 54, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 10,
+        kunlar: [
+          { kuni: 55, mavzu: "C1 barcha grammatika takrori", tur: "tahlil" },
+          { kuni: 56, mavzu: "Matn tahlili va yozish amaliyoti", tur: "tahlil" },
+          { kuni: 57, mavzu: "Mock test — C1 yakuniy", tur: "imtihon" },
+          { kuni: 58, mavzu: "4-oy imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 59, mavzu: "Yozma insho: C1 sath 20+ gap", tur: "tahlil" },
+          { kuni: 60, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 11,
+        kunlar: [
+          { kuni: 61, mavzu: "Xatolar tahlili va mustahkamlash", tur: "tahlil" },
+          { kuni: 62, mavzu: "Og'zaki imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 63, mavzu: "Yozma imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 64, mavzu: "C1 yakuniy yozma imtihon", tur: "imtihon" },
+          { kuni: 65, mavzu: "Natijalar tahlili", tur: "tahlil" },
+          { kuni: 66, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 12,
+        kunlar: [
+          { kuni: 67, mavzu: "C1 og'zaki imtihon", tur: "imtihon" },
+          { kuni: 68, mavzu: "C1 barcha test takrori", tur: "tahlil" },
+          { kuni: 69, mavzu: "B2-C1 yakuniy imtihon", tur: "imtihon" },
+          { kuni: 70, mavzu: "Natijalar muhokamasi", tur: "tahlil" },
+          { kuni: 71, mavzu: "C1 sertifikat va C2 rejasi", tur: "tahlil" },
+          { kuni: 72, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 13,
+        kunlar: [
+          { kuni: 73, mavzu: "C1+ mustahkamlash: chuqur tahlil", tur: "tahlil" },
+          { kuni: 74, mavzu: "Murakkab matn o'qish va tahlil", tur: "tahlil" },
+          { kuni: 75, mavzu: "Ilmiy arab manbalar bilan tanishish", tur: "dars" },
+          { kuni: 76, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 77, mavzu: "Og'zaki nutq amaliyoti", tur: "tahlil" },
+          { kuni: 78, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 14,
+        kunlar: [
+          { kuni: 79, mavzu: "C2 ga tayyorlik: grammatika ko'rish", tur: "tahlil" },
+          { kuni: 80, mavzu: "C2 ga tayyorlik: lug'at boyitish", tur: "dars" },
+          { kuni: 81, mavzu: "C2 ga tayyorlik: uslub va balaghat", tur: "dars" },
+          { kuni: 82, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 83, mavzu: "Og'zaki amaliyot: murakkab mavzular", tur: "tahlil" },
+          { kuni: 84, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 15,
+        kunlar: [
+          { kuni: 85, mavzu: "Yakuniy takror: barcha C1 mavzulari", tur: "tahlil" },
+          { kuni: 86, mavzu: "Mock test — B2-C1 to'liq", tur: "imtihon" },
+          { kuni: 87, mavzu: "Xatolar tahlili va tuzatish", tur: "tahlil" },
+          { kuni: 88, mavzu: "Yozma imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 89, mavzu: "Og'zaki imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 90, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 16,
+        kunlar: [
+          { kuni: 91, mavzu: "B2-C1 yakuniy yozma imtihon", tur: "imtihon" },
+          { kuni: 92, mavzu: "B2-C1 yakuniy og'zaki imtihon", tur: "imtihon" },
+          { kuni: 93, mavzu: "Natijalar tahlili", tur: "tahlil" },
+          { kuni: 94, mavzu: "C1 sertifikat", tur: "tahlil" },
+          { kuni: 95, mavzu: "C2 daraja rejasi va yo'riqnoma", tur: "dars" },
+          { kuni: 96, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+    ],
+  },
+  {
+    kod: "C1-C2",
+    nomi: "Professional daraja",
+    rang: "#7C3AED",
+    davomiyligi: "4 oy",
+    oylar: 4,
+    haftalar: 16,
+    jami_kunlar: 96,
+    darslar: 36,
+    jadval: [
+      {
+        hafta: 1,
+        kunlar: [
+          { kuni: 1, mavzu: "Kirish — C2 professional darajasi", tur: "dars" },
+          { kuni: 2, mavzu: "Balaghat asoslari: tashabuh (19-dars)", darsId: 19, tur: "dars" },
+          { kuni: 3, mavzu: "Balaghat: isti'ora tushunchasi", darsId: 19, tur: "dars" },
+          { kuni: 4, mavzu: "Balaghat: kinoya va ramziy ifoda", darsId: 19, tur: "dars" },
+          { kuni: 5, mavzu: "Balaghat mashqi — misol gaplar tahlili", darsId: 19, tur: "tahlil" },
+          { kuni: 6, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 2,
+        kunlar: [
+          { kuni: 7, mavzu: "Balaghat: arab she'riyatida tashabuh", darsId: 19, tur: "dars" },
+          { kuni: 8, mavzu: "Isti'ora: amaliy tahlil", darsId: 19, tur: "tahlil" },
+          { kuni: 9, mavzu: "Kinoya: amaliy tahlil", darsId: 19, tur: "tahlil" },
+          { kuni: 10, mavzu: "19-dars yozma mashqi", tur: "tahlil" },
+          { kuni: 11, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 12, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 3,
+        kunlar: [
+          { kuni: 13, mavzu: "Ta'kid uslublari: إِنَّ va لَـ (20-dars)", darsId: 20, tur: "dars" },
+          { kuni: 14, mavzu: "Ta'kid: قَدْ va لَقَدْ", darsId: 20, tur: "dars" },
+          { kuni: 15, mavzu: "I'tirod jumlalari tuzilishi", darsId: 20, tur: "dars" },
+          { kuni: 16, mavzu: "I'tirod jumlalar mashqi", darsId: 20, tur: "tahlil" },
+          { kuni: 17, mavzu: "Murakkab shart + qasam birikmalari", darsId: 20, tur: "dars" },
+          { kuni: 18, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 4,
+        kunlar: [
+          { kuni: 19, mavzu: "Ta'kid va i'tirod mashqi", darsId: 20, tur: "tahlil" },
+          { kuni: 20, mavzu: "Murakkab tuzilmalar: matn tahlili", darsId: 20, tur: "tahlil" },
+          { kuni: 21, mavzu: "1-oy imtihon (19 va 20-darslar)", tur: "imtihon" },
+          { kuni: 22, mavzu: "Xatolar tahlili", tur: "tahlil" },
+          { kuni: 23, mavzu: "Matn tuzilmasi: muqaddima-tana-xotima (21-dars)", darsId: 21, tur: "dars" },
+          { kuni: 24, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 5,
+        kunlar: [
+          { kuni: 25, mavzu: "Mantiqiy bog'lovchilar: tartib va natija", darsId: 21, tur: "dars" },
+          { kuni: 26, mavzu: "Mantiqiy bog'lovchilar: qarama-qarshi va qo'shimcha", darsId: 21, tur: "dars" },
+          { kuni: 27, mavzu: "Ilmiy uslub xususiyatlari", darsId: 21, tur: "dars" },
+          { kuni: 28, mavzu: "Akademik matn yozish mashqi", darsId: 21, tur: "tahlil" },
+          { kuni: 29, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 30, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 6,
+        kunlar: [
+          { kuni: 31, mavzu: "Matn tahlili: bog'lovchilarni topish", darsId: 21, tur: "tahlil" },
+          { kuni: 32, mavzu: "2-oy imtihon (20 va 21-darslar)", tur: "imtihon" },
+          { kuni: 33, mavzu: "C2 barcha mavzular takrori: balaghat", tur: "tahlil" },
+          { kuni: 34, mavzu: "C2 barcha mavzular takrori: tuzilmalar", tur: "tahlil" },
+          { kuni: 35, mavzu: "C2 barcha mavzular takrori: yozuv", tur: "tahlil" },
+          { kuni: 36, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 7,
+        kunlar: [
+          { kuni: 37, mavzu: "C2 lug'at: professional so'zlar", tur: "dars" },
+          { kuni: 38, mavzu: "Arab adabiyoti bilan tanishish", tur: "dars" },
+          { kuni: 39, mavzu: "Arab nasri: tahlil", tur: "tahlil" },
+          { kuni: 40, mavzu: "Mock test — C1-C2 umumiy", tur: "imtihon" },
+          { kuni: 41, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 42, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 8,
+        kunlar: [
+          { kuni: 43, mavzu: "C2 murakkab matn tahlili", tur: "tahlil" },
+          { kuni: 44, mavzu: "Akademik matn yozish: 250+ so'z", tur: "tahlil" },
+          { kuni: 45, mavzu: "3-oy imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 46, mavzu: "Yozma imtihon: C2 sath", tur: "imtihon" },
+          { kuni: 47, mavzu: "Og'zaki imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 48, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 9,
+        kunlar: [
+          { kuni: 49, mavzu: "C2 balaghat: chuqur tahlil", tur: "tahlil" },
+          { kuni: 50, mavzu: "C2 murakkab tuzilmalar amaliyoti", tur: "tahlil" },
+          { kuni: 51, mavzu: "C2 og'zaki nutq: munozara", tur: "tahlil" },
+          { kuni: 52, mavzu: "Ilmiy maqola o'qish va tahlil", tur: "tahlil" },
+          { kuni: 53, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 54, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 10,
+        kunlar: [
+          { kuni: 55, mavzu: "C2 barcha grammatika takrori", tur: "tahlil" },
+          { kuni: 56, mavzu: "Matn yozish: ilmiy maqola shakli", tur: "tahlil" },
+          { kuni: 57, mavzu: "Mock test — C2 yakuniy", tur: "imtihon" },
+          { kuni: 58, mavzu: "4-oy imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 59, mavzu: "Yozma insho: C2 sath 30+ gap", tur: "tahlil" },
+          { kuni: 60, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 11,
+        kunlar: [
+          { kuni: 61, mavzu: "Xatolar tahlili va mustahkamlash", tur: "tahlil" },
+          { kuni: 62, mavzu: "Og'zaki imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 63, mavzu: "Yozma imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 64, mavzu: "C2 yakuniy yozma imtihon", tur: "imtihon" },
+          { kuni: 65, mavzu: "Natijalar tahlili", tur: "tahlil" },
+          { kuni: 66, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 12,
+        kunlar: [
+          { kuni: 67, mavzu: "C2 og'zaki imtihon", tur: "imtihon" },
+          { kuni: 68, mavzu: "C2 barcha test takrori", tur: "tahlil" },
+          { kuni: 69, mavzu: "C1-C2 yakuniy imtihon", tur: "imtihon" },
+          { kuni: 70, mavzu: "Natijalar muhokamasi", tur: "tahlil" },
+          { kuni: 71, mavzu: "C2 professional sertifikat", tur: "tahlil" },
+          { kuni: 72, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 13,
+        kunlar: [
+          { kuni: 73, mavzu: "Professional arabcha: ish muhiti", tur: "dars" },
+          { kuni: 74, mavzu: "Professional arabcha: rasmiy yozishmalar", tur: "dars" },
+          { kuni: 75, mavzu: "Professional arabcha: taqdimot uslubi", tur: "dars" },
+          { kuni: 76, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 77, mavzu: "Og'zaki nutq: professional mavzular", tur: "tahlil" },
+          { kuni: 78, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 14,
+        kunlar: [
+          { kuni: 79, mavzu: "Arab mamlakatlarining lahjalariga kirish", tur: "dars" },
+          { kuni: 80, mavzu: "Fusha va ammiya farqi", tur: "dars" },
+          { kuni: 81, mavzu: "Arab madaniyati va urf-odatlari", tur: "dars" },
+          { kuni: 82, mavzu: "Haftalik test", tur: "imtihon" },
+          { kuni: 83, mavzu: "Murakkab mavzular bo'yicha munozara", tur: "tahlil" },
+          { kuni: 84, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 15,
+        kunlar: [
+          { kuni: 85, mavzu: "Yakuniy takror: barcha C2 mavzulari", tur: "tahlil" },
+          { kuni: 86, mavzu: "Mock test — C1-C2 to'liq", tur: "imtihon" },
+          { kuni: 87, mavzu: "Xatolar tahlili va tuzatish", tur: "tahlil" },
+          { kuni: 88, mavzu: "Yozma imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 89, mavzu: "Og'zaki imtihon tayyorgarligi", tur: "tahlil" },
+          { kuni: 90, mavzu: "Dam olish", tur: "dam" },
+        ],
+      },
+      {
+        hafta: 16,
+        kunlar: [
+          { kuni: 91, mavzu: "C1-C2 yakuniy yozma imtihon", tur: "imtihon" },
+          { kuni: 92, mavzu: "C1-C2 yakuniy og'zaki imtihon", tur: "imtihon" },
+          { kuni: 93, mavzu: "Natijalar tahlili", tur: "tahlil" },
+          { kuni: 94, mavzu: "C2 professional sertifikat", tur: "tahlil" },
+          { kuni: 95, mavzu: "Keyingi qadam: arab tilida professional faoliyat", tur: "dars" },
+          { kuni: 96, mavzu: "Tabriklar va yakuniy muhokama", tur: "dam" },
+        ],
+      },
+    ],
+  },
+];

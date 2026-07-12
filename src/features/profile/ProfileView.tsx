@@ -1,11 +1,12 @@
-import { useRef, useState } from "react";
-import { Camera, LogOut, Phone, Calendar, Shield, Lock, Eye, EyeOff, CheckCircle, Edit2, X } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { Camera, LogOut, Phone, Calendar, Shield, Lock, Eye, EyeOff, CheckCircle, Edit2, X, Bell, BellOff } from "lucide-react";
 import { T, FONT } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
 import { useAuth } from "../../auth/AuthContext";
 import { useProgress } from "../progress/ProgressContext";
 import type { Role } from "../../auth/types";
+import { getNotifPermission, requestNotifPermission, showLocalNotif } from "../../lib/pwa";
 
 const ROLE_LABELS: Record<Role, string> = { ceo: "CEO", teacher: "O'qituvchi", assistant: "Yordamchi ustoz", student: "O'quvchi" };
 
@@ -33,6 +34,18 @@ export function ProfileView() {
   const [editErr, setEditErr] = useState("");
   const [editOk, setEditOk] = useState(false);
 
+  // Notification state
+  const [notifPerm, setNotifPerm] = useState<NotificationPermission>(() => getNotifPermission());
+  useEffect(() => { setNotifPerm(getNotifPermission()); }, []);
+
+  const handleNotifRequest = async () => {
+    const perm = await requestNotifPermission();
+    setNotifPerm(perm);
+    if (perm === "granted") {
+      showLocalNotif("Bildirishnomalar yoqildi!", "Strek eslatmalari va yangi darslar haqida xabar olasiz.", "test");
+    }
+  };
+
   // Password state
   const [parolOpen, setParolOpen] = useState(false);
   const [eskiParol, setEskiParol] = useState("");
@@ -44,6 +57,17 @@ export function ProfileView() {
   const [parolOk, setParolOk] = useState(false);
 
   if (!user) return null;
+
+  // Market purchases
+  const marketPurchases = (() => {
+    try {
+      const raw = localStorage.getItem(`afp:market_purchases_${user.id}`);
+      return raw ? JSON.parse(raw) as Record<string, { count: number }> : {};
+    } catch { return {}; }
+  })();
+  const hasGoldFrame = (marketPurchases["avatar_frame_gold"]?.count ?? 0) > 0;
+  const hasStarBadge = (marketPurchases["badge_star"]?.count ?? 0) > 0;
+  const shieldCount = marketPurchases["streak_shield"]?.count ?? 0;
 
   const openEdit = () => {
     setEditForm({ ism: user.ism, familya: user.familya, tel: user.tel ?? "", tugilgan: user.tugilgan ?? "" });
@@ -102,9 +126,22 @@ export function ProfileView() {
             {/* Avatar */}
             <div style={{ position: "relative", flexShrink: 0 }}>
               {avatar ? (
-                <img src={avatar} alt="" style={{ width: 76, height: 76, borderRadius: "50%", objectFit: "cover", border: "3px solid rgba(255,255,255,.3)" }} />
+                <img
+                  src={avatar} alt=""
+                  style={{
+                    width: 76, height: 76, borderRadius: "50%", objectFit: "cover",
+                    border: hasGoldFrame ? "3px solid #FFD700" : "3px solid rgba(255,255,255,.3)",
+                    boxShadow: hasGoldFrame ? "0 0 14px #FFD70099" : undefined,
+                  }}
+                />
               ) : (
-                <div style={{ width: 76, height: 76, borderRadius: "50%", background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32, fontWeight: 700, color: T.onCta, border: "3px solid rgba(255,255,255,.2)" }}>
+                <div style={{
+                  width: 76, height: 76, borderRadius: "50%", background: T.gLime,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 32, fontWeight: 700, color: T.onCta,
+                  border: hasGoldFrame ? "3px solid #FFD700" : "3px solid rgba(255,255,255,.2)",
+                  boxShadow: hasGoldFrame ? "0 0 14px #FFD70099" : undefined,
+                }}>
                   {user.ism[0]?.toUpperCase()}
                 </div>
               )}
@@ -114,11 +151,22 @@ export function ProfileView() {
               <input ref={fileRef} type="file" accept="image/*" onChange={pick} style={{ display: "none" }} />
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 20, fontWeight: 700, color: "#fff", lineHeight: 1.2 }}>{user.ism} {user.familya}</div>
+              <div style={{ fontSize: 20, fontWeight: 700, color: "#fff", lineHeight: 1.2 }}>
+                {user.ism} {user.familya}
+                {hasStarBadge && <span style={{ fontSize: 16, marginLeft: 5 }}>⭐</span>}
+              </div>
               <div style={{ fontSize: 12, color: "rgba(255,255,255,.55)", marginTop: 3 }}>@{user.login}</div>
-              <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 6 }}>
-                <span style={{ fontSize: 13 }}>🔥</span>
-                <span style={{ fontSize: 12, color: T.limeBrt, fontWeight: 600 }}>{streak.days} kun streak</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 6, flexWrap: "wrap" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <span style={{ fontSize: 13 }}>🔥</span>
+                  <span style={{ fontSize: 12, color: T.limeBrt, fontWeight: 600 }}>{streak.days} kun streak</span>
+                </div>
+                {shieldCount > 0 && (
+                  <div style={{ display: "flex", alignItems: "center", gap: 3, background: "rgba(8,145,178,.25)", borderRadius: 8, padding: "2px 7px" }}>
+                    <span style={{ fontSize: 12 }}>🛡️</span>
+                    <span style={{ fontSize: 11, color: "#7DD3FC", fontWeight: 700 }}>×{shieldCount}</span>
+                  </div>
+                )}
               </div>
             </div>
             <div style={{ flexShrink: 0, background: "rgba(255,255,255,.12)", borderRadius: 12, padding: "8px 12px", textAlign: "center" }}>
@@ -208,8 +256,8 @@ export function ProfileView() {
           </div>
         </div>
 
-        {/* Password change */}
-        <div style={{ background: "#fff", borderRadius: 16, border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04), 0 4px 12px rgba(13,58,26,.06)", marginBottom: 14, overflow: "hidden" }}>
+        {/* Password change — only for CEO (password-based login) */}
+        {user?.role === "ceo" && <div style={{ background: "#fff", borderRadius: 16, border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04), 0 4px 12px rgba(13,58,26,.06)", marginBottom: 14, overflow: "hidden" }}>
           <button
             onClick={() => { setParolOpen((p) => !p); setParolErr(""); setParolOk(false); }}
             style={{ width: "100%", display: "flex", alignItems: "center", gap: 12, padding: "14px 16px", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
@@ -256,7 +304,41 @@ export function ProfileView() {
               </button>
             </div>
           )}
-        </div>
+        </div>}
+
+        {/* Notification settings */}
+        {"Notification" in window && (
+          <div style={{ background: "#fff", borderRadius: 16, border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04), 0 4px 12px rgba(13,58,26,.06)", marginBottom: 14, overflow: "hidden" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 16px" }}>
+              <div style={{ width: 32, height: 32, borderRadius: 9, background: notifPerm === "granted" ? "rgba(46,184,46,.12)" : "rgba(13,58,26,.06)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                {notifPerm === "granted"
+                  ? <Bell size={15} color={T.lime} />
+                  : <BellOff size={15} color={T.hint} />}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: T.text }}>Bildirishnomalar</div>
+                <div style={{ fontSize: 11, color: T.hint, marginTop: 1 }}>
+                  {notifPerm === "granted"
+                    ? "Yoqilgan — strek va yangi dars eslatmalari"
+                    : notifPerm === "denied"
+                    ? "Bloklangan — brauzer sozlamalaridan yoqing"
+                    : "O'chirilgan — ruxsat bering"}
+                </div>
+              </div>
+              {notifPerm === "default" && (
+                <button
+                  onClick={handleNotifRequest}
+                  style={{ padding: "7px 13px", borderRadius: 9, border: "none", background: T.gLime, color: T.onCta, fontSize: 12, fontWeight: 700, cursor: "pointer", flexShrink: 0 }}
+                >
+                  Yoqish
+                </button>
+              )}
+              {notifPerm === "granted" && (
+                <div style={{ fontSize: 11, fontWeight: 700, color: T.lime, flexShrink: 0 }}>✓ Faol</div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Logout */}
         <button onClick={logout} style={{ width: "100%", background: "rgba(230,0,35,.07)", color: T.red, border: "1px solid rgba(230,0,35,.18)", borderRadius: 14, padding: "14px", fontSize: 14, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>

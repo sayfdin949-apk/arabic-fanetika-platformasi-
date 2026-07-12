@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Zap, Trophy, RotateCcw, Timer, ChevronLeft, Star, ArrowRight } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
+import { useProgress } from "../progress/ProgressContext";
+import { useCoins } from "../../context/CoinContext";
 
 /* ─── Helpers ─── */
 
@@ -173,6 +175,8 @@ const JUFT_TIME = 90;
 
 function MatchingGame({ onBack }: { onBack: () => void }) {
   const gi = 0;
+  const { touchStreak } = useProgress();
+  const { addCoins } = useCoins();
   const [phase, setPhase] = useState<"menu" | "playing" | "done">("menu");
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(JUFT_TIME);
@@ -198,6 +202,8 @@ function MatchingGame({ onBack }: { onBack: () => void }) {
     setPhase("done");
     const hi = getHi(gi);
     if (s > hi) saveHi(gi, s);
+    touchStreak();
+    if (s > 0) addCoins(5);
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -313,6 +319,8 @@ const TARTIB_TIME = 60;
 
 function AbjadGame({ onBack }: { onBack: () => void }) {
   const gi = 1;
+  const { touchStreak } = useProgress();
+  const { addCoins } = useCoins();
   const [phase, setPhase] = useState<"menu" | "playing" | "done">("menu");
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(TARTIB_TIME);
@@ -338,6 +346,8 @@ function AbjadGame({ onBack }: { onBack: () => void }) {
     setPhase("done");
     const hi = getHi(gi);
     if (s > hi) saveHi(gi, s);
+    touchStreak();
+    if (s > 0) addCoins(5);
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -497,6 +507,8 @@ const TEZ_TOTAL = 15;
 
 function SpeedGame({ onBack }: { onBack: () => void }) {
   const gi = 2;
+  const { touchStreak } = useProgress();
+  const { addCoins } = useCoins();
   const [phase, setPhase] = useState<"menu" | "playing" | "done">("menu");
   const [score, setScore] = useState(0);
   const [questions, setQuestions] = useState<TezQ[]>([]);
@@ -524,6 +536,8 @@ function SpeedGame({ onBack }: { onBack: () => void }) {
         setPhase("done");
         const hi = getHi(gi);
         if (ns > hi) saveHi(gi, ns);
+        touchStreak();
+        if (ns > 0) addCoins(5);
       } else {
         setCurrent((c) => c + 1);
       }
@@ -640,8 +654,8 @@ interface HarakatQ { letter: typeof ALL_LETTERS[0]; diacritic: typeof DIACRITICS
 
 function generateHarakatQuestions(n: number): HarakatQ[] {
   return Array.from({ length: n }, () => ({
-    letter: ALL_LETTERS[Math.floor(Math.random() * 22)],
-    diacritic: DIACRITICS[Math.floor(Math.random() * 4)],
+    letter: ALL_LETTERS[Math.floor(Math.random() * ALL_LETTERS.length)],
+    diacritic: DIACRITICS[Math.floor(Math.random() * DIACRITICS.length)],
   }));
 }
 
@@ -649,6 +663,8 @@ const HARAKAT_TOTAL = 15;
 
 function VowelGame({ onBack }: { onBack: () => void }) {
   const gi = 3;
+  const { touchStreak } = useProgress();
+  const { addCoins } = useCoins();
   const [phase, setPhase] = useState<"menu" | "playing" | "done">("menu");
   const [score, setScore] = useState(0);
   const [questions, setQuestions] = useState<HarakatQ[]>([]);
@@ -676,6 +692,8 @@ function VowelGame({ onBack }: { onBack: () => void }) {
         setPhase("done");
         const hi = getHi(gi);
         if (ns > hi) saveHi(gi, ns);
+        touchStreak();
+        if (ns > 0) addCoins(5);
       } else {
         setCurrent((c) => c + 1);
       }

@@ -112,6 +112,32 @@ function Avatar({ name, src, size = 30 }: { name: string; src?: string | null; s
   );
 }
 
+function useChatDot(): boolean {
+  const [dot, setDot] = useState(() => {
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        if (localStorage.key(i)?.startsWith("afp:chat_new_")) return true;
+      }
+    } catch { /**/ }
+    return false;
+  });
+  useEffect(() => {
+    const check = () => {
+      let found = false;
+      try {
+        for (let i = 0; i < localStorage.length; i++) {
+          if (localStorage.key(i)?.startsWith("afp:chat_new_")) { found = true; break; }
+        }
+      } catch { /**/ }
+      setDot(found);
+    };
+    window.addEventListener("storage", check);
+    const t = setInterval(check, 4000);
+    return () => { window.removeEventListener("storage", check); clearInterval(t); };
+  }, []);
+  return dot;
+}
+
 export function AppShell() {
   const { user, users, avatar, logout } = useAuth();
   const isMobile = useMediaQuery("(max-width: 767px)");
@@ -146,6 +172,7 @@ export function AppShell() {
     });
 
   const { streak } = useProgress();
+  const chatDot = useChatDot();
 
   const [tgInsets, setTgInsets] = useState({ top: 0, bottom: 0 });
   useEffect(() => {
@@ -220,7 +247,12 @@ export function AppShell() {
             <nav style={{ flex: 1, overflowY: "auto", padding: 8, display: "flex", flexDirection: "column", gap: 2 }}>
               {items.map((it) => (
                 <NavLink key={it.to} to={it.to} end={it.to === "/"} title={collapsed ? it.label : undefined} style={linkStyle}>
-                  <it.icon size={16} style={{ flexShrink: 0 }} />
+                  <div style={{ position: "relative", flexShrink: 0, display: "flex" }}>
+                    <it.icon size={16} />
+                    {it.to === "/chat" && chatDot && (
+                      <div style={{ position: "absolute", top: -3, right: -3, width: 7, height: 7, borderRadius: "50%", background: "#EF4444", border: "1.5px solid " + T.green }} />
+                    )}
+                  </div>
                   {!collapsed && <span>{it.label}</span>}
                 </NavLink>
               ))}
@@ -280,7 +312,12 @@ export function AppShell() {
 
   const renderTab = (it: NavItem) => (
     <NavLink key={it.to} to={it.to} end={it.to === "/"} style={tabStyle()}>
-      <it.icon size={20} />
+      <div style={{ position: "relative", display: "flex" }}>
+        <it.icon size={20} />
+        {it.to === "/chat" && chatDot && (
+          <div style={{ position: "absolute", top: -2, right: -2, width: 8, height: 8, borderRadius: "50%", background: "#EF4444", border: "1.5px solid #fff" }} />
+        )}
+      </div>
       <span>{it.label}</span>
     </NavLink>
   );
@@ -359,7 +396,12 @@ export function AppShell() {
                     background: isActive ? "rgba(46,184,46,.1)" : "rgba(13,58,26,.04)",
                   })}
                 >
-                  <it.icon size={18} />
+                  <div style={{ position: "relative", display: "flex", flexShrink: 0 }}>
+                    <it.icon size={18} />
+                    {it.to === "/chat" && chatDot && (
+                      <div style={{ position: "absolute", top: -3, right: -3, width: 8, height: 8, borderRadius: "50%", background: "#EF4444", border: "1.5px solid #fff" }} />
+                    )}
+                  </div>
                   <span>{it.label}</span>
                 </NavLink>
               ))}
