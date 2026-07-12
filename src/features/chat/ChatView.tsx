@@ -19,10 +19,12 @@ import {
 import { T } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
 import { chatApi, type ChatMessage } from "../../lib/chatApi";
-import { store } from "../../lib/storage";
+import { store, usingSupabase } from "../../lib/storage";
 import type { Guruh } from "../guruh/GuruhlarView";
 
-const POLL_MS = 2000;
+// Supabase rejimida Realtime asosiy, polling zaxira (10s)
+// Lokal rejimda polling asosiy (2s)
+const POLL_MS = usingSupabase ? 10_000 : 2_000;
 
 const EMOJIS = [
   "😊","😂","❤️","👍","👏","🙏","😍","🤔","😅","🎉",
@@ -142,18 +144,22 @@ export function ChatView() {
     setTypers(chatApi.getTypers(selectedGuruh.id, user.id));
   }, [selectedGuruh, user, isAtBottom, scrollToBottom]);
 
-  // Poll + visibilitychange
+  // Realtime (Supabase) + zaxira polling + visibilitychange
   useEffect(() => {
     if (!selectedGuruh) return;
     void fetchMessages();
-    const timer = setInterval(fetchMessages, POLL_MS);
 
+    // Supabase rejimida websocket orqali darhol yangilanadi
+    const unsub = chatApi.subscribe(selectedGuruh.id, () => void fetchMessages());
+
+    const timer = setInterval(fetchMessages, POLL_MS);
     const onVisible = () => {
       if (document.visibilityState === "visible") void fetchMessages();
     };
     document.addEventListener("visibilitychange", onVisible);
 
     return () => {
+      unsub();
       clearInterval(timer);
       document.removeEventListener("visibilitychange", onVisible);
     };
