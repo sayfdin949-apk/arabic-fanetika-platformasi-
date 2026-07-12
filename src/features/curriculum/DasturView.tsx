@@ -2,6 +2,8 @@ import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronDown, ChevronUp, BookOpen, Star, MapPin, PenLine, Lock } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
+import { useProgress } from "../progress/ProgressContext";
+import { useCoins } from "../../context/CoinContext";
 import {
   DARSLAR, HARF_SIFATLAR, TAUGHT_SIFAT, SIFAT_RANG, getLettersForLesson,
   type Dars, type TajwidQoida,
@@ -725,6 +727,8 @@ function DarsDetail({ d, onBack }: { d: Dars; onBack: () => void }) {
 
 /* ── Jadval tab: Fonetika 1 → Haftalar → Kunlar → Quiz ── */
 function JadvalTab() {
+  const { touchStreak } = useProgress();
+  const { addCoins } = useCoins();
   const f1Haftalar = DASTUR.filter(m => m.oy <= 2).flatMap(m => m.haftalar);
   const [open, setOpen] = useState(false);
   const [openH, setOpenH] = useState<number | null>(null);
@@ -770,7 +774,12 @@ function JadvalTab() {
               <Quiz
                 key={quizH}
                 questions={quizQuestions}
-                onDone={(ok, tot) => setQuizPct(Math.round((ok / tot) * 100))}
+                onDone={(ok, tot) => {
+                  const pct = Math.round((ok / tot) * 100);
+                  setQuizPct(pct);
+                  touchStreak();
+                  if (pct >= 80) addCoins(5);
+                }}
               />
             ) : (
               <div style={{ textAlign: "center", padding: "20px 0" }}>
