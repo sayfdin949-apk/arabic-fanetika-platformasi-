@@ -19,6 +19,10 @@ import {
   MessageCircle,
   ShoppingBag,
   CreditCard,
+  PlayCircle,
+  Library,
+  ClipboardList,
+  Sparkles,
   type LucideIcon,
 } from "lucide-react";
 import type { Role } from "../auth/types";
@@ -55,6 +59,10 @@ export const NAV: NavItem[] = [
   { to: "/chat", label: "Guruh chat", icon: MessageCircle, roles: ALL, bottom: false },
   { to: "/market", label: "Market", icon: ShoppingBag, roles: ALL, bottom: false },
   { to: "/tolov", label: "To'lov", icon: CreditCard, roles: ["student"], bottom: false },
+  { to: "/video", label: "Video darslar", icon: PlayCircle, roles: ALL, bottom: false },
+  { to: "/kitobxona", label: "Kitobxona", icon: Library, roles: ALL, bottom: false },
+  { to: "/mocktest", label: "Mock test", icon: ClipboardList, roles: ALL, bottom: false },
+  { to: "/matn-tahlil", label: "Matn tahlili", icon: Sparkles, roles: ALL, bottom: false },
 ];
 
 export const navForRole = (role: Role) => NAV.filter((n) => n.roles.includes(role));

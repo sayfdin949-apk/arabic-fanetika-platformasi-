@@ -30,6 +30,10 @@ import { GramDarsDetail } from "./features/grammar/GramDarsDetail";
 import { ChatView } from "./features/chat/ChatView";
 import { MarketView } from "./features/market/MarketView";
 import { TolovView } from "./features/payment/TolovView";
+import { VideoDarslarView } from "./features/video/VideoDarslarView";
+import { KitobxonaView } from "./features/library/KitobxonaView";
+import { MockTestView } from "./features/mocktest/MockTestView";
+import { AIFiltrView } from "./features/aifiltr/AIFiltrView";
 import { T } from "./theme/tokens";
 
 function Splash() {
@@ -97,6 +101,10 @@ export default function App() {
             <Route path="/chat" element={<ChatView />} />
             <Route path="/market" element={<MarketView />} />
             <Route path="/tolov" element={<TolovView />} />
+            <Route path="/video" element={<VideoDarslarView />} />
+            <Route path="/kitobxona" element={<KitobxonaView />} />
+            <Route path="/mocktest" element={<MockTestView />} />
+            <Route path="/matn-tahlil" element={<AIFiltrView />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
