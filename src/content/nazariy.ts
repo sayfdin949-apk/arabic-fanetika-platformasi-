@@ -1655,4 +1655,642 @@ Ba'zi so'zlarda kasra o'rniga **damma** qo'shiladi:
       {id:10,savol:"Arab alifbosida nechta harf bor va yozuv qaysi tomonga?",variantlar:["24 ta, chapdan o'ngga","26 ta, o'ngdan chapga","28 ta, o'ngdan chapga","30 ta, chapdan o'ngga"],togri:2},
     ]
   },
+
+  // ── B1 ───────────────────────────────────────────────────────────────
+
+  {
+    id: 21,
+    nomi: "Arabcha Ismlar — Jins va Son",
+    icon: "🏷",
+    color: "blue",
+    mavzu: `# Arabcha Ismlar — Jins va Son
+
+## Jins (Muzakkar va Muannash)
+
+Arab tilida har bir ism **muzakkar** (erkak) yoki **muannash** (ayol) jinsiga tegishli:
+
+| Jins | Ta'rif | Misollar |
+|------|--------|---------|
+| Muzakkar | Erkak | وَلَد (bola), كِتَاب (kitob), بَيْت (uy) |
+| Muannash | Ayol/Muannash | بِنْت (qiz), مَدْرَسَة (maktab), شَمْس (quyosh) |
+
+---
+
+## Muannash Belgilari
+
+| Belgi | Nomi | Misol | Izoh |
+|-------|------|-------|------|
+| **ة** | Ta-marbuta | مُعَلِّمَة | Ko'p ismga qo'shiladi |
+| **ـَاء** | Alif-mamduda | حَمْرَاء (qizil) | Ko'pincha sifatlarda |
+| **ـَى** | Alif-maqsura | سَلْمَى | Ko'proq ismlarda |
+
+**Tabiiy muannash** — belgisiz, yod olish kerak:
+أُمّ (ona) · أَرْض (yer) · شَمْس (quyosh) · يَد (qo'l) · عَيْن (ko'z)
+
+---
+
+## Son Turlari
+
+| Son | Ta'rif | Muzakkar | Muannash |
+|-----|--------|---------|---------|
+| Mufrad | Bitta | كِتَاب | مَدْرَسَة |
+| Saniyya (raf') | Ikkita | كِتَابَان | مَدْرَسَتَان |
+| Saniyya (nasb/jarr) | Ikkita | كِتَابَيْن | مَدْرَسَتَيْن |
+| Jam' salim (muz.) | Ko'p | مُعَلِّمُون/مُعَلِّمِين | — |
+| Jam' salim (muan.) | Ko'p | — | مُعَلِّمَات |
+
+---
+
+## Jam' Taksir — Ichki O'zgarish
+
+O'zakda ichki o'zgarish bo'ladi, yod olish kerak:
+
+| Mufrad | Jam' Taksir | Ma'no |
+|--------|------------|-------|
+| كِتَاب | كُتُب | kitob |
+| بَيْت | بُيُوت | uy |
+| وَلَد | أَوْلَاد | bola |
+| رَجُل | رِجَال | erkak kishi |
+| مَدِينَة | مُدُن | shahar |
+
+---
+
+## Xulosa Jadvali
+
+| Holat | Raf' | Nasb | Jarr |
+|-------|------|------|------|
+| Mufrad naqira | -ٌ | -ً | -ٍ |
+| Mufrad ma'rifa | -ُ | -َ | -ِ |
+| Saniyya | -ان | -ين | -ين |
+| Jam' muzakkar salim | -ون | -ين | -ين |
+| Jam' muannash salim | -اتٌ | -اتٍ | -اتٍ |`,
+    vazifalar: [
+      {id:1,savol:"Arab tilida ism necha jinsga bo'linadi?",variantlar:["1 ta","2 ta","3 ta","4 ta"],togri:1},
+      {id:2,savol:"Ta-marbuta (ة) qaysi jinsni bildiradi?",variantlar:["Muzakkar","Muannash","Har ikkisi","Hech biri"],togri:1},
+      {id:3,savol:"مُعَلِّمَة so'zining ma'nosi?",variantlar:["O'quvchi-o'g'il","O'qituvchi-erkak","O'qituvchi-ayol","Maktab"],togri:2},
+      {id:4,savol:"Saniyya (juft son) raf' qo'shimchasi qaysi?",variantlar:["-ات","-ان","-ون","-ين"],togri:1},
+      {id:5,savol:"Jam' Taksir — eng to'g'ri ta'rif?",variantlar:["Faqat qo'shimcha qo'shiladi","O'zak ichki strukturasi o'zgaradi","Faqat muannash uchun","Faqat saniyya"],togri:1},
+      {id:6,savol:"كِتَاب so'zining jam' taksiri?",variantlar:["كِتَابَات","كِتَابُون","كُتُب","كِتَابَان"],togri:2},
+      {id:7,savol:"شَمْس (quyosh) — qaysi muannash turi?",variantlar:["Ta-marbuta muannash","Alif-maqsura muannash","Tabiiy muannash","Muzakkar"],togri:2},
+      {id:8,savol:"Jam' muzakkar salim nasb holati qo'shimchasi?",variantlar:["-ون","-ان","-ين","-ات"],togri:2},
+      {id:9,savol:"وَلَد so'zining jam' taksiri?",variantlar:["وَلَدَان","وَلَدَات","وُلُود","أَوْلَاد"],togri:3},
+      {id:10,savol:"مَدْرَسَتَيْن — qaysi holat?",variantlar:["Mufrad raf'","Saniyya raf'","Saniyya nasb/jarr","Jam' salim"],togri:2},
+    ]
+  },
+
+  {
+    id: 22,
+    nomi: "Shaxs Olmoshlari",
+    icon: "👤",
+    color: "indigo",
+    mavzu: `# Shaxs Olmoshlari
+
+## Alohida (Munfasil) Olmoshlar
+
+Alohida qo'llaniladigan olmoshlar — odatda mubtada sifatida:
+
+### Mufrad (Yagona)
+
+| Shaxs | Arab | O'zbekcha |
+|-------|------|---------|
+| 1-shaxs | أَنَا | Men |
+| 2-shaxs erkak | أَنْتَ | Sen (erkak) |
+| 2-shaxs ayol | أَنْتِ | Sen (ayol) |
+| 3-shaxs erkak | هُوَ | U (erkak) |
+| 3-shaxs ayol | هِيَ | U (ayol) |
+
+### Ko'plik (Jam')
+
+| Shaxs | Arab | O'zbekcha |
+|-------|------|---------|
+| 1-shaxs | نَحْنُ | Biz |
+| 2-shaxs muzakkar | أَنْتُمْ | Siz/Sizlar (erkak) |
+| 2-shaxs muannash | أَنْتُنَّ | Siz/Sizlar (ayol) |
+| 3-shaxs muzakkar | هُمْ | Ular (erkak) |
+| 3-shaxs muannash | هُنَّ | Ular (ayol) |
+
+---
+
+## Birikkan (Muttasil) Olmoshlar
+
+Ism yoki fe'lga birikib keladi:
+
+| Olmosh | Ism bilan | Fe'l bilan | Ma'no |
+|--------|-----------|----------|-------|
+| ـي | كِتَابِي | أَعْطَانِي | Mening/Menga |
+| ـكَ | كِتَابُكَ | أَعْطَاكَ | Sening/Senga (erkak) |
+| ـكِ | كِتَابُكِ | أَعْطَاكِ | Sening/Senga (ayol) |
+| ـهُ | كِتَابُهُ | أَعْطَاهُ | Uning/Unga (erkak) |
+| ـهَا | كِتَابُهَا | أَعْطَاهَا | Uning/Unga (ayol) |
+| ـنَا | كِتَابُنَا | أَعْطَانَا | Bizning/Bizga |
+| ـكُمْ | كِتَابُكُمْ | أَعْطَاكُمْ | Sizlarning (erkak) |
+| ـهُمْ | كِتَابُهُمْ | أَعْطَاهُمْ | Ularning (erkak) |
+
+---
+
+## Ismliy Gapda Olmosh
+
+Olmosh mubtada sifatida:
+- أَنَا طَالِبٌ — Men talabaman (erkak)
+- هِيَ مُعَلِّمَةٌ — U o'qituvchi (ayol)
+- هُمْ مُهَنْدِسُونَ — Ular muhandislar
+
+---
+
+## Ajratish Olmoshlari (Damirut Tafasul)
+
+Xabar va sifat orasida turadi, aniqlov uchun:
+
+هُوَ الْمُدِيرُ الْكَبِيرُ — U katta direktor (u aynan o'sha katta direktor)`,
+    vazifalar: [
+      {id:1,savol:"'Men' arabcha olmoshi?",variantlar:["أَنْتَ","نَحْنُ","أَنَا","هُوَ"],togri:2},
+      {id:2,savol:"هِيَ olmoshi qaysi shaxsni bildiradi?",variantlar:["1-shaxs erkak","2-shaxs ayol","3-shaxs ayol","3-shaxs erkak"],togri:2},
+      {id:3,savol:"نَحْنُ — qaysi son?",variantlar:["Mufrad","Saniyya","Jam'","Muannash"],togri:2},
+      {id:4,savol:"كِتَابُهُ — bu yerda ـهُ nima bildiradi?",variantlar:["Mening kitobim","Sening kitobing","Uning kitobi (erkak)","Uning kitobi (ayol)"],togri:2},
+      {id:5,savol:"'Biz' arabcha olmoshi?",variantlar:["هُمْ","أَنْتُمْ","نَحْنُ","هِيَ"],togri:2},
+      {id:6,savol:"أَنْتِ — qaysi shaxs?",variantlar:["1-shaxs erkak","2-shaxs erkak","2-shaxs ayol","3-shaxs"],togri:2},
+      {id:7,savol:"كِتَابِي — bu olmosh nima bildiradi?",variantlar:["Senga","Menga/Mening","Unga","Bizga"],togri:1},
+      {id:8,savol:"هُمْ — kim uchun ishlatiladi?",variantlar:["Bitta erkak","Bitta ayol","Ko'p erkaklar","Ko'p ayollar"],togri:2},
+      {id:9,savol:"أَنَا طَالِبٌ jumlasida أَنَا qanday vazifa bajaradi?",variantlar:["Xabar","Mubtada","Sifat","Fe'l"],togri:1},
+      {id:10,savol:"ـنَا birikkan olmoshi qaysi shaxsni bildiradi?",variantlar:["1-shaxs yagona","2-shaxs erkak","1-shaxs ko'plik (biz)","3-shaxs ko'plik"],togri:2},
+    ]
+  },
+
+  {
+    id: 23,
+    nomi: "Jumlah Ismiyya — Ismliy Gap",
+    icon: "📝",
+    color: "teal",
+    mavzu: `# Jumlah Ismiyya — Ismliy Gap
+
+## Tuzilishi
+
+Ismliy gap ikki asosiy bo'lakdan iborat:
+
+| Bo'lak | Arab | Ta'rif | Misol |
+|--------|------|--------|-------|
+| **Mubtada** | مُبْتَدَأ | Ega (aniq ism) | اَلطَّالِبُ (talaba) |
+| **Xabar** | خَبَر | Kesim | مُجْتَهِدٌ (tirishqoq) |
+
+**Misol:** اَلطَّالِبُ مُجْتَهِدٌ — Talaba tirishqoq.
+
+---
+
+## Ma'rifa va Naqira
+
+| Tur | Belgisi | Misol | Ma'no |
+|-----|---------|-------|-------|
+| **Ma'rifa** (aniq) | اَلـ | اَلْكِتَابُ | U kitob (ma'lum) |
+| **Naqira** (noaniq) | Tanvin (-ٌ/-ً/-ٍ) | كِتَابٌ | Bir kitob |
+
+**Qoida:** Mubtada odatda ma'rifa (aniq); xabar odatda naqira (noaniq).
+
+---
+
+## Xabar Turlari
+
+### 1. Ism-Xabar
+
+اَلْبَيْتُ كَبِيرٌ — Uy katta.
+اَلطَّقْسُ جَمِيلٌ — Ob-havo yoqimli.
+
+### 2. Zarf-Xabar (Xabar Zarf)
+
+اَلْكِتَابُ عَلَى الطَّاوِلَةِ — Kitob stolda.
+اَلْوَلَدُ فِي الْبَيْتِ — Bola uyda.
+
+### 3. Jumlah-Xabar (Gap-Kesim)
+
+اَلرَّجُلُ أَبُوهُ مُعَلِّمٌ — Erkakning otasi o'qituvchi.
+
+---
+
+## Kelishuv Qoidasi
+
+Mubtada va xabar jins va sonda mos kelishi kerak:
+
+| Mubtada | Xabar | Jumlat |
+|---------|-------|--------|
+| Muzakkar mufrad | Muzakkar mufrad | اَلطَّالِبُ ذَكِيٌّ |
+| Muannash mufrad | Muannash mufrad | اَلطَّالِبَةُ ذَكِيَّةٌ |
+| Jam' muzakkar | Jam' muzakkar | اَلطُّلَّابُ ذَكِيُّونَ |
+
+---
+
+## Inkor: لَيْسَ
+
+لَيْسَ — "emas" ma'nosini beradi, mubtadani raf', xabari nasb bo'ladi:
+
+لَيْسَ الطَّقْسُ بَارِدًا — Ob-havo sovuq emas.
+لَيْسَتِ الْمَدِينَةُ بَعِيدَةً — Shahar uzoqda emas.`,
+    vazifalar: [
+      {id:1,savol:"Ismliy gapning ikki asosiy bo'lagi?",variantlar:["Fe'l va hol","Mubtada va xabar","Ism va sifat","Fa'il va maf'ul"],togri:1},
+      {id:2,savol:"اَلطَّالِبُ مُجْتَهِدٌ jumlasida mubtada?",variantlar:["مُجْتَهِدٌ","اَلطَّالِبُ","Ikkalasi","Hech biri"],togri:1},
+      {id:3,savol:"Ma'rifa belgisi qaysi?",variantlar:["Tanvin","اَلـ","Ta-marbuta","Shaddah"],togri:1},
+      {id:4,savol:"كِتَابٌ — ma'rifa yoki naqira?",variantlar:["Ma'rifa","Naqira","Har ikkisi","Aniqlab bo'lmaydi"],togri:1},
+      {id:5,savol:"'Kitob stolda' — qaysi xabar turi?",variantlar:["Ism-xabar","Zarf-xabar","Jumlah-xabar","Sifat-xabar"],togri:1},
+      {id:6,savol:"لَيْسَ nima ma'noni bildiradi?",variantlar:["Ha, bor","Emas","Bor","Yo'q"],togri:1},
+      {id:7,savol:"لَيْسَ dan keyingi xabar qaysi holda bo'ladi?",variantlar:["Raf'","Nasb","Jarr","Jazm"],togri:1},
+      {id:8,savol:"اَلْبَيْتُ كَبِيرٌ jumlasida xabar?",variantlar:["اَلـ","اَلْبَيْتُ","كَبِيرٌ","بَيْت"],togri:2},
+      {id:9,savol:"Muannash mubtadoga qaysi xabar to'g'ri kelishadi?",variantlar:["Muzakkar mufrad xabar","Muannash mufrad xabar","Jam' taksir","Ikkisi ham to'g'ri"],togri:1},
+      {id:10,savol:"اَلطَّالِبَةُ ذَكِيَّةٌ jumlasida nima to'g'ri?",variantlar:["Muzakkar mubtada + muzakkar xabar","Muannash mubtada + muannash xabar","Muzakkar mubtada + muannash xabar","Kelishuv noto'g'ri"],togri:1},
+    ]
+  },
+
+  // ── B2 ───────────────────────────────────────────────────────────────
+
+  {
+    id: 24,
+    nomi: "Fe'lning Maazi Zamoni — O'tgan Zamon",
+    icon: "🕐",
+    color: "orange",
+    mavzu: `# Fe'lning Maazi Zamoni — O'tgan Zamon
+
+## Asosiy Vazn: فَعَلَ
+
+O'tgan zamon fe'li asosiy ko'rinishi **3-shaxs erkak mufrad** — bu fe'lning lug'aviy shakli:
+
+كَتَبَ — yozdi, ذَهَبَ — ketdi, قَرَأَ — o'qidi, جَلَسَ — o'tirdi
+
+---
+
+## Shaxslarga Ko'ra O'zgarish Jadvali
+
+| Shaxs | Arab | Translit | O'zbekcha |
+|-------|------|----------|---------|
+| 3.m. yagona | كَتَبَ | kataba | U yozdi (erkak) |
+| 3.f. yagona | كَتَبَتْ | katabat | U yozdi (ayol) |
+| 3.m. juft | كَتَبَا | katabaa | Ikkalasi yozdi (erkak) |
+| 3.f. juft | كَتَبَتَا | katabataa | Ikkalasi yozdi (ayol) |
+| 3.m. ko'p | كَتَبُوا | katabuu | Ular yozdi (erkak) |
+| 3.f. ko'p | كَتَبْنَ | katabna | Ular yozdi (ayol) |
+| 2.m. yagona | كَتَبْتَ | katabta | Sen yozding (erkak) |
+| 2.f. yagona | كَتَبْتِ | katab-ti | Sen yozding (ayol) |
+| 2.m. juft | كَتَبْتُمَا | katabtumaa | Ikkalingiz yozdingiz |
+| 2.m. ko'p | كَتَبْتُمْ | katabtum | Siz yozdingiz (erkak) |
+| 2.f. ko'p | كَتَبْتُنَّ | katabtunna | Siz yozdingiz (ayol) |
+| 1. yagona | كَتَبْتُ | katabtu | Men yozdim |
+| 1. ko'plik | كَتَبْنَا | katabnaa | Biz yozdik |
+
+---
+
+## Inkor: مَا + Fe'l
+
+مَا كَتَبَ — U yozmadi.
+مَا ذَهَبَتْ — U (ayol) ketmadi.
+مَا قَرَأْنَا — Biz o'qimadik.
+
+---
+
+## Amaliy Misollar
+
+| Arab | O'zbekcha |
+|------|---------|
+| ذَهَبَ الْوَلَدُ إِلَى الْمَدْرَسَةِ | Bola maktabga ketdi. |
+| كَتَبَتِ الطَّالِبَةُ الدَّرْسَ | Talaba qiz darsni yozdi. |
+| قَرَأْنَا الْكِتَابَ | Biz kitobni o'qidik. |
+| مَا فَهِمُوا السُّؤَالَ | Ular savolni tushunishmadi. |
+
+---
+
+## Harakatlar Qoidasi
+
+- 3-shaxs erkak va ayol o'rtasida faqat **ـتْ** qo'shimchasi farq qiladi
+- 1-shaxs qo'shimchasi **ـتُ** (sukun emas, damma)
+- Ko'plik erkak qo'shimchasi **ـُوا** (alif yoziladi lekin o'qilmaydi)`,
+    vazifalar: [
+      {id:1,savol:"كَتَبَ fe'lining asosiy ma'nosi?",variantlar:["O'qidi","Yozdi","Bordi","Tushundi"],togri:1},
+      {id:2,savol:"3-shaxs ayol mufrad maazi qo'shimchasi?",variantlar:["ـنَ","ـتُمْ","ـتْ","ـوا"],togri:2},
+      {id:3,savol:"كَتَبُوا — qaysi shaxs?",variantlar:["3-shaxs mufrad erkak","3-shaxs ko'plik erkak","2-shaxs ko'plik","1-shaxs ko'plik"],togri:1},
+      {id:4,savol:"Maazida inkor qanday hosil bo'ladi?",variantlar:["لَا + fe'l","مَا + fe'l","لَمْ + fe'l","لَنْ + fe'l"],togri:1},
+      {id:5,savol:"كَتَبْتُ — qaysi shaxs?",variantlar:["3-shaxs erkak","2-shaxs erkak","1-shaxs mufrad","1-shaxs ko'plik"],togri:2},
+      {id:6,savol:"كَتَبَتْ va كَتَبَ o'rtasidagi farq?",variantlar:["Son farqi","Zamon farqi","Jins farqi (ـتْ ayol)","Inkor farqi"],togri:2},
+      {id:7,savol:"كَتَبْنَا — 'Biz yozdik' — qaysi shaxs?",variantlar:["3-shaxs ko'plik","2-shaxs ko'plik","1-shaxs ko'plik","1-shaxs mufrad"],togri:2},
+      {id:8,savol:"مَا ذَهَبَ — ma'nosi?",variantlar:["U ketdi","U ketmadi","U ketadimi?","U ketsin"],togri:1},
+      {id:9,savol:"Lug'aviy forma — 3-shaxs erkak mufrad maazi — nimaga asoslangan?",variantlar:["1-shaxs ko'plik","3-shaxs ayol","3-shaxs erkak mufrad","2-shaxs erkak"],togri:2},
+      {id:10,savol:"كَتَبْتُمْ — qaysi shaxs?",variantlar:["2-shaxs erkak mufrad","2-shaxs erkak ko'plik","3-shaxs erkak ko'plik","1-shaxs ko'plik"],togri:1},
+    ]
+  },
+
+  {
+    id: 25,
+    nomi: "Fe'lning Muzori' Zamoni — Hozirgi/Kelasi Zamon",
+    icon: "⚡",
+    color: "cyan",
+    mavzu: `# Fe'lning Muzori' Zamoni — Hozirgi/Kelasi Zamon
+
+## Asosiy Vazn: يَفْعَلُ
+
+Muzori' fe'li **muda-ra'a harflari** (أ، ن، ي، ت) bilan boshlanadi:
+
+| Harf | Shaxs | Misol |
+|------|-------|-------|
+| يـ | 3-shaxs erkak | يَكْتُبُ (yozmoqda) |
+| تـ | 3-shaxs ayol / 2-shaxs | تَكْتُبُ |
+| أـ | 1-shaxs mufrad | أَكْتُبُ |
+| نـ | 1-shaxs ko'plik | نَكْتُبُ |
+
+---
+
+## To'liq Conjugatsiya Jadvali (كَتَبَ/يَكْتُبُ)
+
+| Shaxs | Muzori' | Ma'no |
+|-------|---------|-------|
+| 3.m. mufrad | يَكْتُبُ | U yozmoqda/Yozadi |
+| 3.f. mufrad | تَكْتُبُ | U (ayol) yozmoqda |
+| 3.m. juft | يَكْتُبَانِ | Ikkalasi yozmoqda |
+| 3.m. ko'p | يَكْتُبُونَ | Ular yozmoqda |
+| 2.m. mufrad | تَكْتُبُ | Sen yozmoqdasan |
+| 2.f. mufrad | تَكْتُبِينَ | Sen (ayol) yozmoqdasan |
+| 2.m. ko'p | تَكْتُبُونَ | Siz yozmoqdasiz |
+| 1. mufrad | أَكْتُبُ | Men yozmoqdaman |
+| 1. ko'plik | نَكْتُبُ | Biz yozmoqdamiz |
+
+---
+
+## Inkor Yuklаmalari
+
+| Yuklama | Ma'no | Fe'l holati | Misol |
+|---------|-------|------------|-------|
+| لَا | Yozmaydi (odatiy) | Raf' (rafe') | لَا يَكْتُبُ |
+| لَمْ | Yozmadi (o'tgan inkor) | Jazm | لَمْ يَكْتُبْ |
+| لَنْ | Yozmaydi (kelajak inkor) | Nasb | لَنْ يَكْتُبَ |
+
+---
+
+## Maqsad Konstruksiyasi
+
+Fe'ldan maqsad bildirish uchun:
+- **لِ + Muzori' (jazm):** لِيَكْتُبَ — U yozishi uchun
+- **حَتَّى + Muzori' (nasb):** يَذْهَبُ حَتَّى يَتَعَلَّمَ — O'rganish uchun boradi
+- **كَيْ + Muzori' (nasb):** جَاءَ كَيْ يَرَى — Ko'rish uchun keldi
+
+---
+
+## Misollar
+
+| Arab | O'zbekcha |
+|------|---------|
+| يَذْهَبُ الْوَلَدُ إِلَى الْمَدْرَسَةِ | Bola maktabga bormoqda. |
+| لَا تَكْتُبِينَ بِسُرْعَةٍ | Sen (ayol) tez yozmaysan. |
+| لَمْ يَفْهَمْ | U tushunmadi. |
+| لَنْ نَذْهَبَ | Biz bormayapmiz (kelajak). |`,
+    vazifalar: [
+      {id:1,savol:"Muzori' fe'l qanday harflar bilan boshlanadi?",variantlar:["ف، ع، ل","أ، ن، ي، ت","ب، م، و، ف","ه، ع، غ، خ"],togri:1},
+      {id:2,savol:"يَكْتُبُ — qaysi shaxs?",variantlar:["1-shaxs mufrad","2-shaxs erkak","3-shaxs erkak mufrad","1-shaxs ko'plik"],togri:2},
+      {id:3,savol:"أَكْتُبُ — qaysi shaxs?",variantlar:["3-shaxs erkak","2-shaxs erkak","1-shaxs mufrad","1-shaxs ko'plik"],togri:2},
+      {id:4,savol:"لَمْ dan keyin fe'l qaysi holda bo'ladi?",variantlar:["Raf'","Nasb","Jazm","O'zgarmaydi"],togri:2},
+      {id:5,savol:"لَنْ يَكْتُبَ — ma'nosi?",variantlar:["U yozadi","U yozayotir","U yozdi","U yozmaydi (kelajak)"],togri:3},
+      {id:6,savol:"1-shaxs ko'plik muzori' harfi?",variantlar:["يـ","تـ","أـ","نـ"],togri:3},
+      {id:7,savol:"تَكْتُبِينَ — qaysi shaxs?",variantlar:["3-shaxs ayol ko'plik","2-shaxs ayol mufrad","2-shaxs erkak mufrad","1-shaxs ayol"],togri:1},
+      {id:8,savol:"لَا + muzori' — qaysi ma'no?",variantlar:["O'tgan inkor","Oddiy inkor (odatiy)","Kelajak inkor","Buyruq"],togri:1},
+      {id:9,savol:"كَيْ + muzori' — nimani bildiradi?",variantlar:["Inkor","Shart","Maqsad","Savol"],togri:2},
+      {id:10,savol:"نَكْتُبُ — qaysi shaxs?",variantlar:["3-shaxs ko'plik","2-shaxs ko'plik","1-shaxs mufrad","1-shaxs ko'plik"],togri:3},
+    ]
+  },
+
+  {
+    id: 26,
+    nomi: "Izofa — Izofiy Qurilma",
+    icon: "🔗",
+    color: "amber",
+    mavzu: `# Izofa — Izofiy Qurilma
+
+## Ta'rif
+
+Izofa ikkita ismni birlashtiradi — birinchisi **mudof**, ikkinchisi **mudof ilayh** (jarr holida):
+
+**Mudof + Mudof ilayh (jarr)**
+
+مَكْتَبُ الْمُدِيرِ — Direktorning kabineti
+
+---
+
+## Asosiy Qoidalar
+
+### 1. Mudofdan اَلـ (al) tushadi
+Mudof hech qachon al olmaydi (hatto ma'rifa bo'lsa ham):
+
+❌ اَلْمَكْتَبُ الْمُدِيرِ — noto'g'ri
+✅ مَكْتَبُ الْمُدِيرِ — to'g'ri
+
+### 2. Mudof ilayh jarr holida
+Mudof ilayh doimo jarr holida bo'ladi (kasra yoki ـِ):
+
+بَابُ **الْبَيْتِ** — Uyning eshigi
+كِتَابُ **الطَّالِبِ** — Talabaning kitobi
+
+### 3. Ta-marbuta 't' shaklida o'qiladi
+Mudof oxirida ta-marbuta bo'lsa, u 't' bo'lib o'qiladi:
+
+مَدْرَسَة + الطُّلَّاب → مَدْرَسَةُ الطُّلَّابِ — Talabalar maktabi
+
+---
+
+## Turli Izofa Misollari
+
+| Izofa | Ma'no |
+|-------|-------|
+| بَابُ الْبَيْتِ | Uy eshigi |
+| عَاصِمَةُ الْبِلَادِ | Mamlakatning poytaxti |
+| مَطْبَخُ الْمَنْزِلِ | Uydagi oshxona |
+| سَيَّارَةُ الْأُسْتَاذِ | O'qituvchining mashinasi |
+| لُغَةُ الْعَرَبِ | Arablarning tili |
+
+---
+
+## Uzoq Izofa Zanjiri
+
+Uch yoki undan ortiq ism izofa zanjiri tuzishi mumkin:
+مَكْتَبَةُ مَدْرَسَةِ الْمَدِينَةِ — Shahar maktabining kutubxonasi
+
+---
+
+## Sifatning Joyi
+
+Sifat izofaning ikki bo'lagidan keyin keladi:
+بَيْتُ الرَّجُلِ الْكَبِيرُ — Katta erkakning uyi
+(Sifat الْكَبِيرُ — raf', mudofga tegishli)
+
+---
+
+## Naqira + Ma'rifa Izofa
+
+Naqira mudof + ma'rifa mudof ilayh → butun izofa ma'rifa:
+كِتَابُ الطَّالِبِ (ma'rifa) vs كِتَابُ طَالِبٍ (naqira, agar mudof ilayh tanvin olsa)`,
+    vazifalar: [
+      {id:1,savol:"Izofada mudof ilayh qaysi holda bo'ladi?",variantlar:["Raf'","Nasb","Jarr","Jazm"],togri:2},
+      {id:2,savol:"Mudofdan nima tushiriladi?",variantlar:["Ta-marbuta","اَلـ (al)","Tanvin","Shaddah"],togri:1},
+      {id:3,savol:"مَكْتَبُ الْمُدِيرِ — ma'nosi?",variantlar:["Katta kabinet","Direktorning kabineti","Yaxshi idora","Yangi kabinet"],togri:1},
+      {id:4,savol:"Izofada ta-marbuta qanday o'qiladi?",variantlar:["Jim o'qilmaydi","'t' bo'lib o'qiladi","'h' bo'lib o'qiladi","'a' bo'lib o'qiladi"],togri:1},
+      {id:5,savol:"Qaysi shakl noto'g'ri?",variantlar:["بَابُ الْبَيْتِ","مَكْتَبُ الطَّالِبِ","اَلْكِتَابُ الطَّالِبِ","كِتَابُ الطَّالِبِ"],togri:2},
+      {id:6,savol:"بَابُ الْبَيْتِ — bu izofada mudof kim?",variantlar:["الْبَيْتِ","بَابُ","Ikkala ism","Jarr harf"],togri:1},
+      {id:7,savol:"سَيَّارَةُ الْأُسْتَاذِ — ma'nosi?",variantlar:["Yangi mashina","O'qituvchining mashinasi","Katta mashina","Qizil mashina"],togri:1},
+      {id:8,savol:"Uzoq izofa zanjirida nechta ism bo'lishi mumkin?",variantlar:["Faqat 2 ta","Faqat 3 ta","3 ta va undan ortiq","Faqat 1 ta"],togri:2},
+      {id:9,savol:"بَيْتُ الرَّجُلِ الْكَبِيرُ — الْكَبِيرُ qaysi so'zga tegishli?",variantlar:["الرَّجُلِ","بَيْتُ","Ikkalasiga","Hech biriga"],togri:1},
+      {id:10,savol:"Izofa nima?",variantlar:["Fe'l + hol qurilmasi","Ikkita ismni birlashtiruvchi qurilma","Ism + sifat qurilmasi","Shart + jawab qurilmasi"],togri:1},
+    ]
+  },
+
+  // ── C1 ───────────────────────────────────────────────────────────────
+
+  {
+    id: 27,
+    nomi: "Fe'l Vaznlari I–X",
+    icon: "🔢",
+    color: "violet",
+    mavzu: `# Fe'l Vaznlari I–X
+
+## Kirish
+
+Arab fe'llari asosiy uch harfli o'zakdan (triliteral root) turli vaznlar (awzaan) orqali hosil bo'ladi. Har bir vazn o'ziga xos ma'no nozikligini qo'shadi:
+
+---
+
+## Vazn Jadvali
+
+| Vazn | Ko'rinish | Nomi | Ma'no qo'shimchasi | Misol |
+|------|-----------|------|--------------------|-------|
+| **I** | فَعَلَ | Asosiy | Asosiy harakat | كَتَبَ (yozdi) |
+| **II** | فَعَّلَ | Ta'diya | Boshqaga qildirish | كَتَّبَ (yozdirdi) |
+| **III** | فَاعَلَ | Musharakah | Bir-biriga | كَاتَبَ (yozishdi) |
+| **IV** | أَفْعَلَ | Ta'diya | Boshqaga qildirish | أَكْتَبَ (yozdirdi) |
+| **V** | تَفَعَّلَ | Tafakkul | II vazn refleksivi | تَكَتَّبَ (yozildi) |
+| **VI** | تَفَاعَلَ | Tafaa'ul | III vazn refleksivi | تَكَاتَبَ (yozishildi) |
+| **VII** | اِنْفَعَلَ | Infi'al | Passiv / o'z-o'zidan | اِنْكَسَرَ (sindi) |
+| **VIII** | اِفْتَعَلَ | Ifti'al | O'zlik / refleksiv | اِكْتَسَبَ (qo'lga kiritdi) |
+| **IX** | اِفْعَلَّ | If'ilal | Rang/nuqs | اِحْمَرَّ (qizardi) |
+| **X** | اِسْتَفْعَلَ | Istif'al | Talab/xohish | اِسْتَكْتَبَ (yozdirishni so'radi) |
+
+---
+
+## Amaliy Misol: درس o'zagi
+
+| Vazn | Fe'l | Ma'no |
+|------|------|-------|
+| I | دَرَسَ | O'qidi, o'rgandi |
+| II | دَرَّسَ | O'qitdi (boshqaga) |
+| III | دَارَسَ | Birga o'qishdi |
+| V | تَدَرَّسَ | O'rganildi |
+| VI | تَدَارَسَ | Bir-biridan o'rganishdi |
+| X | اِسْتَدْرَسَ | O'qittirishni so'radi |
+
+---
+
+## Masdar (Infinitiv) Shakllari
+
+Har bir vaznda masdar shakli o'ziga xos:
+
+| Vazn | Masdar | Misol |
+|------|--------|-------|
+| I | فَعْلٌ / فُعُولٌ ... | كِتَابَةٌ (yozish) |
+| II | تَفْعِيلٌ | تَدْرِيسٌ (o'qitish) |
+| III | فِعَالٌ / مُفَاعَلَةٌ | مُكَاتَبَةٌ (yozishuv) |
+| IV | إِفْعَالٌ | إِكْتَابٌ |
+| V | تَفَعُّلٌ | تَعَلُّمٌ (o'rganish) |
+| VI | تَفَاعُلٌ | تَعَاوُنٌ (hamkorlik) |
+| VII | اِنْفِعَالٌ | اِنْكِسَارٌ (sinish) |
+| VIII | اِفْتِعَالٌ | اِكْتِسَابٌ (orttirish) |
+| IX | اِفْعِلَالٌ | اِحْمِرَارٌ (qizarish) |
+| X | اِسْتِفْعَالٌ | اِسْتِقْبَالٌ (qabul qilish) |`,
+    vazifalar: [
+      {id:1,savol:"I vazn (فَعَلَ) asosiy ma'nosi?",variantlar:["Boshqaga qildirish","Asosiy harakat","Bir-biriga qilish","Passiv"],togri:1},
+      {id:2,savol:"II vazn (فَعَّلَ) ning asosiy ma'no qo'shimchasi?",variantlar:["O'z-o'zidan bo'ldi","Passiv","Boshqaga qildirish (ta'diya)","Bir-biriga"],togri:2},
+      {id:3,savol:"دَرَّسَ va دَرَسَ o'rtasidagi farq?",variantlar:["Zamon farqi","دَرَّسَ o'qitdi (II vazn), دَرَسَ o'qidi (I vazn)","Son farqi","Jins farqi"],togri:1},
+      {id:4,savol:"VII vazn (اِنْفَعَلَ) qaysi ma'no beradi?",variantlar:["Talab/xohish","Rang o'zgarishi","Passiv/o'z-o'zidan","Bir-biriga"],togri:2},
+      {id:5,savol:"X vazn (اِسْتَفْعَلَ) qaysi ma'no beradi?",variantlar:["Asosiy harakat","Rang/nuqs","Passiv","Talab/xohish"],togri:3},
+      {id:6,savol:"تَعَلَّمَ — qaysi vazn?",variantlar:["I vazn","III vazn","V vazn","VIII vazn"],togri:2},
+      {id:7,savol:"IX vazn odatda qaysi ma'no uchun ishlatiladi?",variantlar:["Ta'diya","Rang va nuqs bildirish","Talab","Passiv"],togri:1},
+      {id:8,savol:"II vazn masdari qanday ko'rinishda bo'ladi?",variantlar:["فِعَالٌ","تَفْعِيلٌ","إِفْعَالٌ","اِنْفِعَالٌ"],togri:1},
+      {id:9,savol:"اِسْتَقْبَلَ — qaysi vazn?",variantlar:["VII vazn","VIII vazn","IX vazn","X vazn"],togri:3},
+      {id:10,savol:"تَعَاوَنَ (hamkorlik qildi) — qaysi vazn?",variantlar:["III vazn","V vazn","VI vazn","VIII vazn"],togri:2},
+    ]
+  },
+
+  {
+    id: 28,
+    nomi: "Shartli Gaplar — Shart va Jawab",
+    icon: "🔀",
+    color: "rose",
+    mavzu: `# Shartli Gaplar — Shart va Jawab
+
+## Shartli Gap Tuzilishi
+
+Shartli gap ikki qismdan iborat:
+- **Shart jumlasi** (ju-mla shart) — agar...
+- **Jawab jumlasi** (jawab shart) — ...u holda
+
+---
+
+## Shartli Yuklamalar
+
+### 1. إِنْ — Haqiqiy shart
+
+Yuzaga kelishi aniq bo'lgan yoki real shart:
+
+| Qism | Holat | Misol |
+|------|-------|-------|
+| إِنْ + Fe'l (jazm) | Shart | إِنْ تَدْرُسْ |
+| Jawab (jazm) | Natija | تَنْجَحْ |
+
+**إِنْ تَدْرُسْ تَنْجَحْ** — Agar o'qisang, muvaffaqiyat qozanasan.
+
+### 2. لَوْ — Xayoliy shart
+
+Yuzaga kelmagan yoki real bo'lmagan shart:
+
+| Qism | Holat |
+|------|-------|
+| لَوْ + Maazi | Shart |
+| Maazi yoki لَ + maazi | Jawab |
+
+**لَوْ دَرَسْتَ لَنَجَحْتَ** — Agar o'qiganing bo'lsaydi, muvaffaqiyat qozongan bo'larding.
+
+### 3. إِذَا — Kutilgan shart
+
+Yuzaga kelishi kutilgan, bajarilishi muqarrar shart:
+
+**إِذَا جَاءَ الطَّقْسُ الْجَمِيلُ خَرَجْنَا** — Ob-havo yaxshi bo'lganda, chiqamiz.
+
+---
+
+## إِنْ vs لَوْ Farqi
+
+| | إِنْ | لَوْ |
+|-|------|------|
+| Shart turi | Real, haqiqiy | Xayoliy, real bo'lmagan |
+| Fe'l holati | Jazm | Maazi |
+| Jawab | Jazm | لَ + maazi yoki jawab jumlasi |
+| Misol | إِنْ تَعْمَلْ تَنْجَحْ | لَوْ عَمِلْتَ لَنَجَحْتَ |
+
+---
+
+## Inkor Shartli Gap
+
+لَوْلَا — "...bo'lmaganda edi" ma'nosida:
+لَوْلَا الْعِلْمُ لَجَهِلَ النَّاسُ — Ilm bo'lmaganda edi, odamlar jaholatda qolgan bo'lishardi.
+
+---
+
+## Jawab Bo'laklari
+
+| Turi | Misol |
+|------|-------|
+| Jazm fe'l | إِنْ تَدْرُسْ تَنْجَحْ |
+| لَـ + maazi | لَوْ دَرَسَ لَنَجَحَ |
+| Mubtada-xabar | إِنْ دَرَسَ فَهُوَ ذَكِيٌّ |
+| فَـ + jumlat | إِنْ جَاءَ فَاسْأَلْهُ |`,
+    vazifalar: [
+      {id:1,savol:"Shartli gap nechi qismdan iborat?",variantlar:["1 ta","2 ta","3 ta","4 ta"],togri:1},
+      {id:2,savol:"إِنْ shartli yuklаmasidan keyin fe'l qaysi holda bo'ladi?",variantlar:["Raf'","Nasb","Jarr","Jazm"],togri:3},
+      {id:3,savol:"لَوْ — qaysi shart turi uchun ishlatiladi?",variantlar:["Haqiqiy/real shart","Xayoliy/real bo'lmagan shart","Kutilgan shart","Inkor shart"],togri:1},
+      {id:4,savol:"إِنْ تَدْرُسْ تَنْجَحْ — ma'nosi?",variantlar:["Sen o'qidingmi?","Agar o'qisang, muvaffaqiyat qozanasan","Sen o'qimaysan","O'qish yaxshi"],togri:1},
+      {id:5,savol:"لَوْلَا nimani bildiradi?",variantlar:["Agar bo'lsa","...bo'lmaganda edi","Chunki","Ammo"],togri:1},
+      {id:6,savol:"لَوْ da jawab jumlasi oldiga qanday harf qo'shiladi?",variantlar:["فَـ","إِنْ","لَـ","ثُمَّ"],togri:2},
+      {id:7,savol:"إِذَا — qaysi shart turi?",variantlar:["Xayoliy shart","Inkor shart","Kutilgan/muqarrar shart","O'tgan shart"],togri:2},
+      {id:8,savol:"لَوْ دَرَسْتَ لَنَجَحْتَ — ma'nosi?",variantlar:["Agar o'qisang, yaxshi bo'ladi","Agar o'qiganing bo'lsaydi, muvaffaqiyat qozongan bo'larding","Sen albatta o'qiysan","O'qish mumkin"],togri:1},
+      {id:9,savol:"إِنْ + Fe'l (jazm) + Jawab (jazm) — bu qaysi shart turi?",variantlar:["Xayoliy shart","Haqiqiy/real shart","Inkor shart","Kutilgan shart"],togri:1},
+      {id:10,savol:"إِنْ va لَوْ o'rtasidagi asosiy farq?",variantlar:["Zamon farqi","إِنْ haqiqiy shart, لَوْ xayoliy shart","Inkor/tasdiq farqi","Jazm/nasb farqi"],togri:1},
+    ]
+  },
 ];

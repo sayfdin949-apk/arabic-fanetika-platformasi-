@@ -56,7 +56,7 @@ export function DarsList() {
           <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 10 }}>Arab Fonetika Kursi</div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 18 }}>
             <StatChip icon={Layers} label="Amaliy:" value={`${amalCount}/${AMALIY.length}`} />
-            <StatChip icon={BookOpen} label="Nazariy:" value={`${nazPass}/10`} />
+            <StatChip icon={BookOpen} label="Nazariy:" value={`${nazPass}/${NAZARIY.length}`} />
             <StatChip icon={Clock} label="Har dars:" value={DURATION} />
           </div>
 
@@ -79,7 +79,7 @@ export function DarsList() {
                   transition: "all .15s",
                 }}
               >
-                {t === "amaliy" ? `✍ Amaliy (${AMALIY.length})` : `📖 Nazariy (10)`}
+                {t === "amaliy" ? `✍ Amaliy (${AMALIY.length})` : `📖 Nazariy (${NAZARIY.length})`}
               </button>
             ))}
           </div>
@@ -90,7 +90,7 @@ export function DarsList() {
       <div style={{ padding: "16px 16px", flex: 1 }}>
         {tur === "nazariy" ? (
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-            {NAZARIY.slice(0, 10).map((d, idx) => {
+            {NAZARIY.map((d, idx) => {
               const unlocked = isNazUnlocked(d.id);
               const done = nazDone[d.id];
               const pct = done?.pct ?? 0;
@@ -116,7 +116,7 @@ export function DarsList() {
                     padding: "14px 0",
                     background: "none",
                     border: "none",
-                    borderBottom: idx < 9 ? "1px solid rgba(13,58,26,.07)" : "none",
+                    borderBottom: idx < NAZARIY.length - 1 ? "1px solid rgba(13,58,26,.07)" : "none",
                     cursor: unlocked || canUnlockWithItem ? "pointer" : "not-allowed",
                     textAlign: "left",
                   }}

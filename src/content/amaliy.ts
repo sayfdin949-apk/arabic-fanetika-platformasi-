@@ -700,4 +700,338 @@ export const AMALIY: AmalBob[] = [
      {s:"أَيْن so'zining ma'nosi?",v:["Qachon","Nima","Qayerda","Kim"],t:2},
      {s:"بَيْت da ي qanday sifat ko'rsatadi?",v:["Mad (uzun)","G'unna","Lin (sukun+oldingi fatha)","Safir"],t:2}
    ]},
+
+  // ── B1 ──────────────────────────────────────────────────────────────
+
+  {id:15,harflar:["مُفْرَد","مُثَنَّى","جَمْع"],nomlar:["Mufrad (yak)","Saniyya (juft)","Jam' (ko'p)"],
+   maxraj:[
+     {h:"مُفْرَد",mx:"Bitta birlik",iz:"Bitta narsa yoki shaxsni bildiradi. Harakat: raf'=ـٌ, nasb=ـً, jarr=ـٍ (naqira)."},
+     {h:"مُثَنَّى",mx:"Ikkita birlik",iz:"Ikki narsani bildiradi. Raf': ـان, Nasb/Jarr: ـيْن qo'shimchasi."},
+     {h:"جَمْع",mx:"Ko'plik",iz:"Uch va undan ortiq. Salim: ـون/ـين (muzakkar), ـات (muannash). Taksir: ichki o'zgarish."}
+   ],
+   sifatlar:[
+     {h:"مُزَكَّر",sf:["Erkak jins","Belgi yo'q","كِتَابٌ — kitob","وَلَدٌ — bola","رَجُلٌ — erkak"]},
+     {h:"مُؤَنَّث",sf:["Ayol jins","ة yoki tabiiy","مَدْرَسَةٌ — maktab","بِنْتٌ — qiz","شَمْسٌ — quyosh (tabiiy)"]},
+     {h:"جَمْع",sf:["Ko'plik: 3+","Salim: qo'shimcha","Taksir: ichki o'zgarish","أَوْلَاد ← وَلَد","كُتُب ← كِتَاب"]}
+   ],
+   shakllar:[
+     {h:"كِتَاب",m:"كِتَابٌ",b:"كِتَابَانِ",o:"كِتَابَيْنِ",x:"كُتُبٌ",iz:"Mufrad → Saniyya → Jam' taksir"},
+     {h:"مُعَلِّم",m:"مُعَلِّمٌ",b:"مُعَلِّمَانِ",o:"مُعَلِّمِينَ",x:"مُعَلِّمُونَ",iz:"Mufrad → Saniyya → Jam' salim"},
+     {h:"مَدْرَسَة",m:"مَدْرَسَةٌ",b:"مَدْرَسَتَانِ",o:"مَدْرَسَتَيْنِ",x:"مَدَارِسُ",iz:"Muannash: mufrad→saniyya→jam' taksir"}
+   ],
+   harakatlar:[
+     {h:"raf'",f:"ـٌ",k:"ـٌ",d:"ـٌ",s:"ـُ",of:"naqira mufrad",ok:"Nominativ",od:"Ega holati",os:"-un/-u"},
+     {h:"nasb",f:"ـً",k:"ـً",d:"ـً",s:"ـَ",of:"naqira mufrad",ok:"Akkuzativ",od:"To'ldiruvchi holati",os:"-an/-a"},
+     {h:"jarr",f:"ـٍ",k:"ـٍ",d:"ـٍ",s:"ـِ",of:"naqira mufrad",ok:"Genitiv",od:"Egalik holati",os:"-in/-i"}
+   ],
+   sozlar:[
+     {ar:"كِتَابٌ",oq:"Kitaabun",tr:"Kitob",h:"mufrad naqira"},
+     {ar:"اَلْكِتَابُ",oq:"Al-kitaabu",tr:"Kitob (aniq)",h:"mufrad ma'rifa"},
+     {ar:"كِتَابَانِ",oq:"Kitaabaani",tr:"Ikki kitob",h:"saniyya raf'"},
+     {ar:"كُتُبٌ",oq:"Kutubun",tr:"Kitoblar",h:"jam' taksir"},
+     {ar:"مُعَلِّمُونَ",oq:"Mu'allimuuna",tr:"O'qituvchilar",h:"jam' salim muzakkar"}
+   ],
+   oqish:[
+     {ar:"اَلطَّالِبُ مُجْتَهِدٌ",iz:"Talaba (erkak) tirishqoq."},
+     {ar:"اَلطَّالِبَةُ مُجْتَهِدَةٌ",iz:"Talaba (ayol) tirishqoq."},
+     {ar:"اَلطُّلَّابُ مُجْتَهِدُونَ",iz:"Talabalar (erkak) tirishqoq."},
+     {ar:"كِتَابَانِ عَلَى الطَّاوِلَةِ",iz:"Stolda ikki kitob bor."},
+     {ar:"كُتُبٌ كَثِيرَةٌ",iz:"Ko'p kitoblar (جَمْع تَكْسِير + sifat)."}
+   ],
+   yozish:[
+     {t:"كِتَاب so'zini mufrad, saniyya, jam' taksir shakllarda yozing",m:"كِتَابٌ — كِتَابَانِ — كُتُبٌ"},
+     {t:"مُعَلِّم so'zini mufrad, saniyya, jam' salim shakllarda yozing",m:"مُعَلِّمٌ — مُعَلِّمَانِ — مُعَلِّمُونَ"},
+     {t:"Raf', nasb, jarr harakatlarini مُعَلِّم bilan yozing",m:"مُعَلِّمٌ (raf') — مُعَلِّمًا (nasb) — مُعَلِّمٍ (jarr)"}
+   ],
+   uyvazifa:["وَلَد, بَيْت, رَجُل so'zlarining jam' taksirini yozing","Quyidagi so'zlarni muannash shakliga o'tkazing: طَالِب، مُهَنْدِس، مُدِير","5 ta mufrad ism toping va ularni saniyya shaklida yozing"],
+   test:[
+     {s:"كِتَابَانِ — qaysi son va holat?",v:["Mufrad raf'","Saniyya raf'","Jam' salim raf'","Jam' taksir"],t:1},
+     {s:"مُعَلِّمُونَ — qaysi jam' turi?",v:["Jam' taksir","Jam' muannash salim","Jam' muzakkar salim","Saniyya"],t:2},
+     {s:"Ta-marbuta (ة) qaysi jinsni bildiradi?",v:["Muzakkar","Muannash","Har ikkisi","Jinsiz"],t:1},
+     {s:"Jam' taksirda nima o'zgaradi?",v:["Faqat qo'shimcha","O'zakning ichki strukturasi","Faqat tanvin","Faqat al"],t:1},
+     {s:"كُتُبٌ — qaysi so'zning jam' taksiri?",v:["مَكْتَب","كُتِبَ","كِتَاب","كَتَبَ"],t:2},
+     {s:"Saniyya nasb/jarr qo'shimchasi?",v:["-ان","-ين","-ون","-ات"],t:1},
+     {s:"شَمْس (quyosh) — qaysi muannash turi?",v:["Ta-marbuta","Alif-mamduda","Tabiiy muannash","Muzakkar"],t:2},
+     {s:"Raf' holida naqira mufrad ism qanday harakat oladi?",v:["ـً","ـٍ","ـٌ","ـُ"],t:2},
+     {s:"مَدَارِسُ — bu so'z qaysi mufraddan hosil bo'lgan?",v:["مَدْرَسَة","دَرَسَ","مُدَرِّس","دِرَاسَة"],t:0},
+     {s:"أَوْلَاد — qaysi so'zning jam' taksiri?",v:["أُمّ","وِلَادَة","وَلَد","أَوَّل"],t:2}
+   ]},
+
+  {id:16,harflar:["أَنَا","أَنْتَ","هُوَ","نَحْنُ"],nomlar:["Men","Sen","U","Biz"],
+   maxraj:[
+     {h:"أَنَا",mx:"1-shaxs mufrad",iz:"Men. Ismliy gap mubtadasi sifatida: أَنَا طَالِبٌ — Men talabaman (erkak)."},
+     {h:"أَنْتَ / أَنْتِ",mx:"2-shaxs mufrad",iz:"Sen (أَنْتَ erkak, أَنْتِ ayol). أَنْتَ مُجْتَهِدٌ — Sen tirishqoqsan."},
+     {h:"هُوَ / هِيَ",mx:"3-shaxs mufrad",iz:"U (هُوَ erkak, هِيَ ayol). هِيَ مُعَلِّمَةٌ — U o'qituvchi (ayol)."},
+     {h:"نَحْنُ",mx:"1-shaxs ko'plik",iz:"Biz. نَحْنُ طُلَّابٌ — Biz talabamiz."}
+   ],
+   sifatlar:[
+     {h:"أَنَا",sf:["1-shaxs mufrad","Jinsiz (erkak/ayol)","Mubtada sifatida","أَنَا + ism"]},
+     {h:"أَنْتُمْ",sf:["2-shaxs ko'plik erkak","أَنْتُنَّ ayol ko'plik","Mubtada sifatida","Maazida ـتُمْ"]},
+     {h:"هُمْ / هُنَّ",sf:["3-shaxs ko'plik","هُمْ erkak","هُنَّ ayol","Muzori'da يَـ (هُمْ)"]},
+     {h:"Birikkan",sf:["ـي (men)","ـكَ (sen erkak)","ـهُ (u erkak)","ـنَا (biz)"]}
+   ],
+   shakllar:[
+     {h:"أَنَا",m:"أَنَا",b:"أَنْتَ",o:"هُوَ",x:"نَحْنُ",iz:"Mufrad olmoshlar — yagona→ikki→u→biz"},
+     {h:"أَنْتِ",m:"أَنْتِ",b:"أَنْتُمَا",o:"أَنْتُمْ",x:"أَنْتُنَّ",iz:"2-shaxs: ayol→juft→erkak ko'p→ayol ko'p"},
+     {h:"هِيَ",m:"هِيَ",b:"هُمَا",o:"هُمْ",x:"هُنَّ",iz:"3-shaxs ayol→juft→erkak ko'p→ayol ko'p"}
+   ],
+   harakatlar:[
+     {h:"ـي",f:"كِتَابِي",k:"قَلَمِي",d:"بَيْتِي",s:"أَبِي",of:"Mening kitobim",ok:"Mening qalamim",od:"Mening uyim",os:"Mening otam"},
+     {h:"ـكَ",f:"كِتَابُكَ",k:"قَلَمُكَ",d:"بَيْتُكَ",s:"أَبُوكَ",of:"Sening kitobing",ok:"Sening qalamim",od:"Sening uying",os:"Sening otang"},
+     {h:"ـهُ",f:"كِتَابُهُ",k:"قَلَمُهُ",d:"بَيْتُهُ",s:"أَبُوهُ",of:"Uning kitobi",ok:"Uning qalami",od:"Uning uyi",os:"Uning otasi"}
+   ],
+   sozlar:[
+     {ar:"أَنَا طَالِبٌ",oq:"Anaa taalibun",tr:"Men talabaman (erkak)",h:"1-shaxs + ism"},
+     {ar:"هِيَ مُعَلِّمَةٌ",oq:"Hiya mu'allimatun",tr:"U o'qituvchi (ayol)",h:"3-shaxs ayol + ism"},
+     {ar:"نَحْنُ طُلَّابٌ",oq:"Nahnu tullaabun",tr:"Biz talabamiz",h:"1-shaxs ko'plik + jam'"},
+     {ar:"كِتَابُهُ كَبِيرٌ",oq:"Kitaabuhu kabirun",tr:"Uning kitobi katta",h:"birikkan olmosh"},
+     {ar:"هُمْ مُهَنْدِسُونَ",oq:"Hum muhandisuuna",tr:"Ular muhandislar",h:"ko'plik + jam' salim"}
+   ],
+   oqish:[
+     {ar:"أَنَا مُدِيرٌ وَأَنْتَ مُعَلِّمٌ",iz:"Men direktor, sen o'qituvchisan."},
+     {ar:"هُوَ ذَكِيٌّ وَهِيَ مُجْتَهِدَةٌ",iz:"U (erkak) aqlli va u (ayol) tirishqoq."},
+     {ar:"نَحْنُ فِي الْمَدْرَسَةِ",iz:"Biz maktabdamiz."},
+     {ar:"كِتَابُكَ عَلَى مَكْتَبِي",iz:"Sening kitobing mening stolimda."},
+     {ar:"هُمْ أَصْدِقَاؤُنَا",iz:"Ular bizning do'stlarimiz."}
+   ],
+   yozish:[
+     {t:"Har bir olmosh bilan bir jumlat yozing",m:"أَنَا + ism, أَنْتَ + sifat..."},
+     {t:"Birikkan olmoshlar ـي، ـكَ، ـهُ ni كِتَاب bilan yozing",m:"كِتَابِي، كِتَابُكَ، كِتَابُهُ"},
+     {t:"5 ta jumlat: har biri boshqa olmosh bilan",m:"أَنَا...، أَنْتَ...، هُوَ..."}
+   ],
+   uyvazifa:["10 ta olmoshni yod oling (alohida + birikkan)","هُوَ مُهَنْدِسٌ jumlasini barcha olmoshlar bilan o'zgartiring","Birikkan olmosh bilan 5 ta izofa qurilmasi tuzing"],
+   test:[
+     {s:"'Men' arabcha olmoshi?",v:["أَنْتَ","هُوَ","أَنَا","نَحْنُ"],t:2},
+     {s:"هِيَ — qaysi shaxs?",v:["1-shaxs","2-shaxs erkak","3-shaxs ayol","3-shaxs erkak"],t:2},
+     {s:"'Biz' arabcha olmoshi?",v:["هُمْ","أَنْتُمْ","نَحْنُ","أَنْتُنَّ"],t:2},
+     {s:"كِتَابُكَ da ـكَ nima bildiradi?",v:["Mening","Sening (erkak)","Uning","Bizning"],t:1},
+     {s:"هُمْ — qaysi jins va son?",v:["Ayol mufrad","Erkak mufrad","Erkak ko'plik","Ayol ko'plik"],t:2},
+     {s:"أَنْتِ — qaysi shaxs?",v:["1-shaxs","2-shaxs erkak","2-shaxs ayol","3-shaxs"],t:2},
+     {s:"كِتَابُنَا da ـنَا nima bildiradi?",v:["Men","Sen","U","Biz"],t:3},
+     {s:"أَنَا طَالِبٌ jumlasida أَنَا qanday vazifa?",v:["Xabar","Mubtada","Sifat","Fe'l"],t:1},
+     {s:"هُنَّ — qaysi shaxs?",v:["Erkak ko'plik","Ayol ko'plik (3-shaxs)","1-shaxs ko'plik","2-shaxs ayol"],t:1},
+     {s:"Birikkan olmosh ـهَا qaysi shaxsni bildiradi?",v:["Meni","Seni (erkak)","Uni (ayol)","Bizni"],t:2}
+   ]},
+
+  // ── B2 ──────────────────────────────────────────────────────────────
+
+  {id:17,harflar:["ذَهَبَ","كَتَبَ","قَرَأَ"],nomlar:["Ketdi","Yozdi","O'qidi"],
+   maxraj:[
+     {h:"ذَهَبَ",mx:"فَعَلَ — I vazn maazi",iz:"3-shaxs erkak mufrad o'tgan zamon. Bu fe'lning lug'aviy (asosiy) shakli."},
+     {h:"ذَهَبَتْ",mx:"فَعَلَتْ — ayol qo'shimchasi",iz:"3-shaxs ayol mufrad. Oxirida ـتْ (sukun). Misol: ذَهَبَتِ الْبِنْتُ — Qiz ketdi."},
+     {h:"ذَهَبُوا",mx:"فَعَلُوا — ko'plik",iz:"3-shaxs erkak ko'plik. ـوا qo'shimchasi (alif yoziladi, o'qilmaydi)."}
+   ],
+   sifatlar:[
+     {h:"مَاضِي",sf:["O'tgan zamon","3-shaxs erkak = asosiy forma","13 ta shaxs shakli","Inkor: مَا + fe'l"]},
+     {h:"مُضَارِع",sf:["Hozirgi/kelasi zamon","يَـ/تَـ/أَـ/نَـ harflari","Raf' holati: ـُ","Inkor: لَا/لَمْ/لَنْ"]},
+     {h:"أَمْر",sf:["Buyruq fe'l","Muzori' jazmidan hosil","2-shaxs uchun","Inkor: لَا + muzori' jazm"]}
+   ],
+   shakllar:[
+     {h:"كَتَبَ",m:"كَتَبَ",b:"كَتَبَتْ",o:"كَتَبُوا",x:"كَتَبْنَ",iz:"M.mufrad → F.mufrad → M.ko'p → F.ko'p"},
+     {h:"كَتَبْتَ",m:"كَتَبْتَ",b:"كَتَبْتِ",o:"كَتَبْتُمْ",x:"كَتَبْتُنَّ",iz:"2-shaxs: M.m → F.m → M.k → F.k"},
+     {h:"كَتَبْتُ",m:"كَتَبْتُ",b:"كَتَبْنَا",o:"كَتَبْتُمَا",x:"كَتَبَا",iz:"1-shaxs m/k va saniyyalar"}
+   ],
+   harakatlar:[
+     {h:"ذَهَبَ",f:"يَذْهَبُ",k:"اِذْهَبْ",d:"لَا تَذْهَبْ",s:"مَا ذَهَبَ",of:"Muzori' (hozirgi)",ok:"Buyruq (amir)",od:"Inkor buyruq",os:"Maazi inkori"},
+     {h:"كَتَبَ",f:"يَكْتُبُ",k:"اُكْتُبْ",d:"لَا تَكْتُبْ",s:"مَا كَتَبَ",of:"Muzori'",ok:"Buyruq",od:"Inkor buyruq",os:"Maazi inkori"},
+     {h:"قَرَأَ",f:"يَقْرَأُ",k:"اِقْرَأْ",d:"لَا تَقْرَأْ",s:"مَا قَرَأَ",of:"Muzori'",ok:"Buyruq",od:"Inkor buyruq",os:"Maazi inkori"}
+   ],
+   sozlar:[
+     {ar:"ذَهَبَ الْوَلَدُ",oq:"Zahaba al-waladu",tr:"Bola ketdi.",h:"maazi + fa'il"},
+     {ar:"كَتَبَتِ الطَّالِبَةُ",oq:"Katabati at-taalibatu",tr:"Talaba qiz yozdi.",h:"maazi ayol"},
+     {ar:"قَرَأُوا الْكِتَابَ",oq:"Qara'uu al-kitaaba",tr:"Ular kitobni o'qishdi.",h:"ko'plik maazi"},
+     {ar:"مَا فَهِمْتُ",oq:"Maa fahimtu",tr:"Men tushunmadim.",h:"inkor maazi"},
+     {ar:"كَتَبْنَا الدَّرْسَ",oq:"Katabnaa ad-darsa",tr:"Biz darsni yozdik.",h:"1-ko'plik maazi"}
+   ],
+   oqish:[
+     {ar:"ذَهَبَ الطَّالِبُ إِلَى الْمَكْتَبَةِ",iz:"Talaba kutubxonaga ketdi."},
+     {ar:"كَتَبَتِ الْبِنْتُ الرِّسَالَةَ",iz:"Qiz xatni yozdi."},
+     {ar:"قَرَأْنَا كِتَابًا مُفِيدًا",iz:"Biz foydali bir kitob o'qidik."},
+     {ar:"مَا فَهِمُوا السُّؤَالَ",iz:"Ular savolni tushunishmadi."},
+     {ar:"كَتَبْتُ وَقَرَأْتُ",iz:"Men yozdim va o'qidim."}
+   ],
+   yozish:[
+     {t:"ذَهَبَ fe'lini 6 ta asosiy shaxs uchun tuslantirib yozing",m:"ذَهَبَ، ذَهَبَتْ، ذَهَبُوا، ذَهَبْتَ، ذَهَبْتُ، ذَهَبْنَا"},
+     {t:"كَتَبَ fe'li bilan 3 ta jumlat tuzing (turli shaxs)",m:"كَتَبْتُ... / كَتَبَتِ... / كَتَبُوا..."},
+     {t:"مَا + fe'l bilan 3 ta inkor jumlat yozing",m:"مَا ذَهَبَ... / مَا كَتَبْتُ... / مَا قَرَأْنَا..."}
+   ],
+   uyvazifa:["كَتَبَ, قَرَأَ, فَهِمَ, سَمِعَ, ذَهَبَ fe'llarini 13 shaxsda tuslantirib yozing","Har bir shaxs uchun jumlat tuzing","مَا bilan inkor varianti yozing"],
+   test:[
+     {s:"كَتَبَ fe'lining asosiy ma'nosi?",v:["O'qidi","Ketdi","Yozdi","Bordi"],t:2},
+     {s:"ذَهَبَتْ — qaysi shaxs?",v:["3-shaxs erkak mufrad","3-shaxs ayol mufrad","2-shaxs erkak","1-shaxs mufrad"],t:1},
+     {s:"كَتَبُوا — qaysi shaxs?",v:["2-shaxs ko'plik","3-shaxs erkak ko'plik","1-shaxs ko'plik","3-shaxs ayol ko'plik"],t:1},
+     {s:"Maazida inkor qanday?",v:["لَا + fe'l","لَمْ + fe'l","مَا + fe'l","لَنْ + fe'l"],t:2},
+     {s:"كَتَبْتُ — qaysi shaxs?",v:["3-shaxs erkak","2-shaxs erkak","1-shaxs mufrad","1-shaxs ko'plik"],t:2},
+     {s:"قَرَأُوا — qanday o'qiladi?",v:["qara'ta","qara'uu","qara'na","qara'tum"],t:1},
+     {s:"3-shaxs ayol ko'plik maazi qo'shimchasi?",v:["ـتْ","ـوا","ـنَ","ـتُمْ"],t:2},
+     {s:"مَا كَتَبَتْ — ma'nosi?",v:["U (ayol) yozdi","U (ayol) yozmadi","Sen yozmadingmi?","U (erkak) yozmadi"],t:1},
+     {s:"كَتَبْنَا — qaysi shaxs?",v:["3-shaxs ko'plik","2-shaxs ko'plik","1-shaxs ko'plik","1-shaxs mufrad"],t:2},
+     {s:"Lug'aviy forma — fe'lning qaysi shakli?",v:["1-shaxs mufrad","2-shaxs erkak","3-shaxs erkak mufrad","3-shaxs ayol"],t:2}
+   ]},
+
+  {id:18,harflar:["كِتَابُ","بَيْتُ","مَكْتَبُ"],nomlar:["Kitob (mudof)","Uy (mudof)","Stol/Idora (mudof)"],
+   maxraj:[
+     {h:"كِتَابُ الطَّالِبِ",mx:"Izofa — Mudof + Mudof ilayh",iz:"Birinchi ism (mudof) al olmaydi. Ikkinchi ism (mudof ilayh) jarr holida — kasra yoki ـٍ."},
+     {h:"Ta-marbuta",mx:"ة → 't' bo'ladi",iz:"Mudof oxirida ة bo'lsa, yozuvda ة, lekin o'qishda 't': مَدْرَسَةُ الْمَدِينَةِ — Shahar maktabi."},
+     {h:"Ma'rifa",mx:"Izofa = ma'rifa",iz:"Naqira mudof + ma'rifa mudof ilayh → butun izofa ma'rifaga aylanadi: كِتَابُ الطَّالِبِ (ma'rifa)."}
+   ],
+   sifatlar:[
+     {h:"Mudof",sf:["Al olmaydi","Oxirgi harakat: raf'/nasb/jarr holida","Ta-marbuta 't' o'qiladi","Xabar tarif emas"]},
+     {h:"Mudof ilayh",sf:["Jarr holida (kasra/-ٍ)","al bo'lishi mumkin","Tanvin (naqira) bo'lishi mumkin","Izofa tuzilmasini yakunlaydi"]},
+     {h:"Sifat",sf:["Izofadan keyin keladi","Mudofga mos keladi (jins, son, holat)","بَيْتُ الرَّجُلِ الْكَبِيرُ","الْكَبِيرُ — mudofga (raf')"]}
+   ],
+   shakllar:[
+     {h:"كِتَاب",m:"كِتَابُ الطَّالِبِ",b:"كِتَابُ طَالِبٍ",o:"كِتَابَا الطَّالِبِ",x:"كُتُبُ الطُّلَّابِ",iz:"Ma'rifa/naqira/saniyya/jam' izofalar"},
+     {h:"مَدْرَسَة",m:"مَدْرَسَةُ الْمَدِينَةِ",b:"مَدْرَسَةُ مُدِيرٍ",o:"مَدْرَسَتَا الْحَيِّ",x:"مَدَارِسُ الْمَدِينَةِ",iz:"Ta-marbuta izofasi — to'rt holat"},
+     {h:"Zanjir",m:"بَابُ",b:"بَابُ الْبَيْتِ",o:"بَابُ بَيْتِ الرَّجُلِ",x:"بَابُ بَيْتِ رَجُلٍ كَبِيرٍ",iz:"Izofa zanjiri — 2, 3, 4 bo'lak"}
+   ],
+   harakatlar:[
+     {h:"بَيْت",f:"بَيْتُ الرَّجُلِ",k:"بَيْتَ الرَّجُلِ",d:"بَيْتِ الرَّجُلِ",s:"بَيْتُ رَجُلٍ",of:"Mudof raf'",ok:"Mudof nasb",od:"Mudof jarr",os:"Naqira izofa"},
+     {h:"مَدِينَة",f:"عَاصِمَةُ الْبِلَادِ",k:"عَاصِمَةَ الْبِلَادِ",d:"عَاصِمَةِ الْبِلَادِ",s:"عَاصِمَةُ بِلَادٍ",of:"Raf'",ok:"Nasb",od:"Jarr",os:"Naqira"},
+     {h:"مَكْتَب",f:"مَكْتَبُ الْمُدِيرِ",k:"مَكْتَبَ الْمُدِيرِ",d:"مَكْتَبِ الْمُدِيرِ",s:"مَكْتَبُ مُدِيرٍ",of:"Raf'",ok:"Nasb",od:"Jarr",os:"Naqira"}
+   ],
+   sozlar:[
+     {ar:"بَابُ الْبَيْتِ",oq:"Baabul bayti",tr:"Uyning eshigi",h:"izofa — 2 bo'lak"},
+     {ar:"عَاصِمَةُ الْبِلَادِ",oq:"'Aasimatul bilaadi",tr:"Mamlakatning poytaxti",h:"ta-marbuta izofa"},
+     {ar:"سَيَّارَةُ الْأُسْتَاذِ",oq:"Sayyaratul ustaazi",tr:"O'qituvchining mashinasi",h:"ta-marbuta izofa"},
+     {ar:"مَكْتَبَةُ الْمَدْرَسَةِ",oq:"Maktabatul madrasati",tr:"Maktab kutubxonasi",h:"izofa zanjiri"},
+     {ar:"لُغَةُ الْعَرَبِ",oq:"Lugatul 'arabi",tr:"Arablarning tili",h:"ta-marbuta izofa"}
+   ],
+   oqish:[
+     {ar:"كِتَابُ الطَّالِبِ عَلَى الطَّاوِلَةِ",iz:"Talabaning kitobi stolda."},
+     {ar:"بَابُ الْبَيْتِ مَفْتُوحٌ",iz:"Uyning eshigi ochiq."},
+     {ar:"مَدْرَسَةُ الْمَدِينَةِ كَبِيرَةٌ",iz:"Shahar maktabi katta."},
+     {ar:"ذَهَبْتُ إِلَى مَكْتَبِ الْمُدِيرِ",iz:"Men direktorning kabinetiga bordim."},
+     {ar:"سَيَّارَةُ الْأُسْتَاذِ جَدِيدَةٌ",iz:"O'qituvchining mashinasi yangi."}
+   ],
+   yozish:[
+     {t:"5 ta izofa qurilmasi tuzing (har xil mavzuda)",m:"بَيْتُ... / كِتَابُ... / سَيَّارَةُ..."},
+     {t:"Ta-marbuta bilan 3 ta izofa yozing (ة → 't' qoidasini ko'rsating)",m:"مَدْرَسَةُ... / سَيَّارَةُ... / غُرْفَةُ..."},
+     {t:"Izofa zanjiri (3 bo'lak) hosil qiling",m:"مَكْتَبَةُ مَدْرَسَةِ الْمَدِينَةِ"}
+   ],
+   uyvazifa:["10 ta yangi izofa qurilmasi yod oling","Quyidagi izofalarni turli holatlarda (raf'/nasb/jarr) yozing: بَيْتُ الرَّجُلِ","Ta-marbuta bilan izofa qoidasini do'stingizga tushuntiring"],
+   test:[
+     {s:"Izofada mudof ilayh qaysi holda bo'ladi?",v:["Raf'","Nasb","Jarr","O'zgarmaydi"],t:2},
+     {s:"Mudofdan nima olib tashlanadi?",v:["Ta-marbuta","اَلـ (al)","Tanvin","Sukun"],t:1},
+     {s:"كِتَابُ الطَّالِبِ — bu izofa ma'rifami yoki naqira?",v:["Naqira","Ma'rifa","Har ikkisi","Aniqlab bo'lmaydi"],t:1},
+     {s:"مَدْرَسَةُ الْمَدِينَةِ da ة qanday o'qiladi?",v:["Jim o'qilmaydi","'a' bo'lib","'t' bo'lib","'h' bo'lib"],t:2},
+     {s:"Sifat izofada qaysi joyga qo'yiladi?",v:["Mudofdan oldin","Mudof ilayh oldiga","Ikki bo'lakdan keyin","Har qanday joyga"],t:2},
+     {s:"عَاصِمَةُ الْبِلَادِ — ma'nosi?",v:["Katta shahar","Yaxshi mamlakat","Mamlakatning poytaxti","Qadimiy shahar"],t:2},
+     {s:"Izofa zanjirida nechtadan ortiq ism bo'lishi mumkin?",v:["Faqat 2 ta","3 tagacha","3 ta va undan ortiq","Faqat 1 ta"],t:2},
+     {s:"بَيْتُ رَجُلٍ — bu qanday izofa?",v:["Ma'rifa izofa","Naqira izofa","Sifatli izofa","Zanjir izofa"],t:1},
+     {s:"لُغَةُ الْعَرَبِ — ma'nosi?",v:["Arab lug'ati (kitob)","Arablarning tili","Arab harflari","Arab grammatikasi"],t:1},
+     {s:"Mudof raf' holida بَيْتُ الرَّجُلِ — mudof ilayh qaysi holat?",v:["Raf'","Nasb","Jarr","Jazm"],t:2}
+   ]},
+
+  // ── C1 ──────────────────────────────────────────────────────────────
+
+  {id:19,harflar:["دَرَسَ","دَرَّسَ","تَدَارَسَ"],nomlar:["O'rgandi (I)","O'qitdi (II)","Bir-biridan o'rganishdi (VI)"],
+   maxraj:[
+     {h:"I — دَرَسَ",mx:"فَعَلَ — Asosiy vazn",iz:"O'zakdagi asosiy harakat. دَرَسَ — o'qidi, o'rgandi. Masdar: دِرَاسَةٌ (o'qish)."},
+     {h:"II — دَرَّسَ",mx:"فَعَّلَ — Ta'diya",iz:"Boshqaga qildirish. دَرَّسَ — o'qitdi, o'rgatdi. Masdar: تَدْرِيسٌ (o'qitish). Ikkilangan o'rta harf."},
+     {h:"V — تَدَرَّسَ",mx:"تَفَعَّلَ — II refleksivi",iz:"II vazn harakat o'z shaxsga qaytishi. Masdar: تَدَرُّسٌ. تَعَلَّمَ (o'rganildi, V vazn) — keng ishlatiladi."}
+   ],
+   sifatlar:[
+     {h:"I vazn",sf:["فَعَلَ","Asosiy","Masdar: فَعْلٌ yoki فُعُولٌ va b.","Eng ko'p ishlatiladigan"]},
+     {h:"II vazn",sf:["فَعَّلَ","Ikkilangan o'rta harf","Masdar: تَفْعِيلٌ","Ta'diya (transitiv)"]},
+     {h:"IV vazn",sf:["أَفْعَلَ","Hamza boshida","Masdar: إِفْعَالٌ","Ta'diya (transitiv)"]},
+     {h:"X vazn",sf:["اِسْتَفْعَلَ","Talab/xohish","Masdar: اِسْتِفْعَالٌ","اِسْتَعْلَمَ — so'rab o'rgandi"]}
+   ],
+   shakllar:[
+     {h:"دَرَسَ",m:"دَرَسَ",b:"دَرَّسَ",o:"دَارَسَ",x:"أَدْرَسَ",iz:"I → II → III → IV vazn"},
+     {h:"تَدَرَّسَ",m:"تَدَرَّسَ",b:"تَدَارَسَ",o:"اِنْدَرَسَ",x:"اِدَّرَسَ",iz:"V → VI → VII → VIII vazn"},
+     {h:"Masdarlar",m:"دِرَاسَةٌ",b:"تَدْرِيسٌ",o:"مُدَارَسَةٌ",x:"اِسْتِدْرَاسٌ",iz:"I, II, III, X masdarlar"}
+   ],
+   harakatlar:[
+     {h:"كَتَبَ",f:"كَتَّبَ",k:"كَاتَبَ",d:"أَكْتَبَ",s:"تَكَاتَبَ",of:"II ta'diya",ok:"III mushtarak",od:"IV ta'diya",os:"VI o'zaro"},
+     {h:"فَتَحَ",f:"فَتَّحَ",k:"تَفَتَّحَ",d:"اِنْفَتَحَ",s:"اِفْتَتَحَ",of:"II","ok":"V refleksiv","od":"VII passiv","os":"VIII o'zlik"},
+     {h:"عَلِمَ",f:"عَلَّمَ",k:"تَعَلَّمَ",d:"أَعْلَمَ",s:"اِسْتَعْلَمَ",of:"II (o'qitdi)","ok":"V (o'rganildi)","od":"IV (xabardor qildi)","os":"X (so'rab o'rgandi)"}
+   ],
+   sozlar:[
+     {ar:"دَرَسَ الطَّالِبُ",oq:"Darasa at-taalibu",tr:"Talaba o'qidi.",h:"I vazn"},
+     {ar:"دَرَّسَ الْأُسْتَاذُ الدَّرْسَ",oq:"Darrasa al-ustaazu",tr:"O'qituvchi darsni o'qitdi.",h:"II vazn ta'diya"},
+     {ar:"تَعَلَّمَ اللُّغَةَ",oq:"Ta'allama al-lughata",tr:"U tilni o'rgandi.",h:"V vazn"},
+     {ar:"تَعَاوَنُوا فِي الْعَمَلِ",oq:"Ta'aawanuu fil 'amali",tr:"Ular ishda hamkorlik qilishdi.",h:"VI vazn"},
+     {ar:"اِسْتَقْبَلَهُ بِحَفَاوَةٍ",oq:"Istaqbalahu bihafaaWatin",tr:"Uni iliq qarshi oldi.",h:"X vazn"}
+   ],
+   oqish:[
+     {ar:"دَرَسَ وَدَرَّسَ كِلَيْهِمَا مُفِيدَانِ",iz:"O'qish ham, o'qitish ham foydali."},
+     {ar:"تَعَلَّمَ الطَّالِبُ مِنَ الْكِتَابِ",iz:"Talaba kitobdan o'rgandi (V vazn)."},
+     {ar:"اِسْتَعَانَ بِصَدِيقِهِ",iz:"U do'stidan yordam so'radi (X vazn)."},
+     {ar:"اِنْكَسَرَتِ الشَّبَّاكُ",iz:"Derazanig oynasi sindi (VII vazn — passiv)."},
+     {ar:"تَعَاوَنَ الْفَرِيقُ",iz:"Jamoa hamkorlik qildi (VI vazn)."}
+   ],
+   yozish:[
+     {t:"دَرَسَ o'zakidan I, II, III, V, X vaznlardagi fe'llarni yozing",m:"دَرَسَ، دَرَّسَ، دَارَسَ، تَدَرَّسَ، اِسْتَدْرَسَ"},
+     {t:"Har bir vaznning masdarini yozing",m:"دِرَاسَةٌ، تَدْرِيسٌ، مُدَارَسَةٌ، اِسْتِدْرَاسٌ"},
+     {t:"Har bir vaznni ishlating — jumlat tuzing",m:"دَرَسْتُ...، دَرَّسَ الْأُسْتَاذُ...، تَعَلَّمَ..."}
+   ],
+   uyvazifa:["10 ta arab fe'lini toping va ularning vaznini aniqlang","فَتَحَ o'zakidan I–X vaznlarni hosil qiling","Har bir vaznning asosiy ma'no qo'shimchasini yod oling"],
+   test:[
+     {s:"II vazn (فَعَّلَ) asosiy ma'no qo'shimchasi?",v:["Passiv","Boshqaga qildirish (ta'diya)","O'z-o'zidan","Bir-biriga"],t:1},
+     {s:"دَرَّسَ va دَرَسَ o'rtasidagi farq?",v:["Zamon farqi","دَرَّسَ o'qitdi (II), دَرَسَ o'qidi (I)","Son farqi","Jins farqi"],t:1},
+     {s:"V vazn (تَفَعَّلَ) qaysi vazn refleksivi?",v:["I vazn","III vazn","II vazn","IV vazn"],t:2},
+     {s:"VII vazn (اِنْفَعَلَ) asosiy ma'nosi?",v:["Ta'diya","O'zaro harakat","Passiv/o'z-o'zidan","Talab"],t:2},
+     {s:"تَعَلَّمَ — qaysi vazn?",v:["I vazn","III vazn","V vazn","X vazn"],t:2},
+     {s:"X vazn (اِسْتَفْعَلَ) asosiy ma'nosi?",v:["Rang o'zgarish","Passiv","Talab/xohish","O'zarog harakat"],t:2},
+     {s:"II vazn masdari qanday ko'rinishda?",v:["فِعَالٌ","تَفْعِيلٌ","إِفْعَالٌ","اِنْفِعَالٌ"],t:1},
+     {s:"اِسْتَعَانَ — qaysi vazn?",v:["VII","VIII","IX","X"],t:3},
+     {s:"VI vazn (تَفَاعَلَ) asosiy ma'nosi?",v:["Bitta shaxs","O'zaro/bir-biriga","Passiv","Talab"],t:1},
+     {s:"تَعَاوَنَ (hamkorlik qildi) — qaysi vazn?",v:["III","V","VI","VIII"],t:2}
+   ]},
+
+  {id:20,harflar:["إِنْ","لَوْ","إِذَا"],nomlar:["Agar (haqiqiy)","Agar (xayoliy)","Agar (kutilgan)"],
+   maxraj:[
+     {h:"إِنْ",mx:"Haqiqiy shart yuklаmasi",iz:"Real va yuzaga kelishi mumkin bo'lgan shart. إِنْ + muzori' jazm → jawab jazm."},
+     {h:"لَوْ",mx:"Xayoliy shart yuklаmasi",iz:"Yuzaga kelmagan shart. لَوْ + maazi → لَـ + maazi (jawab)."},
+     {h:"إِذَا",mx:"Kutilgan shart yuklаmasi",iz:"Yuzaga kelishi muqarrar bo'lgan shart. إِذَا + maazi → jawab."}
+   ],
+   sifatlar:[
+     {h:"إِنْ",sf:["Haqiqiy/real","Fe'l jazm holida","Jawab jazm","Keng qo'llaniladi"]},
+     {h:"لَوْ",sf:["Xayoliy","Fe'l maazi holida","Jawabda لَـ","O'tmishga ham ishlatiladi"]},
+     {h:"لَوْلَا",sf:["Agar...bo'lmaganda","Ism bilan keladi","Jawabda لَـ","Imkoniyat yo'qligi"]},
+     {h:"إِذَا",sf:["Kutilgan shart","Maazi yoki muzori'","Ko'pincha kelajak ma'no","Muqarrar natija"]}
+   ],
+   shakllar:[
+     {h:"إِنْ",m:"إِنْ تَدْرُسْ تَنْجَحْ",b:"إِنْ دَرَسْتَ نَجَحْتَ",o:"إِنْ لَمْ تَدْرُسْ لَمْ تَنْجَحْ",x:"إِنْ تَدْرُسْ فَأَنْتَ ذَكِيٌّ",iz:"Haqiqiy shart turli ko'rinishlari"},
+     {h:"لَوْ",m:"لَوْ دَرَسْتَ لَنَجَحْتَ",b:"لَوْ كُنْتَ هُنَا لَرَأَيْتَهُ",o:"لَوْ لَا الْعِلْمُ لَجَهِلَ النَّاسُ",x:"لَوْ عَمِلَ الْفَرِيقُ لَنَجَحُوا",iz:"Xayoliy shart ko'rinishlari"},
+     {h:"إِذَا",m:"إِذَا جَاءَ خَرَجْنَا",b:"إِذَا حَلَّ الشِّتَاءُ بَرَدَ الطَّقْسُ",o:"إِذَا سَافَرْتَ أَخْبِرْنَا",x:"إِذَا أَرَدْتَ النَّجَاحَ اِجْتَهِدْ",iz:"Kutilgan shart ko'rinishlari"}
+   ],
+   harakatlar:[
+     {h:"إِنْ shart",f:"إِنْ تَدْرُسْ",k:"إِنْ تَكْتُبْ",d:"إِنْ تَذْهَبْ",s:"إِنْ تَفْهَمْ",of:"Muzori' jazm",ok:"Muzori' jazm",od:"Muzori' jazm",os:"Muzori' jazm"},
+     {h:"Jawab (إِنْ)",f:"تَنْجَحْ",k:"تَتَعَلَّمْ",d:"تَصِلْ",s:"تَتَقَدَّمْ",of:"Jazm jawab",ok:"Jazm jawab",od:"Jazm jawab",os:"Jazm jawab"},
+     {h:"لَوْ shart",f:"لَوْ دَرَسْتَ",k:"لَوْ عَمِلْتَ",d:"لَوْ جِئْتَ",s:"لَوْ قَرَأْتَ",of:"Maazi shart",ok:"Maazi shart",od:"Maazi shart",os:"Maazi shart"}
+   ],
+   sozlar:[
+     {ar:"إِنْ تَدْرُسْ تَنْجَحْ",oq:"In tadrus tanjah",tr:"Agar o'qisang, muvaffaqiyat qozanasan.",h:"إِنْ haqiqiy shart"},
+     {ar:"لَوْ دَرَسْتَ لَنَجَحْتَ",oq:"Law darasta lanajahta",tr:"Agar o'qiganing bo'lsaydi, muvaffaqiyat qozongan bo'larding.",h:"لَوْ xayoliy shart"},
+     {ar:"إِذَا جَاءَ الرَّبِيعُ أَزْهَرَتِ الْأَشْجَارُ",oq:"Iza jaa'ar-raabii'u...",tr:"Bahor kelganda, daraxtlar gullaydi.",h:"إِذَا kutilgan shart"},
+     {ar:"إِنْ لَمْ تَعْمَلْ لَمْ تَنْجَحْ",oq:"In lam ta'mal lam tanjah",tr:"Agar ishlamasang, muvaffaqiyat qozonmaysan.",h:"إِنْ inkor shart"},
+     {ar:"لَوْلَا الْجُهْدُ لَمَا نَجَحَ أَحَدٌ",oq:"Lawlaa al-juhdu...",tr:"Mehnat bo'lmaganda edi, hech kim muvaffaqiyat qozonmagan bo'lardi.",h:"لَوْلَا — agar...bo'lmaganda"}
+   ],
+   oqish:[
+     {ar:"إِنْ تَجْتَهِدْ تَصِلْ إِلَى هَدَفِكَ",iz:"Agar tirishsang, maqsadingga yetasan."},
+     {ar:"لَوْ عَمِلَ الْفَرِيقُ لَنَجَحَ الْمَشْرُوعُ",iz:"Agar jamoa ishlagan bo'lsaydi, loyiha muvaffaqiyatli bo'lardi."},
+     {ar:"إِذَا حَلَّ الشِّتَاءُ بَرَدَ الطَّقْسُ",iz:"Qish kelganda ob-havo soviydi."},
+     {ar:"إِنْ سَافَرْتَ أَخْبِرْنِي",iz:"Agar safarga chiqsang, meni xabardor qil."},
+     {ar:"لَوْلَا التَّعَاوُنُ لَصَعُبَتِ الْأُمُورُ",iz:"Hamkorlik bo'lmaganda edi, ishlar qiyin bo'lardi."}
+   ],
+   yozish:[
+     {t:"إِنْ bilan 3 ta haqiqiy shartli gap yozing",m:"إِنْ تَعْمَلْ...، إِنْ تَدْرُسْ...، إِنْ تَجْتَهِدْ..."},
+     {t:"لَوْ bilan 2 ta xayoliy shartli gap yozing",m:"لَوْ دَرَسْتَ لَـ...، لَوْ جِئْتَ لَـ..."},
+     {t:"إِذَا bilan 2 ta kutilgan shartli gap yozing",m:"إِذَا جَاءَ...، إِذَا أَرَدْتَ..."}
+   ],
+   uyvazifa:["إِنْ, لَوْ, إِذَا, لَوْلَا farkini jadval shaklida yozing","Har bir yuklama bilan 3 tadan jumlat yozing","إِنْ inkor: إِنْ لَمْ + jazm bilan 3 ta jumlat tuzing"],
+   test:[
+     {s:"إِنْ shartli yuklаmasi qaysi tur?",v:["Xayoliy shart","Kutilgan shart","Haqiqiy/real shart","Inkor shart"],t:2},
+     {s:"إِنْ dan keyin fe'l qaysi holda bo'ladi?",v:["Raf'","Nasb","Jarr","Jazm"],t:3},
+     {s:"لَوْ — qaysi tur shart uchun?",v:["Real shart","Xayoliy/real bo'lmagan shart","Kutilgan shart","Inkor shart"],t:1},
+     {s:"لَوْ shart jumlasida fe'l qaysi holda?",v:["Muzori' jazm","Muzori' raf'","Maazi","Muzori' nasb"],t:2},
+     {s:"لَوْ da jawab jumlasining boshida nima turadi?",v:["فَـ","إِنْ","لَـ","ثُمَّ"],t:2},
+     {s:"إِنْ تَدْرُسْ تَنْجَحْ — ma'nosi?",v:["Sen o'qidingmi?","Agar o'qisang, muvaffaqiyat qozanasan.","O'qish shart","O'qiganing uchun muvaffaqiyat"],t:1},
+     {s:"لَوْلَا nimani bildiradi?",v:["Agar bo'lsa","Agar...bo'lmaganda edi","Chunki","Ammo"],t:1},
+     {s:"إِذَا — qaysi holat uchun?",v:["Yuzaga kelmagan shart","Kutilgan/muqarrar shart","O'tmishda yuzaga kelgan","Hech qachon bo'lmagan"],t:1},
+     {s:"إِنْ لَمْ تَعْمَلْ لَمْ تَنْجَحْ — ma'nosi?",v:["Ishlasang muvaffaqiyat","Agar ishlamasang, muvaffaqiyat qozonmaysan","Sen ishlamassan","Muvaffaqiyat ishlamasdan ham bo'ladi"],t:1},
+     {s:"لَوْ عَمِلْتَ لَنَجَحْتَ — qaysi kalit so'z xayoliy shartni bildiradi?",v:["لَنَجَحْتَ","عَمِلْتَ","لَوْ","ـتَ"],t:2}
+   ]},
 ];
