@@ -41,14 +41,14 @@ function loadVideoWatched(uid: string): number {
 function loadMockResults(uid: string): MockNatija[] {
   try {
     const raw = localStorage.getItem(`afp:mock_results_${uid}`);
-    return raw ? JSON.parse(raw) : [];
+    return raw ? Object.values(JSON.parse(raw)) : [];
   } catch { return []; }
 }
 
 function loadGramDone(uid: string): number {
   try {
     const raw = localStorage.getItem(`afp:gram_done_${uid}`);
-    return raw ? (JSON.parse(raw) as number[]).length : 0;
+    return raw ? Object.keys(JSON.parse(raw)).length : 0;
   } catch { return 0; }
 }
 
