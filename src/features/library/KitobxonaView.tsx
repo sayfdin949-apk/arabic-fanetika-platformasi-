@@ -1,15 +1,8 @@
 import { useState } from "react";
-import { BookOpen, ChevronRight, X, FileText, BookMarked, List, BookCopy } from "lucide-react";
+import { ChevronRight, X, FileText, BookMarked, List, BookCopy } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
 import { KITOBLAR, type Kitob, type KitobBob } from "../../content/kitoblar";
-
-const TUR_ICON: Record<string, string> = {
-  darslik: "📗",
-  lugat: "📖",
-  qoida: "📋",
-  matn: "📚",
-};
 
 const TUR_LABEL: Record<string, string> = {
   darslik: "Darslik",

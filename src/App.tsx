@@ -34,6 +34,8 @@ import { VideoDarslarView } from "./features/video/VideoDarslarView";
 import { KitobxonaView } from "./features/library/KitobxonaView";
 import { MockTestView } from "./features/mocktest/MockTestView";
 import { AIFiltrView } from "./features/aifiltr/AIFiltrView";
+import { SpeakingClubView } from "./features/speaking/SpeakingClubView";
+import { MehmonUstozlarView } from "./features/speakers/MehmonUstozlarView";
 import { T } from "./theme/tokens";
 
 function Splash() {
@@ -105,6 +107,8 @@ export default function App() {
             <Route path="/kitobxona" element={<KitobxonaView />} />
             <Route path="/mocktest" element={<MockTestView />} />
             <Route path="/matn-tahlil" element={<AIFiltrView />} />
+            <Route path="/speaking-club" element={<SpeakingClubView />} />
+            <Route path="/mehmon-ustozlar" element={<MehmonUstozlarView />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

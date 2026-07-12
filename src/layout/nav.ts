@@ -23,6 +23,8 @@ import {
   Library,
   ClipboardList,
   Sparkles,
+  Mic2,
+  Globe,
   type LucideIcon,
 } from "lucide-react";
 import type { Role } from "../auth/types";
@@ -63,6 +65,8 @@ export const NAV: NavItem[] = [
   { to: "/kitobxona", label: "Kitobxona", icon: Library, roles: ALL, bottom: false },
   { to: "/mocktest", label: "Mock test", icon: ClipboardList, roles: ALL, bottom: false },
   { to: "/matn-tahlil", label: "Matn tahlili", icon: Sparkles, roles: ALL, bottom: false },
+  { to: "/speaking-club", label: "Speaking Club", icon: Mic2, roles: ALL, bottom: false },
+  { to: "/mehmon-ustozlar", label: "Mehmon ustozlar", icon: Globe, roles: ALL, bottom: false },
 ];
 
 export const navForRole = (role: Role) => NAV.filter((n) => n.roles.includes(role));
