@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import { store } from "../../lib/storage";
 import { useAuth } from "../../auth/AuthContext";
 import { NAZARIY } from "../../content/nazariy";
+import { markActivityToday } from "../../lib/pwa";
 
 export interface DoneRec {
   ok: number;
@@ -139,6 +140,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
   const touchStreak = () => {
     if (!user) return;
+    markActivityToday();
     setStreak((prev) => {
       const updated = calcStreak(prev);
       void store.set(`streak_${user.id}`, updated);

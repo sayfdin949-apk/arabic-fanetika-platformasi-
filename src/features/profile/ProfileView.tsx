@@ -1,11 +1,12 @@
-import { useRef, useState } from "react";
-import { Camera, LogOut, Phone, Calendar, Shield, Lock, Eye, EyeOff, CheckCircle, Edit2, X } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { Camera, LogOut, Phone, Calendar, Shield, Lock, Eye, EyeOff, CheckCircle, Edit2, X, Bell, BellOff } from "lucide-react";
 import { T, FONT } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
 import { useAuth } from "../../auth/AuthContext";
 import { useProgress } from "../progress/ProgressContext";
 import type { Role } from "../../auth/types";
+import { getNotifPermission, requestNotifPermission, showLocalNotif } from "../../lib/pwa";
 
 const ROLE_LABELS: Record<Role, string> = { ceo: "CEO", teacher: "O'qituvchi", assistant: "Yordamchi ustoz", student: "O'quvchi" };
 
@@ -32,6 +33,18 @@ export function ProfileView() {
   const [editForm, setEditForm] = useState({ ism: "", familya: "", tel: "", tugilgan: "" });
   const [editErr, setEditErr] = useState("");
   const [editOk, setEditOk] = useState(false);
+
+  // Notification state
+  const [notifPerm, setNotifPerm] = useState<NotificationPermission>(() => getNotifPermission());
+  useEffect(() => { setNotifPerm(getNotifPermission()); }, []);
+
+  const handleNotifRequest = async () => {
+    const perm = await requestNotifPermission();
+    setNotifPerm(perm);
+    if (perm === "granted") {
+      showLocalNotif("Bildirishnomalar yoqildi!", "Strek eslatmalari va yangi darslar haqida xabar olasiz.", "test");
+    }
+  };
 
   // Password state
   const [parolOpen, setParolOpen] = useState(false);
@@ -292,6 +305,40 @@ export function ProfileView() {
             </div>
           )}
         </div>}
+
+        {/* Notification settings */}
+        {"Notification" in window && (
+          <div style={{ background: "#fff", borderRadius: 16, border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04), 0 4px 12px rgba(13,58,26,.06)", marginBottom: 14, overflow: "hidden" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 16px" }}>
+              <div style={{ width: 32, height: 32, borderRadius: 9, background: notifPerm === "granted" ? "rgba(46,184,46,.12)" : "rgba(13,58,26,.06)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                {notifPerm === "granted"
+                  ? <Bell size={15} color={T.lime} />
+                  : <BellOff size={15} color={T.hint} />}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: T.text }}>Bildirishnomalar</div>
+                <div style={{ fontSize: 11, color: T.hint, marginTop: 1 }}>
+                  {notifPerm === "granted"
+                    ? "Yoqilgan — strek va yangi dars eslatmalari"
+                    : notifPerm === "denied"
+                    ? "Bloklangan — brauzer sozlamalaridan yoqing"
+                    : "O'chirilgan — ruxsat bering"}
+                </div>
+              </div>
+              {notifPerm === "default" && (
+                <button
+                  onClick={handleNotifRequest}
+                  style={{ padding: "7px 13px", borderRadius: 9, border: "none", background: T.gLime, color: T.onCta, fontSize: 12, fontWeight: 700, cursor: "pointer", flexShrink: 0 }}
+                >
+                  Yoqish
+                </button>
+              )}
+              {notifPerm === "granted" && (
+                <div style={{ fontSize: 11, fontWeight: 700, color: T.lime, flexShrink: 0 }}>✓ Faol</div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Logout */}
         <button onClick={logout} style={{ width: "100%", background: "rgba(230,0,35,.07)", color: T.red, border: "1px solid rgba(230,0,35,.18)", borderRadius: 14, padding: "14px", fontSize: 14, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
