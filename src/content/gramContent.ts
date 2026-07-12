@@ -662,6 +662,446 @@ export const GRAM_DARSLAR: GramDars[] = [
       { savol: "Yangi kitob arabchada qanday?", variantlar: ["كِتَابٌ جَدِيدَةٌ", "جَدِيدٌ كِتَابٌ", "كِتَابٌ جَدِيدٌ", "الْكِتَابُ جَدِيدَةٌ"], togri: 2 },
     ],
   },
+
+  // ─── B1 ─────────────────────────────────────────────────────────────────────
+  {
+    id: 10,
+    nomi: "Hozirgi/kelasi zamon fe'li",
+    daraja: "B1",
+    icon: "▶️",
+    rang: "#2563EB",
+    mavzu: "الفعل المضارع — hozirda va kelajakda qilinadigan ishlar",
+    qoida: [
+      {
+        sarlavha: "Mudori' fe'lining yasalishi",
+        tavsif:
+          "Hozirgi/kelasi zamon fe'li (fi'l mudori') o'tgan zamon asosiga " +
+          "shaxs prefikslari (أ، ت، ي، ن) qo'shish bilan hosil bo'ladi. " +
+          "Fe'l oxiri odatda damma (u) bilan tugaydi.",
+        jadval: [
+          { arabcha: "أَكْتُبُ", oqilishi: "aktubu", tarjima: "men yozaman", izoh: "1-shaxs yagona — أَ prefiksi" },
+          { arabcha: "تَكْتُبُ", oqilishi: "taktubu", tarjima: "sen yozasan (erkak)", izoh: "2-shaxs yagona erkak — تَ prefiksi" },
+          { arabcha: "تَكْتُبِينَ", oqilishi: "taktubina", tarjima: "sen yozasan (ayol)", izoh: "2-shaxs yagona ayol — تَ + ينَ" },
+          { arabcha: "يَكْتُبُ", oqilishi: "yaktubu", tarjima: "u yozadi (erkak)", izoh: "3-shaxs yagona erkak — يَ prefiksi" },
+          { arabcha: "تَكْتُبُ", oqilishi: "taktubu", tarjima: "u yozadi (ayol)", izoh: "3-shaxs yagona ayol — تَ prefiksi" },
+          { arabcha: "نَكْتُبُ", oqilishi: "naktubu", tarjima: "biz yozamiz", izoh: "1-shaxs ko'plik — نَ prefiksi" },
+        ],
+      },
+      {
+        sarlavha: "Ko'plik va kelasi zamon",
+        tavsif:
+          "Ko'plik shakllari o'zgacha qo'shimchalarga ega. " +
+          "سَ yoki سَوْفَ qo'shilsa fe'l kelasi zamonni bildiradi.",
+        jadval: [
+          { arabcha: "يَكْتُبُونَ", oqilishi: "yaktubun", tarjima: "ular yozadi (erkaklar)", izoh: "3-shaxs ko'plik erkak — ونَ" },
+          { arabcha: "يَكْتُبْنَ", oqilishi: "yaktubna", tarjima: "ular yozadi (ayollar)", izoh: "3-shaxs ko'plik ayol — نَ" },
+          { arabcha: "تَكْتُبُونَ", oqilishi: "taktubun", tarjima: "sizlar yozasiz", izoh: "2-shaxs ko'plik — تَ + ونَ" },
+          { arabcha: "سَأَكْتُبُ", oqilishi: "sa-aktubu", tarjima: "men yozaman (kelasi)", izoh: "سَ prefiksi — kelasi zamon" },
+          { arabcha: "سَوْفَ يَذْهَبُ", oqilishi: "sawfa yazhabu", tarjima: "u borad (kelasi)", izoh: "سَوْفَ — kelasi zamon" },
+        ],
+        misol: [
+          "أَذْهَبُ كُلَّ يَوْمٍ (men har kuni boraman)",
+          "يَأْكُلُ الطِّفْلُ (bola yeyapti)",
+          "سَنَذْهَبُ غَدًا (biz erta boramiz)",
+          "هَلْ تَفْهَمُ؟ (tushunasanmi?)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "أَذْهَبُ إِلَى الْعَمَلِ كُلَّ يَوْمٍ", oqilishi: "azhabu ilal-'amali kulla yawm", tarjima: "Men har kuni ishga boraman" },
+      { arabcha: "يَدْرُسُ الطَّالِبُ فِي الْمَكْتَبَةِ", oqilishi: "yadrusu t-talibu fil-maktabati", tarjima: "O'quvchi kutubxonada o'qiydi" },
+      { arabcha: "مَاذَا تَأْكُلُ فِي الْغَدَاء؟", oqilishi: "maza ta'kulu fil-ghada'?", tarjima: "Tushlikda nima eysan?" },
+      { arabcha: "سَنَذْهَبُ إِلَى الْمَطَارِ غَدًا", oqilishi: "sanazhbu ilal-matari ghadan", tarjima: "Erta biz aeroportga boramiz" },
+      { arabcha: "هَلْ تَتَكَلَّمُ الْعَرَبِيَّةَ؟", oqilishi: "hal tatakallamu l-'arabiyya?", tarjima: "Arabcha gaplashasan?" },
+      { arabcha: "يَكْتُبُونَ الدَّرْسَ الْآنَ", oqilishi: "yaktubun ad-darsa l-an", tarjima: "Ular hozir darsni yozishmoqda" },
+    ],
+    istima: [
+      { arabcha: "أَكْتُبُ", oqilishi: "aktubu", tarjima: "men yozaman", izoh: "1-shaxs, أ- prefiksi" },
+      { arabcha: "يَكْتُبُ", oqilishi: "yaktubu", tarjima: "u yozadi (erkak)", izoh: "3-shaxs erkak, يَ prefiksi" },
+      { arabcha: "نَكْتُبُ", oqilishi: "naktubu", tarjima: "biz yozamiz", izoh: "1-shaxs ko'plik, نَ prefiksi" },
+      { arabcha: "يَكْتُبُونَ", oqilishi: "yaktubun", tarjima: "ular yozadi", izoh: "ko'plik erkak, ونَ qo'shimchasi" },
+      { arabcha: "سَأَكْتُبُ", oqilishi: "sa-aktubu", tarjima: "men yozaman (kelajak)", izoh: "سَ + mudori'" },
+      { arabcha: "تَكْتُبُ", oqilishi: "taktubu", tarjima: "u yozadi (ayol)", izoh: "3-shaxs ayol yoki 2-shaxs erkak" },
+    ],
+    kitoba: [
+      { topshiriq: "يَكْتُبُ ni 1-shaxsga o'zgartiring", misol: "→ أَكْتُبُ (men yozaman)" },
+      { topshiriq: "يَذْهَبُ ni ko'plik (ular-erkak) shaklida yozing", misol: "→ يَذْهَبُونَ (ular boradilar)" },
+      { topshiriq: "سَ ishlatib kelasi zamon gapi tuzing", misol: "→ سَأَذْهَبُ غَدًا (men erta boraman)" },
+      { topshiriq: "أَكَلَ (yedi) dan hozirgi zamon yasang, 3-shaxs erkak", misol: "→ يَأْكُلُ (u yeydi)" },
+    ],
+    test: [
+      { savol: "يَكْتُبُ so'zi qaysi shaxs?", variantlar: ["1-shaxs erkak", "2-shaxs erkak", "3-shaxs erkak", "3-shaxs ayol"], togri: 2 },
+      { savol: "Men boraman arabchada qanday?", variantlar: ["يَذْهَبُ", "تَذْهَبُ", "أَذْهَبُ", "نَذْهَبُ"], togri: 2 },
+      { savol: "سَ prefiksi nima bildiradi?", variantlar: ["O'tgan zamon", "Inkor", "Kelasi zamon", "Buyruq"], togri: 2 },
+      { savol: "Biz yozamiz arabchada qanday?", variantlar: ["أَكْتُبُ", "يَكْتُبُ", "تَكْتُبُ", "نَكْتُبُ"], togri: 3 },
+      { savol: "يَكْتُبُونَ so'zi kim haqida?", variantlar: ["Men", "Sen", "U (erkak)", "Ular (erkaklar)"], togri: 3 },
+    ],
+  },
+
+  {
+    id: 11,
+    nomi: "Inkor va buyruq mayli",
+    daraja: "B1",
+    icon: "🚫",
+    rang: "#DC2626",
+    mavzu: "النفي والأمر — yo'q deyish va buyurish usullari",
+    qoida: [
+      {
+        sarlavha: "Inkor shakllari",
+        tavsif:
+          "Arabchada inkor qilish fe'l turiga qarab turlicha ifodalanadi. " +
+          "لَا + mudori' = hozirgi inkor. لَمْ + majzum = o'tgan inkor. لَنْ + mansub = kelajak inkor.",
+        jadval: [
+          { arabcha: "لَا أَفْهَمُ", oqilishi: "la afham", tarjima: "Men tushunmayman", izoh: "لَا + mudori' = hozirgi inkor" },
+          { arabcha: "لَمْ أَذْهَبْ", oqilishi: "lam azhhab", tarjima: "Men bormadim", izoh: "لَمْ + majzum = o'tgan inkor" },
+          { arabcha: "لَنْ أَكْتُبَ", oqilishi: "lan aktuba", tarjima: "Men yozmayman (kelajakda)", izoh: "لَنْ + mansub = kelajak inkor" },
+          { arabcha: "لَيْسَ كَبِيرًا", oqilishi: "laysa kabiran", tarjima: "U katta emas", izoh: "لَيْسَ = emas (ot inkori)" },
+          { arabcha: "لَا تَذْهَبْ!", oqilishi: "la tazhab!", tarjima: "Borma!", izoh: "لَا + majzum = taqiq buyruq" },
+        ],
+      },
+      {
+        sarlavha: "Buyruq mayli (fi'l amr)",
+        tavsif:
+          "Buyruq mayli ikkinchi shaxsga qaratilgan buyruq yoki iltimos bildiradi. " +
+          "U mudori' fe'lidan تَ prefiksini olib, oxirida sukun qo'yish bilan yasaladi.",
+        jadval: [
+          { arabcha: "اُكْتُبْ!", oqilishi: "uktub!", tarjima: "Yoz! (erkakka)", izoh: "2-shaxs yagona erkak buyruq" },
+          { arabcha: "اُكْتُبِي!", oqilishi: "uktubi!", tarjima: "Yoz! (ayolga)", izoh: "2-shaxs yagona ayol — ي qo'shildi" },
+          { arabcha: "اُكْتُبُوا!", oqilishi: "uktubu!", tarjima: "Yozinglar! (erkaklarga)", izoh: "2-shaxs ko'plik erkak — وا" },
+          { arabcha: "اِذْهَبْ!", oqilishi: "izhhab!", tarjima: "Bor!", izoh: "ذَهَبَ dan buyruq" },
+          { arabcha: "تَعَالَ!", oqilishi: "ta'ala!", tarjima: "Kel! (erkakka)", izoh: "keng ishlatiladigan buyruq" },
+          { arabcha: "اِجْلِسْ!", oqilishi: "ijlis!", tarjima: "O'tir!", izoh: "جَلَسَ dan buyruq" },
+        ],
+        misol: [
+          "لَا تَأْكُلْ كَثِيرًا (ko'p yema!)",
+          "اِقْرَأ هَذَا الْكِتَابَ (bu kitobni o'qi!)",
+          "لَمْ يَذْهَبْ أَحَدٌ (hech kim bormadi)",
+          "لَنْ أَنْسَى هَذَا (men buni hech unutmayman)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "لَا أُحِبُّ الطَّقْسَ الْبَارِدَ", oqilishi: "la uhibbu t-taqsa l-barid", tarjima: "Men sovuq havoni yoqtirmayman" },
+      { arabcha: "لَمْ أَنَمْ جَيِّدًا الْبَارِحَةَ", oqilishi: "lam anam jayyidan al-bariha", tarjima: "Kecha yaxshi uxlamadim" },
+      { arabcha: "لَنْ أَنْسَى هَذَا الْيَوْمَ", oqilishi: "lan ansa haza l-yawm", tarjima: "Men bu kunni unutmayman (hech qachon)" },
+      { arabcha: "اِجْلِسْ وَاسْمَعْ جَيِّدًا", oqilishi: "ijlis wasma' jayyidan", tarjima: "O'tir va yaxshilab tingla" },
+      { arabcha: "لَا تَتَأَخَّرْ غَدًا", oqilishi: "la tata'akhkhar ghadan", tarjima: "Erta kechikma" },
+      { arabcha: "لَيْسَ هَذَا صَعْبًا", oqilishi: "laysa haza sa'ban", tarjima: "Bu qiyin emas" },
+    ],
+    istima: [
+      { arabcha: "لَا أَعْرِفُ", oqilishi: "la a'rifu", tarjima: "Men bilmayman", izoh: "لَا + mudori' inkor" },
+      { arabcha: "لَمْ يَذْهَبْ", oqilishi: "lam yazhhab", tarjima: "U bormadi", izoh: "لَمْ + majzum" },
+      { arabcha: "لَنْ أَرْجِعَ", oqilishi: "lan arji'a", tarjima: "Men qaytmayman", izoh: "لَنْ + mansub" },
+      { arabcha: "اُكْتُبْ!", oqilishi: "uktub!", tarjima: "Yoz!", izoh: "buyruq mayli" },
+      { arabcha: "لَا تَذْهَبْ!", oqilishi: "la tazhab!", tarjima: "Borma!", izoh: "taqiq buyruq" },
+      { arabcha: "لَيْسَ هُنَا", oqilishi: "laysa huna", tarjima: "U bu yerda emas", izoh: "لَيْسَ — emas" },
+    ],
+    kitoba: [
+      { topshiriq: "أَذْهَبُ ni o'tgan zamon inkori (لَمْ) bilan yozing", misol: "→ لَمْ أَذْهَبْ (men bormadim)" },
+      { topshiriq: "يَكْتُبُ ni hozirgi inkor (لَا) bilan yozing", misol: "→ لَا يَكْتُبُ (u yozmaydi)" },
+      { topshiriq: "اِذْهَبْ dan taqiq shakl yasang (لَا bilan)", misol: "→ لَا تَذْهَبْ! (borma!)" },
+      { topshiriq: "لَيْسَ ishlatib gap tuzing", misol: "→ لَيْسَ الطَّقْسُ جَيِّدًا (havo yaxshi emas)" },
+    ],
+    test: [
+      { savol: "لَمْ أَذْهَبْ gapini tarjima qiling", variantlar: ["Men boraman", "Men bormadim", "Men bormayman (kelajak)", "U bormadi"], togri: 1 },
+      { savol: "Kelajak inkori uchun qaysi zarracha ishlatiladi?", variantlar: ["لَا", "لَمْ", "لَنْ", "لَيْسَ"], togri: 2 },
+      { savol: "اُكْتُبْ! so'zi nima?", variantlar: ["Hozirgi zamon", "O'tgan zamon", "Buyruq mayli", "Inkor"], togri: 2 },
+      { savol: "لَا تَذْهَبْ! nima degan ma'no?", variantlar: ["Bor!", "Sen borasan", "Borma!", "U bormadi"], togri: 2 },
+      { savol: "لَيْسَ qanday ma'no bildiradi?", variantlar: ["Bor/mavjud", "Emas/yo'q", "Va", "Lekin"], togri: 1 },
+    ],
+  },
+
+  {
+    id: 12,
+    nomi: "Masdar va ism fa'il",
+    daraja: "B1",
+    icon: "🔧",
+    rang: "#059669",
+    mavzu: "المصدر واسم الفاعل — harakat nomi va bajaruvchi",
+    qoida: [
+      {
+        sarlavha: "Masdar — harakat nomi",
+        tavsif:
+          "Masdar fe'lning ot shakli — harakat nomi. " +
+          "U arabchada bir necha vazn (wazn) bo'yicha yasaladi. " +
+          "Eng ko'p uchraydigan vazn: فِعَالَة, فُعُول, فَعْل, تَفْعِيل.",
+        jadval: [
+          { arabcha: "كِتَابَة", oqilishi: "kitaba", tarjima: "yozish", izoh: "كَتَبَ → فِعَالَة vazni" },
+          { arabcha: "قِرَاءَة", oqilishi: "qira'a", tarjima: "o'qish", izoh: "قَرَأَ → فِعَالَة vazni" },
+          { arabcha: "ذَهَاب", oqilishi: "zahab", tarjima: "borish", izoh: "ذَهَبَ → فَعَال vazni" },
+          { arabcha: "تَعَلُّم", oqilishi: "ta'allum", tarjima: "o'rganish", izoh: "تَعَلَّمَ → تَفَعُّل vazni" },
+          { arabcha: "دِرَاسَة", oqilishi: "dirasa", tarjima: "o'qish/ta'lim", izoh: "دَرَسَ → فِعَالَة vazni" },
+          { arabcha: "عَمَل", oqilishi: "'amal", tarjima: "ish/ishlash", izoh: "عَمِلَ → فَعَل vazni" },
+        ],
+      },
+      {
+        sarlavha: "Ism fa'il va ism maf'ul",
+        tavsif:
+          "Ism fa'il — ish bajaruvchi (faol). Vazni: فَاعِل. " +
+          "Ism maf'ul — ish bajarilgan ob'ekt (passiv). Vazni: مَفْعُول.",
+        jadval: [
+          { arabcha: "كَاتِب", oqilishi: "katib", tarjima: "yozuvchi", izoh: "ism fa'il: فَاعِل vazni" },
+          { arabcha: "قَارِئ", oqilishi: "qari'", tarjima: "o'quvchi (kitob)", izoh: "ism fa'il: فَاعِل vazni" },
+          { arabcha: "مُعَلِّم", oqilishi: "muallim", tarjima: "o'qituvchi", izoh: "ism fa'il: مُفَعِّل vazni" },
+          { arabcha: "مَكْتُوب", oqilishi: "maktub", tarjima: "yozilgan (xat)", izoh: "ism maf'ul: مَفْعُول vazni" },
+          { arabcha: "مَفْتُوح", oqilishi: "maftuh", tarjima: "ochilgan", izoh: "ism maf'ul: مَفْعُول vazni" },
+          { arabcha: "مَسْمُوع", oqilishi: "masmu'", tarjima: "eshitilgan", izoh: "ism maf'ul: مَفْعُول vazni" },
+        ],
+        misol: [
+          "كَاتِب (yozuvchi) — ism fa'il",
+          "مَكْتُوب (yozilgan) — ism maf'ul",
+          "تَعَلُّم الْعَرَبِيَّة مُمْتِع (arabcha o'rganish qiziq)",
+          "الدِّرَاسَةُ مُهِمَّةٌ (o'qish muhim)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "الْكِتَابَةُ مَهَارَةٌ مُهِمَّةٌ", oqilishi: "al-kitabatu maharatun muhimma", tarjima: "Yozish muhim ko'nikma" },
+      { arabcha: "هُوَ كَاتِبٌ مَشْهُورٌ", oqilishi: "huwa katibun mashhur", tarjima: "U mashhur yozuvchi" },
+      { arabcha: "هَذِهِ الرِّسَالَةُ مَكْتُوبَةٌ بِالْعَرَبِيَّةِ", oqilishi: "hazihi r-risalatu maktubatun bil-'arabiyya", tarjima: "Bu xat arabcha yozilgan" },
+      { arabcha: "أُحِبُّ الْقِرَاءَةَ كُلَّ يَوْمٍ", oqilishi: "uhibbu l-qira'ata kulla yawm", tarjima: "Men har kuni o'qishni yaxshi ko'raman" },
+      { arabcha: "الْبَابُ مَفْتُوحٌ", oqilishi: "al-babu maftuh", tarjima: "Eshik ochiq (ochilgan)" },
+      { arabcha: "تَعَلُّمُ لُغَةٍ جَدِيدَةٍ صَعْبٌ وَمُمْتِعٌ", oqilishi: "ta'allumal lughatun jadidatin sa'bun wa mumti'", tarjima: "Yangi til o'rganish qiyin va qiziqarli" },
+    ],
+    istima: [
+      { arabcha: "كِتَابَة", oqilishi: "kitaba", tarjima: "yozish (masdar)", izoh: "فِعَالَة vazni" },
+      { arabcha: "دِرَاسَة", oqilishi: "dirasa", tarjima: "o'qish/ta'lim (masdar)", izoh: "فِعَالَة vazni" },
+      { arabcha: "كَاتِب", oqilishi: "katib", tarjima: "yozuvchi (ism fa'il)", izoh: "فَاعِل vazni" },
+      { arabcha: "مَكْتُوب", oqilishi: "maktub", tarjima: "yozilgan (ism maf'ul)", izoh: "مَفْعُول vazni" },
+      { arabcha: "مَفْتُوح", oqilishi: "maftuh", tarjima: "ochilgan", izoh: "مَفْعُول vazni" },
+      { arabcha: "تَعَلُّم", oqilishi: "ta'allum", tarjima: "o'rganish (masdar)", izoh: "تَفَعُّل vazni" },
+    ],
+    kitoba: [
+      { topshiriq: "كَتَبَ dan masdar (harakat nomi) yasang", misol: "→ كِتَابَة (yozish)" },
+      { topshiriq: "كَتَبَ dan ism fa'il yasang", misol: "→ كَاتِب (yozuvchi)" },
+      { topshiriq: "كَتَبَ dan ism maf'ul yasang", misol: "→ مَكْتُوب (yozilgan)" },
+      { topshiriq: "مَفْتُوح so'zini gapda ishlating", misol: "→ الْبَابُ مَفْتُوحٌ (eshik ochiq)" },
+    ],
+    test: [
+      { savol: "كِتَابَة so'zi nima?", variantlar: ["Fe'l", "Sifat", "Masdar (harakat nomi)", "Olmosh"], togri: 2 },
+      { savol: "Ism fa'il qanday vazn bo'yicha yasaladi?", variantlar: ["مَفْعُول", "فَاعِل", "فِعَالَة", "تَفَعُّل"], togri: 1 },
+      { savol: "مَكْتُوب so'zi nima ma'noni anglatadi?", variantlar: ["Yozuvchi", "Yozish", "Yozilgan", "Yozmoq"], togri: 2 },
+      { savol: "قَارِئ so'zi nima?", variantlar: ["O'qilgan", "O'qish", "O'quvchi (kitob)", "O'qituvchi"], togri: 2 },
+      { savol: "مَفْتُوح qaysi vazn?", variantlar: ["فَاعِل", "فِعَالَة", "مَفْعُول", "تَفَعُّل"], togri: 2 },
+    ],
+  },
+
+  // ─── B2 ─────────────────────────────────────────────────────────────────────
+  {
+    id: 13,
+    nomi: "Kaan va naqis fe'llar",
+    daraja: "B2",
+    icon: "⚡",
+    rang: "#CA8A04",
+    mavzu: "كَانَ وَأَخَوَاتُهَا — o'tgan davomli holat fe'llari",
+    qoida: [
+      {
+        sarlavha: "كَانَ va uning qo'llanilishi",
+        tavsif:
+          "كَانَ (kana) — 'edi/bo'ldi' ma'nosidagi naqis fe'l. " +
+          "U gapning mubtado (ega) va xabarini (kesim) bog'laydi. " +
+          "كَانَ dan keyin mubtado rafa' (damma), xabar esa nasb (fatha) oladi.",
+        jadval: [
+          { arabcha: "كَانَ الطَّقْسُ بَارِدًا", oqilishi: "kanat-taqsu baridan", tarjima: "Havo sovuq edi", izoh: "كَانَ + mubtado(rafa') + xabar(nasb)" },
+          { arabcha: "كُنْتُ طَالِبًا", oqilishi: "kuntu taliban", tarjima: "Men o'quvchi edim", izoh: "كَانَ 1-shaxs yagona" },
+          { arabcha: "كَانَتِ الْمَدِينَةُ صَغِيرَةً", oqilishi: "kanatil-madinatu saghiratan", tarjima: "Shahar kichik edi", izoh: "muannash + xabar nasb" },
+          { arabcha: "كَانُوا أَصْدِقَاءَ", oqilishi: "kanu asdiqa'a", tarjima: "Ular do'st edilar", izoh: "ko'plik shakli" },
+          { arabcha: "كَانَ يَعْمَلُ هُنَا", oqilishi: "kana ya'malu huna", tarjima: "U bu yerda ishlar edi", izoh: "كَانَ + mudori' = davomli o'tgan" },
+        ],
+      },
+      {
+        sarlavha: "Kaan ning inkor va boshqa naqis fe'llar",
+        tavsif:
+          "كَانَ ning inkori: لَمْ يَكُنْ (bo'lmadi/emas edi). " +
+          "Boshqa naqis fe'llar: أَصْبَحَ (bo'ldi/tong bo'ldi), صَارَ (aylandi), لَيْسَ (emas hozir).",
+        jadval: [
+          { arabcha: "لَمْ يَكُنْ مَوْجُودًا", oqilishi: "lam yakun mawjudan", tarjima: "U mavjud emas edi", izoh: "لَمْ + يَكُنْ = o'tgan inkor" },
+          { arabcha: "لَيْسَ الْجَوُّ حَارًّا", oqilishi: "laysa l-jawwu harran", tarjima: "Havo issiq emas", izoh: "لَيْسَ = hozirgi inkor" },
+          { arabcha: "أَصْبَحَ مُهَنْدِسًا", oqilishi: "asbaha muhandisan", tarjima: "U muhandis bo'ldi", izoh: "أَصْبَحَ = bo'ldi" },
+          { arabcha: "صَارَ الطِّفْلُ كَبِيرًا", oqilishi: "sarat-tiflul kabiran", tarjima: "Bola katta bo'ldi", izoh: "صَارَ = aylandi/bo'ldi" },
+        ],
+        misol: [
+          "كُنَّا أَصْدِقَاءَ (biz do'st edik)",
+          "كَانَ الْجَوُّ جَمِيلًا (havo chiroyli edi)",
+          "لَيْسَ هَذَا صَحِيحًا (bu to'g'ri emas)",
+          "أَصْبَحَ مَشْهُورًا (u mashhur bo'ldi)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "كَانَتِ السَّمَاءُ صَافِيَةً أَمْسِ", oqilishi: "kanatissama'u safiyatan amsi", tarjima: "Kecha osmon ochiq edi" },
+      { arabcha: "كُنْتُ أَعِيشُ فِي مَدِينَةٍ صَغِيرَةٍ", oqilishi: "kuntu a'ishu fi madinatin saghiratin", tarjima: "Men kichik shaharda yashar edim" },
+      { arabcha: "لَمْ يَكُنِ الطَّرِيقُ مُزْدَحِمًا", oqilishi: "lam yakunit-tariqu muzdahiman", tarjima: "Yo'l gavjum emas edi" },
+      { arabcha: "أَصْبَحَتِ الشَّرِكَةُ كَبِيرَةً", oqilishi: "asbahatish-sharikatu kabiratan", tarjima: "Kompaniya katta bo'ldi" },
+      { arabcha: "لَيْسَ الْأَمْرُ بِتِلْكَ الصُّعُوبَةِ", oqilishi: "laysal-amru bitilkas-su'uba", tarjima: "Ish o'sha qadar qiyin emas" },
+      { arabcha: "كَانَ يَدْرُسُ كُلَّ لَيْلَةٍ", oqilishi: "kana yadrusu kulla layla", tarjima: "U har kecha o'qir edi" },
+    ],
+    istima: [
+      { arabcha: "كَانَ", oqilishi: "kana", tarjima: "edi/bo'ldi (erkak)", izoh: "naqis fe'l asosiy shakli" },
+      { arabcha: "كُنْتُ", oqilishi: "kuntu", tarjima: "men edim", izoh: "1-shaxs yagona" },
+      { arabcha: "كَانُوا", oqilishi: "kanu", tarjima: "ular edilar", izoh: "ko'plik erkak" },
+      { arabcha: "لَمْ يَكُنْ", oqilishi: "lam yakun", tarjima: "u emas edi", izoh: "inkor shakl" },
+      { arabcha: "لَيْسَ", oqilishi: "laysa", tarjima: "emas (hozir)", izoh: "hozirgi inkor naqis fe'l" },
+      { arabcha: "أَصْبَحَ", oqilishi: "asbaha", tarjima: "bo'ldi/aylandi", izoh: "kaan ning sinonimlari" },
+    ],
+    kitoba: [
+      { topshiriq: "كَانَ ishlatib gap tuzing (o'tgan holat)", misol: "→ كَانَ الطَّقْسُ جَمِيلًا (havo chiroyli edi)" },
+      { topshiriq: "كُنْتُ بilan o'tgan davomli gap tuzing", misol: "→ كُنْتُ أَعْمَلُ فِي الْمَكْتَبِ (idorada ishlar edim)" },
+      { topshiriq: "لَيْسَ ishlatib inkor gapi tuzing", misol: "→ لَيْسَ هَذَا صَحِيحًا (bu to'g'ri emas)" },
+      { topshiriq: "كَانَ ning ko'plik shaklini yozing", misol: "→ كَانُوا طُلَّابًا (ular o'quvchi edilar)" },
+    ],
+    test: [
+      { savol: "كَانَ الطَّقْسُ بَارِدًا gapini tarjima qiling", variantlar: ["Havo sovuq", "Havo sovuq edi", "Havo sovuq bo'ladi", "Havo sovuq emas"], togri: 1 },
+      { savol: "كَانَ ning inkori qanday?", variantlar: ["لَا كَانَ", "لَمْ يَكُنْ", "لَنْ يَكُنَ", "لَيْسَ كَانَ"], togri: 1 },
+      { savol: "لَيْسَ va لَمْ يَكُنْ farqi nima?", variantlar: ["Farq yo'q", "لَيْسَ hozirgi, لَمْ يَكُنْ o'tgan", "لَيْسَ o'tgan, لَمْ يَكُنْ hozirgi", "Ikkalasi kelajak"], togri: 1 },
+      { savol: "أَصْبَحَ فَنَّانًا gapini tarjima qiling", variantlar: ["U rassom edi", "U rassom bo'ldi", "U rassom emas", "U rassom bo'ladi"], togri: 1 },
+      { savol: "كُنَّا أَصْدِقَاءَ gapini tarjima qiling", variantlar: ["Biz do'stmiz", "Biz do'st edik", "Ular do'st edilar", "Men do'st edim"], togri: 1 },
+    ],
+  },
+
+  {
+    id: 14,
+    nomi: "Shart gaplari",
+    daraja: "B2",
+    icon: "🔀",
+    rang: "#0E7490",
+    mavzu: "الجملة الشرطية — agar ... bo'lsa ... tuzilmasi",
+    qoida: [
+      {
+        sarlavha: "إِذَا — voqelikka yaqin shart",
+        tavsif:
+          "إِذَا (iza) — voqelikka yaqin yoki muqarrar shartni bildiradi. " +
+          "Shart qismi o'tgan zamonda, natija qismi ham o'tgan yoki hozirgi zamonda bo'ladi. " +
+          "إِنْ (in) ham xuddi shu ma'noda ishlatiladi.",
+        jadval: [
+          { arabcha: "إِذَا دَرَسْتَ نَجَحْتَ", oqilishi: "iza darastal najahta", tarjima: "Agar o'qisang, muvaffaq bo'lasan", izoh: "إِذَا + o'tgan + natija" },
+          { arabcha: "إِذَا أَكَلْتَ كَثِيرًا سَمِنْتَ", oqilishi: "iza akaltal kathiran samintal", tarjima: "Agar ko'p yesang, semirasan", izoh: "tabiiy shart" },
+          { arabcha: "إِنْ جِئْتَ مُبَكِّرًا وَجَدْتَ مَكَانًا", oqilishi: "in ji'tal mubakkiran wajadtal makanal", tarjima: "Erta kelsan, joy topasan", izoh: "إِنْ = إِذَا (zamonaviy)" },
+          { arabcha: "إِذَا أَرَدْتَ النَّجَاحَ فَاعْمَلْ", oqilishi: "iza araddtan-najaha fa'mal", tarjima: "Muvaffaqiyat istasang, ish qil", izoh: "natijada buyruq mayli" },
+        ],
+      },
+      {
+        sarlavha: "لَوْ — xayoliy (haqiqatga zid) shart",
+        tavsif:
+          "لَوْ (law) — haqiqatda bo'lmagan yoki imkonsiz shartni bildiradi. " +
+          "Ikkala qism ham o'tgan zamonda bo'ladi. " +
+          "Natija qismida ko'pincha لَ prefiksi keladi.",
+        jadval: [
+          { arabcha: "لَوْ دَرَسْتَ لَنَجَحْتَ", oqilishi: "law darastal lanajahta", tarjima: "O'qiganingda edi, muvaffaq bo'lar eding", izoh: "haqiqatda o'qimadi" },
+          { arabcha: "لَوْ كَانَ مَعِي لَسَاعَدَنِي", oqilishi: "law kana ma'i lasa'adani", tarjima: "Yonimda bo'lganida, yordam berar edi", izoh: "haqiqatda yonida emas edi" },
+          { arabcha: "لَوْ كُنْتُ طَيَّارًا لَطِرْتُ", oqilishi: "law kuntu tayyaran latirtu", tarjima: "Uchuvchi bo'lganimda, uchgan bo'lardim", izoh: "imkonsiz shart" },
+        ],
+        misol: [
+          "إِذَا تَعِبْتَ اسْتَرِحْ (charchasan, dam ol)",
+          "إِنْ أَرَدْتَ أُسَاعِدُكَ (istasang, yordam beraman)",
+          "لَوْ عَرَفْتُ لَأَخْبَرْتُكَ (bilganimda, aytib berar edim)",
+          "لَوْ كَانَ الْأَمْرُ سَهْلًا... (ish oson bo'lganda edi...)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "إِذَا أَرَدْتَ النَّجَاحَ فَابْدَأْ الْآنَ", oqilishi: "iza araddtan-najaha fabda' al-an", tarjima: "Muvaffaqiyat istasang, hoziroq boshla" },
+      { arabcha: "إِنْ سَاعَدْتَنِي سَأُسَاعِدُكَ", oqilishi: "in sa'adtani sa-usa'iduka", tarjima: "Yordam bersang, men ham yordam beraman" },
+      { arabcha: "لَوْ كُنْتُ أَعْرِفُ لَأَخْبَرْتُكَ", oqilishi: "law kuntu a'rifu la-akhbartuka", tarjima: "Bilganimda aytib berar edim" },
+      { arabcha: "إِذَا جَاءَ الْمَطَرُ أَبْقَى فِي الْبَيْتِ", oqilishi: "iza ja'al-mataru abqa fil-bayt", tarjima: "Yomg'ir yog'sa, uyda qolaman" },
+      { arabcha: "لَوْ كَانَ عِنْدِي وَقْتٌ لَزُرْتُكَ", oqilishi: "law kana 'indi waqtun lazurtuka", tarjima: "Vaqtim bo'lganida, huzuringga borardim" },
+      { arabcha: "إِنْ تَجْتَهِدْ تَنْجَحْ", oqilishi: "in tajtahid tanjih", tarjima: "Tirishsang, muvaffaq bo'lasan" },
+    ],
+    istima: [
+      { arabcha: "إِذَا", oqilishi: "iza", tarjima: "agar (voqelikka yaqin)", izoh: "shart bog'lovchisi" },
+      { arabcha: "إِنْ", oqilishi: "in", tarjima: "agar (qisqa shakl)", izoh: "إِذَا ning qisqa shakli" },
+      { arabcha: "لَوْ", oqilishi: "law", tarjima: "agar (xayoliy)", izoh: "haqiqatga zid shart" },
+      { arabcha: "إِذَا دَرَسْتَ نَجَحْتَ", oqilishi: "iza darastal najahta", tarjima: "O'qisang, muvaffaq bo'lasan", izoh: "voqelikka yaqin shart" },
+      { arabcha: "لَوْ دَرَسْتَ لَنَجَحْتَ", oqilishi: "law darastal lanajahta", tarjima: "O'qiganingda, muvaffaq bo'lar eding", izoh: "xayoliy shart" },
+      { arabcha: "إِنْ جِئْتَ وَجَدْتَنِي", oqilishi: "in ji'tal wajadtani", tarjima: "Kelsan, meni topasan", izoh: "إِنْ shart" },
+    ],
+    kitoba: [
+      { topshiriq: "إِذَا ishlatib shart gapi tuzing", misol: "→ إِذَا أَكَلْتَ كَثِيرًا مَرِضْتَ (ko'p yesang, kasal bo'lasan)" },
+      { topshiriq: "لَوْ ishlatib xayoliy shart tuzing", misol: "→ لَوْ كُنْتُ غَنِيًّا لَسَافَرْتُ (boy bo'lganimda, sayohat qilardim)" },
+      { topshiriq: "إِذَا va لَوْ farqini misollar bilan tushuntiring", misol: "إِذَا = muqarrar shart, لَوْ = amalga oshmaydigan shart" },
+      { topshiriq: "إِنْ تَجْتَهِدْ تَنْجَحْ gapini tarjima qiling", misol: "→ Tirishsang, muvaffaq bo'lasan" },
+    ],
+    test: [
+      { savol: "إِذَا va لَوْ o'rtasidagi asosiy farq nima?", variantlar: ["Farq yo'q", "إِذَا voqelikka yaqin, لَوْ xayoliy", "إِذَا kelajak, لَوْ o'tgan", "إِذَا inkor, لَوْ tasdiq"], togri: 1 },
+      { savol: "لَوْ دَرَسْتَ لَنَجَحْتَ gapini tarjima qiling", variantlar: ["O'qisang, muvaffaq bo'lasan", "O'qiganingda, muvaffaq bo'lar eding", "O'qi va muvaffaq bo'l", "O'qimadim, muvaffaq bo'lmadim"], togri: 1 },
+      { savol: "إِذَا dan keyin fe'l qaysi zamonda keladi?", variantlar: ["Hozirgi zamon", "O'tgan zamon (shart uchun)", "Kelasi zamon", "Buyruq"], togri: 1 },
+      { savol: "إِنْ تَجْتَهِدْ تَنْجَحْ gapini tarjima qiling", variantlar: ["Tirishtim, muvaffaq bo'ldim", "Tirishsang, muvaffaq bo'lasan", "Tirishganimda, muvaffaq bo'lar edim", "Tirish va muvaffaq bo'l"], togri: 1 },
+      { savol: "لَوْ shart gapida natija qismida odatda qanday prefiks keladi?", variantlar: ["سَ", "لَ", "لَنْ", "لَمْ"], togri: 1 },
+    ],
+  },
+
+  {
+    id: 15,
+    nomi: "Fe'l tizimlari (mazid)",
+    daraja: "B2",
+    icon: "🌳",
+    rang: "#7C3AED",
+    mavzu: "الأفعال المزيدة — fe'l ildizidan yasalgan kengaytirilgan shakllar",
+    qoida: [
+      {
+        sarlavha: "Mujarrad va mazid fe'llar",
+        tavsif:
+          "Arabcha fe'llarning asosi 3 harfli ildiz (mujarrad). " +
+          "Bu ildizga harf qo'shib yangi ma'noli mazid fe'llar hosil qilinadi. " +
+          "Eng ko'p ishlatiladigan vazn II: fakkala — ikkinchi harf ikkilanadi va ma'no kuchayadi.",
+        jadval: [
+          { arabcha: "كَتَبَ → كَتَّبَ", oqilishi: "kataba → kattaba", tarjima: "yozdi → yozdirib topshirdi", izoh: "vazn II: ikkinchi harf ikkilanadi" },
+          { arabcha: "دَرَسَ → دَرَّسَ", oqilishi: "darasa → darrasa", tarjima: "o'qidi → o'qitdi", izoh: "vazn II: o'qituvchi qilish" },
+          { arabcha: "خَرَجَ → أَخْرَجَ", oqilishi: "kharaja → akhraja", tarjima: "chiqdi → chiqardi", izoh: "vazn IV: أَ prefiksi = sabab" },
+          { arabcha: "فَهِمَ → فَهَّمَ", oqilishi: "fahima → fahhama", tarjima: "tushundi → tushuntirdi", izoh: "vazn II: tushuntirish" },
+          { arabcha: "جَلَسَ → أَجْلَسَ", oqilishi: "jalasa → ajlasa", tarjima: "o'tirdi → o'tqizdi", izoh: "vazn IV: sabab bildirish" },
+          { arabcha: "عَلِمَ → عَلَّمَ", oqilishi: "'alima → 'allama", tarjima: "bildi → o'rgatti", izoh: "vazn II" },
+        ],
+      },
+      {
+        sarlavha: "Vazn V va VI — o'zlikka va o'zaro",
+        tavsif:
+          "Vazn V (تَفَعَّلَ): o'zlik ma'nosini bildiradi — o'z-o'ziga bajarilgan ish. " +
+          "Vazn VI (تَفَاعَلَ): o'zaro, ikki tomon o'rtasidagi ish.",
+        jadval: [
+          { arabcha: "عَلَّمَ → تَعَلَّمَ", oqilishi: "'allama → ta'allama", tarjima: "o'rgatti → o'rgandi", izoh: "vazn V: تَ prefiksi = o'zlik" },
+          { arabcha: "كَسَرَ → تَكَسَّرَ", oqilishi: "kasara → takassara", tarjima: "sindirdi → sindi (o'z-o'zidan)", izoh: "vazn V: passiv o'zlik" },
+          { arabcha: "كَتَبَ → تَكَاتَبَ", oqilishi: "kataba → takataba", tarjima: "yozdi → yozishdillar (bir-biriga)", izoh: "vazn VI: o'zaro" },
+          { arabcha: "صَادَقَ → تَصَادَقَ", oqilishi: "sadaqa → tasadaqa", tarjima: "do'stlashdi → o'zaro do'stlashdi", izoh: "vazn VI: ikki taraflama" },
+        ],
+        misol: [
+          "دَرَّسَ الْمُعَلِّمُ (o'qituvchi o'qitdi) — vazn II",
+          "تَعَلَّمَ الطَّالِبُ (o'quvchi o'rgandi) — vazn V",
+          "أَخْرَجَ الْمُدِيرُ الْمَلَفَّ (direktor faylni chiqardi) — vazn IV",
+          "تَكَاتَبَ الْأَصْدِقَاءُ (do'stlar xat yozdillar) — vazn VI",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "دَرَّسَ الْأُسْتَاذُ النَّحْوَ بِوُضُوح", oqilishi: "darrasa l-ustazu n-nahwa biwuduh", tarjima: "Ustoz grammatikani aniq o'qitdi" },
+      { arabcha: "تَعَلَّمَ مُحَمَّدٌ الْإِنْجِلِيزِيَّةَ بِسُرْعَة", oqilishi: "ta'allama muhammadun al-injiliziyya bisur'a", tarjima: "Muhammad inglizchani tez o'rgandi" },
+      { arabcha: "أَخْرَجَ الطَّبِيبُ الْمَرِيضَ مِنَ الْمُسْتَشْفَى", oqilishi: "akhrajat-tabibu l-marida minal-mustashfa", tarjima: "Shifokor bemorni kasalxonadan chiqardi" },
+      { arabcha: "تَكَاتَبَ الصَّدِيقَانِ كُلَّ أُسْبُوع", oqilishi: "takataba s-sadiqani kulla usbu'", tarjima: "Ikki do'st har hafta xat yozishdi" },
+      { arabcha: "كَسَرَ الطِّفْلُ الْكُوبَ وَتَكَسَّرَ", oqilishi: "kasarat-tiflu l-kuba watakassara", tarjima: "Bola kosani sindirdi va u sindi" },
+      { arabcha: "عَلَّمَنِي أَبِي الرِّيَاضِيَّات", oqilishi: "'allamani abi r-riyadiyyat", tarjima: "Otam menga matematika o'rgatti" },
+    ],
+    istima: [
+      { arabcha: "دَرَّسَ", oqilishi: "darrasa", tarjima: "o'qitdi (vazn II)", izoh: "دَرَسَ → دَرَّسَ" },
+      { arabcha: "تَعَلَّمَ", oqilishi: "ta'allama", tarjima: "o'rgandi (vazn V)", izoh: "عَلَّمَ → تَعَلَّمَ" },
+      { arabcha: "أَخْرَجَ", oqilishi: "akhraja", tarjima: "chiqardi (vazn IV)", izoh: "خَرَجَ → أَخْرَجَ" },
+      { arabcha: "فَهَّمَ", oqilishi: "fahhama", tarjima: "tushuntirdi (vazn II)", izoh: "فَهِمَ → فَهَّمَ" },
+      { arabcha: "تَكَاتَبَ", oqilishi: "takataba", tarjima: "xat yozishdi (vazn VI)", izoh: "o'zaro fe'l" },
+      { arabcha: "أَجْلَسَ", oqilishi: "ajlasa", tarjima: "o'tqizdi (vazn IV)", izoh: "جَلَسَ → أَجْلَسَ" },
+    ],
+    kitoba: [
+      { topshiriq: "دَرَسَ dan vazn II yasang va ma'nosini ayting", misol: "→ دَرَّسَ (o'qitdi)" },
+      { topshiriq: "عَلَّمَ dan vazn V yasang va ma'nosini ayting", misol: "→ تَعَلَّمَ (o'rgandi)" },
+      { topshiriq: "خَرَجَ dan vazn IV yasang va ma'nosini ayting", misol: "→ أَخْرَجَ (chiqardi/chiqazdi)" },
+      { topshiriq: "Vazn II va V ning asosiy farqini misollar bilan tushuntiring", misol: "دَرَّسَ = o'qitdi (boshqaga), تَعَلَّمَ = o'rgandi (o'zi)" },
+    ],
+    test: [
+      { savol: "دَرَّسَ so'zi qaysi vazn?", variantlar: ["Mujarrad (I)", "Vazn II", "Vazn IV", "Vazn V"], togri: 1 },
+      { savol: "تَعَلَّمَ so'zi qaysi mujarrad fe'ldan yasalgan?", variantlar: ["دَرَسَ", "كَتَبَ", "عَلَّمَ", "عَلِمَ"], togri: 3 },
+      { savol: "Vazn IV (أَفْعَلَ) qanday ma'no qo'shadi?", variantlar: ["O'zlik", "Sabab/ettirish", "O'zaro", "Ko'plik"], togri: 1 },
+      { savol: "أَخْرَجَ so'zi nima degan ma'no?", variantlar: ["Chiqdi", "Chiqardi/chiqazdi", "Chiqing!", "Chiqqan"], togri: 1 },
+      { savol: "Vazn VI (تَفَاعَلَ) qanday ma'no bildiradi?", variantlar: ["O'zlik (o'z-o'ziga)", "O'zaro (ikki taraf)", "Sabab", "Passiv"], togri: 1 },
+    ],
+  },
 ];
 
 export const GRAM_DARAJALAR: GramDarajaInfo[] = [
