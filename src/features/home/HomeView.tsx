@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, Layers, ArrowRight, Star, Users, ClipboardCheck, BarChart2, Flame, ScanLine, Clock, UserCog, LayersIcon, PlayCircle, Library, ClipboardList, Sparkles, Mic2, Globe, Mic, Baby, BookOpenText, Gamepad2 } from "lucide-react";
+import { BookOpen, Layers, ArrowRight, Star, Users, ClipboardCheck, BarChart2, Flame, ScanLine, Clock, UserCog, LayersIcon, PlayCircle, Library, ClipboardList, Sparkles, Mic2, Globe, Mic, Baby, BookOpenText, Gamepad2, Target } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
@@ -10,6 +10,7 @@ import { useCoins } from "../../context/CoinContext";
 import { useAssistant } from "../assistant/AssistantContext";
 import { store } from "../../lib/storage";
 import type { DoneMap } from "../progress/ProgressContext";
+import { loadDaraja, DARAJA_ARABIC } from "../../content/darajaTest";
 
 function Ring({ pct }: { pct: number }) {
   const r = 46;
@@ -135,7 +136,7 @@ function TeacherHome() {
     <div style={{ minHeight: "100dvh", background: T.meshLight }}>
       <div style={{ background: T.gGreen, position: "relative", overflow: "hidden", padding: "22px 20px 24px" }}>
         <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
-        <div style={{ position: "absolute", top: -10, right: -10, fontFamily: AR, fontSize: 80, color: "rgba(255,255,255,.04)", lineHeight: 1, pointerEvents: "none" }}>أ</div>
+        <div style={{ position: "absolute", top: -10, right: -10, fontFamily: AR, fontSize: 80, color: "rgba(255,255,255,.04)", lineHeight: 1, pointerEvents: "none" }}>{"أ"}</div>
         <div style={{ position: "relative", zIndex: 1 }}>
           <div style={{ fontSize: 11, color: T.limeBrt, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase", marginBottom: 4 }}>{greeting}</div>
           <div style={{ fontSize: 21, fontWeight: 700, color: "#fff", marginBottom: 3 }}>{user?.ism}! 👋</div>
@@ -158,7 +159,6 @@ function TeacherHome() {
       </div>
 
       <div style={{ padding: "16px 16px 28px", display: "flex", flexDirection: "column", gap: 12 }}>
-        {/* Bugungi davomat */}
         <div style={{ background: "#fff", borderRadius: 16, border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04), 0 6px 18px rgba(13,58,26,.06)", padding: 18 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -182,7 +182,6 @@ function TeacherHome() {
           </div>
         </div>
 
-        {/* Sinf o'rtacha progressi */}
         <div style={{ background: "#fff", borderRadius: 16, border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04), 0 6px 18px rgba(13,58,26,.06)", padding: 18 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 14 }}>
             <div style={{ width: 4, height: 16, borderRadius: 2, background: T.gLime }} />
@@ -204,7 +203,6 @@ function TeacherHome() {
           ))}
         </div>
 
-        {/* Quick actions */}
         {[
           { label: "Davomat belgilash", sub: "Bugungi ro'yxat", icon: ClipboardCheck, to: "/davomat" },
           { label: "O'quvchilar", sub: "Progress va ma'lumotlar", icon: Users, to: "/oquvchilar" },
@@ -335,6 +333,9 @@ export function HomeView() {
   if (user?.role === "teacher" || user?.role === "ceo") return <TeacherHome />;
   if (user?.role === "assistant") return <AssistantHome />;
 
+  const uid = user?.id ?? "";
+  const currentDaraja = loadDaraja(uid);
+
   const nazPass = Object.values(nazDone).filter((d) => d.pct >= 80).length;
   const amalDoneCount = Object.keys(amalDone).length;
   const nazPct = Math.round((nazPass / NAZARIY.length) * 100);
@@ -353,21 +354,17 @@ export function HomeView() {
 
   return (
     <div style={{ minHeight: "100dvh", background: T.meshLight }}>
-      {/* Hero banner */}
       <div style={{ background: T.gGreen, position: "relative", overflow: "hidden", padding: "22px 20px 24px" }}>
         <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
-
-        {/* Arabic decorative text */}
         <div style={{
           position: "absolute", top: -10, right: -10,
           fontFamily: AR, fontSize: 80, color: "rgba(255,255,255,.04)",
           lineHeight: 1, pointerEvents: "none", userSelect: "none",
         }}>
-          أ
+          {"أ"}
         </div>
 
         <div style={{ position: "relative", zIndex: 1 }}>
-          {/* Greeting row */}
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: 11, color: T.limeBrt, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase", marginBottom: 4 }}>
@@ -381,7 +378,6 @@ export function HomeView() {
             <Ring pct={overall} />
           </div>
 
-          {/* Stats row */}
           <div style={{ display: "flex", gap: 10, marginTop: 18 }}>
             <StatCard icon={BookOpen} label="Nazariy" value={`${nazPass}/${NAZARIY.length}`} color={T.limeBrt} />
             <StatCard icon={Layers} label="Amaliy" value={`${amalDoneCount}/${AMALIY.length}`} color={T.limeBrt} />
@@ -391,9 +387,7 @@ export function HomeView() {
         </div>
       </div>
 
-      {/* Content */}
       <div style={{ padding: "16px 16px 28px" }}>
-        {/* Progress detail card */}
         <div style={{
           background: "#fff",
           borderRadius: 16,
@@ -412,7 +406,48 @@ export function HomeView() {
           </div>
         </div>
 
-        {/* Continue button */}
+        {currentDaraja ? (
+          <button
+            onClick={() => navigate("/daraja-test")}
+            style={{
+              width: "100%", background: T.gGreen, border: "none", borderRadius: 14,
+              padding: "13px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: 12,
+              marginBottom: 14, boxShadow: "0 4px 14px rgba(13,58,26,.2)",
+            }}
+          >
+            <div style={{ width: 40, height: 40, borderRadius: 11, background: "rgba(255,255,255,.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <Target size={20} color="#fff" />
+            </div>
+            <div style={{ flex: 1, textAlign: "left" }}>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,.7)", marginBottom: 2 }}>Darajangiz</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>
+                {currentDaraja} — {DARAJA_ARABIC[currentDaraja]?.uz}
+              </div>
+            </div>
+            <div style={{ fontSize: 16, color: "rgba(255,255,255,.65)", fontFamily: "'Amiri', serif" }}>
+              {DARAJA_ARABIC[currentDaraja]?.ar}
+            </div>
+          </button>
+        ) : (
+          <button
+            onClick={() => navigate("/daraja-test")}
+            style={{
+              width: "100%", background: "#fff", border: "2px dashed rgba(13,58,26,.2)", borderRadius: 14,
+              padding: "13px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: 12,
+              marginBottom: 14,
+            }}
+          >
+            <div style={{ width: 40, height: 40, borderRadius: 11, background: "rgba(13,58,26,.07)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <Target size={20} color={T.green} />
+            </div>
+            <div style={{ flex: 1, textAlign: "left" }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: T.green }}>Darajangizni aniqlang</div>
+              <div style={{ fontSize: 11, color: T.hint, marginTop: 1 }}>~2 daqiqa · 8 savol</div>
+            </div>
+            <ArrowRight size={16} color={T.hint} />
+          </button>
+        )}
+
         <button
           onClick={() => navigate("/dars")}
           style={{
@@ -440,7 +475,6 @@ export function HomeView() {
           <ArrowRight size={20} />
         </button>
 
-        {/* Barcha modullar */}
         <div style={{ marginBottom: 14 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
             <div style={{ width: 4, height: 16, borderRadius: 2, background: T.gLime, flexShrink: 0 }} />
@@ -465,7 +499,6 @@ export function HomeView() {
           </div>
         </div>
 
-        {/* Streak ogohlantirish */}
         {!hasLessonToday && streak.days > 0 && (
           <div
             onClick={() => navigate("/dars")}
@@ -484,7 +517,6 @@ export function HomeView() {
           </div>
         )}
 
-        {/* Daily tip */}
         <div style={{
           background: "rgba(46,184,46,.07)",
           border: "1px solid rgba(46,184,46,.18)",
