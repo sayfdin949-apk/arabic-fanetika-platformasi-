@@ -23,6 +23,10 @@ import { UstozlarView } from "./features/admin/UstozlarView";
 import { AssistantProvider } from "./features/assistant/AssistantContext";
 import { YordamchiUstozView } from "./features/assistant/YordamchiUstozView";
 import { SkanerView } from "./features/assistant/SkanerView";
+import { CoinProvider } from "./context/CoinContext";
+import { GrammarView } from "./features/grammar/GrammarView";
+import { DarajaDetail } from "./features/grammar/DarajaDetail";
+import { GramDarsDetail } from "./features/grammar/GramDarsDetail";
 import { T } from "./theme/tokens";
 
 function Splash() {
@@ -56,11 +60,13 @@ export default function App() {
           <Route
             element={
               <Protected>
+                <CoinProvider>
                 <ProgressProvider>
                   <AssistantProvider>
                     <AppShell />
                   </AssistantProvider>
                 </ProgressProvider>
+              </CoinProvider>
               </Protected>
             }
           >
@@ -82,6 +88,9 @@ export default function App() {
             <Route path="/ustozlar" element={<UstozlarView />} />
             <Route path="/yordamchi-ustoz" element={<YordamchiUstozView />} />
             <Route path="/skaner" element={<SkanerView />} />
+            <Route path="/grammatika" element={<GrammarView />} />
+            <Route path="/grammatika/daraja/:kod" element={<DarajaDetail />} />
+            <Route path="/grammatika/dars/:id" element={<GramDarsDetail />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

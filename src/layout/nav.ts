@@ -15,6 +15,7 @@ import {
   UserCog,
   CalendarClock,
   ScanLine,
+  BookOpenText,
   type LucideIcon,
 } from "lucide-react";
 import type { Role } from "../auth/types";
@@ -47,6 +48,7 @@ export const NAV: NavItem[] = [
   { to: "/ustozlar", label: "O'qituvchilar", icon: UserCog, roles: ["ceo"], bottom: false },
   { to: "/yordamchi-ustoz", label: "Yordamchi ustoz", icon: CalendarClock, roles: ["student"], bottom: false },
   { to: "/skaner", label: "Skaner", icon: ScanLine, roles: ["assistant"], bottom: false },
+  { to: "/grammatika", label: "Grammatika", icon: BookOpenText, roles: ALL, bottom: false },
 ];
 
 export const navForRole = (role: Role) => NAV.filter((n) => n.roles.includes(role));
