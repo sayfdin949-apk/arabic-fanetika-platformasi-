@@ -25,6 +25,8 @@ import {
   Sparkles,
   Mic2,
   Globe,
+  Mic,
+  Baby,
   type LucideIcon,
 } from "lucide-react";
 import type { Role } from "../auth/types";
@@ -67,6 +69,8 @@ export const NAV: NavItem[] = [
   { to: "/matn-tahlil", label: "Matn tahlili", icon: Sparkles, roles: ALL, bottom: false },
   { to: "/speaking-club", label: "Speaking Club", icon: Mic2, roles: ALL, bottom: false },
   { to: "/mehmon-ustozlar", label: "Mehmon ustozlar", icon: Globe, roles: ALL, bottom: false },
+  { to: "/ovoz", label: "Ovoz yozish", icon: Mic, roles: ALL, bottom: false },
+  { to: "/ota-ona", label: "Ota-ona paneli", icon: Baby, roles: ["student"], bottom: false },
 ];
 
 export const navForRole = (role: Role) => NAV.filter((n) => n.roles.includes(role));

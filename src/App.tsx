@@ -36,6 +36,8 @@ import { MockTestView } from "./features/mocktest/MockTestView";
 import { AIFiltrView } from "./features/aifiltr/AIFiltrView";
 import { SpeakingClubView } from "./features/speaking/SpeakingClubView";
 import { MehmonUstozlarView } from "./features/speakers/MehmonUstozlarView";
+import { OvozYozishView } from "./features/voice/OvozYozishView";
+import { OtaOnaView } from "./features/parent/OtaOnaView";
 import { T } from "./theme/tokens";
 
 function Splash() {
@@ -109,6 +111,8 @@ export default function App() {
             <Route path="/matn-tahlil" element={<AIFiltrView />} />
             <Route path="/speaking-club" element={<SpeakingClubView />} />
             <Route path="/mehmon-ustozlar" element={<MehmonUstozlarView />} />
+            <Route path="/ovoz" element={<OvozYozishView />} />
+            <Route path="/ota-ona" element={<OtaOnaView />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
