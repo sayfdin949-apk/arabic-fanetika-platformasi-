@@ -184,7 +184,7 @@ export function StatisticsView() {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {[
-              { icon: <Mic size={14} color="#0891B2" />, label: "Ovoz yozish", done: voiceDone, total: 10, color: "#0891B2" },
+              { icon: <Mic size={14} color="#0891B2" />, label: "Ovoz yozish", done: voiceDone, total: 20, color: "#0891B2" },
               { icon: <Video size={14} color="#DC2626" />, label: "Video darslar", done: videoWatched, total: 17, color: "#DC2626" },
               { icon: <BookOpenText size={14} color="#7C3AED" />, label: "Grammatika", done: gramDone, total: 30, color: "#7C3AED" },
               { icon: <Trophy size={14} color="#CA8A04" />, label: "Mock test urinishlari", done: mockResults.length, total: null, color: "#CA8A04" },

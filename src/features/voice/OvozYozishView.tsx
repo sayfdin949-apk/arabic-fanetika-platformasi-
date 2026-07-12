@@ -3,6 +3,7 @@ import { Mic, Square, Play, RotateCcw, CheckCircle2, Volume2, Sparkles, AlertTri
 import { T, AR } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
 import { useProgress } from "../progress/ProgressContext";
+import { useCoins } from "../../context/CoinContext";
 
 // --- SpeechRecognition browser types ---
 interface SREvent {
@@ -449,16 +450,19 @@ function MashqCard({
 export function OvozYozishView() {
   const { user } = useAuth();
   const { touchStreak } = useProgress();
+  const { addCoins } = useCoins();
   const [done, setDone] = useState<Set<number>>(() => user ? loadDone(user.id) : new Set());
   const [filterDaraja, setFilterDaraja] = useState<string>("barchasi");
 
   const handleDone = (id: number) => {
     if (!user) return;
+    if (done.has(id)) return;
     const updated = new Set(done);
     updated.add(id);
     setDone(updated);
     saveDone(user.id, updated);
     touchStreak();
+    addCoins(2);
   };
 
   const filtered = filterDaraja === "barchasi"
