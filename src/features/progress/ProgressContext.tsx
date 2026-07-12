@@ -30,6 +30,8 @@ interface ProgressValue {
   submitAmal: (bobId: number, ok: number, tot: number) => void;
   saveWrong: (key: string, indices: number[]) => void;
   clearWrong: (key: string) => void;
+  /** Bugun har qanday dars bajarilganda streakni yangilaydi (grammatika va boshqalar uchun) */
+  touchStreak: () => void;
 }
 
 const Ctx = createContext<ProgressValue | null>(null);
@@ -119,8 +121,17 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     void store.set(`wrong_${user.id}`, next);
   };
 
+  const touchStreak = () => {
+    if (!user) return;
+    setStreak((prev) => {
+      const updated = calcStreak(prev);
+      void store.set(`streak_${user.id}`, updated);
+      return updated;
+    });
+  };
+
   return (
-    <Ctx.Provider value={{ ready, nazDone, amalDone, unlocked, wrongMap, streak, isNazUnlocked, submitNaz, submitAmal, saveWrong, clearWrong }}>
+    <Ctx.Provider value={{ ready, nazDone, amalDone, unlocked, wrongMap, streak, isNazUnlocked, submitNaz, submitAmal, saveWrong, clearWrong, touchStreak }}>
       {children}
     </Ctx.Provider>
   );

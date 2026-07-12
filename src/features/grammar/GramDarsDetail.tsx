@@ -5,6 +5,7 @@ import { T, AR } from "../../theme/tokens";
 import { GRAM_DARSLAR } from "../../content/gramContent";
 import { useAuth } from "../../auth/AuthContext";
 import { useCoins } from "../../context/CoinContext";
+import { useProgress } from "../progress/ProgressContext";
 
 type Phase = "qoida" | "qiroa" | "istima" | "kitoba" | "test";
 
@@ -40,6 +41,7 @@ export function GramDarsDetail() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { coins, addCoins } = useCoins();
+  const { touchStreak } = useProgress();
   const dars = GRAM_DARSLAR.find((d) => d.id === Number(id));
 
   const [phase, setPhase] = useState<Phase>("qoida");
@@ -70,6 +72,7 @@ export function GramDarsDetail() {
     const p = Math.round((sc / dars.test.length) * 100);
     if (user) {
       saveDone(user.id, dars.id, { pct: p, sana: new Date().toLocaleDateString("uz") });
+      touchStreak();
       if (p >= 80 && !coinEarned) {
         addCoins(10);
         setCoinEarned(true);

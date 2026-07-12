@@ -16,6 +16,9 @@ import {
   CalendarClock,
   ScanLine,
   BookOpenText,
+  MessageCircle,
+  ShoppingBag,
+  CreditCard,
   type LucideIcon,
 } from "lucide-react";
 import type { Role } from "../auth/types";
@@ -49,6 +52,9 @@ export const NAV: NavItem[] = [
   { to: "/yordamchi-ustoz", label: "Yordamchi ustoz", icon: CalendarClock, roles: ["student"], bottom: false },
   { to: "/skaner", label: "Skaner", icon: ScanLine, roles: ["assistant"], bottom: false },
   { to: "/grammatika", label: "Grammatika", icon: BookOpenText, roles: ALL, bottom: false },
+  { to: "/chat", label: "Guruh chat", icon: MessageCircle, roles: ALL, bottom: false },
+  { to: "/market", label: "Market", icon: ShoppingBag, roles: ALL, bottom: false },
+  { to: "/tolov", label: "To'lov", icon: CreditCard, roles: ["student"], bottom: false },
 ];
 
 export const navForRole = (role: Role) => NAV.filter((n) => n.roles.includes(role));

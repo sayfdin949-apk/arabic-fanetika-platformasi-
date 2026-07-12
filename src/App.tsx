@@ -27,6 +27,9 @@ import { CoinProvider } from "./context/CoinContext";
 import { GrammarView } from "./features/grammar/GrammarView";
 import { DarajaDetail } from "./features/grammar/DarajaDetail";
 import { GramDarsDetail } from "./features/grammar/GramDarsDetail";
+import { ChatView } from "./features/chat/ChatView";
+import { MarketView } from "./features/market/MarketView";
+import { TolovView } from "./features/payment/TolovView";
 import { T } from "./theme/tokens";
 
 function Splash() {
@@ -91,6 +94,9 @@ export default function App() {
             <Route path="/grammatika" element={<GrammarView />} />
             <Route path="/grammatika/daraja/:kod" element={<DarajaDetail />} />
             <Route path="/grammatika/dars/:id" element={<GramDarsDetail />} />
+            <Route path="/chat" element={<ChatView />} />
+            <Route path="/market" element={<MarketView />} />
+            <Route path="/tolov" element={<TolovView />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
