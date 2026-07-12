@@ -3,6 +3,7 @@ import { Clock, ChevronRight, Trophy, RotateCcw, CheckCircle2, XCircle, Coins } 
 import { T, AR } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
 import { useCoins } from "../../context/CoinContext";
+import { useProgress } from "../progress/ProgressContext";
 import { MOCK_TESTLAR, type MockTest, type MockSavol } from "../../content/mockTestlar";
 
 const resultKey = (uid: string) => `afp:mock_results_${uid}`;
@@ -337,6 +338,7 @@ function ResultScreen({
 export function MockTestView() {
   const { user } = useAuth();
   const { addCoins } = useCoins();
+  const { touchStreak } = useProgress();
   const [results, setResults] = useState<Record<number, TestResult>>(() => user ? loadResults(user.id) : {});
   const [activeTest, setActiveTest] = useState<MockTest | null>(null);
   const [resultState, setResultState] = useState<{ togrilar: number; coinEarned: number } | null>(null);
@@ -347,6 +349,7 @@ export function MockTestView() {
     const ball = Math.round((togrilar / activeTest.savollar.length) * 100);
     const coinEarned = ball >= 80 ? 15 : 0;
     if (coinEarned > 0) addCoins(coinEarned);
+    touchStreak();
     const result: TestResult = {
       testId: activeTest.id,
       ball,

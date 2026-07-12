@@ -2,6 +2,8 @@ import { useState, useMemo } from "react";
 import { Play, Clock, Eye, BookOpen, Search, X } from "lucide-react";
 import { T } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
+import { useProgress } from "../progress/ProgressContext";
+import { useCoins } from "../../context/CoinContext";
 import { VIDEO_DARSLAR, VIDEO_TOIFALAR, type VideoDars } from "../../content/videoDarslar";
 
 function getEmbedUrl(url: string): string {
@@ -215,6 +217,8 @@ function VideoModal({
 
 export function VideoDarslarView() {
   const { user } = useAuth();
+  const { touchStreak } = useProgress();
+  const { addCoins } = useCoins();
   const [toifa, setToifa] = useState("barchasi");
   const [qidiruv, setQidiruv] = useState("");
   const [watched, setWatched] = useState<Set<number>>(() => user ? loadWatched(user.id) : new Set());
@@ -236,10 +240,13 @@ export function VideoDarslarView() {
 
   const handleWatched = (id: number) => {
     if (!user) return;
+    if (watched.has(id)) return; // ikki marta coin olmaslik uchun
     const updated = new Set(watched);
     updated.add(id);
     setWatched(updated);
     saveWatched(user.id, updated);
+    touchStreak();
+    addCoins(3);
   };
 
   const watchedCount = watched.size;
