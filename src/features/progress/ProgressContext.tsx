@@ -32,6 +32,8 @@ interface ProgressValue {
   clearWrong: (key: string) => void;
   /** Bugun har qanday dars bajarilganda streakni yangilaydi (grammatika va boshqalar uchun) */
   touchStreak: () => void;
+  /** Dars qulfini market'dan ishlatib, berilgan darsni ochadi. true qaytarsa muvaffaqiyatli. */
+  consumeLessonUnlock: (darsId: number) => boolean;
 }
 
 const Ctx = createContext<ProgressValue | null>(null);
@@ -75,7 +77,21 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       if (ad) setAmalDone(ad);
       setUnlocked(isT ? allUnlocked() : ul ?? { 1: true });
       if (wm) setWrongMap(wm);
-      const newStreak = calcStreak(st ?? { days: 0, lastDate: "" });
+      const rawStreak = st ?? { days: 0, lastDate: "" };
+      let newStreak = calcStreak(rawStreak);
+      // Streak buzilgan bo'lsa, shield tekshir
+      if (newStreak.days === 1 && rawStreak.days > 1) {
+        try {
+          const pRaw = localStorage.getItem(`afp:market_purchases_${user.id}`);
+          const p: Record<string, { itemId: string; count: number; lastBought: string }> = pRaw ? JSON.parse(pRaw) : {};
+          if (p["streak_shield"] && p["streak_shield"].count > 0) {
+            p["streak_shield"].count -= 1;
+            if (p["streak_shield"].count <= 0) delete p["streak_shield"];
+            localStorage.setItem(`afp:market_purchases_${user.id}`, JSON.stringify(p));
+            newStreak = { days: rawStreak.days + 1, lastDate: newStreak.lastDate };
+          }
+        } catch { /* ignore */ }
+      }
       setStreak(newStreak);
       void store.set(`streak_${user.id}`, newStreak);
       setReady(true);
@@ -130,8 +146,25 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const consumeLessonUnlock = (darsId: number): boolean => {
+    if (!user) return false;
+    try {
+      const pRaw = localStorage.getItem(`afp:market_purchases_${user.id}`);
+      const p: Record<string, { itemId: string; count: number; lastBought: string }> = pRaw ? JSON.parse(pRaw) : {};
+      const rec = p["lesson_unlock"];
+      if (!rec || rec.count <= 0) return false;
+      p["lesson_unlock"] = { ...rec, count: rec.count - 1 };
+      if (p["lesson_unlock"].count <= 0) delete p["lesson_unlock"];
+      localStorage.setItem(`afp:market_purchases_${user.id}`, JSON.stringify(p));
+      const nu = { ...unlocked, [darsId]: true };
+      setUnlocked(nu);
+      void store.set(`unlocked_${user.id}`, nu);
+      return true;
+    } catch { return false; }
+  };
+
   return (
-    <Ctx.Provider value={{ ready, nazDone, amalDone, unlocked, wrongMap, streak, isNazUnlocked, submitNaz, submitAmal, saveWrong, clearWrong, touchStreak }}>
+    <Ctx.Provider value={{ ready, nazDone, amalDone, unlocked, wrongMap, streak, isNazUnlocked, submitNaz, submitAmal, saveWrong, clearWrong, touchStreak, consumeLessonUnlock }}>
       {children}
     </Ctx.Provider>
   );

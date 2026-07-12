@@ -45,6 +45,17 @@ export function ProfileView() {
 
   if (!user) return null;
 
+  // Market purchases
+  const marketPurchases = (() => {
+    try {
+      const raw = localStorage.getItem(`afp:market_purchases_${user.id}`);
+      return raw ? JSON.parse(raw) as Record<string, { count: number }> : {};
+    } catch { return {}; }
+  })();
+  const hasGoldFrame = (marketPurchases["avatar_frame_gold"]?.count ?? 0) > 0;
+  const hasStarBadge = (marketPurchases["badge_star"]?.count ?? 0) > 0;
+  const shieldCount = marketPurchases["streak_shield"]?.count ?? 0;
+
   const openEdit = () => {
     setEditForm({ ism: user.ism, familya: user.familya, tel: user.tel ?? "", tugilgan: user.tugilgan ?? "" });
     setEditErr("");
@@ -102,9 +113,22 @@ export function ProfileView() {
             {/* Avatar */}
             <div style={{ position: "relative", flexShrink: 0 }}>
               {avatar ? (
-                <img src={avatar} alt="" style={{ width: 76, height: 76, borderRadius: "50%", objectFit: "cover", border: "3px solid rgba(255,255,255,.3)" }} />
+                <img
+                  src={avatar} alt=""
+                  style={{
+                    width: 76, height: 76, borderRadius: "50%", objectFit: "cover",
+                    border: hasGoldFrame ? "3px solid #FFD700" : "3px solid rgba(255,255,255,.3)",
+                    boxShadow: hasGoldFrame ? "0 0 14px #FFD70099" : undefined,
+                  }}
+                />
               ) : (
-                <div style={{ width: 76, height: 76, borderRadius: "50%", background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32, fontWeight: 700, color: T.onCta, border: "3px solid rgba(255,255,255,.2)" }}>
+                <div style={{
+                  width: 76, height: 76, borderRadius: "50%", background: T.gLime,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 32, fontWeight: 700, color: T.onCta,
+                  border: hasGoldFrame ? "3px solid #FFD700" : "3px solid rgba(255,255,255,.2)",
+                  boxShadow: hasGoldFrame ? "0 0 14px #FFD70099" : undefined,
+                }}>
                   {user.ism[0]?.toUpperCase()}
                 </div>
               )}
@@ -114,11 +138,22 @@ export function ProfileView() {
               <input ref={fileRef} type="file" accept="image/*" onChange={pick} style={{ display: "none" }} />
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 20, fontWeight: 700, color: "#fff", lineHeight: 1.2 }}>{user.ism} {user.familya}</div>
+              <div style={{ fontSize: 20, fontWeight: 700, color: "#fff", lineHeight: 1.2 }}>
+                {user.ism} {user.familya}
+                {hasStarBadge && <span style={{ fontSize: 16, marginLeft: 5 }}>⭐</span>}
+              </div>
               <div style={{ fontSize: 12, color: "rgba(255,255,255,.55)", marginTop: 3 }}>@{user.login}</div>
-              <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 6 }}>
-                <span style={{ fontSize: 13 }}>🔥</span>
-                <span style={{ fontSize: 12, color: T.limeBrt, fontWeight: 600 }}>{streak.days} kun streak</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 6, flexWrap: "wrap" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <span style={{ fontSize: 13 }}>🔥</span>
+                  <span style={{ fontSize: 12, color: T.limeBrt, fontWeight: 600 }}>{streak.days} kun streak</span>
+                </div>
+                {shieldCount > 0 && (
+                  <div style={{ display: "flex", alignItems: "center", gap: 3, background: "rgba(8,145,178,.25)", borderRadius: 8, padding: "2px 7px" }}>
+                    <span style={{ fontSize: 12 }}>🛡️</span>
+                    <span style={{ fontSize: 11, color: "#7DD3FC", fontWeight: 700 }}>×{shieldCount}</span>
+                  </div>
+                )}
               </div>
             </div>
             <div style={{ flexShrink: 0, background: "rgba(255,255,255,.12)", borderRadius: 12, padding: "8px 12px", textAlign: "center" }}>
