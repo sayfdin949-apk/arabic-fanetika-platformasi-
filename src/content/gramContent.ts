@@ -1,6 +1,234 @@
 import type { GramDars, GramDarajaInfo } from "./gramTypes";
 
 export const GRAM_DARSLAR: GramDars[] = [
+  // ─── A0 ─────────────────────────────────────────────────────────────────────
+  {
+    id: 4,
+    nomi: "Arab alifbosi — harflar",
+    daraja: "A0",
+    icon: "🔤",
+    rang: "#0891B2",
+    mavzu: "28 ta arab harfi va ularning shakllari",
+    qoida: [
+      {
+        sarlavha: "Arab alifbosining asoslari",
+        tavsif:
+          "Arab alifbosida 28 ta harf bor. Ular o'ngdan chapga yoziladi. " +
+          "Har bir harfning 4 xil shakli bo'ladi: alohida, so'z boshida, o'rtasida va oxirida.",
+        jadval: [
+          { arabcha: "أ", oqilishi: "alif", tarjima: "a/o'", izoh: "birinchi harf" },
+          { arabcha: "ب", oqilishi: "ba", tarjima: "b", izoh: "1 nuqta pastda" },
+          { arabcha: "ت", oqilishi: "ta", tarjima: "t", izoh: "2 nuqta ustida" },
+          { arabcha: "ث", oqilishi: "tha", tarjima: "th (inglizcha)", izoh: "3 nuqta ustida" },
+          { arabcha: "ج", oqilishi: "jim", tarjima: "j", izoh: "1 nuqta ichida" },
+          { arabcha: "ح", oqilishi: "ha", tarjima: "h (tomoqdan)", izoh: "nuqtasiz" },
+          { arabcha: "خ", oqilishi: "xo", tarjima: "x", izoh: "1 nuqta ustida" },
+          { arabcha: "د", oqilishi: "dal", tarjima: "d", izoh: "nuqtasiz" },
+        ],
+      },
+      {
+        sarlavha: "Qolgan harflar",
+        tavsif:
+          "Arabcha 28 harfning qolgan 20 tasi. Ko'p harflar o'xshash shaklga ega — " +
+          "ularni nuqtalar (noqat) bilan ajratish mumkin.",
+        jadval: [
+          { arabcha: "ذ", oqilishi: "zal", tarjima: "z (til uchi)", izoh: "1 nuqta ustida" },
+          { arabcha: "ر", oqilishi: "ro", tarjima: "r", izoh: "nuqtasiz" },
+          { arabcha: "ز", oqilishi: "zay", tarjima: "z", izoh: "1 nuqta ustida" },
+          { arabcha: "س", oqilishi: "sin", tarjima: "s", izoh: "nuqtasiz (3 tish)" },
+          { arabcha: "ش", oqilishi: "shin", tarjima: "sh", izoh: "3 nuqta ustida" },
+          { arabcha: "ص", oqilishi: "sod", tarjima: "s (qattiq)", izoh: "nuqtasiz" },
+          { arabcha: "ض", oqilishi: "dod", tarjima: "d (qattiq)", izoh: "1 nuqta ustida" },
+          { arabcha: "ع", oqilishi: "'ayn", tarjima: "' (tomoqdan)", izoh: "xos arab harfi" },
+        ],
+        misol: [
+          "ف (fa) — 1 nuqta oldida",
+          "ق (qof) — 2 nuqta ustida",
+          "ك (kof) — k",
+          "ل (lam) — l",
+          "م (mim) — m",
+          "ن (nun) — n, 1 nuqta ustida",
+          "ه (ha) — h (yengil)",
+          "و (wow) — v/u",
+          "ي (ya) — y/i",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "بَيْت", oqilishi: "bayt", tarjima: "uy", izoh: "ب + يت" },
+      { arabcha: "كِتَاب", oqilishi: "kitab", tarjima: "kitob", izoh: "ك + ت + ا + ب" },
+      { arabcha: "قَلَم", oqilishi: "qalam", tarjima: "qalam", izoh: "ق + ل + م" },
+      { arabcha: "بَاب", oqilishi: "bab", tarjima: "eshik", izoh: "ب + ا + ب" },
+      { arabcha: "سَمَاء", oqilishi: "sama", tarjima: "osmon", izoh: "س + م + ا + ء" },
+      { arabcha: "أَرْض", oqilishi: "ard", tarjima: "yer", izoh: "أ + ر + ض" },
+    ],
+    istima: [
+      { arabcha: "ب", oqilishi: "ba", tarjima: "b harfi", izoh: "pastda 1 nuqta" },
+      { arabcha: "ت", oqilishi: "ta", tarjima: "t harfi", izoh: "ustida 2 nuqta" },
+      { arabcha: "ث", oqilishi: "tha", tarjima: "th harfi", izoh: "ustida 3 nuqta" },
+      { arabcha: "ج", oqilishi: "jim", tarjima: "j harfi", izoh: "ichida 1 nuqta" },
+      { arabcha: "س", oqilishi: "sin", tarjima: "s harfi", izoh: "3 tishli, nuqtasiz" },
+      { arabcha: "ش", oqilishi: "shin", tarjima: "sh harfi", izoh: "3 tishli, 3 nuqta" },
+    ],
+    kitoba: [
+      { topshiriq: "Quyidagi harflarni tartibda yozing: ب، ت، ث", misol: "→ ب ت ث" },
+      { topshiriq: "بَيْت so'zini tashkil qiluvchi harflarni aniqlang", misol: "→ ب + ي + ت" },
+      { topshiriq: "Sin va shin harflarining farqini tushuntiring", misol: "→ س (nuqtasiz), ش (3 nuqta)" },
+      { topshiriq: "Quyidagi harflardan 3 ta so'z tuzing: ب، ا، ب، ت", misol: "→ بَاب (eshik)" },
+    ],
+    test: [
+      { savol: "ب harfi qanday talaffuz qilinadi?", variantlar: ["ta", "ba", "sa", "na"], togri: 1 },
+      { savol: "ش harfining belgisi nechta nuqtaga ega?", variantlar: ["1", "2", "3", "0"], togri: 2 },
+      { savol: "Arab harflari qaysi yo'nalishda yoziladi?", variantlar: ["Chapdan o'ngga", "O'ngdan chapga", "Yuqoridan pastga", "Pastdan yuqoriga"], togri: 1 },
+      { savol: "Arab alifbosida nechta harf bor?", variantlar: ["24", "26", "28", "30"], togri: 2 },
+      { savol: "ت va ث harflari o'rtasidagi farq nima?", variantlar: ["Shakli boshqa", "Nuqtalar soni", "Kattaligi", "Rangi"], togri: 1 },
+    ],
+  },
+
+  {
+    id: 5,
+    nomi: "Harakat belgilari",
+    daraja: "A0",
+    icon: "✨",
+    rang: "#2563EB",
+    mavzu: "Fatha, kasra, damma, sukun — harflar ustidagi belgilar",
+    qoida: [
+      {
+        sarlavha: "Asosiy harakat belgilari",
+        tavsif:
+          "Harakat belgilari (tashkil) harflar qanday o'qilishini bildiradi. " +
+          "Ular asosan o'quv kitoblarida va boshlang'ich darslarda ishlatiladi.",
+        jadval: [
+          { arabcha: "بَ", oqilishi: "ba", tarjima: "ba (a ovozi bilan)", izoh: "fatha — ustida kichik chiziq" },
+          { arabcha: "بِ", oqilishi: "bi", tarjima: "bi (i ovozi bilan)", izoh: "kasra — ostida kichik chiziq" },
+          { arabcha: "بُ", oqilishi: "bu", tarjima: "bu (u ovozi bilan)", izoh: "damma — ustida kichik o' shakl" },
+          { arabcha: "بْ", oqilishi: "b (undosh)", tarjima: "b, unli yo'q", izoh: "sukun — ustida kichik doira" },
+          { arabcha: "بَّ", oqilishi: "bba", tarjima: "b ikki marta", izoh: "shadda — ustida tish belgisi" },
+        ],
+      },
+      {
+        sarlavha: "Tanvin — ikki harakat",
+        tavsif:
+          "Tanvin — so'z oxirida ikki harakat belgisi qo'yiladi va n ovozi qo'shiladi. " +
+          "Tanvin faqat aniqlanmagan otlarda so'z oxirida ishlatiladi.",
+        jadval: [
+          { arabcha: "بَيْتٌ", oqilishi: "baytun", tarjima: "uy (aniqlanmagan)", izoh: "tanvin damma — un ovozi" },
+          { arabcha: "بَيْتٍ", oqilishi: "baytin", tarjima: "uyning (tushum)", izoh: "tanvin kasra — in ovozi" },
+          { arabcha: "بَيْتاً", oqilishi: "baytan", tarjima: "uyni (tushum)", izoh: "tanvin fatha — an ovozi" },
+          { arabcha: "كِتَابٌ", oqilishi: "kitabun", tarjima: "kitob (aniqlanmagan)", izoh: "tanvin damma" },
+        ],
+        misol: [
+          "بَ = ba (fatha = a ovozi)",
+          "بِ = bi (kasra = i ovozi)",
+          "بُ = bu (damma = u ovozi)",
+          "بْ = b (sukun = unli yo'q)",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "بَ بِ بُ بْ", oqilishi: "ba — bi — bu — b", tarjima: "Ba harfi to'rt holatda" },
+      { arabcha: "كَتَبَ", oqilishi: "kataba", tarjima: "yozdi", izoh: "k-a + t-a + b-a" },
+      { arabcha: "كِتَابٌ", oqilishi: "kitabun", tarjima: "kitob", izoh: "tanvin damma" },
+      { arabcha: "قَلَمٌ", oqilishi: "qalamun", tarjima: "qalam", izoh: "tanvin damma" },
+      { arabcha: "بَيْتٌ كَبِيرٌ", oqilishi: "baytun kabirun", tarjima: "katta uy", izoh: "ikki tanvin" },
+      { arabcha: "مَدْرَسَةٌ", oqilishi: "madrasatun", tarjima: "maktab", izoh: "tanvin + ta marbuta" },
+    ],
+    istima: [
+      { arabcha: "بَ", oqilishi: "ba", tarjima: "fatha bilan", izoh: "ustida — a ovozi" },
+      { arabcha: "بِ", oqilishi: "bi", tarjima: "kasra bilan", izoh: "ostida — i ovozi" },
+      { arabcha: "بُ", oqilishi: "bu", tarjima: "damma bilan", izoh: "ustida doira — u ovozi" },
+      { arabcha: "بْ", oqilishi: "b", tarjima: "sukun bilan", izoh: "ustida o — unli yo'q" },
+      { arabcha: "كِتَابٌ", oqilishi: "kitabun", tarjima: "kitob", izoh: "tanvin damma so'z oxirida" },
+      { arabcha: "بَيْتاً", oqilishi: "baytan", tarjima: "uyni", izoh: "tanvin fatha" },
+    ],
+    kitoba: [
+      { topshiriq: "بَ، بِ، بُ ni yozing va talaffuz qiling", misol: "ba, bi, bu" },
+      { topshiriq: "كِتَابٌ so'zida qanday harakat belgilari bor?", misol: "→ kasra (ki), fatha (ta), damma tanvin (bun)" },
+      { topshiriq: "Fatha, kasra, damma farqini misollar bilan tushuntiring", misol: "بَ=ba, بِ=bi, بُ=bu" },
+      { topshiriq: "بَيْتٌ so'zini yozing va barcha harakatlarini aniqlang", misol: "→ b(fatha)y(sukun)t(tanvin damma)" },
+    ],
+    test: [
+      { savol: "Fatha qanday ovoz beradi?", variantlar: ["i", "u", "a", "n"], togri: 2 },
+      { savol: "Kasra belgisi harfning qayeriga qo'yiladi?", variantlar: ["Ustiga", "Ostiga", "O'rtasiga", "Ichiga"], togri: 1 },
+      { savol: "Sukun nimani bildiradi?", variantlar: ["a ovozi", "Harf ikkilanishi", "Unli ovoz yo'q", "n ovozi"], togri: 2 },
+      { savol: "كِتَابٌ so'zidagi ٌ belgisi nima?", variantlar: ["Fatha", "Kasra", "Tanvin damma", "Shadda"], togri: 2 },
+      { savol: "Shadda ( ّ ) nimani bildiradi?", variantlar: ["a ovozi", "Harf ikki marta talaffuz", "Sukun", "Tanvin"], togri: 1 },
+    ],
+  },
+
+  {
+    id: 6,
+    nomi: "Aniqlik artikli — الـ",
+    daraja: "A0",
+    icon: "🔑",
+    rang: "#059669",
+    mavzu: "ال (al-) artikli: quyosh va oy harflari",
+    qoida: [
+      {
+        sarlavha: "الـ artikli nima?",
+        tavsif:
+          "الـ (al-) — aniqlik artikli. Inglizcha 'the' kabi ishlaydi. " +
+          "Otning oldiga qo'shilganda u aniq, ma'lum narsani bildiradi. " +
+          "Artikl qo'shilganda tanvin (un/in/an) tushib qoladi.",
+        jadval: [
+          { arabcha: "بَيْتٌ → الْبَيْتُ", oqilishi: "baytun → al-baytu", tarjima: "uy → uy (ma'lum)", izoh: "al + muzakkar ot" },
+          { arabcha: "كِتَابٌ → الْكِتَابُ", oqilishi: "kitabun → al-kitabu", tarjima: "kitob → kitob (ma'lum)", izoh: "al + muzakkar ot" },
+          { arabcha: "مَدْرَسَةٌ → الْمَدْرَسَةُ", oqilishi: "madrasatun → al-madrasatu", tarjima: "maktab → maktab (ma'lum)", izoh: "al + muannash ot" },
+          { arabcha: "سَيَّارَةٌ → السَّيَّارَةُ", oqilishi: "sayyaratun → as-sayyaratu", tarjima: "mashina → mashina (ma'lum)", izoh: "quyosh harfi — l o'zgaradi" },
+        ],
+      },
+      {
+        sarlavha: "Quyosh va oy harflari",
+        tavsif:
+          "الـ artikli harf turiga qarab ikki xil o'qiladi. " +
+          "Oy harflarida 'al-' to'liq o'qiladi. " +
+          "Quyosh harflarida 'al-' ning 'l' si o'rniga keyingi harf ikkilanadi.",
+        jadval: [
+          { arabcha: "الْكِتَابُ", oqilishi: "al-kitabu", tarjima: "kitob (ma'lum)", izoh: "ك — oy harfi, al to'liq o'qiladi" },
+          { arabcha: "الْبَيْتُ", oqilishi: "al-baytu", tarjima: "uy (ma'lum)", izoh: "ب — oy harfi, al to'liq" },
+          { arabcha: "الشَّمْسُ", oqilishi: "ash-shamsu", tarjima: "quyosh", izoh: "ش — quyosh harfi, l→sh" },
+          { arabcha: "النَّجْمُ", oqilishi: "an-najmu", tarjima: "yulduz", izoh: "ن — quyosh harfi, l→n" },
+          { arabcha: "الطَّالِبُ", oqilishi: "at-talibu", tarjima: "o'quvchi (ma'lum)", izoh: "ط — quyosh harfi, l→t" },
+          { arabcha: "الْمُعَلِّمُ", oqilishi: "al-muallimu", tarjima: "o'qituvchi (ma'lum)", izoh: "م — oy harfi, al to'liq" },
+        ],
+        misol: [
+          "Oy harflari (al- to'liq): ا ب ج ح خ ع غ ف ق ك م ه و ي",
+          "Quyosh harflari (l ikkilanadi): ت ث د ذ ر ز س ش ص ض ط ظ ل ن",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "الْبَيْتُ كَبِيرٌ", oqilishi: "al-baytu kabirun", tarjima: "Uy katta" },
+      { arabcha: "الْكِتَابُ جَدِيدٌ", oqilishi: "al-kitabu jadidun", tarjima: "Kitob yangi" },
+      { arabcha: "الطَّالِبُ مُجْتَهِدٌ", oqilishi: "at-talibu mujtahidun", tarjima: "O'quvchi tirishqoq" },
+      { arabcha: "الشَّمْسُ مُشْرِقَةٌ", oqilishi: "ash-shamsu mushriqatun", tarjima: "Quyosh charaqlamoqda" },
+      { arabcha: "الْمَدْرَسَةُ بَعِيدَةٌ", oqilishi: "al-madrasatu ba'idatun", tarjima: "Maktab uzoqda" },
+      { arabcha: "السَّيَّارَةُ سَرِيعَةٌ", oqilishi: "as-sayyaratu sari'atun", tarjima: "Mashina tez" },
+    ],
+    istima: [
+      { arabcha: "الْكِتَابُ", oqilishi: "al-kitabu", tarjima: "kitob (ma'lum)", izoh: "oy harfi — al to'liq" },
+      { arabcha: "الشَّمْسُ", oqilishi: "ash-shamsu", tarjima: "quyosh", izoh: "quyosh harfi — l→sh" },
+      { arabcha: "الطَّالِبُ", oqilishi: "at-talibu", tarjima: "o'quvchi", izoh: "quyosh harfi — l→t" },
+      { arabcha: "الْمُعَلِّمُ", oqilishi: "al-muallimu", tarjima: "o'qituvchi", izoh: "oy harfi — al to'liq" },
+      { arabcha: "الْبَيْتُ", oqilishi: "al-baytu", tarjima: "uy", izoh: "oy harfi — al to'liq" },
+      { arabcha: "النَّجْمُ", oqilishi: "an-najmu", tarjima: "yulduz", izoh: "quyosh harfi — l→n" },
+    ],
+    kitoba: [
+      { topshiriq: "بَيْتٌ so'ziga الـ artikl qo'shing", misol: "→ الْبَيْتُ (al-baytu)" },
+      { topshiriq: "مَدْرَسَةٌ so'ziga الـ artikl qo'shing", misol: "→ الْمَدْرَسَةُ (al-madrasatu)" },
+      { topshiriq: "الشَّمْسُ dan qaysi harf quyosh harfi ekanini aniqlang", misol: "→ ش (shin) — quyosh harfi" },
+      { topshiriq: "Quyidagi so'zlarga الـ qo'shing: قَلَمٌ، سَيَّارَةٌ، طَالِبٌ", misol: "الْقَلَمُ، السَّيَّارَةُ، الطَّالِبُ" },
+    ],
+    test: [
+      { savol: "الـ artikli qanday ma'no bildiradi?", variantlar: ["Ko'plik", "Aniqlik (the)", "Inkor", "Savol"], togri: 1 },
+      { savol: "الشَّمْسُ so'zi qanday o'qiladi?", variantlar: ["al-shamsu", "ash-shamsu", "al-shhamsu", "a-shamsu"], togri: 1 },
+      { savol: "Quyosh harfi qaysi?", variantlar: ["ك", "م", "ب", "ن"], togri: 3 },
+      { savol: "الْكِتَابُ so'zi qanday o'qiladi?", variantlar: ["ak-kitabu", "ash-kitabu", "al-kitabu", "a-kitabu"], togri: 2 },
+      { savol: "بَيْتٌ so'ziga الـ qo'shilsa nima bo'ladi?", variantlar: ["البَيْتَ", "الْبَيْتُ", "بَيْتال", "الَّبَيْتُ"], togri: 1 },
+    ],
+  },
+
+  // ─── A1 ─────────────────────────────────────────────────────────────────────
   {
     id: 1,
     nomi: "Ismlar — Muzakkar va Muannash",
@@ -210,6 +438,228 @@ export const GRAM_DARSLAR: GramDars[] = [
       { savol: "هَذِهِ سَيَّارَةٌ gapini tarjima qiling", variantlar: ["U mashina", "Bu mashina", "O'sha mashina", "Mashina bor"], togri: 1 },
       { savol: "هَذَا olmoshi qaysi ism bilan ishlatiladi?", variantlar: ["Muannash", "Muzakkar", "Ko'plik", "Aniqlanmagan"], togri: 1 },
       { savol: "Yaqin + muannash uchun qaysi olmosh ishlatiladi?", variantlar: ["ذلك", "تلك", "هذا", "هذه"], togri: 3 },
+    ],
+  },
+
+  // ─── A2 ─────────────────────────────────────────────────────────────────────
+  {
+    id: 7,
+    nomi: "O'tgan zamon fe'li",
+    daraja: "A2",
+    icon: "⏰",
+    rang: "#CA8A04",
+    mavzu: "الفعل الماضي — o'tgan zamonda fe'l tuslanishi",
+    qoida: [
+      {
+        sarlavha: "O'tgan zamon fe'lining asosi",
+        tavsif:
+          "Arabcha o'tgan zamon fe'li (fi'l madi) ildizdan hosil bo'ladi. " +
+          "Asosiy shakl 3-shaxs yagona erkak (u qildi) hisoblanadi. " +
+          "Fe'l shaxs, jins va songa qarab o'zgaradi — so'z oxiriga qo'shimcha qo'shiladi.",
+        jadval: [
+          { arabcha: "كَتَبَ", oqilishi: "kataba", tarjima: "u yozdi (erkak)", izoh: "3-shaxs yagona erkak — asosiy shakl" },
+          { arabcha: "كَتَبَتْ", oqilishi: "katabat", tarjima: "u yozdi (ayol)", izoh: "3-shaxs yagona ayol — ت qo'shildi" },
+          { arabcha: "كَتَبْتُ", oqilishi: "katabtu", tarjima: "men yozdim", izoh: "1-shaxs yagona — تُ qo'shildi" },
+          { arabcha: "كَتَبْتَ", oqilishi: "katabta", tarjima: "sen yozding (erkak)", izoh: "2-shaxs yagona erkak — تَ qo'shildi" },
+          { arabcha: "كَتَبْتِ", oqilishi: "katabti", tarjima: "sen yozding (ayol)", izoh: "2-shaxs yagona ayol — تِ qo'shildi" },
+          { arabcha: "كَتَبْنَا", oqilishi: "katabna", tarjima: "biz yozdik", izoh: "1-shaxs ko'plik — نَا qo'shildi" },
+        ],
+      },
+      {
+        sarlavha: "Ko'plik shakllari",
+        tavsif:
+          "Ko'plikda fe'l qo'shimchalari o'zgaradi. " +
+          "Ko'plik 3-shaxs: ular (erkaklar) — وا qo'shimchasi, ular (ayollar) — نَ qo'shimchasi.",
+        jadval: [
+          { arabcha: "كَتَبُوا", oqilishi: "katabu", tarjima: "ular yozdi (erkaklar)", izoh: "3-shaxs ko'plik erkak — وا" },
+          { arabcha: "كَتَبْنَ", oqilishi: "katabna", tarjima: "ular yozdi (ayollar)", izoh: "3-shaxs ko'plik ayol — نَ" },
+          { arabcha: "كَتَبْتُمْ", oqilishi: "katabtum", tarjima: "sizlar yozdingiz (erkaklar)", izoh: "2-shaxs ko'plik erkak — تُمْ" },
+          { arabcha: "كَتَبْتُنَّ", oqilishi: "katabtunna", tarjima: "sizlar yozdingiz (ayollar)", izoh: "2-shaxs ko'plik ayol — تُنَّ" },
+        ],
+        misol: [
+          "ذَهَبَ (zahaba) — u bordi",
+          "ذَهَبْتُ (zahabtu) — men bordim",
+          "ذَهَبُوا (zahabu) — ular bordi",
+          "أَكَلَ (akala) — u yedi",
+          "شَرِبَ (shariba) — u ichdi",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "ذَهَبَ الطَّالِبُ إِلَى الْمَدْرَسَةِ", oqilishi: "zahaba t-talibu ilal-madrasati", tarjima: "O'quvchi maktabga bordi" },
+      { arabcha: "كَتَبَتِ الطَّالِبَةُ الدَّرْسَ", oqilishi: "katabatit-tolibatud-darsa", tarjima: "O'quvchi (ayol) darsni yozdi" },
+      { arabcha: "أَكَلْتُ التُّفَّاحَةَ", oqilishi: "akaltu t-tuffaha", tarjima: "Men olmani yedim" },
+      { arabcha: "شَرِبْنَا الْمَاءَ", oqilishi: "sharibnal-ma'a", tarjima: "Biz suv ichdik" },
+      { arabcha: "فَتَحْتَ الْبَابَ", oqilishi: "fatahtal-baba", tarjima: "Sen eshikni ochdim" },
+      { arabcha: "جَلَسُوا فِي الْغُرْفَةِ", oqilishi: "jalasufi l-ghurfati", tarjima: "Ular xonada o'tirishdi" },
+    ],
+    istima: [
+      { arabcha: "كَتَبَ", oqilishi: "kataba", tarjima: "u yozdi", izoh: "3-shaxs yagona erkak" },
+      { arabcha: "كَتَبَتْ", oqilishi: "katabat", tarjima: "u yozdi (ayol)", izoh: "3-shaxs yagona ayol" },
+      { arabcha: "كَتَبْتُ", oqilishi: "katabtu", tarjima: "men yozdim", izoh: "1-shaxs" },
+      { arabcha: "كَتَبُوا", oqilishi: "katabu", tarjima: "ular yozdi", izoh: "ko'plik erkak" },
+      { arabcha: "ذَهَبَ", oqilishi: "zahaba", tarjima: "u bordi", izoh: "asosiy shakl" },
+      { arabcha: "ذَهَبْنَا", oqilishi: "zahabna", tarjima: "biz bordik", izoh: "ko'plik" },
+    ],
+    kitoba: [
+      { topshiriq: "كَتَبَ fe'lini 1-shaxs yagona shaklida yozing", misol: "→ كَتَبْتُ (katabtu)" },
+      { topshiriq: "كَتَبَ ni ayol uchun 3-shaxsga o'zgartiring", misol: "→ كَتَبَتْ (katabat)" },
+      { topshiriq: "ذَهَبَ fe'lini ko'plik (ular-erkak) shaklida yozing", misol: "→ ذَهَبُوا (zahabu)" },
+      { topshiriq: "Quyidagi fe'lni tarjima qiling: شَرِبْتُمْ", misol: "→ Sizlar (erkaklar) ichdingiz" },
+    ],
+    test: [
+      { savol: "كَتَبَتْ so'zi nimani bildiradi?", variantlar: ["Men yozdim", "U yozdi (erkak)", "U yozdi (ayol)", "Ular yozdi"], togri: 2 },
+      { savol: "1-shaxs yagona o'tgan zamon qo'shimchasi qaysi?", variantlar: ["تَ", "تُ", "نَا", "وا"], togri: 1 },
+      { savol: "كَتَبُوا so'zi kim haqida gapiradi?", variantlar: ["Men", "Sen (ayol)", "U (erkak)", "Ular (erkaklar)"], togri: 3 },
+      { savol: "Biz yozdik arabchada qanday?", variantlar: ["كَتَبُوا", "كَتَبْتُمْ", "كَتَبْنَا", "كَتَبَ"], togri: 2 },
+      { savol: "O'tgan zamon fe'lining asosiy shakli qaysi shaxs?", variantlar: ["1-shaxs erkak", "2-shaxs ayol", "3-shaxs erkak yagona", "Ko'plik"], togri: 2 },
+    ],
+  },
+
+  {
+    id: 8,
+    nomi: "Kelishik harflari",
+    daraja: "A2",
+    icon: "🔗",
+    rang: "#DC2626",
+    mavzu: "حروف الجر — oldindi, ustida, dan, ga va boshqa predloglar",
+    qoida: [
+      {
+        sarlavha: "Asosiy kelishik harflari",
+        tavsif:
+          "Arabchada kelishik harflari (harf al-jarr) otdan oldin kelib, " +
+          "joy, yo'nalish va munosabatni bildiradi. " +
+          "Kelishik harfidan keyin ot kasra (i) harakati oladi.",
+        jadval: [
+          { arabcha: "فِي", oqilishi: "fi", tarjima: "da/da ichida", izoh: "joy bildiradi" },
+          { arabcha: "عَلَى", oqilishi: "'ala", tarjima: "ustida/ustiga", izoh: "ustki joy" },
+          { arabcha: "مِنْ", oqilishi: "min", tarjima: "dan/dan chiqib", izoh: "manba, asl" },
+          { arabcha: "إِلَى", oqilishi: "ila", tarjima: "ga/tomon", izoh: "yo'nalish" },
+          { arabcha: "عَنْ", oqilishi: "'an", tarjima: "haqida/dan (narida)", izoh: "mavzu, uzoqlashish" },
+          { arabcha: "مَعَ", oqilishi: "ma'a", tarjima: "bilan", izoh: "birgalik" },
+          { arabcha: "بِ", oqilishi: "bi", tarjima: "bilan (vosita)", izoh: "vosita, qo'shni" },
+          { arabcha: "لِ", oqilishi: "li", tarjima: "uchun/ga (egalik)", izoh: "maqsad, egalik" },
+        ],
+      },
+      {
+        sarlavha: "Misollar va qo'llanilishi",
+        tavsif:
+          "Kelishik harflaridan keyin ot kasra oladi (garr holati). " +
+          "الـ bilan birikkan otda bu kasra artikl ichida ko'rinmaydi.",
+        jadval: [
+          { arabcha: "فِي الْبَيْتِ", oqilishi: "fi l-bayti", tarjima: "uyda", izoh: "fi + aniq ot" },
+          { arabcha: "عَلَى الطَّاوِلَةِ", oqilishi: "'alat-tawilati", tarjima: "stolning ustida", izoh: "'ala + aniq muannash" },
+          { arabcha: "مِنَ الْمَدْرَسَةِ", oqilishi: "minal-madrasati", tarjima: "maktabdan", izoh: "min + aniq muannash" },
+          { arabcha: "إِلَى الْبَيْتِ", oqilishi: "ilal-bayti", tarjima: "uyga", izoh: "ila + aniq muzakkar" },
+          { arabcha: "مَعَ صَدِيقِي", oqilishi: "ma'a sadiqiy", tarjima: "do'stim bilan", izoh: "ma'a + egalik" },
+          { arabcha: "لِلطَّالِبِ", oqilishi: "lit-talibi", tarjima: "o'quvchi uchun", izoh: "li + aniq muzakkar" },
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "الْكِتَابُ عَلَى الطَّاوِلَةِ", oqilishi: "al-kitabu 'alat-tawilati", tarjima: "Kitob stolning ustida" },
+      { arabcha: "ذَهَبْتُ إِلَى الْمَدْرَسَةِ", oqilishi: "zahabtu ilal-madrasati", tarjima: "Men maktabga bordim" },
+      { arabcha: "جِئْتُ مِنَ الْبَيْتِ", oqilishi: "ji'tu minal-bayti", tarjima: "Men uydan keldim" },
+      { arabcha: "الْقَلَمُ فِي الْحَقِيبَةِ", oqilishi: "al-qalamu fil-haqibati", tarjima: "Qalam sumkada" },
+      { arabcha: "ذَهَبَ مَعَ أَخِيهِ", oqilishi: "zahaba ma'a axiyhi", tarjima: "U ukasi bilan bordi" },
+      { arabcha: "هَذَا الْكِتَابُ لِلْمُعَلِّمِ", oqilishi: "hazal-kitabu lil-muallimi", tarjima: "Bu kitob o'qituvchi uchun" },
+    ],
+    istima: [
+      { arabcha: "فِي", oqilishi: "fi", tarjima: "da/ichida", izoh: "joy" },
+      { arabcha: "عَلَى", oqilishi: "'ala", tarjima: "ustida", izoh: "yuqori joy" },
+      { arabcha: "مِنْ", oqilishi: "min", tarjima: "dan", izoh: "manba" },
+      { arabcha: "إِلَى", oqilishi: "ila", tarjima: "ga/tomon", izoh: "yo'nalish" },
+      { arabcha: "فِي الْبَيْتِ", oqilishi: "fil-bayti", tarjima: "uyda", izoh: "fi + aniq ot" },
+      { arabcha: "مِنَ الْمَدْرَسَةِ", oqilishi: "minal-madrasati", tarjima: "maktabdan", izoh: "min + aniq" },
+    ],
+    kitoba: [
+      { topshiriq: "Kitob stolning ustida → arabchada yozing", misol: "→ الْكِتَابُ عَلَى الطَّاوِلَةِ" },
+      { topshiriq: "Men maktabga bordim → arabchada yozing", misol: "→ ذَهَبْتُ إِلَى الْمَدْرَسَةِ" },
+      { topshiriq: "فِي va عَلَى farqini misollar bilan tushuntiring", misol: "فِي الْبَيْتِ=uyda, عَلَى الطَّاوِلَةِ=stolda" },
+      { topshiriq: "لِ harfini ishlatib gap tuzing", misol: "هَذَا لِلطَّالِبِ — Bu o'quvchi uchun" },
+    ],
+    test: [
+      { savol: "فِي harfi qanday ma'no bildiradi?", variantlar: ["Ustida", "Da/ichida", "Dan", "Ga/tomon"], togri: 1 },
+      { savol: "إِلَى harfi qanday ma'no bildiradi?", variantlar: ["Bilan", "Da", "Uchun", "Ga/tomon"], togri: 3 },
+      { savol: "الْكِتَابُ عَلَى الطَّاوِلَةِ gapini tarjima qiling", variantlar: ["Kitob sumkada", "Kitob stolning ustida", "Kitob yerda", "Kitob o'qituvchida"], togri: 1 },
+      { savol: "مِنْ harfi qanday ma'no bildiradi?", variantlar: ["Ga/tomon", "Uchun", "Dan/manba", "Bilan"], togri: 2 },
+      { savol: "Kelishik harfidan keyin ot qanday harakat oladi?", variantlar: ["Fatha (a)", "Damma (u)", "Kasra (i)", "Sukun"], togri: 2 },
+    ],
+  },
+
+  {
+    id: 9,
+    nomi: "Sifat moslashuvi",
+    daraja: "A2",
+    icon: "🎨",
+    rang: "#7C3AED",
+    mavzu: "النعت — sifat jins, son va aniqlikda ism bilan mos keladi",
+    qoida: [
+      {
+        sarlavha: "Arabchada sifat qoidasi",
+        tavsif:
+          "Arabchada sifat (na't) doimo ot (man'ut) dan KEYIN keladi. " +
+          "Sifat otning jinsi, soni va aniqligiga mos kelishi shart. " +
+          "Bu ingliz tilidan farqli — inglizda sifat otdan oldin keladi.",
+        jadval: [
+          { arabcha: "كِتَابٌ كَبِيرٌ", oqilishi: "kitabun kabirun", tarjima: "katta kitob", izoh: "muzakkar + aniqlanmagan" },
+          { arabcha: "مَدْرَسَةٌ كَبِيرَةٌ", oqilishi: "madrasatun kabiratun", tarjima: "katta maktab", izoh: "muannash — ة qo'shildi" },
+          { arabcha: "الْكِتَابُ الْكَبِيرُ", oqilishi: "al-kitabul-kabiru", tarjima: "katta kitob (ma'lum)", izoh: "aniq — al qo'shildi" },
+          { arabcha: "الْمَدْرَسَةُ الْكَبِيرَةُ", oqilishi: "al-madrasatul-kabiratu", tarjima: "katta maktab (ma'lum)", izoh: "aniq muannash" },
+          { arabcha: "طُلَّابٌ مُجْتَهِدُونَ", oqilishi: "tullabun mujtahidun", tarjima: "tirishqoq o'quvchilar", izoh: "ko'plik erkak — ون" },
+          { arabcha: "بَيْتٌ جَدِيدٌ", oqilishi: "baytun jadidun", tarjima: "yangi uy", izoh: "muzakkar + aniqlanmagan" },
+        ],
+      },
+      {
+        sarlavha: "Keng tarqalgan sifatlar",
+        tavsif:
+          "Ko'p ishlatiladigan sifatlar va ularning muzakkar/muannash shakllari. " +
+          "Muannash sifat hosil qilish uchun ko'pincha ة qo'shiladi.",
+        jadval: [
+          { arabcha: "كَبِير / كَبِيرَة", oqilishi: "kabir / kabira", tarjima: "katta", izoh: "erkak / ayol" },
+          { arabcha: "صَغِير / صَغِيرَة", oqilishi: "saghir / saghira", tarjima: "kichik", izoh: "erkak / ayol" },
+          { arabcha: "جَدِيد / جَدِيدَة", oqilishi: "jadid / jadida", tarjima: "yangi", izoh: "erkak / ayol" },
+          { arabcha: "قَدِيم / قَدِيمَة", oqilishi: "qadim / qadima", tarjima: "eski, qadim", izoh: "erkak / ayol" },
+          { arabcha: "جَمِيل / جَمِيلَة", oqilishi: "jamil / jamila", tarjima: "chiroyli", izoh: "erkak / ayol" },
+          { arabcha: "طَوِيل / طَوِيلَة", oqilishi: "tawil / tawila", tarjima: "uzun/baland", izoh: "erkak / ayol" },
+          { arabcha: "قَصِير / قَصِيرَة", oqilishi: "qasir / qasira", tarjima: "qisqa/past", izoh: "erkak / ayol" },
+          { arabcha: "سَرِيع / سَرِيعَة", oqilishi: "sari' / sari'a", tarjima: "tez", izoh: "erkak / ayol" },
+        ],
+        misol: [
+          "بَيْتٌ كَبِيرٌ (katta uy) — muzakkar + muzakkar sifat",
+          "سَيَّارَةٌ سَرِيعَةٌ (tez mashina) — muannash + muannash sifat",
+          "الْبَيْتُ الْكَبِيرُ (katta uy, ma'lum) — al + al",
+        ],
+      },
+    ],
+    qiroa: [
+      { arabcha: "هَذَا بَيْتٌ كَبِيرٌ", oqilishi: "Haza baytun kabirun", tarjima: "Bu katta uy" },
+      { arabcha: "هَذِهِ سَيَّارَةٌ سَرِيعَةٌ", oqilishi: "Hazihi sayyaratun sari'atun", tarjima: "Bu tez mashina" },
+      { arabcha: "الْكِتَابُ الْجَدِيدُ عَلَى الطَّاوِلَةِ", oqilishi: "al-kitabul-jadidu 'alat-tawilati", tarjima: "Yangi kitob stolda" },
+      { arabcha: "الْمَدْرَسَةُ الْكَبِيرَةُ بَعِيدَةٌ", oqilishi: "al-madrasatul-kabirati ba'idatun", tarjima: "Katta maktab uzoqda" },
+      { arabcha: "رَأَيْتُ طَالِبًا مُجْتَهِدًا", oqilishi: "ra'aytu taliban mujtahidan", tarjima: "Men tirishqoq o'quvchini ko'rdim" },
+      { arabcha: "اشْتَرَيْتُ قَلَمًا جَدِيدًا", oqilishi: "ishtaraytu qalaman jadidan", tarjima: "Men yangi qalam sotib oldim" },
+    ],
+    istima: [
+      { arabcha: "كَبِير", oqilishi: "kabir", tarjima: "katta (muzakkar)", izoh: "k-a-b-i-r" },
+      { arabcha: "كَبِيرَة", oqilishi: "kabira", tarjima: "katta (muannash)", izoh: "ة qo'shildi" },
+      { arabcha: "جَدِيد", oqilishi: "jadid", tarjima: "yangi (muzakkar)", izoh: "j-a-d-i-d" },
+      { arabcha: "جَدِيدَة", oqilishi: "jadida", tarjima: "yangi (muannash)", izoh: "ة qo'shildi" },
+      { arabcha: "بَيْتٌ كَبِيرٌ", oqilishi: "baytun kabirun", tarjima: "katta uy", izoh: "muzakkar + muzakkar sifat" },
+      { arabcha: "سَيَّارَةٌ جَدِيدَةٌ", oqilishi: "sayyaratun jadidatun", tarjima: "yangi mashina", izoh: "muannash + muannash sifat" },
+    ],
+    kitoba: [
+      { topshiriq: "كَبِير sifatini مَدْرَسَة bilan ishlating (muannash)", misol: "→ مَدْرَسَةٌ كَبِيرَةٌ" },
+      { topshiriq: "جَدِيد sifatini الْكِتَابُ bilan ishlating (aniq)", misol: "→ الْكِتَابُ الْجَدِيدُ" },
+      { topshiriq: "Yangi mashina → arabchada yozing (سَيَّارَة — muannash)", misol: "→ سَيَّارَةٌ جَدِيدَةٌ" },
+      { topshiriq: "Quyidagi birikmalarda xatoni toping: سَيَّارَةٌ كَبِيرٌ", misol: "→ Xato: سَيَّارَة muannash, sifat ham muannash bo'lishi kerak: سَيَّارَةٌ كَبِيرَةٌ" },
+    ],
+    test: [
+      { savol: "سَيَّارَةٌ كَبِيرَةٌ nimani anglatadi?", variantlar: ["Kichik mashina", "Yangi mashina", "Katta mashina", "Tez mashina"], togri: 2 },
+      { savol: "Arabchada sifat ismdan qayerda turadi?", variantlar: ["Oldida", "Keyin", "O'rtada", "Alohida gapda"], togri: 1 },
+      { savol: "كَبِيرَة qanday sifat?", variantlar: ["Muzakkar", "Muannash", "Ko'plik", "Aniqlanmagan"], togri: 1 },
+      { savol: "الْكِتَابُ الْجَدِيدُ da sifat aniqmi?", variantlar: ["Yo'q, aniqlanmagan", "Ha, الـ bor", "Ha, tanvin bor", "Aniq emas"], togri: 1 },
+      { savol: "Yangi kitob arabchada qanday?", variantlar: ["كِتَابٌ جَدِيدَةٌ", "جَدِيدٌ كِتَابٌ", "كِتَابٌ جَدِيدٌ", "الْكِتَابُ جَدِيدَةٌ"], togri: 2 },
     ],
   },
 ];
