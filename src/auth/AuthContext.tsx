@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useCallback, useState, type ReactNode } from "react";
 import type { User, Role } from "./types";
 import { SEED_USERS } from "./users";
-import { usersApi } from "../lib/usersApi";
+import { usersApi, isSupabaseMode } from "../lib/usersApi";
 import { store } from "../lib/storage";
 import { isTelegramMiniApp, getTelegramInitData, initTelegramApp } from "../lib/telegram";
 
@@ -128,13 +128,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         const session = getLocalSession();
         if (session) {
-          const u = effectiveList.find((x) => x.id === session.id);
-          if (u) {
-            setUser(u);
-            setToken(session.token);
-            await loadAvatar(u.id);
-          } else {
+          // Supabase rejimida token format: "userId.expiry.hmac" (2 ta nuqta).
+          // Eski localStorage tokeni faqat ID ("t1", "s6") — Supabase rad etadi.
+          const isValidSupabaseToken = session.token.split('.').length === 3;
+          if (isSupabaseMode && !isValidSupabaseToken) {
             clearLocalSession();
+          } else {
+            const u = effectiveList.find((x) => x.id === session.id);
+            if (u) {
+              setUser(u);
+              setToken(session.token);
+              await loadAvatar(u.id);
+            } else {
+              clearLocalSession();
+            }
           }
         }
       } catch {
