@@ -91,4 +91,14 @@ export class SupabaseUsersApi implements UsersApi {
     if (error || !data) return { ok: false, error: "Server xatosi" };
     return data as { ok: boolean; error?: string };
   }
+
+  async adminResetPassword(token: string, targetId: string, newParol: string): Promise<{ ok: boolean; error?: string }> {
+    const { data, error } = await this.client.rpc("afp_admin_reset_password", {
+      p_session_token: token,
+      p_target_id: targetId,
+      p_new_parol: newParol,
+    });
+    if (error || !data) return { ok: false, error: "Server xatosi" };
+    return data as { ok: boolean; error?: string };
+  }
 }

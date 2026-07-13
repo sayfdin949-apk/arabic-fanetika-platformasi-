@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { UserPlus, Trash2, X, Users, ChevronDown, ChevronUp, BookOpen, Layers, BarChart2, Send, Check, CreditCard, BookOpenText } from "lucide-react";
+import { UserPlus, Trash2, X, Users, ChevronDown, ChevronUp, BookOpen, Layers, BarChart2, Send, Check, CreditCard, BookOpenText, KeyRound } from "lucide-react";
 import { T } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
 import { store } from "../../lib/storage";
@@ -50,7 +50,7 @@ function ProgBar({ value, max, color }: { value: number; max: number; color: str
 }
 
 export function OquvchilarView() {
-  const { user, users, addUser, removeUser, patchUser } = useAuth();
+  const { user, users, addUser, removeUser, patchUser, adminResetPassword } = useAuth();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ ism: "", familya: "", login: "", parol: "", tel: "", tugilgan: "", telegramId: "", tur: "" });
   const [err, setErr] = useState("");
@@ -59,6 +59,10 @@ export function OquvchilarView() {
   const [editTg, setEditTg] = useState<string | null>(null);
   const [tgInput, setTgInput] = useState("");
   const [editTur, setEditTur] = useState<string | null>(null);
+  const [resetParolId, setResetParolId] = useState<string | null>(null);
+  const [resetParolInput, setResetParolInput] = useState("");
+  const [resetParolErr, setResetParolErr] = useState("");
+  const [resetParolOk, setResetParolOk] = useState(false);
   const [tolovlar, setTolovlar] = useState<Record<string, TolovMalumat>>({});
 
   const students = users.filter((u) => u.role === "student");
@@ -389,6 +393,14 @@ export function OquvchilarView() {
                     {isExp ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
                   </button>
                   <button
+                    onClick={() => { setResetParolId(s.id); setResetParolInput(""); setResetParolErr(""); setResetParolOk(false); }}
+                    style={{ background: "rgba(124,58,237,.08)", border: "1px solid rgba(124,58,237,.2)", borderRadius: 10, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", color: "#7C3AED", cursor: "pointer", flexShrink: 0 }}
+                    aria-label="Parolni tiklash"
+                    title="Parolni tiklash"
+                  >
+                    <KeyRound size={14} />
+                  </button>
+                  <button
                     onClick={() => del(s.id, `${s.ism} ${s.familya}`)}
                     style={{ background: "rgba(230,0,35,.07)", border: "1px solid rgba(230,0,35,.15)", borderRadius: 10, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", color: T.red, cursor: "pointer", flexShrink: 0 }}
                     aria-label="O'chirish"
@@ -396,6 +408,51 @@ export function OquvchilarView() {
                     <Trash2 size={14} />
                   </button>
                 </div>
+
+                {/* Parol tiklash modali */}
+                {resetParolId === s.id && (
+                  <div style={{ borderTop: "1px solid rgba(124,58,237,.12)", padding: "12px 14px", background: "rgba(124,58,237,.04)" }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: "#7C3AED", marginBottom: 8 }}>
+                      <KeyRound size={12} style={{ verticalAlign: "middle", marginRight: 4 }} />
+                      {s.ism} uchun yangi parol
+                    </div>
+                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                      <input
+                        autoFocus
+                        placeholder="Yangi parol (kamida 4 ta belgi)"
+                        value={resetParolInput}
+                        onChange={(e) => { setResetParolInput(e.target.value); setResetParolErr(""); setResetParolOk(false); }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            if (resetParolInput.trim().length < 4) { setResetParolErr("Kamida 4 ta belgi"); return; }
+                            void adminResetPassword(s.id, resetParolInput.trim()).then((res) => {
+                              if (res.ok) { setResetParolOk(true); setTimeout(() => setResetParolId(null), 1200); }
+                              else setResetParolErr(res.error ?? "Xatolik");
+                            });
+                          }
+                          if (e.key === "Escape") setResetParolId(null);
+                        }}
+                        style={{ ...inp, flex: 1, fontSize: 12, padding: "7px 10px" }}
+                      />
+                      <button
+                        onClick={() => {
+                          if (resetParolInput.trim().length < 4) { setResetParolErr("Kamida 4 ta belgi"); return; }
+                          void adminResetPassword(s.id, resetParolInput.trim()).then((res) => {
+                            if (res.ok) { setResetParolOk(true); setTimeout(() => setResetParolId(null), 1200); }
+                            else setResetParolErr(res.error ?? "Xatolik");
+                          });
+                        }}
+                        style={{ background: resetParolOk ? T.gGreen : "rgba(124,58,237,.15)", border: "none", borderRadius: 8, padding: "7px 14px", fontSize: 12, fontWeight: 700, color: resetParolOk ? T.onCta : "#7C3AED", cursor: "pointer", flexShrink: 0 }}
+                      >
+                        {resetParolOk ? <Check size={14} /> : "Saqlash"}
+                      </button>
+                      <button onClick={() => setResetParolId(null)} style={{ background: "rgba(13,58,26,.07)", border: "none", borderRadius: 8, width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                        <X size={13} color={T.text2} />
+                      </button>
+                    </div>
+                    {resetParolErr && <div style={{ fontSize: 11, color: T.red, marginTop: 6 }}>{resetParolErr}</div>}
+                  </div>
+                )}
 
                 {/* Progress panel */}
                 {isExp && (

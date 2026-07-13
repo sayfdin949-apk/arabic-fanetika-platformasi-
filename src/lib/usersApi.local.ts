@@ -105,4 +105,17 @@ export class LocalUsersApi implements UsersApi {
     await saveUsers(users.map((x) => (x.id === userId ? updated : x)));
     return { ok: true };
   }
+
+  async adminResetPassword(token: string, targetId: string, newParol: string): Promise<{ ok: boolean; error?: string }> {
+    const callerId = token;
+    const users = await getUsers();
+    const caller = users.find((x) => x.id === callerId);
+    if (!caller || (caller.role !== "ceo" && caller.role !== "teacher")) return { ok: false, error: "Ruxsat berilmagan" };
+    const target = users.find((x) => x.id === targetId);
+    if (!target) return { ok: false, error: "Foydalanuvchi topilmadi" };
+    if (newParol.trim().length < 4) return { ok: false, error: "Parol kamida 4 ta belgi bo'lishi kerak" };
+    const updated: User = { ...target, parol: newParol.trim() };
+    await saveUsers(users.map((x) => (x.id === targetId ? updated : x)));
+    return { ok: true };
+  }
 }
