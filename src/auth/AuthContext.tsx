@@ -70,7 +70,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [avatar, setAvatar] = useState<string | null>(null);
-  const [users, setUsers] = useState<User[]>(SEED_USERS);
+  // Darhol zaxiradan yuklash — Supabase kelgunga qadar o'quvchilar ko'rinadi
+  const [users, setUsers] = useState<User[]>(() => {
+    const backup = loadUsersBackup();
+    return backup.length > 0 ? backup : SEED_USERS;
+  });
   const [ready, setReady] = useState(false);
 
   const loadAvatar = async (id: string) => {
