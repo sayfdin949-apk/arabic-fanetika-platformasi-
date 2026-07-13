@@ -10,6 +10,8 @@ import { LessonImages } from "../../components/LessonImages";
 import { LessonAudio } from "../../components/LessonAudio";
 import { useProgress } from "../progress/ProgressContext";
 import { useAuth } from "../../auth/AuthContext";
+import { loadDaraja } from "../../content/darajaTest";
+import { shouldStrip, stripHarakat } from "../../lib/stripHarakat";
 
 export function NazariyDetail() {
   const { id } = useParams();
@@ -23,6 +25,7 @@ export function NazariyDetail() {
   const [revealed, setRevealed] = useState<Set<number>>(new Set());
 
   const dars = NAZARIY.find((d) => d.id === Number(id));
+  const strip = shouldStrip(loadDaraja(user?.id ?? ""));
 
   useEffect(() => {
     setPhase("mavzu");
@@ -160,7 +163,7 @@ export function NazariyDetail() {
                     transition: "all .15s",
                   }}
                 >
-                  <span style={{ fontFamily: AR, fontSize: 28, lineHeight: 1.3, direction: "rtl", color: T.text }}>{w.ar}</span>
+                  <span style={{ fontFamily: AR, fontSize: 28, lineHeight: 1.3, direction: "rtl", color: T.text }}>{strip ? stripHarakat(w.ar) : w.ar}</span>
                   <span style={{ fontSize: 11, color: revealed.has(i) ? T.green : "transparent", fontWeight: 600, letterSpacing: 0.3, transition: "color .15s" }}>{w.oq}</span>
                 </button>
               ))}
@@ -175,7 +178,7 @@ export function NazariyDetail() {
         ) : phase === "mavzu" ? (
           <>
             <Card style={{ padding: 16, marginBottom: 16 }}>
-              <MD text={dars.mavzu} />
+              <MD text={strip ? stripHarakat(dars.mavzu) : dars.mavzu} />
             </Card>
             <Card style={{ padding: 16, marginBottom: 16 }}>
               <LessonImages type="nazariy" id={dars.id} isTeacher={user?.role === "teacher" || user?.role === "ceo"} />

@@ -11,6 +11,8 @@ import { LessonImages } from "../../components/LessonImages";
 import { LessonAudio } from "../../components/LessonAudio";
 import { useProgress } from "../progress/ProgressContext";
 import { useAuth } from "../../auth/AuthContext";
+import { loadDaraja } from "../../content/darajaTest";
+import { shouldStrip, stripHarakat } from "../../lib/stripHarakat";
 
 type TabKey = "maxraj" | "sifat" | "shakl" | "harakat" | "soz" | "oqish" | "yozish" | "uy" | "rasmlar" | "test";
 
@@ -45,7 +47,7 @@ const Stack = ({ children }: { children: React.ReactNode }) => (
   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>{children}</div>
 );
 
-function TabBody({ bob, tab, questions, onTest, onWrong, isTeacher }: { bob: AmalBob; tab: TabKey; questions: QuizQuestion[]; onTest: (ok: number, tot: number) => void; onWrong: (wrongIndices: number[]) => void; isTeacher: boolean }) {
+function TabBody({ bob, tab, questions, onTest, onWrong, isTeacher, strip }: { bob: AmalBob; tab: TabKey; questions: QuizQuestion[]; onTest: (ok: number, tot: number) => void; onWrong: (wrongIndices: number[]) => void; isTeacher: boolean; strip: boolean }) {
   switch (tab) {
     case "maxraj":
       return (
@@ -164,9 +166,9 @@ function TabBody({ bob, tab, questions, onTest, onWrong, isTeacher }: { bob: Ama
             <Card key={i} style={{ padding: "14px 16px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontFamily: AR, fontSize: 28, color: T.green, fontWeight: 700, direction: "rtl", marginBottom: 4 }}>{s.ar}</div>
+                  <div style={{ fontFamily: AR, fontSize: 28, color: T.green, fontWeight: 700, direction: "rtl", marginBottom: 4 }}>{strip ? stripHarakat(s.ar) : s.ar}</div>
                   <div style={{ fontSize: 15, fontWeight: 600, color: T.text }}>{s.oq} — <span style={{ color: T.text2 }}>{s.tr}</span></div>
-                  <div style={{ fontSize: 13, color: T.hint, marginTop: 3, fontFamily: AR, direction: "rtl" }}>{s.h}</div>
+                  <div style={{ fontSize: 13, color: T.hint, marginTop: 3, fontFamily: AR, direction: "rtl" }}>{strip ? stripHarakat(s.h) : s.h}</div>
                 </div>
                 <SpeakBtn text={s.ar} />
               </div>
@@ -182,7 +184,7 @@ function TabBody({ bob, tab, questions, onTest, onWrong, isTeacher }: { bob: Ama
             <Card key={i} style={{ padding: "14px 16px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontFamily: AR, fontSize: 24, color: T.green, fontWeight: 700, direction: "rtl", marginBottom: 6 }}>{o.ar}</div>
+                  <div style={{ fontFamily: AR, fontSize: 24, color: T.green, fontWeight: 700, direction: "rtl", marginBottom: 6 }}>{strip ? stripHarakat(o.ar) : o.ar}</div>
                   <div style={{ fontSize: 14, color: T.text2 }}>{o.iz}</div>
                 </div>
                 <SpeakBtn text={o.ar} />
@@ -199,7 +201,7 @@ function TabBody({ bob, tab, questions, onTest, onWrong, isTeacher }: { bob: Ama
             <Card key={i} style={{ padding: 16 }}>
               <div style={{ fontSize: 15, color: T.text, fontWeight: 600, marginBottom: 10 }}>{y.t}</div>
               <div style={{ background: "rgba(13,58,26,.04)", borderRadius: 10, padding: "12px 14px" }}>
-                <div style={{ fontFamily: AR, fontSize: 22, color: T.green, direction: "rtl" }}>{y.m}</div>
+                <div style={{ fontFamily: AR, fontSize: 22, color: T.green, direction: "rtl" }}>{strip ? stripHarakat(y.m) : y.m}</div>
               </div>
             </Card>
           ))}
@@ -241,6 +243,7 @@ export function AmaliyDetail() {
   const { user } = useAuth();
   const { submitAmal, amalDone, saveWrong, clearWrong } = useProgress();
   const [tab, setTab] = useState<TabKey>("maxraj");
+  const strip = shouldStrip(loadDaraja(user?.id ?? ""));
   const tabBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -362,6 +365,7 @@ export function AmaliyDetail() {
             else saveWrong(`amal_${bob.id}`, indices);
           }}
           isTeacher={user?.role === "teacher" || user?.role === "ceo"}
+          strip={strip}
         />
 
         {/* Prev / Next navigation */}
