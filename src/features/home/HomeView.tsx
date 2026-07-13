@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, Layers, ArrowRight, Star, Users, ClipboardCheck, BarChart2, Flame, ScanLine, Clock, UserCog, LayersIcon, PlayCircle, Library, ClipboardList, Sparkles, Mic2, Globe, Mic, Baby, BookOpenText, Gamepad2 } from "lucide-react";
+import { BookOpen, Layers, ArrowRight, Star, Users, ClipboardCheck, BarChart2, Flame, ScanLine, Clock, UserCog, LayersIcon, PlayCircle, Library, ClipboardList, Sparkles, Mic2, Globe, Mic, Baby, BookOpenText, Gamepad2, Target } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
@@ -10,6 +10,7 @@ import { useCoins } from "../../context/CoinContext";
 import { useAssistant } from "../assistant/AssistantContext";
 import { store } from "../../lib/storage";
 import type { DoneMap } from "../progress/ProgressContext";
+import { loadDaraja, DARAJA_ARABIC } from "../../content/darajaTest";
 
 function Ring({ pct }: { pct: number }) {
   const r = 46;
@@ -335,6 +336,9 @@ export function HomeView() {
   if (user?.role === "teacher" || user?.role === "ceo") return <TeacherHome />;
   if (user?.role === "assistant") return <AssistantHome />;
 
+  const uid = user?.id ?? "";
+  const currentDaraja = loadDaraja(uid);
+
   const nazPass = Object.values(nazDone).filter((d) => d.pct >= 80).length;
   const amalDoneCount = Object.keys(amalDone).length;
   const nazPct = Math.round((nazPass / NAZARIY.length) * 100);
@@ -411,6 +415,49 @@ export function HomeView() {
             <ProgressBar label="Amaliy mashqlar" n={amalDoneCount} tot={AMALIY.length} />
           </div>
         </div>
+
+        {/* Daraja aniqlash */}
+        {currentDaraja ? (
+          <button
+            onClick={() => navigate("/daraja-test")}
+            style={{
+              width: "100%", background: T.gGreen, border: "none", borderRadius: 14,
+              padding: "13px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: 12,
+              marginBottom: 14, boxShadow: "0 4px 14px rgba(13,58,26,.2)",
+            }}
+          >
+            <div style={{ width: 40, height: 40, borderRadius: 11, background: "rgba(255,255,255,.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <Target size={20} color="#fff" />
+            </div>
+            <div style={{ flex: 1, textAlign: "left" }}>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,.7)", marginBottom: 2 }}>Darajangiz</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>
+                {currentDaraja} — {DARAJA_ARABIC[currentDaraja]?.uz}
+              </div>
+            </div>
+            <div style={{ color: "rgba(255,255,255,.65)", fontFamily: "'Amiri', serif", fontSize: 16 }}>
+              {DARAJA_ARABIC[currentDaraja]?.ar}
+            </div>
+          </button>
+        ) : (
+          <button
+            onClick={() => navigate("/daraja-test")}
+            style={{
+              width: "100%", background: "#fff", border: "2px dashed rgba(13,58,26,.2)", borderRadius: 14,
+              padding: "13px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: 12,
+              marginBottom: 14,
+            }}
+          >
+            <div style={{ width: 40, height: 40, borderRadius: 11, background: "rgba(13,58,26,.07)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <Target size={20} color={T.green} />
+            </div>
+            <div style={{ flex: 1, textAlign: "left" }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: T.green }}>Darajangizni aniqlang</div>
+              <div style={{ fontSize: 11, color: T.hint, marginTop: 1 }}>~2 daqiqa · 8 savol</div>
+            </div>
+            <ArrowRight size={16} color={T.hint} />
+          </button>
+        )}
 
         {/* Continue button */}
         <button
