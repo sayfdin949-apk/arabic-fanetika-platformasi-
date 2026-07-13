@@ -315,15 +315,15 @@ function AssistantHome() {
 }
 
 const MODULLAR = [
-  { to: "/grammatika",     icon: BookOpenText, label: "Grammatika",       sub: "Qoida va mashqlar",      color: "#7C3AED" },
+  { to: "/grammatika",     icon: BookOpenText, label: "Grammatika",       sub: "Qoida va mashqlar",      color: "#7C3AED", tur: "grammatika" as const },
   { to: "/video",          icon: PlayCircle,   label: "Video darslar",    sub: "17 ta dars",             color: "#DC2626" },
   { to: "/kitobxona",      icon: Library,      label: "Kitobxona",        sub: "5 ta kitob",             color: "#059669" },
-  { to: "/mocktest",       icon: ClipboardList,label: "Mock test",        sub: "Bilimingizni sinang",    color: "#CA8A04" },
-  { to: "/ovoz",           icon: Mic,          label: "Ovoz yozish",      sub: "Talaffuz mashqlari",     color: "#0891B2" },
-  { to: "/matn-tahlil",    icon: Sparkles,     label: "Matn tahlili",     sub: "Arabcha matn tekshiruv", color: "#9333EA" },
+  { to: "/mocktest",       icon: ClipboardList,label: "Mock test",        sub: "Bilimingizni sinang",    color: "#CA8A04", tur: "grammatika" as const },
+  { to: "/ovoz",           icon: Mic,          label: "Ovoz yozish",      sub: "Talaffuz mashqlari",     color: "#0891B2", tur: "grammatika" as const },
+  { to: "/matn-tahlil",    icon: Sparkles,     label: "Matn tahlili",     sub: "Arabcha matn tekshiruv", color: "#9333EA", tur: "grammatika" as const },
   { to: "/oyun",           icon: Gamepad2,     label: "O'yin",            sub: "O'ynab o'rgan",          color: "#2563EB" },
-  { to: "/speaking-club",  icon: Mic2,         label: "Speaking Club",    sub: "Jonli amaliyot",         color: "#0E7490" },
-  { to: "/mehmon-ustozlar",icon: Globe,        label: "Mehmon ustozlar",  sub: "Mutaxassis darslar",     color: "#D97706" },
+  { to: "/speaking-club",  icon: Mic2,         label: "Speaking Club",    sub: "Jonli amaliyot",         color: "#0E7490", tur: "grammatika" as const },
+  { to: "/mehmon-ustozlar",icon: Globe,        label: "Mehmon ustozlar",  sub: "Mutaxassis darslar",     color: "#D97706", tur: "grammatika" as const },
   { to: "/ota-ona",        icon: Baby,         label: "Ota-ona paneli",   sub: "Farzand progressi",      color: "#BE185D" },
 ];
 
@@ -494,7 +494,7 @@ export function HomeView() {
             <span style={{ fontSize: 13, fontWeight: 600, color: T.green }}>Barcha modullar</span>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-            {MODULLAR.map((m) => (
+            {MODULLAR.filter((m) => !m.tur || !user?.tur || m.tur === user.tur).map((m) => (
               <button
                 key={m.to}
                 onClick={() => navigate(m.to)}
