@@ -1,5 +1,11 @@
 import { useState, useMemo } from "react";
-import { Play, Clock, Eye, BookOpen, Search, X } from "lucide-react";
+import { Play, Clock, Eye, BookOpen, Search, X, ExternalLink } from "lucide-react";
+
+function openLink(url: string) {
+  const tg = (window.Telegram?.WebApp) as { openLink?: (u: string) => void } | undefined;
+  if (tg?.openLink) tg.openLink(url);
+  else window.open(url, "_blank", "noopener,noreferrer");
+}
 import { T } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
 import { useProgress } from "../progress/ProgressContext";
@@ -155,7 +161,7 @@ function VideoModal({
           </div>
         ) : (
           <div style={{
-            background: `linear-gradient(135deg,${dars.rang}33,${dars.rang}66)`,
+            background: `linear-gradient(135deg,${dars.rang}22,${dars.rang}44)`,
             borderRadius: 14, height: 180, display: "flex", flexDirection: "column",
             alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 16,
             border: `2px solid ${dars.rang}40`,
@@ -167,8 +173,21 @@ function VideoModal({
             }}>
               <Play size={22} color="#fff" fill="#fff" />
             </div>
-            <div style={{ fontSize: 12, color: `${dars.rang}cc`, fontWeight: 600 }}>
-              Tez orada qo'shiladi
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <div style={{ fontSize: 12, color: `${dars.rang}cc`, fontWeight: 600 }}>
+                Video tez orada qo'shiladi
+              </div>
+              <button
+                onClick={() => openLink(`https://www.youtube.com/results?search_query=${encodeURIComponent(dars.sarlavha + " arabcha")}`)}
+                style={{
+                  display: "flex", alignItems: "center", gap: 5,
+                  background: "rgba(255,255,255,.8)", border: "none", borderRadius: 20,
+                  padding: "5px 12px", cursor: "pointer", fontSize: 11, fontWeight: 600,
+                  color: "#DC2626",
+                }}
+              >
+                <ExternalLink size={11} /> YouTube'da qidirish
+              </button>
             </div>
           </div>
         )}

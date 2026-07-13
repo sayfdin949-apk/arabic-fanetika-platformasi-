@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, Layers, ArrowRight, Star, Users, ClipboardCheck, BarChart2, Flame, ScanLine, Clock, UserCog, LayersIcon, PlayCircle, Library, ClipboardList, Sparkles, Mic2, Globe, Mic, Baby, BookOpenText, Gamepad2, Target } from "lucide-react";
+import { BookOpen, Layers, ArrowRight, Star, Users, ClipboardCheck, BarChart2, Flame, ScanLine, Clock, UserCog, LayersIcon, PlayCircle, Library, ClipboardList, Sparkles, Mic2, Globe, Mic, Baby, BookOpenText, Gamepad2, Target, GraduationCap } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
+import { GRAM_DARSLAR } from "../../content/gramContent";
 import { useAuth } from "../../auth/AuthContext";
 import { useProgress } from "../progress/ProgressContext";
 import { useCoins } from "../../context/CoinContext";
@@ -337,13 +338,26 @@ export function HomeView() {
   if (user?.role === "assistant") return <AssistantHome />;
 
   const uid = user?.id ?? "";
+  const isGram = user?.tur === "grammatika";
   const currentDaraja = loadDaraja(uid);
 
+  // Fonetika stats
   const nazPass = Object.values(nazDone).filter((d) => d.pct >= 80).length;
   const amalDoneCount = Object.keys(amalDone).length;
   const nazPct = Math.round((nazPass / NAZARIY.length) * 100);
   const amalPct = Math.round((amalDoneCount / AMALIY.length) * 100);
-  const overall = Math.round((nazPct + amalPct) / 2);
+
+  // Grammatika stats
+  const gramDoneMap: Record<number, { pct: number; sana: string }> = (() => {
+    try {
+      const raw = localStorage.getItem(`afp:gram_done_${uid}`);
+      return raw ? JSON.parse(raw) : {};
+    } catch { return {}; }
+  })();
+  const gramPassed = GRAM_DARSLAR.filter((d) => (gramDoneMap[d.id]?.pct ?? 0) >= 80).length;
+  const gramPct = Math.round((gramPassed / GRAM_DARSLAR.length) * 100);
+
+  const overall = isGram ? gramPct : Math.round((nazPct + amalPct) / 2);
 
   const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
   const tip = TIPS[dayOfYear % TIPS.length];
@@ -352,8 +366,11 @@ export function HomeView() {
   const greeting = hour < 12 ? "Xayrli tong" : hour < 17 ? "Xayrli kun" : "Xayrli kech";
 
   const todayStr = new Date().toLocaleDateString("uz");
-  const hasLessonToday = Object.values(nazDone).some((d) => d.sana === todayStr) ||
-    Object.values(amalDone).some((d) => d.sana === todayStr);
+  const hasLessonToday = isGram
+    ? Object.values(gramDoneMap).some((d) => d.sana === todayStr)
+    : Object.values(nazDone).some((d) => d.sana === todayStr) || Object.values(amalDone).some((d) => d.sana === todayStr);
+
+  const continueRoute = isGram ? "/grammatika" : "/dars";
 
   return (
     <div style={{ minHeight: "100dvh", background: T.meshLight }}>
@@ -380,15 +397,26 @@ export function HomeView() {
               <div style={{ fontSize: 21, fontWeight: 700, color: "#fff", lineHeight: 1.2, marginBottom: 3 }}>
                 {user?.ism}! 👋
               </div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,.6)" }}>Arab Fonetika Kursi</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,.6)" }}>
+                {isGram ? "Arab Grammatika Kursi" : "Arab Fonetika Kursi"}
+              </div>
             </div>
             <Ring pct={overall} />
           </div>
 
           {/* Stats row */}
           <div style={{ display: "flex", gap: 10, marginTop: 18 }}>
-            <StatCard icon={BookOpen} label="Nazariy" value={`${nazPass}/${NAZARIY.length}`} color={T.limeBrt} />
-            <StatCard icon={Layers} label="Amaliy" value={`${amalDoneCount}/${AMALIY.length}`} color={T.limeBrt} />
+            {isGram ? (
+              <>
+                <StatCard icon={GraduationCap} label="Darslar" value={`${gramPassed}/${GRAM_DARSLAR.length}`} color={T.limeBrt} />
+                <StatCard icon={BookOpen} label="Tugatilgan" value={`${gramPct}%`} color={T.limeBrt} />
+              </>
+            ) : (
+              <>
+                <StatCard icon={BookOpen} label="Nazariy" value={`${nazPass}/${NAZARIY.length}`} color={T.limeBrt} />
+                <StatCard icon={Layers} label="Amaliy" value={`${amalDoneCount}/${AMALIY.length}`} color={T.limeBrt} />
+              </>
+            )}
             <StatCard icon={Flame} label="Streak" value={`${streak.days} kun`} color="#FF6B35" />
             <StatCard icon={Star} label="Tanga" value={`${coins}`} color="#EAB308" />
           </div>
@@ -411,8 +439,14 @@ export function HomeView() {
             <span style={{ fontSize: 13, fontWeight: 600, color: T.green }}>Kurs Progressi</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <ProgressBar label="Nazariy darslar" n={nazPass} tot={NAZARIY.length} />
-            <ProgressBar label="Amaliy mashqlar" n={amalDoneCount} tot={AMALIY.length} />
+            {isGram ? (
+              <ProgressBar label="Grammatika darslar" n={gramPassed} tot={GRAM_DARSLAR.length} />
+            ) : (
+              <>
+                <ProgressBar label="Nazariy darslar" n={nazPass} tot={NAZARIY.length} />
+                <ProgressBar label="Amaliy mashqlar" n={amalDoneCount} tot={AMALIY.length} />
+              </>
+            )}
           </div>
         </div>
 
@@ -461,7 +495,7 @@ export function HomeView() {
 
         {/* Continue button */}
         <button
-          onClick={() => navigate("/dars")}
+          onClick={() => navigate(continueRoute)}
           style={{
             width: "100%",
             background: T.gLime,
@@ -478,11 +512,13 @@ export function HomeView() {
           }}
         >
           <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(0,0,0,.12)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-            <BookOpen size={22} color={T.onCta} />
+            {isGram ? <GraduationCap size={22} color={T.onCta} /> : <BookOpen size={22} color={T.onCta} />}
           </div>
           <div style={{ flex: 1, textAlign: "left" }}>
             <div style={{ fontSize: 15, fontWeight: 700 }}>Darslarni davom ettirish</div>
-            <div style={{ fontSize: 12, opacity: 0.75, marginTop: 1 }}>Nazariy va amaliy mashqlar</div>
+            <div style={{ fontSize: 12, opacity: 0.75, marginTop: 1 }}>
+              {isGram ? "Grammatika darslar va mashqlar" : "Nazariy va amaliy mashqlar"}
+            </div>
           </div>
           <ArrowRight size={20} />
         </button>
@@ -515,7 +551,7 @@ export function HomeView() {
         {/* Streak ogohlantirish */}
         {!hasLessonToday && streak.days > 0 && (
           <div
-            onClick={() => navigate("/dars")}
+            onClick={() => navigate(continueRoute)}
             style={{ background: "rgba(255,107,53,.08)", border: "1px solid rgba(255,107,53,.25)", borderRadius: 12, padding: "12px 14px", display: "flex", gap: 10, alignItems: "center", cursor: "pointer", marginBottom: 0 }}
           >
             <Flame size={20} color="#FF6B35" style={{ flexShrink: 0 }} />
