@@ -63,7 +63,15 @@ BEGIN
 END; $$;
 REVOKE ALL ON FUNCTION afp_make_session_token(TEXT) FROM PUBLIC;
 
--- 4. Login funksiyasi
+-- 4. Foydalanuvchilar ro'yxati (parolsiz)
+CREATE OR REPLACE FUNCTION afp_get_users() RETURNS JSONB
+LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+  SELECT COALESCE(jsonb_agg(afp_sanitize_user(u)), '[]'::jsonb)
+  FROM jsonb_array_elements(afp_users_raw()) AS u;
+$$;
+GRANT EXECUTE ON FUNCTION afp_get_users() TO anon, authenticated;
+
+-- 5. Login funksiyasi
 CREATE OR REPLACE FUNCTION afp_login(p_login TEXT, p_parol TEXT, p_role TEXT) RETURNS JSONB
 LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
 DECLARE found JSONB;
@@ -80,7 +88,7 @@ BEGIN
 END; $$;
 GRANT EXECUTE ON FUNCTION afp_login(TEXT, TEXT, TEXT) TO anon, authenticated;
 
--- 5. CEO ni to'g'ri parol bilan o'rnatish
+-- 6. CEO ni to'g'ri parol bilan o'rnatish
 DO $$
 DECLARE
   cur_users JSONB;
@@ -112,7 +120,7 @@ BEGIN
   PERFORM afp_save_users(new_users);
 END $$;
 
--- 6. Tekshirish
+-- 7. Tekshirish
 SELECT
   u->>'id'    AS id,
   u->>'login' AS login,
