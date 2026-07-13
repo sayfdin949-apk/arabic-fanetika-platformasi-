@@ -84,7 +84,7 @@ export function Login() {
         <div style={{ width: 36, height: 36, borderRadius: 10, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center" }}>
           <UserCheck size={18} color={T.onCta} />
         </div>
-        <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>Boshqaruv kirishi</div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>Login va parol bilan kirish</div>
       </div>
 
       <div style={{ marginBottom: 10 }}>
