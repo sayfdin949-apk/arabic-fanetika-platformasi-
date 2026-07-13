@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { UserPlus, Trash2, X, Users, ChevronDown, ChevronUp, BookOpen, Layers, BarChart2, Send, Check, CreditCard } from "lucide-react";
+import { UserPlus, Trash2, X, Users, ChevronDown, ChevronUp, BookOpen, Layers, BarChart2, Send, Check, CreditCard, BookOpenText } from "lucide-react";
 import { T } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
 import { store } from "../../lib/storage";
 import type { DoneMap } from "../progress/ProgressContext";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
+import { GRAM_DARSLAR } from "../../content/gramContent";
+
+type GramDoneMap = Record<number, { pct: number; sana: string }>;
 
 type TolovStatus = "trial" | "pending" | "active" | "blocked";
 interface TolovMalumat { status: TolovStatus; summа?: number; tarif?: string; keyingioyliklTolov?: string }
@@ -20,6 +23,7 @@ const TOLOV_LABEL: Record<TolovStatus, string> = {
 
 const NAZ_TOTAL = NAZARIY.length;
 const AMAL_TOTAL = AMALIY.length;
+const GRAM_TOTAL = GRAM_DARSLAR.length;
 
 const inp: React.CSSProperties = {
   width: "100%",
@@ -51,7 +55,7 @@ export function OquvchilarView() {
   const [form, setForm] = useState({ ism: "", familya: "", login: "", parol: "", tel: "", tugilgan: "", telegramId: "", tur: "" });
   const [err, setErr] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [progData, setProgData] = useState<Record<string, { naz: DoneMap; amal: DoneMap }>>({});
+  const [progData, setProgData] = useState<Record<string, { naz: DoneMap; amal: DoneMap; gram?: GramDoneMap }>>({});
   const [editTg, setEditTg] = useState<string | null>(null);
   const [tgInput, setTgInput] = useState("");
   const [tolovlar, setTolovlar] = useState<Record<string, TolovMalumat>>({});
@@ -140,11 +144,23 @@ export function OquvchilarView() {
     if (expanded === id) { setExpanded(null); return; }
     setExpanded(id);
     if (!progData[id]) {
-      const [nd, ad] = await Promise.all([
-        store.get<DoneMap>(`naz_done_${id}`),
-        store.get<DoneMap>(`amal_done_${id}`),
-      ]);
-      setProgData((p) => ({ ...p, [id]: { naz: nd ?? {}, amal: ad ?? {} } }));
+      const student = students.find((s) => s.id === id);
+      const isGram = student?.tur === "grammatika";
+      if (isGram) {
+        try {
+          const raw = localStorage.getItem(`afp:gram_done_${id}`);
+          const gram: GramDoneMap = raw ? JSON.parse(raw) : {};
+          setProgData((p) => ({ ...p, [id]: { naz: {}, amal: {}, gram } }));
+        } catch {
+          setProgData((p) => ({ ...p, [id]: { naz: {}, amal: {}, gram: {} } }));
+        }
+      } else {
+        const [nd, ad] = await Promise.all([
+          store.get<DoneMap>(`naz_done_${id}`),
+          store.get<DoneMap>(`amal_done_${id}`),
+        ]);
+        setProgData((p) => ({ ...p, [id]: { naz: nd ?? {}, amal: ad ?? {} } }));
+      }
     }
   };
 
@@ -263,8 +279,12 @@ export function OquvchilarView() {
             const isExp = expanded === s.id;
             const prog = progData[s.id];
             const tolov = tolovlar[s.id];
+            const isGramStudent = s.tur === "grammatika";
             const nazCount = prog ? Object.values(prog.naz).filter((r) => r.pct >= 80).length : null;
             const amalCount = prog ? Object.values(prog.amal).filter((r) => r.pct >= 80).length : null;
+            const gramCount = (prog?.gram && isGramStudent)
+              ? GRAM_DARSLAR.filter((d) => (prog.gram![d.id]?.pct ?? 0) >= 80).length
+              : null;
 
             return (
               <div
@@ -383,9 +403,57 @@ export function OquvchilarView() {
                     )}
                     {!prog ? (
                       <div style={{ textAlign: "center", color: T.hint, fontSize: 12, padding: "10px 0" }}>Yuklanmoqda...</div>
-                    ) : (
+                    ) : isGramStudent ? (
+                      /* ── Grammatika o'quvchisi ── */
                       <>
-                        {/* Stat cards */}
+                        <div style={{ background: "#fff", borderRadius: 10, padding: "10px 12px", border: "1px solid rgba(13,58,26,.07)", marginBottom: 12 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 5 }}>
+                            <BookOpenText size={11} color="#7C3AED" />
+                            <span style={{ fontSize: 10, fontWeight: 700, color: "#7C3AED", textTransform: "uppercase", letterSpacing: ".04em" }}>Grammatika darslari</span>
+                          </div>
+                          <div style={{ fontSize: 22, fontWeight: 800, color: T.green, lineHeight: 1, marginBottom: 5 }}>
+                            {gramCount ?? 0}<span style={{ fontSize: 11, fontWeight: 500, color: T.hint }}>/{GRAM_TOTAL}</span>
+                          </div>
+                          <ProgBar value={gramCount ?? 0} max={GRAM_TOTAL} color="#7C3AED" />
+                        </div>
+                        <div style={{ marginBottom: 12 }}>
+                          <div style={{ fontSize: 11, fontWeight: 600, color: T.text2, marginBottom: 5 }}>Umumiy progress</div>
+                          <ProgBar value={gramCount ?? 0} max={GRAM_TOTAL} color={T.green} />
+                        </div>
+                        {prog.gram && Object.keys(prog.gram).length > 0 ? (
+                          <div>
+                            <div style={{ fontSize: 10, fontWeight: 700, color: T.hint, textTransform: "uppercase", letterSpacing: ".04em", marginBottom: 6 }}>O'tilgan grammatika darslar</div>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                              {GRAM_DARSLAR.filter((d) => prog.gram![d.id]).map((d) => {
+                                const rec = prog.gram![d.id];
+                                return (
+                                  <div
+                                    key={d.id}
+                                    style={{
+                                      background: rec.pct >= 80 ? "rgba(124,58,237,.1)" : "rgba(230,0,35,.08)",
+                                      border: `1px solid ${rec.pct >= 80 ? "rgba(124,58,237,.3)" : "rgba(230,0,35,.2)"}`,
+                                      borderRadius: 6,
+                                      padding: "3px 8px",
+                                      fontSize: 11,
+                                      fontWeight: 700,
+                                      color: rec.pct >= 80 ? "#7C3AED" : T.red,
+                                    }}
+                                  >
+                                    {d.daraja}: {rec.pct}%
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        ) : (
+                          <div style={{ textAlign: "center", color: T.hint, fontSize: 12, padding: "8px 0" }}>
+                            Hali birorta grammatika darsi o'tilmagan
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      /* ── Fonetika o'quvchisi ── */
+                      <>
                         <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
                           <div style={{ flex: 1, background: "#fff", borderRadius: 10, padding: "10px 12px", border: "1px solid rgba(13,58,26,.07)" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 5 }}>
@@ -408,63 +476,34 @@ export function OquvchilarView() {
                             <ProgBar value={amalCount ?? 0} max={AMAL_TOTAL} color="#f59e0b" />
                           </div>
                         </div>
-
-                        {/* Overall */}
                         <div style={{ marginBottom: 14 }}>
                           <div style={{ fontSize: 11, fontWeight: 600, color: T.text2, marginBottom: 5 }}>Umumiy progress</div>
                           <ProgBar value={(nazCount ?? 0) + (amalCount ?? 0)} max={NAZ_TOTAL + AMAL_TOTAL} color={T.green} />
                         </div>
-
-                        {/* Nazariy badge grid */}
                         {Object.keys(prog.naz).length > 0 && (
                           <div style={{ marginBottom: 10 }}>
                             <div style={{ fontSize: 10, fontWeight: 700, color: T.hint, textTransform: "uppercase", letterSpacing: ".04em", marginBottom: 6 }}>O'tilgan nazariy darslar</div>
                             <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                               {Object.entries(prog.naz).sort(([a], [b]) => Number(a) - Number(b)).map(([id, rec]) => (
-                                <div
-                                  key={id}
-                                  style={{
-                                    background: rec.pct >= 80 ? "rgba(46,184,46,.12)" : "rgba(230,0,35,.08)",
-                                    border: `1px solid ${rec.pct >= 80 ? "rgba(46,184,46,.28)" : "rgba(230,0,35,.2)"}`,
-                                    borderRadius: 6,
-                                    padding: "3px 8px",
-                                    fontSize: 11,
-                                    fontWeight: 700,
-                                    color: rec.pct >= 80 ? T.green : T.red,
-                                  }}
-                                >
+                                <div key={id} style={{ background: rec.pct >= 80 ? "rgba(46,184,46,.12)" : "rgba(230,0,35,.08)", border: `1px solid ${rec.pct >= 80 ? "rgba(46,184,46,.28)" : "rgba(230,0,35,.2)"}`, borderRadius: 6, padding: "3px 8px", fontSize: 11, fontWeight: 700, color: rec.pct >= 80 ? T.green : T.red }}>
                                   N{id}: {rec.pct}%
                                 </div>
                               ))}
                             </div>
                           </div>
                         )}
-
-                        {/* Amaliy badge grid */}
                         {Object.keys(prog.amal).length > 0 && (
                           <div>
                             <div style={{ fontSize: 10, fontWeight: 700, color: T.hint, textTransform: "uppercase", letterSpacing: ".04em", marginBottom: 6 }}>O'tilgan amaliy boblar</div>
                             <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                               {Object.entries(prog.amal).sort(([a], [b]) => Number(a) - Number(b)).map(([id, rec]) => (
-                                <div
-                                  key={id}
-                                  style={{
-                                    background: rec.pct >= 80 ? "rgba(46,184,46,.12)" : "rgba(230,0,35,.08)",
-                                    border: `1px solid ${rec.pct >= 80 ? "rgba(46,184,46,.28)" : "rgba(230,0,35,.2)"}`,
-                                    borderRadius: 6,
-                                    padding: "3px 8px",
-                                    fontSize: 11,
-                                    fontWeight: 700,
-                                    color: rec.pct >= 80 ? T.green : T.red,
-                                  }}
-                                >
+                                <div key={id} style={{ background: rec.pct >= 80 ? "rgba(46,184,46,.12)" : "rgba(230,0,35,.08)", border: `1px solid ${rec.pct >= 80 ? "rgba(46,184,46,.28)" : "rgba(230,0,35,.2)"}`, borderRadius: 6, padding: "3px 8px", fontSize: 11, fontWeight: 700, color: rec.pct >= 80 ? T.green : T.red }}>
                                   A{id}: {rec.pct}%
                                 </div>
                               ))}
                             </div>
                           </div>
                         )}
-
                         {Object.keys(prog.naz).length === 0 && Object.keys(prog.amal).length === 0 && (
                           <div style={{ textAlign: "center", color: T.hint, fontSize: 12, padding: "8px 0" }}>
                             Hali birorta test topshirilmagan
