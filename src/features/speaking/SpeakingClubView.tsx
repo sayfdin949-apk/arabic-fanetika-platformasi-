@@ -1,7 +1,15 @@
 import { useState } from "react";
-import { Mic, Calendar, Clock, Users, CheckCircle2, ChevronRight, MessageSquare } from "lucide-react";
+import { Mic, Calendar, Clock, Users, CheckCircle2, ChevronRight, MessageSquare, ExternalLink } from "lucide-react";
 import { T } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
+
+const SPEAKING_TG = "arabic_speaking_club";
+
+function openLink(url: string) {
+  const tg = (window.Telegram?.WebApp) as { openLink?: (u: string) => void } | undefined;
+  if (tg?.openLink) tg.openLink(url);
+  else window.open(url, "_blank", "noopener,noreferrer");
+}
 
 interface SpeakingSession {
   id: number;
@@ -268,6 +276,19 @@ export function SpeakingClubView() {
                     >
                       {isReg ? "✕ Bekor qilish" : <><ChevronRight size={14} /> Ro'yxatdan o'tish</>}
                     </button>
+                    {isReg && (
+                      <button
+                        onClick={() => openLink(`https://t.me/${SPEAKING_TG}`)}
+                        style={{
+                          width: "100%", padding: "9px", borderRadius: 10, border: "none",
+                          background: "rgba(13,58,26,.06)", color: T.green,
+                          fontSize: 12, fontWeight: 600, cursor: "pointer", marginTop: 7,
+                          display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                        }}
+                      >
+                        <ExternalLink size={13} /> Telegram guruhiga qo'shilish
+                      </button>
+                    )}
                   </div>
                 </div>
               );

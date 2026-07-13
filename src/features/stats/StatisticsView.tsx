@@ -1,11 +1,14 @@
-import { BarChart2, Flame, TrendingUp, Mic, Video, Trophy, Grid3X3, BookOpenText, Coins } from "lucide-react";
-import { Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { BarChart2, Flame, TrendingUp, Mic, Video, Trophy, Grid3X3, BookOpenText, Coins, Users, CreditCard, MessageCircleWarning, CheckCircle2, Clock, AlertTriangle, Languages } from "lucide-react";
 import { T } from "../../theme/tokens";
 import { useProgress } from "../progress/ProgressContext";
 import { useAuth } from "../../auth/AuthContext";
 import { useCoins } from "../../context/CoinContext";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
+import { GRAM_DARSLAR } from "../../content/gramContent";
+import { store } from "../../lib/storage";
+import { getComplaints } from "../../lib/complaintsRepo";
 
 function Bar({ pct }: { pct: number }) {
   const color =
@@ -49,6 +52,13 @@ function loadGramDone(uid: string): number {
   } catch { return 0; }
 }
 
+function loadGramDoneMap(uid: string): Record<number, { pct: number }> {
+  try {
+    const raw = localStorage.getItem(`afp:gram_done_${uid}`);
+    return raw ? JSON.parse(raw) : {};
+  } catch { return {}; }
+}
+
 function getDateStr(daysAgo: number): string {
   const d = new Date();
   d.setDate(d.getDate() - daysAgo);
@@ -57,16 +67,133 @@ function getDateStr(daysAgo: number): string {
 
 const DAY_LABELS = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"];
 
+type TolovStatus = "trial" | "pending" | "active" | "blocked";
+interface TolovMalumat { status: TolovStatus }
+
+function AdminStatisticsView() {
+  const { users } = useAuth();
+  const [tolovlar, setTolovlar] = useState<Record<string, TolovMalumat>>({});
+  const [openComplaints, setOpenComplaints] = useState(0);
+  const [fixedComplaints, setFixedComplaints] = useState(0);
+
+  const students = users.filter((u) => u.role === "student");
+  const fonetika = students.filter((u) => u.tur === "fonetika").length;
+  const grammatika = students.filter((u) => u.tur === "grammatika").length;
+
+  useEffect(() => {
+    students.forEach((s) => {
+      void store.get<TolovMalumat>(`tolov_${s.id}`).then((d) => {
+        if (d) setTolovlar((p) => ({ ...p, [s.id]: d }));
+      });
+    });
+    void getComplaints().then((list) => {
+      setOpenComplaints(list.filter((c) => c.status === "open").length);
+      setFixedComplaints(list.filter((c) => c.status === "fixed").length);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [users]);
+
+  const active = students.filter((s) => tolovlar[s.id]?.status === "active").length;
+  const pending = students.filter((s) => tolovlar[s.id]?.status === "pending").length;
+  const trial = students.filter((s) => !tolovlar[s.id] || tolovlar[s.id].status === "trial").length;
+
+  const StatCard = ({ label, value, icon, color }: { label: string; value: number | string; icon: React.ReactNode; color: string }) => (
+    <div style={{ flex: 1, background: "#fff", borderRadius: 12, border: "1px solid rgba(13,58,26,.08)", padding: "14px 12px", display: "flex", flexDirection: "column", gap: 8 }}>
+      <div style={{ width: 32, height: 32, borderRadius: 9, background: `${color}15`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        {icon}
+      </div>
+      <div style={{ fontSize: 22, fontWeight: 800, color: T.green }}>{value}</div>
+      <div style={{ fontSize: 11, color: T.hint, lineHeight: 1.3 }}>{label}</div>
+    </div>
+  );
+
+  return (
+    <div style={{ minHeight: "100dvh", background: T.meshLight }}>
+      <div style={{ background: T.gGreen, position: "relative", overflow: "hidden", padding: "18px 16px 20px" }}>
+        <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ fontSize: 10, color: T.limeBrt, fontWeight: 600, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 2 }}>Boshqaruv</div>
+          <div style={{ fontSize: 20, fontWeight: 700, color: "#fff" }}>Statistika</div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,.65)", marginTop: 2 }}>Maktab umumiy ko'rsatkichlari</div>
+        </div>
+      </div>
+
+      <div style={{ padding: "16px 16px 32px", display: "flex", flexDirection: "column", gap: 14 }}>
+        {/* O'quvchilar */}
+        <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", padding: "14px 16px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
+            <Users size={15} color={T.green} />
+            <span style={{ fontSize: 13, fontWeight: 700, color: T.green }}>O'quvchilar</span>
+          </div>
+          <div style={{ display: "flex", gap: 10 }}>
+            <StatCard label="Jami o'quvchi" value={students.length} icon={<Users size={16} color={T.green} />} color={T.green} />
+            <StatCard label="Fonetika" value={fonetika} icon={<span style={{ fontSize: 14 }}>🔤</span>} color="#0891B2" />
+            <StatCard label="Grammatika" value={grammatika} icon={<span style={{ fontSize: 14 }}>📖</span>} color="#7C3AED" />
+          </div>
+        </div>
+
+        {/* To'lov holati */}
+        <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", padding: "14px 16px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
+            <CreditCard size={15} color={T.green} />
+            <span style={{ fontSize: 13, fontWeight: 700, color: T.green }}>To'lov holati</span>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {[
+              { label: "Faol obuna", value: active, color: "#16A34A", icon: <CheckCircle2 size={14} color="#16A34A" /> },
+              { label: "Kutilmoqda", value: pending, color: "#0891B2", icon: <Clock size={14} color="#0891B2" /> },
+              { label: "Sinov / To'lanmagan", value: trial, color: "#F59E0B", icon: <AlertTriangle size={14} color="#F59E0B" /> },
+            ].map((item) => (
+              <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                {item.icon}
+                <span style={{ fontSize: 12, color: T.text2, flex: 1 }}>{item.label}</span>
+                <span style={{ fontSize: 14, fontWeight: 800, color: item.color }}>{item.value}</span>
+                <div style={{ width: 80, height: 6, background: "rgba(13,58,26,.08)", borderRadius: 3, overflow: "hidden" }}>
+                  <div style={{ height: "100%", width: students.length ? `${(item.value / students.length) * 100}%` : "0%", background: item.color, borderRadius: 3 }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Shikoyatlar */}
+        <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", padding: "14px 16px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+            <MessageCircleWarning size={15} color={T.green} />
+            <span style={{ fontSize: 13, fontWeight: 700, color: T.green }}>Shikoyatlar</span>
+          </div>
+          <div style={{ display: "flex", gap: 10 }}>
+            <div style={{ flex: 1, background: "rgba(220,38,38,.06)", border: "1px solid rgba(220,38,38,.15)", borderRadius: 10, padding: "12px", textAlign: "center" }}>
+              <div style={{ fontSize: 22, fontWeight: 800, color: "#DC2626" }}>{openComplaints}</div>
+              <div style={{ fontSize: 11, color: T.hint, marginTop: 3 }}>Ochiq</div>
+            </div>
+            <div style={{ flex: 1, background: "rgba(22,163,74,.06)", border: "1px solid rgba(22,163,74,.15)", borderRadius: 10, padding: "12px", textAlign: "center" }}>
+              <div style={{ fontSize: 22, fontWeight: 800, color: "#16A34A" }}>{fixedComplaints}</div>
+              <div style={{ fontSize: 11, color: T.hint, marginTop: 3 }}>Hal qilingan</div>
+            </div>
+            <div style={{ flex: 1, background: "rgba(13,58,26,.04)", border: "1px solid rgba(13,58,26,.08)", borderRadius: 10, padding: "12px", textAlign: "center" }}>
+              <div style={{ fontSize: 22, fontWeight: 800, color: T.green }}>{openComplaints + fixedComplaints}</div>
+              <div style={{ fontSize: 11, color: T.hint, marginTop: 3 }}>Jami</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function StatisticsView() {
   const { user } = useAuth();
   const { nazDone, amalDone, streak } = useProgress();
   const { coins } = useCoins();
 
   if (user?.role === "teacher" || user?.role === "ceo" || user?.role === "assistant") {
-    return <Navigate to="/oquvchilar" replace />;
+    return <AdminStatisticsView />;
   }
 
   const uid = user?.id ?? "";
+
+  const isGram = user?.tur === "grammatika";
 
   const nazCompleted = Object.keys(nazDone).length;
   const nazPassed = Object.values(nazDone).filter((d) => d.pct >= 80).length;
@@ -86,6 +213,7 @@ export function StatisticsView() {
   const videoWatched = loadVideoWatched(uid);
   const mockResults = loadMockResults(uid);
   const gramDone = loadGramDone(uid);
+  const gramDoneMap = isGram ? loadGramDoneMap(uid) : {};
 
   // Weekly heatmap: last 7 days
   const activeDates = new Set<string>();
@@ -124,12 +252,17 @@ export function StatisticsView() {
           </div>
           <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 12 }}>Statistika</div>
           <div style={{ display: "flex", gap: 8 }}>
-            {[
+            {(isGram ? [
+              { label: "Streak", value: `${streak.days} kun`, emoji: "🔥" },
+              { label: "Grammatika", value: `${gramDone}/${GRAM_DARSLAR.length}`, emoji: "📖" },
+              { label: "Mock test", value: `${mockResults.length}`, emoji: "🏆" },
+              { label: "Tanga", value: `${coins}`, emoji: "🪙" },
+            ] : [
               { label: "Streak", value: `${streak.days} kun`, emoji: "🔥" },
               { label: "Nazariy", value: `${nazPassed}/${NAZARIY.length}`, emoji: "📖" },
               { label: "Amaliy", value: `${amalPassed}/${AMALIY.length}`, emoji: "✍️" },
               { label: "Tanga", value: `${coins}`, emoji: "🪙" },
-            ].map((s) => (
+            ]).map((s) => (
               <div
                 key={s.label}
                 style={{ flex: 1, background: "rgba(255,255,255,.12)", borderRadius: 10, padding: "10px 4px", textAlign: "center" }}
@@ -183,13 +316,19 @@ export function StatisticsView() {
             <span style={{ fontSize: 14, fontWeight: 700, color: T.green }}>Barcha modullar</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[
+            {(isGram ? [
+              { icon: <BookOpenText size={14} color="#7C3AED" />, label: "Grammatika darslari", done: gramDone, total: GRAM_DARSLAR.length, color: "#7C3AED" },
+              { icon: <Trophy size={14} color="#CA8A04" />, label: "Mock test urinishlari", done: mockResults.length, total: null, color: "#CA8A04" },
               { icon: <Mic size={14} color="#0891B2" />, label: "Ovoz yozish", done: voiceDone, total: 20, color: "#0891B2" },
               { icon: <Video size={14} color="#DC2626" />, label: "Video darslar", done: videoWatched, total: 17, color: "#DC2626" },
-              { icon: <BookOpenText size={14} color="#7C3AED" />, label: "Grammatika", done: gramDone, total: 21, color: "#7C3AED" },
+              { icon: <Coins size={14} color="#EAB308" />, label: "Yig'ilgan tangalar", done: coins, total: null, color: "#EAB308" },
+            ] : [
+              { icon: <Mic size={14} color="#0891B2" />, label: "Ovoz yozish", done: voiceDone, total: 20, color: "#0891B2" },
+              { icon: <Video size={14} color="#DC2626" />, label: "Video darslar", done: videoWatched, total: 17, color: "#DC2626" },
+              { icon: <BookOpenText size={14} color="#7C3AED" />, label: "Grammatika", done: gramDone, total: GRAM_DARSLAR.length, color: "#7C3AED" },
               { icon: <Trophy size={14} color="#CA8A04" />, label: "Mock test urinishlari", done: mockResults.length, total: null, color: "#CA8A04" },
               { icon: <Coins size={14} color="#EAB308" />, label: "Yig'ilgan tangalar", done: coins, total: null, color: "#EAB308" },
-            ].map((item) => (
+            ]).map((item) => (
               <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <div style={{ width: 28, height: 28, borderRadius: 8, background: `${item.color}15`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                   {item.icon}
@@ -236,71 +375,89 @@ export function StatisticsView() {
           </div>
         )}
 
-        {/* Nazariy chart */}
-        <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.1)", padding: 16 }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <BarChart2 size={16} color={T.green} />
-              <span style={{ fontSize: 14, fontWeight: 700, color: T.green }}>Nazariy darslar</span>
+        {/* Grammatika yoki Fonetika chart */}
+        {isGram ? (
+          <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.1)", padding: 16 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <Languages size={16} color="#7C3AED" />
+                <span style={{ fontSize: 14, fontWeight: 700, color: T.green }}>Grammatika darslari</span>
+              </div>
+              <span style={{ fontSize: 12, fontWeight: 700, color: T.lime }}>
+                {gramDone}/{GRAM_DARSLAR.length}
+              </span>
             </div>
-            <span style={{ fontSize: 12, fontWeight: 700, color: T.lime }}>
-              O'rt: {nazAvg}%
-            </span>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-            {NAZARIY.map((d) => {
-              const done = nazDone[d.id];
-              const pct = done?.pct ?? 0;
-              return (
-                <div key={d.id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <div style={{ fontSize: 11, color: T.hint, width: 22, textAlign: "right", flexShrink: 0 }}>{d.id}</div>
-                  <Bar pct={pct} />
-                  <div
-                    style={{
-                      fontSize: 11, fontWeight: 600, width: 36, textAlign: "right", flexShrink: 0,
-                      color: pct >= 80 ? T.lime : pct > 0 ? "#FFA500" : T.hint,
-                    }}
-                  >
-                    {pct > 0 ? `${pct}%` : "—"}
+            <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+              {GRAM_DARSLAR.map((d) => {
+                const done = gramDoneMap[d.id];
+                const pct = done?.pct ?? 0;
+                return (
+                  <div key={d.id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{ fontSize: 9, fontWeight: 700, background: d.rang, color: "#fff", borderRadius: 4, padding: "1px 5px", flexShrink: 0, minWidth: 26, textAlign: "center" }}>{d.daraja}</div>
+                    <Bar pct={pct} />
+                    <div style={{ fontSize: 11, fontWeight: 600, width: 36, textAlign: "right", flexShrink: 0, color: pct >= 80 ? T.lime : pct > 0 ? "#FFA500" : T.hint }}>
+                      {pct > 0 ? `${pct}%` : "—"}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
+        ) : (
+          <>
+            {/* Nazariy chart */}
+            <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.1)", padding: 16 }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <BarChart2 size={16} color={T.green} />
+                  <span style={{ fontSize: 14, fontWeight: 700, color: T.green }}>Nazariy darslar</span>
+                </div>
+                <span style={{ fontSize: 12, fontWeight: 700, color: T.lime }}>O'rt: {nazAvg}%</span>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                {NAZARIY.map((d) => {
+                  const done = nazDone[d.id];
+                  const pct = done?.pct ?? 0;
+                  return (
+                    <div key={d.id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <div style={{ fontSize: 11, color: T.hint, width: 22, textAlign: "right", flexShrink: 0 }}>{d.id}</div>
+                      <Bar pct={pct} />
+                      <div style={{ fontSize: 11, fontWeight: 600, width: 36, textAlign: "right", flexShrink: 0, color: pct >= 80 ? T.lime : pct > 0 ? "#FFA500" : T.hint }}>
+                        {pct > 0 ? `${pct}%` : "—"}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
 
-        {/* Amaliy chart */}
-        <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.1)", padding: 16 }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <TrendingUp size={16} color={T.green} />
-              <span style={{ fontSize: 14, fontWeight: 700, color: T.green }}>Amaliy boblar</span>
-            </div>
-            <span style={{ fontSize: 12, fontWeight: 700, color: T.lime }}>
-              O'rt: {amalAvg}%
-            </span>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-            {AMALIY.map((b) => {
-              const done = amalDone[b.id];
-              const pct = done?.pct ?? 0;
-              return (
-                <div key={b.id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <div style={{ fontSize: 11, color: T.hint, width: 22, textAlign: "right", flexShrink: 0 }}>{b.id}</div>
-                  <Bar pct={pct} />
-                  <div
-                    style={{
-                      fontSize: 11, fontWeight: 600, width: 36, textAlign: "right", flexShrink: 0,
-                      color: pct >= 80 ? T.lime : pct > 0 ? "#FFA500" : T.hint,
-                    }}
-                  >
-                    {pct > 0 ? `${pct}%` : "—"}
-                  </div>
+            {/* Amaliy chart */}
+            <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.1)", padding: 16 }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <TrendingUp size={16} color={T.green} />
+                  <span style={{ fontSize: 14, fontWeight: 700, color: T.green }}>Amaliy boblar</span>
                 </div>
-              );
-            })}
-          </div>
-        </div>
+                <span style={{ fontSize: 12, fontWeight: 700, color: T.lime }}>O'rt: {amalAvg}%</span>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                {AMALIY.map((b) => {
+                  const done = amalDone[b.id];
+                  const pct = done?.pct ?? 0;
+                  return (
+                    <div key={b.id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <div style={{ fontSize: 11, color: T.hint, width: 22, textAlign: "right", flexShrink: 0 }}>{b.id}</div>
+                      <Bar pct={pct} />
+                      <div style={{ fontSize: 11, fontWeight: 600, width: 36, textAlign: "right", flexShrink: 0, color: pct >= 80 ? T.lime : pct > 0 ? "#FFA500" : T.hint }}>
+                        {pct > 0 ? `${pct}%` : "—"}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </>
+        )}
 
       </div>
     </div>

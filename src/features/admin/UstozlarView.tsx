@@ -23,7 +23,7 @@ export function UstozlarView() {
   const { user, users, addUser, removeUser, patchUser } = useAuth();
   const [tab, setTab] = useState<Tab>("teacher");
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ ism: "", familya: "", tel: "", telegramId: "", tur: "" });
+  const [form, setForm] = useState({ ism: "", familya: "", login: "", parol: "", tel: "", telegramId: "", tur: "" });
   const [err, setErr] = useState("");
   const [editTg, setEditTg] = useState<string | null>(null);
   const [tgInput, setTgInput] = useState("");
@@ -42,13 +42,19 @@ export function UstozlarView() {
   const save = async () => {
     if (!form.ism.trim()) { setErr("Ism majburiy"); return; }
     if (!form.tur) { setErr("Yo'nalishni tanlang"); return; }
+    if (form.login.trim() && form.parol.trim() && form.parol.trim().length < 4) {
+      setErr("Parol kamida 4 ta belgi bo'lishi kerak");
+      return;
+    }
     const tgIdNum = form.telegramId.trim() ? parseInt(form.telegramId.trim()) : undefined;
     const role: Role = tab;
+    const autoLogin = `${role}_${Date.now()}_${Math.floor(Math.random() * 9000 + 1000)}`;
+    const autoParol = Array.from(crypto.getRandomValues(new Uint8Array(6))).map(b => b.toString(36).padStart(2, '0')).join('').slice(0, 8);
     const res = await addUser({
       ism: form.ism.trim(),
       familya: form.familya.trim(),
-      login: `${role}_${Date.now()}_${Math.floor(Math.random() * 9000 + 1000)}`,
-      parol: Array.from(crypto.getRandomValues(new Uint8Array(6))).map(b => b.toString(36).padStart(2, '0')).join('').slice(0, 8),
+      login: form.login.trim() || autoLogin,
+      parol: form.parol.trim() || autoParol,
       role,
       tel: form.tel.trim() || undefined,
       avatar: null,
@@ -57,7 +63,7 @@ export function UstozlarView() {
       ...(role === "assistant" ? { assistantRating: 100 } : {}),
     });
     if (!res.ok) { setErr(res.error ?? "Xatolik"); return; }
-    setForm({ ism: "", familya: "", tel: "", telegramId: "", tur: "" });
+    setForm({ ism: "", familya: "", login: "", parol: "", tel: "", telegramId: "", tur: "" });
     setOpen(false);
   };
 
@@ -157,6 +163,10 @@ export function UstozlarView() {
                 <input placeholder="Ism *" value={form.ism} onChange={(e) => upd("ism", e.target.value)} style={inp} />
                 <input placeholder="Familya" value={form.familya} onChange={(e) => upd("familya", e.target.value)} style={inp} />
               </div>
+              <div style={{ display: "flex", gap: 9 }}>
+                <input placeholder="Login (ixtiyoriy)" value={form.login} onChange={(e) => upd("login", e.target.value)} style={inp} />
+                <input placeholder="Parol (ixtiyoriy)" value={form.parol} onChange={(e) => upd("parol", e.target.value)} style={inp} />
+              </div>
               <input placeholder="Telefon" value={form.tel} onChange={(e) => upd("tel", e.target.value)} style={inp} />
               <input placeholder="Telegram ID (ixtiyoriy)" value={form.telegramId} onChange={(e) => upd("telegramId", e.target.value)} style={inp} type="number" />
               {/* Yo'nalish */}
@@ -184,7 +194,7 @@ export function UstozlarView() {
                 </div>
               </div>
               <div style={{ fontSize: 11, color: T.hint, lineHeight: 1.5 }}>
-                Login/parol talab qilinmaydi — kirish faqat Telegram orqali bo'ladi. Telegram ID ni bilmasangiz, bo'sh qoldiring va keyinroq ro'yxatdan "TG ulash" orqali biriktiring.
+                Login/parol kiritilmasa — avtomatik belgilanadi. Telegram ID bo'lsa kirish Telegram orqali bo'ladi; aks holda login+parol bilan kiradi.
               </div>
               {err && (
                 <div style={{ fontSize: 12, color: T.red, background: "rgba(230,0,35,.05)", border: "1px solid rgba(230,0,35,.15)", borderRadius: 8, padding: "8px 12px" }}>{err}</div>

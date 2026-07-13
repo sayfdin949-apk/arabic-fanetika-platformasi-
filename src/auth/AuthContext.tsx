@@ -30,6 +30,7 @@ interface AuthValue {
   removeUser: (id: string) => Promise<void>;
   patchUser: (id: string, patch: Partial<Omit<User, "id">>) => Promise<void>;
   changePassword: (eskiParol: string, yangiParol: string) => Promise<{ ok: boolean; error?: string }>;
+  adminResetPassword: (targetId: string, newParol: string) => Promise<{ ok: boolean; error?: string }>;
 }
 
 const AuthCtx = createContext<AuthValue | null>(null);
@@ -213,8 +214,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return usersApi.changePassword(token, eskiParol, yangiParol);
   };
 
+  const adminResetPassword = async (targetId: string, newParol: string): Promise<{ ok: boolean; error?: string }> => {
+    if (!token) return { ok: false, error: "Sessiya topilmadi" };
+    return usersApi.adminResetPassword(token, targetId, newParol);
+  };
+
   return (
-    <AuthCtx.Provider value={{ user, ready, avatar, users, login, loginWithTelegram, logout, updateAvatar, updateProfile, addUser, removeUser, patchUser, changePassword }}>
+    <AuthCtx.Provider value={{ user, ready, avatar, users, login, loginWithTelegram, logout, updateAvatar, updateProfile, addUser, removeUser, patchUser, changePassword, adminResetPassword }}>
       {children}
     </AuthCtx.Provider>
   );

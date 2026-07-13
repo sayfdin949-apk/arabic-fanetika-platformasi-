@@ -43,6 +43,7 @@ export interface UsersApi {
     data: { ism: string; familya: string; tel?: string; tugilgan?: string }
   ): Promise<MutationResult>;
   changePassword(token: string, eskiParol: string, yangiParol: string): Promise<{ ok: boolean; error?: string }>;
+  adminResetPassword(token: string, targetId: string, newParol: string): Promise<{ ok: boolean; error?: string }>;
 }
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;

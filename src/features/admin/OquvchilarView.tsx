@@ -1,15 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { UserPlus, Trash2, X, Users, ChevronDown, ChevronUp, BookOpen, Layers, BarChart2, Send, Check } from "lucide-react";
+import { UserPlus, Trash2, X, Users, ChevronDown, ChevronUp, BookOpen, Layers, BarChart2, Send, Check, CreditCard, BookOpenText, KeyRound } from "lucide-react";
 import { T } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
 import { store } from "../../lib/storage";
 import type { DoneMap } from "../progress/ProgressContext";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
+import { GRAM_DARSLAR } from "../../content/gramContent";
+
+type GramDoneMap = Record<number, { pct: number; sana: string }>;
+
+type TolovStatus = "trial" | "pending" | "active" | "blocked";
+interface TolovMalumat { status: TolovStatus; summа?: number; tarif?: string; keyingioyliklTolov?: string }
+
+const TOLOV_RANG: Record<TolovStatus, string> = {
+  trial: "#F59E0B", pending: "#0891B2", active: "#16A34A", blocked: "#DC2626",
+};
+const TOLOV_LABEL: Record<TolovStatus, string> = {
+  trial: "Sinov", pending: "Kutilmoqda", active: "Faol", blocked: "Bloklangan",
+};
 
 const NAZ_TOTAL = NAZARIY.length;
 const AMAL_TOTAL = AMALIY.length;
+const GRAM_TOTAL = GRAM_DARSLAR.length;
 
 const inp: React.CSSProperties = {
   width: "100%",
@@ -36,18 +50,53 @@ function ProgBar({ value, max, color }: { value: number; max: number; color: str
 }
 
 export function OquvchilarView() {
-  const { user, users, addUser, removeUser, patchUser } = useAuth();
+  const { user, users, addUser, removeUser, patchUser, adminResetPassword } = useAuth();
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ ism: "", familya: "", login: "", tel: "", tugilgan: "", telegramId: "", tur: "" });
+  const [form, setForm] = useState({ ism: "", familya: "", login: "", parol: "", tel: "", tugilgan: "", telegramId: "", tur: "" });
   const [err, setErr] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [progData, setProgData] = useState<Record<string, { naz: DoneMap; amal: DoneMap }>>({});
+  const [progData, setProgData] = useState<Record<string, { naz: DoneMap; amal: DoneMap; gram?: GramDoneMap }>>({});
   const [editTg, setEditTg] = useState<string | null>(null);
   const [tgInput, setTgInput] = useState("");
+  const [editTur, setEditTur] = useState<string | null>(null);
+  const [resetParolId, setResetParolId] = useState<string | null>(null);
+  const [resetParolInput, setResetParolInput] = useState("");
+  const [resetParolErr, setResetParolErr] = useState("");
+  const [resetParolOk, setResetParolOk] = useState(false);
+  const [tolovlar, setTolovlar] = useState<Record<string, TolovMalumat>>({});
+
+  const students = users.filter((u) => u.role === "student");
+
+  useEffect(() => {
+    students.forEach((s) => {
+      void store.get<TolovMalumat>(`tolov_${s.id}`).then((d) => {
+        if (d) setTolovlar((prev) => ({ ...prev, [s.id]: d }));
+      });
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [users]);
 
   if (user?.role !== "teacher" && user?.role !== "ceo") return <Navigate to="/" replace />;
 
-  const students = users.filter((u) => u.role === "student");
+  const tasdiqlaTolov = async (uid: string) => {
+    const cur = tolovlar[uid] ?? { status: "trial" as TolovStatus };
+    const updated: TolovMalumat = {
+      ...cur,
+      status: "active",
+      keyingioyliklTolov: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+    };
+    setTolovlar((prev) => ({ ...prev, [uid]: updated }));
+    await store.set(`tolov_${uid}`, updated);
+    try { localStorage.setItem(`afp:tolov_${uid}`, JSON.stringify(updated)); } catch { /* ignore */ }
+  };
+
+  const bekorQilTolov = async (uid: string) => {
+    const cur = tolovlar[uid] ?? { status: "trial" as TolovStatus };
+    const updated: TolovMalumat = { ...cur, status: "trial" };
+    setTolovlar((prev) => ({ ...prev, [uid]: updated }));
+    await store.set(`tolov_${uid}`, updated);
+    try { localStorage.setItem(`afp:tolov_${uid}`, JSON.stringify(updated)); } catch { /* ignore */ }
+  };
 
   const upd = (k: keyof typeof form, v: string) => {
     setForm((p) => ({ ...p, [k]: v }));
@@ -59,6 +108,10 @@ export function OquvchilarView() {
       setErr("Ism va login majburiy");
       return;
     }
+    if (!form.parol.trim() || form.parol.trim().length < 4) {
+      setErr("Parol kamida 4 ta belgi bo'lishi kerak");
+      return;
+    }
     if (!form.tur) {
       setErr("Yo'nalishni tanlang");
       return;
@@ -68,7 +121,7 @@ export function OquvchilarView() {
       ism: form.ism.trim(),
       familya: form.familya.trim(),
       login: form.login.trim(),
-      parol: Math.random().toString(36).slice(2, 10),
+      parol: form.parol.trim(),
       role: "student",
       tel: form.tel.trim() || undefined,
       tugilgan: form.tugilgan.trim() || undefined,
@@ -77,7 +130,7 @@ export function OquvchilarView() {
       tur: form.tur as "grammatika" | "fonetika",
     });
     if (!res.ok) { setErr(res.error ?? "Xatolik"); return; }
-    setForm({ ism: "", familya: "", login: "", tel: "", tugilgan: "", telegramId: "", tur: "" });
+    setForm({ ism: "", familya: "", login: "", parol: "", tel: "", tugilgan: "", telegramId: "", tur: "" });
     setOpen(false);
   };
 
@@ -96,11 +149,23 @@ export function OquvchilarView() {
     if (expanded === id) { setExpanded(null); return; }
     setExpanded(id);
     if (!progData[id]) {
-      const [nd, ad] = await Promise.all([
-        store.get<DoneMap>(`naz_done_${id}`),
-        store.get<DoneMap>(`amal_done_${id}`),
-      ]);
-      setProgData((p) => ({ ...p, [id]: { naz: nd ?? {}, amal: ad ?? {} } }));
+      const student = students.find((s) => s.id === id);
+      const isGram = student?.tur === "grammatika";
+      if (isGram) {
+        try {
+          const raw = localStorage.getItem(`afp:gram_done_${id}`);
+          const gram: GramDoneMap = raw ? JSON.parse(raw) : {};
+          setProgData((p) => ({ ...p, [id]: { naz: {}, amal: {}, gram } }));
+        } catch {
+          setProgData((p) => ({ ...p, [id]: { naz: {}, amal: {}, gram: {} } }));
+        }
+      } else {
+        const [nd, ad] = await Promise.all([
+          store.get<DoneMap>(`naz_done_${id}`),
+          store.get<DoneMap>(`amal_done_${id}`),
+        ]);
+        setProgData((p) => ({ ...p, [id]: { naz: nd ?? {}, amal: ad ?? {} } }));
+      }
     }
   };
 
@@ -170,6 +235,7 @@ export function OquvchilarView() {
                 <input placeholder="Familya" value={form.familya} onChange={(e) => upd("familya", e.target.value)} style={inp} />
               </div>
               <input placeholder="Login *" value={form.login} onChange={(e) => upd("login", e.target.value)} style={inp} />
+              <input placeholder="Parol * (kamida 4 ta belgi)" value={form.parol} onChange={(e) => upd("parol", e.target.value)} style={inp} />
               <div style={{ display: "flex", gap: 9 }}>
                 <input placeholder="Telefon" value={form.tel} onChange={(e) => upd("tel", e.target.value)} style={inp} />
                 <input placeholder="Tug'ilgan yil" value={form.tugilgan} onChange={(e) => upd("tugilgan", e.target.value)} style={inp} />
@@ -217,8 +283,13 @@ export function OquvchilarView() {
           {students.map((s, idx) => {
             const isExp = expanded === s.id;
             const prog = progData[s.id];
+            const tolov = tolovlar[s.id];
+            const isGramStudent = s.tur === "grammatika";
             const nazCount = prog ? Object.values(prog.naz).filter((r) => r.pct >= 80).length : null;
             const amalCount = prog ? Object.values(prog.amal).filter((r) => r.pct >= 80).length : null;
+            const gramCount = (prog?.gram && isGramStudent)
+              ? GRAM_DARSLAR.filter((d) => (prog.gram![d.id]?.pct ?? 0) >= 80).length
+              : null;
 
             return (
               <div
@@ -240,11 +311,34 @@ export function OquvchilarView() {
                     <div style={{ fontSize: 14, fontWeight: 600, color: T.green }}>
                       {s.ism} {s.familya}
                     </div>
-                    <div style={{ fontSize: 11, color: T.hint, marginTop: 1, display: "flex", alignItems: "center", gap: 6 }}>
+                    <div style={{ fontSize: 11, color: T.hint, marginTop: 1, display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
                       <span>{idx + 1} · @{s.login}</span>
-                      {s.tur && (
-                        <span style={{ background: s.tur === "fonetika" ? "rgba(8,145,178,.12)" : "rgba(124,58,237,.12)", color: s.tur === "fonetika" ? "#0891B2" : "#7C3AED", borderRadius: 5, padding: "1px 6px", fontWeight: 700, fontSize: 10 }}>
-                          {s.tur === "fonetika" ? "Fonetika" : "Grammatika"}
+                      {editTur === s.id ? (
+                        <div style={{ display: "flex", gap: 4 }}>
+                          {(["fonetika", "grammatika"] as const).map((t) => (
+                            <button
+                              key={t}
+                              onClick={() => { void patchUser(s.id, { tur: t }); setEditTur(null); }}
+                              style={{
+                                fontSize: 10, fontWeight: 700, borderRadius: 5, padding: "2px 7px", border: "none", cursor: "pointer",
+                                background: s.tur === t ? (t === "fonetika" ? "#0891B2" : "#7C3AED") : "rgba(13,58,26,.08)",
+                                color: s.tur === t ? "#fff" : T.text2,
+                              }}
+                            >
+                              {t === "fonetika" ? "Fonetika" : "Grammatika"}
+                            </button>
+                          ))}
+                          <button onClick={() => setEditTur(null)} style={{ fontSize: 10, borderRadius: 5, padding: "2px 6px", border: "none", background: "rgba(13,58,26,.06)", color: T.hint, cursor: "pointer" }}>
+                            <X size={10} />
+                          </button>
+                        </div>
+                      ) : (
+                        <span
+                          onClick={() => setEditTur(s.id)}
+                          title="Yo'nalishni o'zgartirish"
+                          style={{ background: s.tur === "fonetika" ? "rgba(8,145,178,.12)" : s.tur === "grammatika" ? "rgba(124,58,237,.12)" : "rgba(13,58,26,.06)", color: s.tur === "fonetika" ? "#0891B2" : s.tur === "grammatika" ? "#7C3AED" : T.hint, borderRadius: 5, padding: "1px 6px", fontWeight: 700, fontSize: 10, cursor: "pointer", border: "1px dashed transparent" }}
+                        >
+                          {s.tur === "fonetika" ? "Fonetika" : s.tur === "grammatika" ? "Grammatika" : "Yo'nalish yo'q"}
                         </span>
                       )}
                     </div>
@@ -299,6 +393,14 @@ export function OquvchilarView() {
                     {isExp ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
                   </button>
                   <button
+                    onClick={() => { setResetParolId(s.id); setResetParolInput(""); setResetParolErr(""); setResetParolOk(false); }}
+                    style={{ background: "rgba(124,58,237,.08)", border: "1px solid rgba(124,58,237,.2)", borderRadius: 10, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", color: "#7C3AED", cursor: "pointer", flexShrink: 0 }}
+                    aria-label="Parolni tiklash"
+                    title="Parolni tiklash"
+                  >
+                    <KeyRound size={14} />
+                  </button>
+                  <button
                     onClick={() => del(s.id, `${s.ism} ${s.familya}`)}
                     style={{ background: "rgba(230,0,35,.07)", border: "1px solid rgba(230,0,35,.15)", borderRadius: 10, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", color: T.red, cursor: "pointer", flexShrink: 0 }}
                     aria-label="O'chirish"
@@ -307,14 +409,132 @@ export function OquvchilarView() {
                   </button>
                 </div>
 
+                {/* Parol tiklash modali */}
+                {resetParolId === s.id && (
+                  <div style={{ borderTop: "1px solid rgba(124,58,237,.12)", padding: "12px 14px", background: "rgba(124,58,237,.04)" }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: "#7C3AED", marginBottom: 8 }}>
+                      <KeyRound size={12} style={{ verticalAlign: "middle", marginRight: 4 }} />
+                      {s.ism} uchun yangi parol
+                    </div>
+                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                      <input
+                        autoFocus
+                        placeholder="Yangi parol (kamida 4 ta belgi)"
+                        value={resetParolInput}
+                        onChange={(e) => { setResetParolInput(e.target.value); setResetParolErr(""); setResetParolOk(false); }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            if (resetParolInput.trim().length < 4) { setResetParolErr("Kamida 4 ta belgi"); return; }
+                            void adminResetPassword(s.id, resetParolInput.trim()).then((res) => {
+                              if (res.ok) { setResetParolOk(true); setTimeout(() => setResetParolId(null), 1200); }
+                              else setResetParolErr(res.error ?? "Xatolik");
+                            });
+                          }
+                          if (e.key === "Escape") setResetParolId(null);
+                        }}
+                        style={{ ...inp, flex: 1, fontSize: 12, padding: "7px 10px" }}
+                      />
+                      <button
+                        onClick={() => {
+                          if (resetParolInput.trim().length < 4) { setResetParolErr("Kamida 4 ta belgi"); return; }
+                          void adminResetPassword(s.id, resetParolInput.trim()).then((res) => {
+                            if (res.ok) { setResetParolOk(true); setTimeout(() => setResetParolId(null), 1200); }
+                            else setResetParolErr(res.error ?? "Xatolik");
+                          });
+                        }}
+                        style={{ background: resetParolOk ? T.gGreen : "rgba(124,58,237,.15)", border: "none", borderRadius: 8, padding: "7px 14px", fontSize: 12, fontWeight: 700, color: resetParolOk ? T.onCta : "#7C3AED", cursor: "pointer", flexShrink: 0 }}
+                      >
+                        {resetParolOk ? <Check size={14} /> : "Saqlash"}
+                      </button>
+                      <button onClick={() => setResetParolId(null)} style={{ background: "rgba(13,58,26,.07)", border: "none", borderRadius: 8, width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                        <X size={13} color={T.text2} />
+                      </button>
+                    </div>
+                    {resetParolErr && <div style={{ fontSize: 11, color: T.red, marginTop: 6 }}>{resetParolErr}</div>}
+                  </div>
+                )}
+
                 {/* Progress panel */}
                 {isExp && (
                   <div style={{ borderTop: "1px solid rgba(13,58,26,.07)", padding: "14px 16px 16px", background: "rgba(13,58,26,.015)" }}>
+                    {/* To'lov holati (CEO uchun) */}
+                    {user?.role === "ceo" && (
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14, padding: "10px 12px", background: "#fff", borderRadius: 10, border: "1px solid rgba(13,58,26,.08)" }}>
+                        <CreditCard size={13} color={TOLOV_RANG[tolov?.status ?? "trial"]} />
+                        <span style={{ fontSize: 12, fontWeight: 600, color: TOLOV_RANG[tolov?.status ?? "trial"], flex: 1 }}>
+                          To'lov: {TOLOV_LABEL[tolov?.status ?? "trial"]}
+                          {tolov?.tarif && ` · ${tolov.tarif}`}
+                        </span>
+                        {tolov?.status !== "active" ? (
+                          <button
+                            onClick={() => void tasdiqlaTolov(s.id)}
+                            style={{ background: "rgba(22,163,74,.12)", color: "#16A34A", border: "1px solid rgba(22,163,74,.3)", borderRadius: 7, padding: "4px 10px", fontSize: 11, fontWeight: 700, cursor: "pointer" }}
+                          >
+                            Tasdiqlash
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => void bekorQilTolov(s.id)}
+                            style={{ background: "rgba(220,38,38,.08)", color: "#DC2626", border: "1px solid rgba(220,38,38,.2)", borderRadius: 7, padding: "4px 10px", fontSize: 11, fontWeight: 700, cursor: "pointer" }}
+                          >
+                            Bekor
+                          </button>
+                        )}
+                      </div>
+                    )}
                     {!prog ? (
                       <div style={{ textAlign: "center", color: T.hint, fontSize: 12, padding: "10px 0" }}>Yuklanmoqda...</div>
-                    ) : (
+                    ) : isGramStudent ? (
+                      /* ── Grammatika o'quvchisi ── */
                       <>
-                        {/* Stat cards */}
+                        <div style={{ background: "#fff", borderRadius: 10, padding: "10px 12px", border: "1px solid rgba(13,58,26,.07)", marginBottom: 12 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 5 }}>
+                            <BookOpenText size={11} color="#7C3AED" />
+                            <span style={{ fontSize: 10, fontWeight: 700, color: "#7C3AED", textTransform: "uppercase", letterSpacing: ".04em" }}>Grammatika darslari</span>
+                          </div>
+                          <div style={{ fontSize: 22, fontWeight: 800, color: T.green, lineHeight: 1, marginBottom: 5 }}>
+                            {gramCount ?? 0}<span style={{ fontSize: 11, fontWeight: 500, color: T.hint }}>/{GRAM_TOTAL}</span>
+                          </div>
+                          <ProgBar value={gramCount ?? 0} max={GRAM_TOTAL} color="#7C3AED" />
+                        </div>
+                        <div style={{ marginBottom: 12 }}>
+                          <div style={{ fontSize: 11, fontWeight: 600, color: T.text2, marginBottom: 5 }}>Umumiy progress</div>
+                          <ProgBar value={gramCount ?? 0} max={GRAM_TOTAL} color={T.green} />
+                        </div>
+                        {prog.gram && Object.keys(prog.gram).length > 0 ? (
+                          <div>
+                            <div style={{ fontSize: 10, fontWeight: 700, color: T.hint, textTransform: "uppercase", letterSpacing: ".04em", marginBottom: 6 }}>O'tilgan grammatika darslar</div>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                              {GRAM_DARSLAR.filter((d) => prog.gram![d.id]).map((d) => {
+                                const rec = prog.gram![d.id];
+                                return (
+                                  <div
+                                    key={d.id}
+                                    style={{
+                                      background: rec.pct >= 80 ? "rgba(124,58,237,.1)" : "rgba(230,0,35,.08)",
+                                      border: `1px solid ${rec.pct >= 80 ? "rgba(124,58,237,.3)" : "rgba(230,0,35,.2)"}`,
+                                      borderRadius: 6,
+                                      padding: "3px 8px",
+                                      fontSize: 11,
+                                      fontWeight: 700,
+                                      color: rec.pct >= 80 ? "#7C3AED" : T.red,
+                                    }}
+                                  >
+                                    {d.daraja}: {rec.pct}%
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        ) : (
+                          <div style={{ textAlign: "center", color: T.hint, fontSize: 12, padding: "8px 0" }}>
+                            Hali birorta grammatika darsi o'tilmagan
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      /* ── Fonetika o'quvchisi ── */
+                      <>
                         <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
                           <div style={{ flex: 1, background: "#fff", borderRadius: 10, padding: "10px 12px", border: "1px solid rgba(13,58,26,.07)" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 5 }}>
@@ -337,63 +557,34 @@ export function OquvchilarView() {
                             <ProgBar value={amalCount ?? 0} max={AMAL_TOTAL} color="#f59e0b" />
                           </div>
                         </div>
-
-                        {/* Overall */}
                         <div style={{ marginBottom: 14 }}>
                           <div style={{ fontSize: 11, fontWeight: 600, color: T.text2, marginBottom: 5 }}>Umumiy progress</div>
                           <ProgBar value={(nazCount ?? 0) + (amalCount ?? 0)} max={NAZ_TOTAL + AMAL_TOTAL} color={T.green} />
                         </div>
-
-                        {/* Nazariy badge grid */}
                         {Object.keys(prog.naz).length > 0 && (
                           <div style={{ marginBottom: 10 }}>
                             <div style={{ fontSize: 10, fontWeight: 700, color: T.hint, textTransform: "uppercase", letterSpacing: ".04em", marginBottom: 6 }}>O'tilgan nazariy darslar</div>
                             <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                               {Object.entries(prog.naz).sort(([a], [b]) => Number(a) - Number(b)).map(([id, rec]) => (
-                                <div
-                                  key={id}
-                                  style={{
-                                    background: rec.pct >= 80 ? "rgba(46,184,46,.12)" : "rgba(230,0,35,.08)",
-                                    border: `1px solid ${rec.pct >= 80 ? "rgba(46,184,46,.28)" : "rgba(230,0,35,.2)"}`,
-                                    borderRadius: 6,
-                                    padding: "3px 8px",
-                                    fontSize: 11,
-                                    fontWeight: 700,
-                                    color: rec.pct >= 80 ? T.green : T.red,
-                                  }}
-                                >
+                                <div key={id} style={{ background: rec.pct >= 80 ? "rgba(46,184,46,.12)" : "rgba(230,0,35,.08)", border: `1px solid ${rec.pct >= 80 ? "rgba(46,184,46,.28)" : "rgba(230,0,35,.2)"}`, borderRadius: 6, padding: "3px 8px", fontSize: 11, fontWeight: 700, color: rec.pct >= 80 ? T.green : T.red }}>
                                   N{id}: {rec.pct}%
                                 </div>
                               ))}
                             </div>
                           </div>
                         )}
-
-                        {/* Amaliy badge grid */}
                         {Object.keys(prog.amal).length > 0 && (
                           <div>
                             <div style={{ fontSize: 10, fontWeight: 700, color: T.hint, textTransform: "uppercase", letterSpacing: ".04em", marginBottom: 6 }}>O'tilgan amaliy boblar</div>
                             <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                               {Object.entries(prog.amal).sort(([a], [b]) => Number(a) - Number(b)).map(([id, rec]) => (
-                                <div
-                                  key={id}
-                                  style={{
-                                    background: rec.pct >= 80 ? "rgba(46,184,46,.12)" : "rgba(230,0,35,.08)",
-                                    border: `1px solid ${rec.pct >= 80 ? "rgba(46,184,46,.28)" : "rgba(230,0,35,.2)"}`,
-                                    borderRadius: 6,
-                                    padding: "3px 8px",
-                                    fontSize: 11,
-                                    fontWeight: 700,
-                                    color: rec.pct >= 80 ? T.green : T.red,
-                                  }}
-                                >
+                                <div key={id} style={{ background: rec.pct >= 80 ? "rgba(46,184,46,.12)" : "rgba(230,0,35,.08)", border: `1px solid ${rec.pct >= 80 ? "rgba(46,184,46,.28)" : "rgba(230,0,35,.2)"}`, borderRadius: 6, padding: "3px 8px", fontSize: 11, fontWeight: 700, color: rec.pct >= 80 ? T.green : T.red }}>
                                   A{id}: {rec.pct}%
                                 </div>
                               ))}
                             </div>
                           </div>
                         )}
-
                         {Object.keys(prog.naz).length === 0 && Object.keys(prog.amal).length === 0 && (
                           <div style={{ textAlign: "center", color: T.hint, fontSize: 12, padding: "8px 0" }}>
                             Hali birorta test topshirilmagan

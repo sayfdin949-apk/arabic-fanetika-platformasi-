@@ -1,8 +1,9 @@
 import { useRef, useState, useEffect } from "react";
-import { Camera, LogOut, Phone, Calendar, Shield, Lock, Eye, EyeOff, CheckCircle, Edit2, X, Bell, BellOff } from "lucide-react";
+import { Camera, LogOut, Phone, Calendar, Shield, Lock, Eye, EyeOff, CheckCircle, Edit2, X, Bell, BellOff, BookOpen } from "lucide-react";
 import { T, FONT } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
+import { GRAM_DARSLAR } from "../../content/gramContent";
 import { useAuth } from "../../auth/AuthContext";
 import { useProgress } from "../progress/ProgressContext";
 import type { Role } from "../../auth/types";
@@ -101,11 +102,21 @@ export function ProfileView() {
     }
   };
 
+  const isGram = user.tur === "grammatika";
+  const gramDoneMap: Record<number, { pct: number; sana: string }> = (() => {
+    try {
+      const raw = localStorage.getItem(`afp:gram_done_${user.id}`);
+      return raw ? JSON.parse(raw) : {};
+    } catch { return {}; }
+  })();
+  const gramPassed = GRAM_DARSLAR.filter((d) => (gramDoneMap[d.id]?.pct ?? 0) >= 80).length;
+  const gramPct = Math.round((gramPassed / GRAM_DARSLAR.length) * 100);
+
   const nazPass = Object.values(nazDone).filter((d) => d.pct >= 80).length;
   const amalDoneCount = Object.keys(amalDone).length;
   const nazPct = Math.round((nazPass / NAZARIY.length) * 100);
   const amalPct = Math.round((amalDoneCount / AMALIY.length) * 100);
-  const overall = Math.round((nazPct + amalPct) / 2);
+  const overall = isGram ? gramPct : Math.round((nazPct + amalPct) / 2);
 
   const pick = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];
@@ -180,10 +191,13 @@ export function ProfileView() {
       <div style={{ padding: "16px 16px 28px" }}>
         {/* Stats */}
         <div style={{ display: "flex", gap: 10, marginBottom: 14 }}>
-          {[
-            { l: "Nazariy o'tilgan", v: `${nazPass}/${NAZARIY.length}`, pct: nazPct },
-            { l: "Amaliy bajarilgan", v: `${amalDoneCount}/${AMALIY.length}`, pct: amalPct },
-          ].map((s) => (
+          {(isGram
+            ? [{ l: "Grammatika darslari", v: `${gramPassed}/${GRAM_DARSLAR.length}`, pct: gramPct }]
+            : [
+                { l: "Nazariy o'tilgan", v: `${nazPass}/${NAZARIY.length}`, pct: nazPct },
+                { l: "Amaliy bajarilgan", v: `${amalDoneCount}/${AMALIY.length}`, pct: amalPct },
+              ]
+          ).map((s) => (
             <div key={s.l} style={{ flex: 1, background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04), 0 4px 12px rgba(13,58,26,.06)", padding: "14px 12px", textAlign: "center" }}>
               <div style={{ fontSize: 22, fontWeight: 800, color: s.pct >= 80 ? T.lime : T.green }}>{s.v}</div>
               <div style={{ height: 5, borderRadius: 3, background: "rgba(13,58,26,.08)", overflow: "hidden", margin: "6px 0" }}>
@@ -201,6 +215,7 @@ export function ProfileView() {
             user.tel ? { icon: Phone, label: "Telefon", value: user.tel } : null,
             user.tugilgan ? { icon: Calendar, label: "Tug'ilgan yil", value: user.tugilgan } : null,
             { icon: Shield, label: "Rol", value: ROLE_LABELS[user.role] },
+            user.tur ? { icon: BookOpen, label: "Yo'nalish", value: user.tur === "fonetika" ? "Fonetika" : "Grammatika" } : null,
           ].filter(Boolean).map((it, i, arr) => {
             const Icon = it!.icon;
             return (

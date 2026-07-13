@@ -45,9 +45,12 @@ export function Login() {
   }, [auth.ready, tgChecked]);
 
   const tryLogin = async () => {
-    const u = await auth.login(login, parol, "ceo");
-    if (u) navigate("/", { replace: true });
-    else setErr("Login yoki parol xato!");
+    const roles = ["ceo", "teacher", "student", "assistant"] as const;
+    for (const role of roles) {
+      const u = await auth.login(login, parol, role);
+      if (u) { navigate("/", { replace: true }); return; }
+    }
+    setErr("Login yoki parol xato!");
   };
 
   const inp: CSSProperties = {
@@ -81,7 +84,7 @@ export function Login() {
         <div style={{ width: 36, height: 36, borderRadius: 10, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center" }}>
           <UserCheck size={18} color={T.onCta} />
         </div>
-        <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>Boshqaruv kirishi</div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>Login va parol bilan kirish</div>
       </div>
 
       <div style={{ marginBottom: 10 }}>

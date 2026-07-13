@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Tv2, Play, Star, Clock, ChevronRight } from "lucide-react";
+import { Tv2, Play, Star, Clock, ChevronRight, ExternalLink, Youtube } from "lucide-react";
 import { T } from "../../theme/tokens";
 
 type Level = "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
@@ -15,6 +15,20 @@ interface Multfilm {
   rang: string;
   emoji: string;
   xususiyat: string[];
+  /** YouTube kanal/playlist ID — bo'lmasa qidiruv ishlatiladi */
+  ytId?: string;
+  /** Boshqa platform havolasi */
+  platform?: { nom: string; url: string };
+}
+
+function openLink(url: string) {
+  const tg = (window.Telegram?.WebApp) as { openLink?: (u: string) => void } | undefined;
+  if (tg?.openLink) tg.openLink(url);
+  else window.open(url, "_blank", "noopener,noreferrer");
+}
+
+function ytSearchUrl(query: string) {
+  return `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
 }
 
 const MULTFILMLAR: Multfilm[] = [
@@ -29,6 +43,7 @@ const MULTFILMLAR: Multfilm[] = [
     rang: "#F59E0B",
     emoji: "🌟",
     xususiyat: ["Sekin nutq", "Vizual qo'llab-quvvatlash", "Qo'shiqlar"],
+    ytId: "UCaRe_9Eh7nYoCF4LJh2aSg",
   },
   {
     id: 2,
@@ -41,18 +56,20 @@ const MULTFILMLAR: Multfilm[] = [
     rang: "#10B981",
     emoji: "😄",
     xususiyat: ["Xalij lahjasi", "Kundalik hayot", "Kulgili"],
+    ytId: "UCZ8x7jvBr3pAEKYoHLGDyYA",
   },
   {
     id: 3,
-    nomi: "Makkah Al-Mukarramah",
-    arabcha: "مكة المكرمة",
+    nomi: "Hikayat Bil-Arabiyya",
+    arabcha: "حكايات بالعربية",
     daraja: "A1",
-    tavsif: "Bolalar uchun sodda animatsiya. Ravon fusha arabcha bilan tarix va qadriyatlar yoritiladi.",
-    davomiylik: "15 daq",
-    epizodlar: 52,
-    rang: "#6366F1",
-    emoji: "📚",
-    xususiyat: ["Fusha arabcha", "Bolalar uchun", "Tarbiyaviy"],
+    tavsif: "Al-Jazeera bolalar kanali uchun maxsus animatsiyalar. Fusha arabcha, qisqa hikoyalar.",
+    davomiylik: "10 daq",
+    epizodlar: 80,
+    rang: "#0891B2",
+    emoji: "📖",
+    xususiyat: ["Fusha arabcha", "Qisqa", "Mazmunli"],
+    platform: { nom: "Al Jazeera Kids", url: "https://kids.aljazeera.net" },
   },
   {
     id: 4,
@@ -68,18 +85,6 @@ const MULTFILMLAR: Multfilm[] = [
   },
   {
     id: 5,
-    nomi: "Hikayat Bil-Arabiyya",
-    arabcha: "حكايات بالعربية",
-    daraja: "A1",
-    tavsif: "Al-Jazeera bolalar kanali uchun maxsus animatsiyalar. Fusha arabcha, qisqa hikoyalar.",
-    davomiylik: "10 daq",
-    epizodlar: 80,
-    rang: "#0891B2",
-    emoji: "📖",
-    xususiyat: ["Fusha arabcha", "Qisqa", "Mazmunli"],
-  },
-  {
-    id: 6,
     nomi: "Nimnim",
     arabcha: "نمنم",
     daraja: "A2",
@@ -91,7 +96,31 @@ const MULTFILMLAR: Multfilm[] = [
     xususiyat: ["Gaplashuv tili", "Kundalik lug'at", "Vizual kontekst"],
   },
   {
+    id: 6,
+    nomi: "Makkah Al-Mukarramah",
+    arabcha: "مكة المكرمة",
+    daraja: "A1",
+    tavsif: "Bolalar uchun sodda animatsiya. Ravon fusha arabcha bilan tarix va qadriyatlar yoritiladi.",
+    davomiylik: "15 daq",
+    epizodlar: 52,
+    rang: "#6366F1",
+    emoji: "📚",
+    xususiyat: ["Fusha arabcha", "Bolalar uchun", "Tarbiyaviy"],
+  },
+  {
     id: 7,
+    nomi: "Arabiyya Baynayadayk",
+    arabcha: "العربية بين يديك",
+    daraja: "B1",
+    tavsif: "Mashhur darslikka asoslangan video darslar. Fusha arabcha, sistematik o'qitish.",
+    davomiylik: "30 daq",
+    epizodlar: 48,
+    rang: "#0891B2",
+    emoji: "🎓",
+    xususiyat: ["O'quv video", "Fusha arabcha", "Sistematik"],
+  },
+  {
+    id: 8,
     nomi: "Jeem TV Shows",
     arabcha: "برامج جيم",
     daraja: "B1",
@@ -101,9 +130,10 @@ const MULTFILMLAR: Multfilm[] = [
     rang: "#DC2626",
     emoji: "🔬",
     xususiyat: ["Fan mavzulari", "O'rta daraja", "Fusha arabcha"],
+    platform: { nom: "Jeem TV", url: "https://www.jeem.com" },
   },
   {
-    id: 8,
+    id: 9,
     nomi: "Al-Ittihad Al-Madrasi",
     arabcha: "الاتحاد المدرسي",
     daraja: "B1",
@@ -115,7 +145,7 @@ const MULTFILMLAR: Multfilm[] = [
     xususiyat: ["Yoshlar tili", "Maktab mavzusi", "Zamonaviy so'zlar"],
   },
   {
-    id: 9,
+    id: 10,
     nomi: "Kalila wa Dimna",
     arabcha: "كليلة ودمنة",
     daraja: "B2",
@@ -127,7 +157,7 @@ const MULTFILMLAR: Multfilm[] = [
     xususiyat: ["Klassik til", "Hikmatli", "Boy lug'at"],
   },
   {
-    id: 10,
+    id: 11,
     nomi: "Alf Layla wa Layla",
     arabcha: "ألف ليلة وليلة",
     daraja: "B2",
@@ -137,18 +167,6 @@ const MULTFILMLAR: Multfilm[] = [
     rang: "#7C3AED",
     emoji: "🌙",
     xususiyat: ["Ertaklar", "Ravon til", "Klassik mavzu"],
-  },
-  {
-    id: 11,
-    nomi: "Arabiyya Baynayadayk (Video)",
-    arabcha: "العربية بين يديك",
-    daraja: "B1",
-    tavsif: "Mashhur darslikka asoslangan video darslar. Fusha arabcha, sistematik o'qitish.",
-    davomiylik: "30 daq",
-    epizodlar: 48,
-    rang: "#0891B2",
-    emoji: "🎓",
-    xususiyat: ["O'quv video", "Fusha arabcha", "Sistematik"],
   },
   {
     id: 12,
@@ -173,6 +191,7 @@ const MULTFILMLAR: Multfilm[] = [
     rang: "#1D4ED8",
     emoji: "📺",
     xususiyat: ["Xabarlar tili", "Yuqori daraja", "Haqiqiy material"],
+    platform: { nom: "Al Jazeera", url: "https://www.aljazeera.net" },
   },
 ];
 
@@ -192,9 +211,12 @@ export function MultfilmlarView() {
     : MULTFILMLAR.filter((m) => m.daraja === activeLevel);
 
   if (selected) {
+    const ytUrl = selected.ytId
+      ? `https://www.youtube.com/channel/${selected.ytId}`
+      : ytSearchUrl(selected.arabcha + " cartoon مسلسل");
+
     return (
       <div style={{ minHeight: "100dvh", background: T.meshLight }}>
-        {/* Detail header */}
         <div style={{ background: `linear-gradient(135deg, ${selected.rang}, ${selected.rang}bb)`, padding: "20px 18px 24px", position: "relative", overflow: "hidden" }}>
           <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
           <div style={{ position: "relative", zIndex: 1 }}>
@@ -220,7 +242,7 @@ export function MultfilmlarView() {
         </div>
 
         <div style={{ padding: "16px 16px 28px", display: "flex", flexDirection: "column", gap: 12 }}>
-          {/* Info */}
+          {/* Stats */}
           <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", padding: 16 }}>
             <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
               <div style={{ flex: 1, background: "rgba(13,58,26,.04)", borderRadius: 10, padding: "10px 12px", textAlign: "center" }}>
@@ -242,6 +264,30 @@ export function MultfilmlarView() {
             <p style={{ fontSize: 13, color: T.text2, lineHeight: 1.7, margin: 0 }}>{selected.tavsif}</p>
           </div>
 
+          {/* Watch buttons */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <button
+              onClick={() => openLink(ytUrl)}
+              style={{ width: "100%", background: "#FF0000", border: "none", borderRadius: 12, padding: "14px", fontSize: 14, fontWeight: 700, color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
+            >
+              <Youtube size={18} /> YouTube'da ko'rish
+            </button>
+            {selected.platform && (
+              <button
+                onClick={() => openLink(selected.platform!.url)}
+                style={{ width: "100%", background: selected.rang, border: "none", borderRadius: 12, padding: "14px", fontSize: 14, fontWeight: 700, color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
+              >
+                <ExternalLink size={16} /> {selected.platform.nom} saytiga o'tish
+              </button>
+            )}
+            <button
+              onClick={() => openLink(ytSearchUrl(selected.arabcha))}
+              style={{ width: "100%", background: "none", border: `1px solid ${selected.rang}50`, borderRadius: 12, padding: "12px", fontSize: 13, fontWeight: 600, color: selected.rang, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 7 }}
+            >
+              <Play size={14} /> YouTube'da izlash
+            </button>
+          </div>
+
           {/* Features */}
           <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", padding: 16 }}>
             <div style={{ fontSize: 12, fontWeight: 700, color: T.green, marginBottom: 10 }}>Xususiyatlar</div>
@@ -254,23 +300,10 @@ export function MultfilmlarView() {
             </div>
           </div>
 
-          {/* How to find */}
-          <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", padding: 16 }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: T.green, marginBottom: 8 }}>Qayerdan topish mumkin?</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              {[
-                { platform: "YouTube", hint: `"${selected.arabcha}" izlang` },
-                { platform: "Internet Archive", hint: "archive.org da bepul" },
-                { platform: "Al-Jazeera Kids", hint: "kids.aljazeera.net" },
-              ].map((item) => (
-                <div key={item.platform} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", background: "rgba(13,58,26,.03)", borderRadius: 8 }}>
-                  <Play size={12} color={T.green} />
-                  <div>
-                    <span style={{ fontSize: 12, fontWeight: 700, color: T.green }}>{item.platform}: </span>
-                    <span style={{ fontSize: 12, color: T.text2 }}>{item.hint}</span>
-                  </div>
-                </div>
-              ))}
+          {/* Tips */}
+          <div style={{ background: "rgba(13,58,26,.04)", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", padding: 14 }}>
+            <div style={{ fontSize: 11, color: T.text2, lineHeight: 1.7 }}>
+              💡 <b>Maslahat:</b> Multfilmni bir marta subtitrli, keyin subtitrsiz ko'ring. Tushunmagan so'zlarni Tarjimon bo'limida izlang.
             </div>
           </div>
         </div>
@@ -280,7 +313,6 @@ export function MultfilmlarView() {
 
   return (
     <div style={{ minHeight: "100dvh", background: T.meshLight }}>
-      {/* Hero */}
       <div style={{ background: T.gGreen, position: "relative", overflow: "hidden", padding: "20px 18px 0" }}>
         <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 1 }}>
@@ -289,11 +321,10 @@ export function MultfilmlarView() {
               <Tv2 size={20} color="#fff" />
             </div>
             <div>
-              <div style={{ fontSize: 10, fontWeight: 600, color: T.limeBrt, letterSpacing: ".08em", textTransform: "uppercase" }}>A1 — C2</div>
+              <div style={{ fontSize: 10, fontWeight: 600, color: T.limeBrt, letterSpacing: ".08em", textTransform: "uppercase" }}>A1 — C2 • {MULTFILMLAR.length} ta</div>
               <div style={{ fontSize: 20, fontWeight: 700, color: "#fff" }}>Arabcha Multfilmlar</div>
             </div>
           </div>
-          {/* Level tabs */}
           <div style={{ display: "flex", gap: 6, overflowX: "auto", paddingBottom: 14, scrollbarWidth: "none" }}>
             <button
               onClick={() => setActiveLevel("barchasi")}
@@ -314,7 +345,6 @@ export function MultfilmlarView() {
         </div>
       </div>
 
-      {/* List */}
       <div style={{ padding: "14px 14px 28px", display: "flex", flexDirection: "column", gap: 10 }}>
         {filtered.map((m) => (
           <div
@@ -322,7 +352,6 @@ export function MultfilmlarView() {
             onClick={() => setSelected(m)}
             style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 4px rgba(13,58,26,.05)", overflow: "hidden", cursor: "pointer", display: "flex" }}
           >
-            {/* Color accent */}
             <div style={{ width: 5, background: m.rang, flexShrink: 0 }} />
             <div style={{ flex: 1, padding: "12px 14px 12px 12px", display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ width: 46, height: 46, borderRadius: 12, background: `${m.rang}18`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>
@@ -332,6 +361,7 @@ export function MultfilmlarView() {
                 <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
                   <span style={{ fontSize: 13, fontWeight: 700, color: T.green }}>{m.nomi}</span>
                   <span style={{ background: LEVEL_COLORS[m.daraja], color: "#fff", borderRadius: 5, padding: "1px 6px", fontSize: 9, fontWeight: 700 }}>{m.daraja}</span>
+                  {m.ytId && <span style={{ background: "#FF000018", border: "1px solid #FF000030", borderRadius: 5, padding: "1px 6px", fontSize: 9, fontWeight: 700, color: "#FF0000" }}>YT</span>}
                 </div>
                 <div dir="rtl" style={{ fontSize: 13, color: T.text2, fontFamily: "'Amiri', serif", textAlign: "right", marginBottom: 3 }}>{m.arabcha}</div>
                 <div style={{ display: "flex", gap: 8, fontSize: 10, color: T.hint }}>
