@@ -1,11 +1,13 @@
-import { BarChart2, Flame, TrendingUp, Mic, Video, Trophy, Grid3X3, BookOpenText, Coins } from "lucide-react";
-import { Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { BarChart2, Flame, TrendingUp, Mic, Video, Trophy, Grid3X3, BookOpenText, Coins, Users, CreditCard, MessageCircleWarning, CheckCircle2, Clock, AlertTriangle } from "lucide-react";
 import { T } from "../../theme/tokens";
 import { useProgress } from "../progress/ProgressContext";
 import { useAuth } from "../../auth/AuthContext";
 import { useCoins } from "../../context/CoinContext";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
+import { store } from "../../lib/storage";
+import { getComplaints } from "../../lib/complaintsRepo";
 
 function Bar({ pct }: { pct: number }) {
   const color =
@@ -57,13 +59,128 @@ function getDateStr(daysAgo: number): string {
 
 const DAY_LABELS = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"];
 
+type TolovStatus = "trial" | "pending" | "active" | "blocked";
+interface TolovMalumat { status: TolovStatus }
+
+function AdminStatisticsView() {
+  const { users } = useAuth();
+  const [tolovlar, setTolovlar] = useState<Record<string, TolovMalumat>>({});
+  const [openComplaints, setOpenComplaints] = useState(0);
+  const [fixedComplaints, setFixedComplaints] = useState(0);
+
+  const students = users.filter((u) => u.role === "student");
+  const fonetika = students.filter((u) => u.tur === "fonetika").length;
+  const grammatika = students.filter((u) => u.tur === "grammatika").length;
+
+  useEffect(() => {
+    students.forEach((s) => {
+      void store.get<TolovMalumat>(`tolov_${s.id}`).then((d) => {
+        if (d) setTolovlar((p) => ({ ...p, [s.id]: d }));
+      });
+    });
+    void getComplaints().then((list) => {
+      setOpenComplaints(list.filter((c) => c.status === "open").length);
+      setFixedComplaints(list.filter((c) => c.status === "fixed").length);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [users]);
+
+  const active = students.filter((s) => tolovlar[s.id]?.status === "active").length;
+  const pending = students.filter((s) => tolovlar[s.id]?.status === "pending").length;
+  const trial = students.filter((s) => !tolovlar[s.id] || tolovlar[s.id].status === "trial").length;
+
+  const StatCard = ({ label, value, icon, color }: { label: string; value: number | string; icon: React.ReactNode; color: string }) => (
+    <div style={{ flex: 1, background: "#fff", borderRadius: 12, border: "1px solid rgba(13,58,26,.08)", padding: "14px 12px", display: "flex", flexDirection: "column", gap: 8 }}>
+      <div style={{ width: 32, height: 32, borderRadius: 9, background: `${color}15`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        {icon}
+      </div>
+      <div style={{ fontSize: 22, fontWeight: 800, color: T.green }}>{value}</div>
+      <div style={{ fontSize: 11, color: T.hint, lineHeight: 1.3 }}>{label}</div>
+    </div>
+  );
+
+  return (
+    <div style={{ minHeight: "100dvh", background: T.meshLight }}>
+      <div style={{ background: T.gGreen, position: "relative", overflow: "hidden", padding: "18px 16px 20px" }}>
+        <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ fontSize: 10, color: T.limeBrt, fontWeight: 600, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 2 }}>Boshqaruv</div>
+          <div style={{ fontSize: 20, fontWeight: 700, color: "#fff" }}>Statistika</div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,.65)", marginTop: 2 }}>Maktab umumiy ko'rsatkichlari</div>
+        </div>
+      </div>
+
+      <div style={{ padding: "16px 16px 32px", display: "flex", flexDirection: "column", gap: 14 }}>
+        {/* O'quvchilar */}
+        <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", padding: "14px 16px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
+            <Users size={15} color={T.green} />
+            <span style={{ fontSize: 13, fontWeight: 700, color: T.green }}>O'quvchilar</span>
+          </div>
+          <div style={{ display: "flex", gap: 10 }}>
+            <StatCard label="Jami o'quvchi" value={students.length} icon={<Users size={16} color={T.green} />} color={T.green} />
+            <StatCard label="Fonetika" value={fonetika} icon={<span style={{ fontSize: 14 }}>🔤</span>} color="#0891B2" />
+            <StatCard label="Grammatika" value={grammatika} icon={<span style={{ fontSize: 14 }}>📖</span>} color="#7C3AED" />
+          </div>
+        </div>
+
+        {/* To'lov holati */}
+        <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", padding: "14px 16px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
+            <CreditCard size={15} color={T.green} />
+            <span style={{ fontSize: 13, fontWeight: 700, color: T.green }}>To'lov holati</span>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {[
+              { label: "Faol obuna", value: active, color: "#16A34A", icon: <CheckCircle2 size={14} color="#16A34A" /> },
+              { label: "Kutilmoqda", value: pending, color: "#0891B2", icon: <Clock size={14} color="#0891B2" /> },
+              { label: "Sinov / To'lanmagan", value: trial, color: "#F59E0B", icon: <AlertTriangle size={14} color="#F59E0B" /> },
+            ].map((item) => (
+              <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                {item.icon}
+                <span style={{ fontSize: 12, color: T.text2, flex: 1 }}>{item.label}</span>
+                <span style={{ fontSize: 14, fontWeight: 800, color: item.color }}>{item.value}</span>
+                <div style={{ width: 80, height: 6, background: "rgba(13,58,26,.08)", borderRadius: 3, overflow: "hidden" }}>
+                  <div style={{ height: "100%", width: students.length ? `${(item.value / students.length) * 100}%` : "0%", background: item.color, borderRadius: 3 }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Shikoyatlar */}
+        <div style={{ background: "#fff", borderRadius: 14, border: "1px solid rgba(13,58,26,.08)", padding: "14px 16px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+            <MessageCircleWarning size={15} color={T.green} />
+            <span style={{ fontSize: 13, fontWeight: 700, color: T.green }}>Shikoyatlar</span>
+          </div>
+          <div style={{ display: "flex", gap: 10 }}>
+            <div style={{ flex: 1, background: "rgba(220,38,38,.06)", border: "1px solid rgba(220,38,38,.15)", borderRadius: 10, padding: "12px", textAlign: "center" }}>
+              <div style={{ fontSize: 22, fontWeight: 800, color: "#DC2626" }}>{openComplaints}</div>
+              <div style={{ fontSize: 11, color: T.hint, marginTop: 3 }}>Ochiq</div>
+            </div>
+            <div style={{ flex: 1, background: "rgba(22,163,74,.06)", border: "1px solid rgba(22,163,74,.15)", borderRadius: 10, padding: "12px", textAlign: "center" }}>
+              <div style={{ fontSize: 22, fontWeight: 800, color: "#16A34A" }}>{fixedComplaints}</div>
+              <div style={{ fontSize: 11, color: T.hint, marginTop: 3 }}>Hal qilingan</div>
+            </div>
+            <div style={{ flex: 1, background: "rgba(13,58,26,.04)", border: "1px solid rgba(13,58,26,.08)", borderRadius: 10, padding: "12px", textAlign: "center" }}>
+              <div style={{ fontSize: 22, fontWeight: 800, color: T.green }}>{openComplaints + fixedComplaints}</div>
+              <div style={{ fontSize: 11, color: T.hint, marginTop: 3 }}>Jami</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function StatisticsView() {
   const { user } = useAuth();
   const { nazDone, amalDone, streak } = useProgress();
   const { coins } = useCoins();
 
   if (user?.role === "teacher" || user?.role === "ceo" || user?.role === "assistant") {
-    return <Navigate to="/oquvchilar" replace />;
+    return <AdminStatisticsView />;
   }
 
   const uid = user?.id ?? "";
