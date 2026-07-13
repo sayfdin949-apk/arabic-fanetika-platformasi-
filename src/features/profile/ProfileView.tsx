@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { Camera, LogOut, Phone, Calendar, Shield, Lock, Eye, EyeOff, CheckCircle, Edit2, X, Bell, BellOff } from "lucide-react";
+import { Camera, LogOut, Phone, Calendar, Shield, Lock, Eye, EyeOff, CheckCircle, Edit2, X, Bell, BellOff, BookOpen } from "lucide-react";
 import { T, FONT } from "../../theme/tokens";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
@@ -201,6 +201,7 @@ export function ProfileView() {
             user.tel ? { icon: Phone, label: "Telefon", value: user.tel } : null,
             user.tugilgan ? { icon: Calendar, label: "Tug'ilgan yil", value: user.tugilgan } : null,
             { icon: Shield, label: "Rol", value: ROLE_LABELS[user.role] },
+            user.tur ? { icon: BookOpen, label: "Yo'nalish", value: user.tur === "fonetika" ? "Fonetika" : "Grammatika" } : null,
           ].filter(Boolean).map((it, i, arr) => {
             const Icon = it!.icon;
             return (
