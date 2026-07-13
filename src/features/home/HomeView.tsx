@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BookOpen, Layers, ArrowRight, Star, Users, ClipboardCheck, BarChart2, Flame, ScanLine, Clock, UserCog, LayersIcon, PlayCircle, Library, ClipboardList, Sparkles, Mic2, Globe, Mic, Baby, BookOpenText, Gamepad2, Target } from "lucide-react";
 import { T, AR } from "../../theme/tokens";
@@ -97,7 +97,7 @@ function TeacherHome() {
   const navigate = useNavigate();
   const { user, users } = useAuth();
   const isCeo = user?.role === "ceo";
-  const students = users.filter((u) => u.role === "student");
+  const students = useMemo(() => users.filter((u) => u.role === "student"), [users]);
 
   const pad = (n: number) => String(n).padStart(2, "0");
   const todayISO = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; };
