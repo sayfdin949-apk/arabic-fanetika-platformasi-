@@ -58,6 +58,7 @@ export function OquvchilarView() {
   const [progData, setProgData] = useState<Record<string, { naz: DoneMap; amal: DoneMap; gram?: GramDoneMap }>>({});
   const [editTg, setEditTg] = useState<string | null>(null);
   const [tgInput, setTgInput] = useState("");
+  const [editTur, setEditTur] = useState<string | null>(null);
   const [tolovlar, setTolovlar] = useState<Record<string, TolovMalumat>>({});
 
   const students = users.filter((u) => u.role === "student");
@@ -306,11 +307,34 @@ export function OquvchilarView() {
                     <div style={{ fontSize: 14, fontWeight: 600, color: T.green }}>
                       {s.ism} {s.familya}
                     </div>
-                    <div style={{ fontSize: 11, color: T.hint, marginTop: 1, display: "flex", alignItems: "center", gap: 6 }}>
+                    <div style={{ fontSize: 11, color: T.hint, marginTop: 1, display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
                       <span>{idx + 1} · @{s.login}</span>
-                      {s.tur && (
-                        <span style={{ background: s.tur === "fonetika" ? "rgba(8,145,178,.12)" : "rgba(124,58,237,.12)", color: s.tur === "fonetika" ? "#0891B2" : "#7C3AED", borderRadius: 5, padding: "1px 6px", fontWeight: 700, fontSize: 10 }}>
-                          {s.tur === "fonetika" ? "Fonetika" : "Grammatika"}
+                      {editTur === s.id ? (
+                        <div style={{ display: "flex", gap: 4 }}>
+                          {(["fonetika", "grammatika"] as const).map((t) => (
+                            <button
+                              key={t}
+                              onClick={() => { void patchUser(s.id, { tur: t }); setEditTur(null); }}
+                              style={{
+                                fontSize: 10, fontWeight: 700, borderRadius: 5, padding: "2px 7px", border: "none", cursor: "pointer",
+                                background: s.tur === t ? (t === "fonetika" ? "#0891B2" : "#7C3AED") : "rgba(13,58,26,.08)",
+                                color: s.tur === t ? "#fff" : T.text2,
+                              }}
+                            >
+                              {t === "fonetika" ? "Fonetika" : "Grammatika"}
+                            </button>
+                          ))}
+                          <button onClick={() => setEditTur(null)} style={{ fontSize: 10, borderRadius: 5, padding: "2px 6px", border: "none", background: "rgba(13,58,26,.06)", color: T.hint, cursor: "pointer" }}>
+                            <X size={10} />
+                          </button>
+                        </div>
+                      ) : (
+                        <span
+                          onClick={() => setEditTur(s.id)}
+                          title="Yo'nalishni o'zgartirish"
+                          style={{ background: s.tur === "fonetika" ? "rgba(8,145,178,.12)" : s.tur === "grammatika" ? "rgba(124,58,237,.12)" : "rgba(13,58,26,.06)", color: s.tur === "fonetika" ? "#0891B2" : s.tur === "grammatika" ? "#7C3AED" : T.hint, borderRadius: 5, padding: "1px 6px", fontWeight: 700, fontSize: 10, cursor: "pointer", border: "1px dashed transparent" }}
+                        >
+                          {s.tur === "fonetika" ? "Fonetika" : s.tur === "grammatika" ? "Grammatika" : "Yo'nalish yo'q"}
                         </span>
                       )}
                     </div>
