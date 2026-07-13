@@ -45,9 +45,12 @@ export function Login() {
   }, [auth.ready, tgChecked]);
 
   const tryLogin = async () => {
-    const u = await auth.login(login, parol, "ceo");
-    if (u) navigate("/", { replace: true });
-    else setErr("Login yoki parol xato!");
+    const roles = ["ceo", "teacher", "student", "assistant"] as const;
+    for (const role of roles) {
+      const u = await auth.login(login, parol, role);
+      if (u) { navigate("/", { replace: true }); return; }
+    }
+    setErr("Login yoki parol xato!");
   };
 
   const inp: CSSProperties = {

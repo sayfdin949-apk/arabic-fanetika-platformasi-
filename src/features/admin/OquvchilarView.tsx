@@ -48,7 +48,7 @@ function ProgBar({ value, max, color }: { value: number; max: number; color: str
 export function OquvchilarView() {
   const { user, users, addUser, removeUser, patchUser } = useAuth();
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ ism: "", familya: "", login: "", tel: "", tugilgan: "", telegramId: "", tur: "" });
+  const [form, setForm] = useState({ ism: "", familya: "", login: "", parol: "", tel: "", tugilgan: "", telegramId: "", tur: "" });
   const [err, setErr] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [progData, setProgData] = useState<Record<string, { naz: DoneMap; amal: DoneMap }>>({});
@@ -99,6 +99,10 @@ export function OquvchilarView() {
       setErr("Ism va login majburiy");
       return;
     }
+    if (!form.parol.trim() || form.parol.trim().length < 4) {
+      setErr("Parol kamida 4 ta belgi bo'lishi kerak");
+      return;
+    }
     if (!form.tur) {
       setErr("Yo'nalishni tanlang");
       return;
@@ -108,7 +112,7 @@ export function OquvchilarView() {
       ism: form.ism.trim(),
       familya: form.familya.trim(),
       login: form.login.trim(),
-      parol: Math.random().toString(36).slice(2, 10),
+      parol: form.parol.trim(),
       role: "student",
       tel: form.tel.trim() || undefined,
       tugilgan: form.tugilgan.trim() || undefined,
@@ -117,7 +121,7 @@ export function OquvchilarView() {
       tur: form.tur as "grammatika" | "fonetika",
     });
     if (!res.ok) { setErr(res.error ?? "Xatolik"); return; }
-    setForm({ ism: "", familya: "", login: "", tel: "", tugilgan: "", telegramId: "", tur: "" });
+    setForm({ ism: "", familya: "", login: "", parol: "", tel: "", tugilgan: "", telegramId: "", tur: "" });
     setOpen(false);
   };
 
@@ -210,6 +214,7 @@ export function OquvchilarView() {
                 <input placeholder="Familya" value={form.familya} onChange={(e) => upd("familya", e.target.value)} style={inp} />
               </div>
               <input placeholder="Login *" value={form.login} onChange={(e) => upd("login", e.target.value)} style={inp} />
+              <input placeholder="Parol * (kamida 4 ta belgi)" value={form.parol} onChange={(e) => upd("parol", e.target.value)} style={inp} />
               <div style={{ display: "flex", gap: 9 }}>
                 <input placeholder="Telefon" value={form.tel} onChange={(e) => upd("tel", e.target.value)} style={inp} />
                 <input placeholder="Tug'ilgan yil" value={form.tugilgan} onChange={(e) => upd("tugilgan", e.target.value)} style={inp} />
