@@ -15,4 +15,6 @@ export interface User {
   assistantBlockedUntil?: string;
   /** Yordamchi ustoz ishonchlilik ko'rsatkichi (100 dan boshlanadi, kelishmaganda kamayadi) */
   assistantRating?: number;
+  /** O'quv yo'nalishi: fonetika yoki grammatika */
+  tur?: "grammatika" | "fonetika";
 }

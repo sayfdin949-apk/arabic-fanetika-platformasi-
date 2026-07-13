@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, type CSSProperties } from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { BookOpen, LogOut, MoreHorizontal, X, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { BookOpen, LogOut, MoreHorizontal, X, PanelLeftClose, PanelLeftOpen, BookOpenText, GraduationCap, RefreshCw } from "lucide-react";
 import { T } from "../theme/tokens";
 import { useAuth } from "../auth/AuthContext";
 import { useProgress } from "../features/progress/ProgressContext";
@@ -138,6 +138,68 @@ function useChatDot(): boolean {
   return dot;
 }
 
+type CeoMode = "grammatika" | "fonetika";
+
+function loadCeoMode(): CeoMode | null {
+  try { return localStorage.getItem("afp:ceo_mode") as CeoMode | null; } catch { return null; }
+}
+function saveCeoMode(m: CeoMode) {
+  try { localStorage.setItem("afp:ceo_mode", m); } catch { /* ignore */ }
+}
+
+function CeoModePicker({ onPick }: { onPick: (m: CeoMode) => void }) {
+  return (
+    <div style={{
+      position: "fixed", inset: 0, zIndex: 9999, background: T.green,
+      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+      padding: 24,
+    }}>
+      <div style={{ position: "absolute", inset: 0, background: T.sheen, pointerEvents: "none" }} />
+      <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: 380, textAlign: "center" }}>
+        <div style={{ width: 60, height: 60, borderRadius: 18, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
+          <BookOpen size={28} color={T.onCta} />
+        </div>
+        <div style={{ fontSize: 13, fontWeight: 600, color: T.limeBrt, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 8 }}>
+          Xush kelibsiz
+        </div>
+        <div style={{ fontSize: 26, fontWeight: 800, color: "#fff", marginBottom: 10 }}>
+          Yo'nalishni tanlang
+        </div>
+        <div style={{ fontSize: 13, color: "rgba(255,255,255,.65)", marginBottom: 32, lineHeight: 1.6 }}>
+          Qaysi bo'limda ishlashni xohlaysiz?<br />Keyin sozlamalardan o'zgartirish mumkin.
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          {([
+            { mode: "fonetika" as CeoMode, icon: GraduationCap, title: "Fonetika", desc: "Arab tili tovush va talaffuz bo'limlari" },
+            { mode: "grammatika" as CeoMode, icon: BookOpenText, title: "Grammatika", desc: "Arab tili grammatika va sintaksis bo'limlari" },
+          ]).map(({ mode, icon: Icon, title, desc }) => (
+            <button
+              key={mode}
+              onClick={() => onPick(mode)}
+              style={{
+                display: "flex", alignItems: "center", gap: 16,
+                background: "rgba(255,255,255,.12)", border: "1px solid rgba(255,255,255,.2)",
+                borderRadius: 16, padding: "18px 20px", cursor: "pointer", textAlign: "left",
+                transition: "all .15s",
+              }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,.2)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,.12)"; }}
+            >
+              <div style={{ width: 44, height: 44, borderRadius: 12, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <Icon size={22} color={T.onCta} />
+              </div>
+              <div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "#fff", marginBottom: 3 }}>{title}</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,.65)" }}>{desc}</div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function AppShell() {
   const { user, users, avatar, logout } = useAuth();
   const isMobile = useMediaQuery("(max-width: 767px)");
@@ -151,6 +213,21 @@ export function AppShell() {
       return false;
     }
   });
+
+  // CEO mode state
+  const isCeo = user?.role === "ceo";
+  const [ceoMode, setCeoModeState] = useState<CeoMode | null>(() =>
+    isCeo ? loadCeoMode() : null
+  );
+
+  const setCeoMode = (m: CeoMode) => {
+    saveCeoMode(m);
+    setCeoModeState(m);
+  };
+
+  // Effective tur: for CEO use ceoMode, for others use user.tur
+  const effectiveTur = isCeo ? ceoMode : (user?.tur ?? null);
+
   const { pathname } = useLocation();
   const mainRef = useRef<HTMLElement>(null);
 
@@ -187,15 +264,25 @@ export function AppShell() {
   }, []);
 
   if (!user) return null;
-  const items = navForRole(user.role);
+
+  // Show CEO mode picker when CEO hasn't chosen a mode yet
+  if (isCeo && ceoMode === null) {
+    return <CeoModePicker onPick={setCeoMode} />;
+  }
+
+  const items = navForRole(user.role, effectiveTur);
   const ROLE_LABELS: Record<Role, string> = { ceo: "CEO", teacher: "O'qituvchi", assistant: "Yordamchi ustoz", student: "O'quvchi" };
-  const roleLabel = ROLE_LABELS[user.role];
+  const modeLabel = isCeo && ceoMode ? (ceoMode === "fonetika" ? " · Fonetika" : " · Grammatika") : "";
+  const roleLabel = ROLE_LABELS[user.role] + modeLabel;
 
   // Joriy bo'lim nomi (mobil header uchun)
   const currentMatch = items
     .filter((i) => (i.to === "/" ? pathname === "/" : pathname === i.to || pathname.startsWith(i.to + "/")))
     .sort((a, b) => b.to.length - a.to.length)[0];
-  const currentTitle = currentMatch?.label ?? "Fonetika Kursi";
+  const appTitle = isCeo && ceoMode
+    ? (ceoMode === "fonetika" ? "Fonetika Kursi" : "Grammatika Kursi")
+    : "AFP Kursi";
+  const currentTitle = currentMatch?.label ?? appTitle;
 
   /* ───────── DESKTOP ───────── */
   if (!isMobile) {
@@ -237,7 +324,9 @@ export function AppShell() {
               </div>
               {!collapsed && (
                 <div style={{ overflow: "hidden", flex: 1 }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: "#fff", whiteSpace: "nowrap" }}>Fonetika Kursi</div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: "#fff", whiteSpace: "nowrap" }}>
+                    {isCeo && ceoMode ? (ceoMode === "fonetika" ? "Fonetika Kursi" : "Grammatika Kursi") : "AFP Kursi"}
+                  </div>
                   <div style={{ fontSize: 9, color: T.limeBrt }}>{roleLabel}</div>
                 </div>
               )}
@@ -273,6 +362,16 @@ export function AppShell() {
               )}
               {collapsed && (
                 <div style={{ fontSize: 10, color: T.limeBrt, fontWeight: 600, textAlign: "center" }}>🔥{streak.days}</div>
+              )}
+              {isCeo && (
+                <button
+                  onClick={() => setCeoModeState(null)}
+                  title="Yo'nalishni o'zgartirish"
+                  aria-label="Yo'nalishni o'zgartirish"
+                  style={{ background: "rgba(255,255,255,.08)", border: "none", borderRadius: 8, width: 30, height: 30, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.7)", flexShrink: 0 }}
+                >
+                  <RefreshCw size={13} />
+                </button>
               )}
               <button onClick={logout} title="Chiqish" aria-label="Chiqish" style={{ background: "rgba(255,255,255,.08)", border: "none", borderRadius: 8, width: 30, height: 30, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.7)", flexShrink: 0 }}>
                 <LogOut size={14} />
@@ -339,6 +438,15 @@ export function AppShell() {
             <span style={{ fontSize: 14, lineHeight: 1 }}>🔥</span>
             <span style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>{streak.days}</span>
           </div>
+          {isCeo && (
+            <button
+              onClick={() => setCeoModeState(null)}
+              title="Yo'nalishni o'zgartirish"
+              style={{ background: "rgba(255,255,255,.1)", border: "none", borderRadius: 8, width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.8)" }}
+            >
+              <RefreshCw size={14} />
+            </button>
+          )}
           <button onClick={logout} style={{ background: "rgba(255,255,255,.1)", border: "none", borderRadius: 8, width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.8)" }}>
             <LogOut size={15} />
           </button>

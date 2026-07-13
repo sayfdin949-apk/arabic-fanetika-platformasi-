@@ -6,6 +6,10 @@ import { useProgress } from "../progress/ProgressContext";
 import { useCoins } from "../../context/CoinContext";
 import { KITOBLAR, type Kitob, type KitobBob } from "../../content/kitoblar";
 
+function loadCeoMode(): "grammatika" | "fonetika" | null {
+  try { return localStorage.getItem("afp:ceo_mode") as "grammatika" | "fonetika" | null; } catch { return null; }
+}
+
 const TUR_LABEL: Record<string, string> = {
   darslik: "Darslik",
   lugat: "Lug'at",
@@ -362,6 +366,10 @@ export function KitobxonaView() {
   const [activeKitob, setActiveKitob] = useState<Kitob | null>(null);
   const [readBobs, setReadBobs] = useState<Set<string>>(() => user ? loadReadBobs(user.id) : new Set());
 
+  // Determine effective tur for filtering
+  const effectiveTur: "grammatika" | "fonetika" | null =
+    user?.role === "ceo" ? loadCeoMode() : (user?.tur ?? null);
+
   const turlar = [
     { id: "barchasi", label: "Barchasi", icon: <BookCopy size={12} /> },
     { id: "darslik", label: "Darslik", icon: "📗" },
@@ -370,7 +378,11 @@ export function KitobxonaView() {
     { id: "matn", label: "Matn", icon: "📚" },
   ];
 
-  const filtered = activeTur === "barchasi" ? KITOBLAR : KITOBLAR.filter((k) => k.tur === activeTur);
+  // Filter by bolim first, then by tur
+  const byBolim = effectiveTur
+    ? KITOBLAR.filter((k) => k.bolim === effectiveTur || k.bolim === "umumiy")
+    : KITOBLAR;
+  const filtered = activeTur === "barchasi" ? byBolim : byBolim.filter((k) => k.tur === activeTur);
 
   const handleClose = () => {
     if (user) setReadBobs(loadReadBobs(user.id));
@@ -392,7 +404,7 @@ export function KitobxonaView() {
           <div style={{ fontSize: 10, color: T.limeBrt, fontWeight: 600, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 2 }}>Ta'lim</div>
           <div style={{ fontSize: 20, fontWeight: 700, color: "#fff", marginBottom: 2 }}>Kitobxona</div>
           <div style={{ fontSize: 12, color: "rgba(255,255,255,.65)" }}>
-            {KITOBLAR.length} ta kitob mavjud
+            {byBolim.length} ta kitob mavjud
           </div>
         </div>
       </div>

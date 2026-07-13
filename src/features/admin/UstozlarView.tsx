@@ -23,7 +23,7 @@ export function UstozlarView() {
   const { user, users, addUser, removeUser, patchUser } = useAuth();
   const [tab, setTab] = useState<Tab>("teacher");
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ ism: "", familya: "", tel: "", telegramId: "" });
+  const [form, setForm] = useState({ ism: "", familya: "", tel: "", telegramId: "", tur: "" });
   const [err, setErr] = useState("");
   const [editTg, setEditTg] = useState<string | null>(null);
   const [tgInput, setTgInput] = useState("");
@@ -41,6 +41,7 @@ export function UstozlarView() {
 
   const save = async () => {
     if (!form.ism.trim()) { setErr("Ism majburiy"); return; }
+    if (!form.tur) { setErr("Yo'nalishni tanlang"); return; }
     const tgIdNum = form.telegramId.trim() ? parseInt(form.telegramId.trim()) : undefined;
     const role: Role = tab;
     const res = await addUser({
@@ -52,10 +53,11 @@ export function UstozlarView() {
       tel: form.tel.trim() || undefined,
       avatar: null,
       telegramId: tgIdNum,
+      tur: form.tur as "grammatika" | "fonetika",
       ...(role === "assistant" ? { assistantRating: 100 } : {}),
     });
     if (!res.ok) { setErr(res.error ?? "Xatolik"); return; }
-    setForm({ ism: "", familya: "", tel: "", telegramId: "" });
+    setForm({ ism: "", familya: "", tel: "", telegramId: "", tur: "" });
     setOpen(false);
   };
 
@@ -157,6 +159,30 @@ export function UstozlarView() {
               </div>
               <input placeholder="Telefon" value={form.tel} onChange={(e) => upd("tel", e.target.value)} style={inp} />
               <input placeholder="Telegram ID (ixtiyoriy)" value={form.telegramId} onChange={(e) => upd("telegramId", e.target.value)} style={inp} type="number" />
+              {/* Yo'nalish */}
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 600, color: T.text2, marginBottom: 6 }}>Yo'nalish *</div>
+                <div style={{ display: "flex", gap: 8 }}>
+                  {([
+                    { val: "fonetika", label: "Fonetika" },
+                    { val: "grammatika", label: "Grammatika" },
+                  ] as const).map((opt) => (
+                    <button
+                      key={opt.val}
+                      type="button"
+                      onClick={() => upd("tur", opt.val)}
+                      style={{
+                        flex: 1, padding: "10px 0", borderRadius: 9, border: "none",
+                        background: form.tur === opt.val ? T.gGreen : "rgba(13,58,26,.06)",
+                        color: form.tur === opt.val ? "#fff" : T.text2,
+                        fontSize: 13, fontWeight: 700, cursor: "pointer",
+                      }}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
               <div style={{ fontSize: 11, color: T.hint, lineHeight: 1.5 }}>
                 Login/parol talab qilinmaydi — kirish faqat Telegram orqali bo'ladi. Telegram ID ni bilmasangiz, bo'sh qoldiring va keyinroq ro'yxatdan "TG ulash" orqali biriktiring.
               </div>
@@ -206,7 +232,7 @@ export function UstozlarView() {
                 <div style={{ fontSize: 14, fontWeight: 600, color: T.green }}>
                   {u.ism} {u.familya}
                 </div>
-                <div style={{ fontSize: 11, color: T.hint, marginTop: 1, display: "flex", alignItems: "center", gap: 8 }}>
+                <div style={{ fontSize: 11, color: T.hint, marginTop: 1, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                   <span>{idx + 1}</span>
                   {tab === "assistant" && (
                     <span style={{ display: "flex", alignItems: "center", gap: 3, color: T.text2, fontWeight: 600 }}>
@@ -214,6 +240,11 @@ export function UstozlarView() {
                     </span>
                   )}
                   {u.tel && <span>{u.tel}</span>}
+                  {u.tur && (
+                    <span style={{ background: u.tur === "fonetika" ? "rgba(8,145,178,.12)" : "rgba(124,58,237,.12)", color: u.tur === "fonetika" ? "#0891B2" : "#7C3AED", borderRadius: 5, padding: "1px 6px", fontWeight: 700, fontSize: 10 }}>
+                      {u.tur === "fonetika" ? "Fonetika" : "Grammatika"}
+                    </span>
+                  )}
                 </div>
                 {editTg === u.id ? (
                   <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 5 }}>

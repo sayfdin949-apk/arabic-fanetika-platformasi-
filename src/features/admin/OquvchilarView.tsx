@@ -38,7 +38,7 @@ function ProgBar({ value, max, color }: { value: number; max: number; color: str
 export function OquvchilarView() {
   const { user, users, addUser, removeUser, patchUser } = useAuth();
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ ism: "", familya: "", login: "", tel: "", tugilgan: "", telegramId: "" });
+  const [form, setForm] = useState({ ism: "", familya: "", login: "", tel: "", tugilgan: "", telegramId: "", tur: "" });
   const [err, setErr] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [progData, setProgData] = useState<Record<string, { naz: DoneMap; amal: DoneMap }>>({});
@@ -59,6 +59,10 @@ export function OquvchilarView() {
       setErr("Ism va login majburiy");
       return;
     }
+    if (!form.tur) {
+      setErr("Yo'nalishni tanlang");
+      return;
+    }
     const tgIdNum = form.telegramId.trim() ? parseInt(form.telegramId.trim()) : undefined;
     const res = await addUser({
       ism: form.ism.trim(),
@@ -70,9 +74,10 @@ export function OquvchilarView() {
       tugilgan: form.tugilgan.trim() || undefined,
       avatar: null,
       telegramId: tgIdNum,
+      tur: form.tur as "grammatika" | "fonetika",
     });
     if (!res.ok) { setErr(res.error ?? "Xatolik"); return; }
-    setForm({ ism: "", familya: "", login: "", tel: "", tugilgan: "", telegramId: "" });
+    setForm({ ism: "", familya: "", login: "", tel: "", tugilgan: "", telegramId: "", tur: "" });
     setOpen(false);
   };
 
@@ -170,6 +175,30 @@ export function OquvchilarView() {
                 <input placeholder="Tug'ilgan yil" value={form.tugilgan} onChange={(e) => upd("tugilgan", e.target.value)} style={inp} />
               </div>
               <input placeholder="Telegram ID (ixtiyoriy)" value={form.telegramId} onChange={(e) => upd("telegramId", e.target.value)} style={inp} type="number" />
+              {/* Yo'nalish tanlash */}
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 600, color: T.text2, marginBottom: 6 }}>Yo'nalish *</div>
+                <div style={{ display: "flex", gap: 8 }}>
+                  {([
+                    { val: "fonetika", label: "Fonetika" },
+                    { val: "grammatika", label: "Grammatika" },
+                  ] as const).map((opt) => (
+                    <button
+                      key={opt.val}
+                      type="button"
+                      onClick={() => upd("tur", opt.val)}
+                      style={{
+                        flex: 1, padding: "10px 0", borderRadius: 9, border: "none",
+                        background: form.tur === opt.val ? T.gGreen : "rgba(13,58,26,.06)",
+                        color: form.tur === opt.val ? "#fff" : T.text2,
+                        fontSize: 13, fontWeight: 700, cursor: "pointer",
+                      }}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
               {err && (
                 <div style={{ fontSize: 12, color: T.red, background: "rgba(230,0,35,.05)", border: "1px solid rgba(230,0,35,.15)", borderRadius: 8, padding: "8px 12px" }}>{err}</div>
               )}
@@ -211,8 +240,13 @@ export function OquvchilarView() {
                     <div style={{ fontSize: 14, fontWeight: 600, color: T.green }}>
                       {s.ism} {s.familya}
                     </div>
-                    <div style={{ fontSize: 11, color: T.hint, marginTop: 1 }}>
-                      {idx + 1} · @{s.login}
+                    <div style={{ fontSize: 11, color: T.hint, marginTop: 1, display: "flex", alignItems: "center", gap: 6 }}>
+                      <span>{idx + 1} · @{s.login}</span>
+                      {s.tur && (
+                        <span style={{ background: s.tur === "fonetika" ? "rgba(8,145,178,.12)" : "rgba(124,58,237,.12)", color: s.tur === "fonetika" ? "#0891B2" : "#7C3AED", borderRadius: 5, padding: "1px 6px", fontWeight: 700, fontSize: 10 }}>
+                          {s.tur === "fonetika" ? "Fonetika" : "Grammatika"}
+                        </span>
+                      )}
                     </div>
                     {editTg === s.id ? (
                       <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 5 }}>

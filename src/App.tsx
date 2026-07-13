@@ -38,6 +38,9 @@ import { SpeakingClubView } from "./features/speaking/SpeakingClubView";
 import { MehmonUstozlarView } from "./features/speakers/MehmonUstozlarView";
 import { OvozYozishView } from "./features/voice/OvozYozishView";
 import { OtaOnaView } from "./features/parent/OtaOnaView";
+import { DarajaTestView } from "./features/placement/DarajaTestView";
+import { TarjimonView } from "./features/translator/TarjimonView";
+import { MultfilmlarView } from "./features/cartoons/MultfilmlarView";
 import { T } from "./theme/tokens";
 
 function Splash() {
@@ -113,6 +116,9 @@ export default function App() {
             <Route path="/mehmon-ustozlar" element={<MehmonUstozlarView />} />
             <Route path="/ovoz" element={<OvozYozishView />} />
             <Route path="/ota-ona" element={<OtaOnaView />} />
+            <Route path="/daraja-test" element={<DarajaTestView />} />
+            <Route path="/tarjimon" element={<TarjimonView />} />
+            <Route path="/multfilmlar" element={<MultfilmlarView />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
