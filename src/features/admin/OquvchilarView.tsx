@@ -1,12 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { UserPlus, Trash2, X, Users, ChevronDown, ChevronUp, BookOpen, Layers, BarChart2, Send, Check } from "lucide-react";
+import { UserPlus, Trash2, X, Users, ChevronDown, ChevronUp, BookOpen, Layers, BarChart2, Send, Check, CreditCard } from "lucide-react";
 import { T } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
 import { store } from "../../lib/storage";
 import type { DoneMap } from "../progress/ProgressContext";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
+
+type TolovStatus = "trial" | "pending" | "active" | "blocked";
+interface TolovMalumat { status: TolovStatus; summа?: number; tarif?: string; keyingioyliklTolov?: string }
+
+const TOLOV_RANG: Record<TolovStatus, string> = {
+  trial: "#F59E0B", pending: "#0891B2", active: "#16A34A", blocked: "#DC2626",
+};
+const TOLOV_LABEL: Record<TolovStatus, string> = {
+  trial: "Sinov", pending: "Kutilmoqda", active: "Faol", blocked: "Bloklangan",
+};
 
 const NAZ_TOTAL = NAZARIY.length;
 const AMAL_TOTAL = AMALIY.length;
@@ -44,10 +54,40 @@ export function OquvchilarView() {
   const [progData, setProgData] = useState<Record<string, { naz: DoneMap; amal: DoneMap }>>({});
   const [editTg, setEditTg] = useState<string | null>(null);
   const [tgInput, setTgInput] = useState("");
+  const [tolovlar, setTolovlar] = useState<Record<string, TolovMalumat>>({});
+
+  const students = users.filter((u) => u.role === "student");
+
+  useEffect(() => {
+    students.forEach((s) => {
+      void store.get<TolovMalumat>(`tolov_${s.id}`).then((d) => {
+        if (d) setTolovlar((prev) => ({ ...prev, [s.id]: d }));
+      });
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [users]);
 
   if (user?.role !== "teacher" && user?.role !== "ceo") return <Navigate to="/" replace />;
 
-  const students = users.filter((u) => u.role === "student");
+  const tasdiqlaTolov = async (uid: string) => {
+    const cur = tolovlar[uid] ?? { status: "trial" as TolovStatus };
+    const updated: TolovMalumat = {
+      ...cur,
+      status: "active",
+      keyingioyliklTolov: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+    };
+    setTolovlar((prev) => ({ ...prev, [uid]: updated }));
+    await store.set(`tolov_${uid}`, updated);
+    try { localStorage.setItem(`afp:tolov_${uid}`, JSON.stringify(updated)); } catch { /* ignore */ }
+  };
+
+  const bekorQilTolov = async (uid: string) => {
+    const cur = tolovlar[uid] ?? { status: "trial" as TolovStatus };
+    const updated: TolovMalumat = { ...cur, status: "trial" };
+    setTolovlar((prev) => ({ ...prev, [uid]: updated }));
+    await store.set(`tolov_${uid}`, updated);
+    try { localStorage.setItem(`afp:tolov_${uid}`, JSON.stringify(updated)); } catch { /* ignore */ }
+  };
 
   const upd = (k: keyof typeof form, v: string) => {
     setForm((p) => ({ ...p, [k]: v }));
@@ -217,6 +257,7 @@ export function OquvchilarView() {
           {students.map((s, idx) => {
             const isExp = expanded === s.id;
             const prog = progData[s.id];
+            const tolov = tolovlar[s.id];
             const nazCount = prog ? Object.values(prog.naz).filter((r) => r.pct >= 80).length : null;
             const amalCount = prog ? Object.values(prog.amal).filter((r) => r.pct >= 80).length : null;
 
@@ -310,6 +351,31 @@ export function OquvchilarView() {
                 {/* Progress panel */}
                 {isExp && (
                   <div style={{ borderTop: "1px solid rgba(13,58,26,.07)", padding: "14px 16px 16px", background: "rgba(13,58,26,.015)" }}>
+                    {/* To'lov holati (CEO uchun) */}
+                    {user?.role === "ceo" && (
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14, padding: "10px 12px", background: "#fff", borderRadius: 10, border: "1px solid rgba(13,58,26,.08)" }}>
+                        <CreditCard size={13} color={TOLOV_RANG[tolov?.status ?? "trial"]} />
+                        <span style={{ fontSize: 12, fontWeight: 600, color: TOLOV_RANG[tolov?.status ?? "trial"], flex: 1 }}>
+                          To'lov: {TOLOV_LABEL[tolov?.status ?? "trial"]}
+                          {tolov?.tarif && ` · ${tolov.tarif}`}
+                        </span>
+                        {tolov?.status !== "active" ? (
+                          <button
+                            onClick={() => void tasdiqlaTolov(s.id)}
+                            style={{ background: "rgba(22,163,74,.12)", color: "#16A34A", border: "1px solid rgba(22,163,74,.3)", borderRadius: 7, padding: "4px 10px", fontSize: 11, fontWeight: 700, cursor: "pointer" }}
+                          >
+                            Tasdiqlash
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => void bekorQilTolov(s.id)}
+                            style={{ background: "rgba(220,38,38,.08)", color: "#DC2626", border: "1px solid rgba(220,38,38,.2)", borderRadius: 7, padding: "4px 10px", fontSize: 11, fontWeight: 700, cursor: "pointer" }}
+                          >
+                            Bekor
+                          </button>
+                        )}
+                      </div>
+                    )}
                     {!prog ? (
                       <div style={{ textAlign: "center", color: T.hint, fontSize: 12, padding: "10px 0" }}>Yuklanmoqda...</div>
                     ) : (
