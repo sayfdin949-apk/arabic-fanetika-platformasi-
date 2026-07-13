@@ -35,6 +35,7 @@ export interface UsersApi {
   getUsers(): Promise<User[]>;
   login(login: string, parol: string, role: Role): Promise<LoginResult | null>;
   loginWithTelegram(initData: string): Promise<LoginResult | null>;
+  loginStudentById(telegramId: string): Promise<LoginResult | null>;
   addUser(token: string, u: Omit<User, "id">): Promise<MutationResult>;
   removeUser(token: string, id: string): Promise<void>;
   patchUser(token: string, id: string, patch: Partial<Omit<User, "id">>): Promise<User | null>;
@@ -49,5 +50,7 @@ export interface UsersApi {
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
+export const isSupabaseMode = !!(SUPABASE_URL && SUPABASE_KEY);
+
 export const usersApi: UsersApi =
-  SUPABASE_URL && SUPABASE_KEY ? new SupabaseUsersApi(SUPABASE_URL, SUPABASE_KEY) : new LocalUsersApi();
+  isSupabaseMode ? new SupabaseUsersApi(SUPABASE_URL!, SUPABASE_KEY!) : new LocalUsersApi();

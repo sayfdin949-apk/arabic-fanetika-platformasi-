@@ -34,6 +34,14 @@ export class LocalUsersApi implements UsersApi {
     return user ? { user, token: user.id } : null;
   }
 
+  async loginStudentById(telegramId: string): Promise<LoginResult | null> {
+    const users = await getUsers();
+    const user = users.find(
+      (x) => x.role === "student" && String(x.telegramId) === String(telegramId).trim()
+    );
+    return user ? { user, token: user.id } : null;
+  }
+
   async loginWithTelegram(initData: string): Promise<LoginResult | null> {
     // Lokal (offline) rejimda haqiqiy backend yo'q, shuning uchun bot
     // tokeni bilan HMAC tasdiqlash imkonsiz — bu yerda faqat initData

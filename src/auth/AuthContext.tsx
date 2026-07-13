@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useCallback, useState, type ReactNode } from "react";
 import type { User, Role } from "./types";
 import { SEED_USERS } from "./users";
-import { usersApi } from "../lib/usersApi";
+import { usersApi, isSupabaseMode } from "../lib/usersApi";
 import { store } from "../lib/storage";
 import { isTelegramMiniApp, getTelegramInitData, initTelegramApp } from "../lib/telegram";
 
@@ -23,6 +23,7 @@ interface AuthValue {
   users: User[];
   login: (login: string, parol: string, role: Role) => Promise<User | null>;
   loginWithTelegram: (initData: string) => Promise<User | null>;
+  loginStudentById: (telegramId: string) => Promise<User | null>;
   logout: () => void;
   updateAvatar: (dataUrl: string) => void;
   updateProfile: (data: { ism: string; familya: string; tel?: string; tugilgan?: string }) => Promise<{ ok: boolean; error?: string }>;
@@ -128,13 +129,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         const session = getLocalSession();
         if (session) {
-          const u = effectiveList.find((x) => x.id === session.id);
-          if (u) {
-            setUser(u);
-            setToken(session.token);
-            await loadAvatar(u.id);
-          } else {
+          // Supabase rejimida token format: "userId.expiry.hmac" (2 ta nuqta).
+          // Eski localStorage tokeni faqat ID ("t1", "s6") — Supabase rad etadi.
+          const isValidSupabaseToken = session.token.split('.').length === 3;
+          if (isSupabaseMode && !isValidSupabaseToken) {
             clearLocalSession();
+          } else {
+            const u = effectiveList.find((x) => x.id === session.id);
+            if (u) {
+              setUser(u);
+              setToken(session.token);
+              await loadAvatar(u.id);
+            } else {
+              clearLocalSession();
+            }
           }
         }
       } catch {
@@ -147,6 +155,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (login: string, parol: string, role: Role): Promise<User | null> => {
     const res = await usersApi.login(login, parol, role);
+    if (res) {
+      setUser(res.user);
+      setToken(res.token);
+      setLocalSession(res.user.id, res.token);
+      void loadAvatar(res.user.id);
+    }
+    return res?.user ?? null;
+  };
+
+  const loginStudentById = async (telegramId: string): Promise<User | null> => {
+    const res = await usersApi.loginStudentById(telegramId);
     if (res) {
       setUser(res.user);
       setToken(res.token);
@@ -220,7 +239,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthCtx.Provider value={{ user, ready, avatar, users, login, loginWithTelegram, logout, updateAvatar, updateProfile, addUser, removeUser, patchUser, changePassword, adminResetPassword }}>
+    <AuthCtx.Provider value={{ user, ready, avatar, users, login, loginWithTelegram, loginStudentById, logout, updateAvatar, updateProfile, addUser, removeUser, patchUser, changePassword, adminResetPassword }}>
       {children}
     </AuthCtx.Provider>
   );

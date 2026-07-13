@@ -1,6 +1,6 @@
 import { useState, useEffect, type CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, UserCheck, Send, XCircle, Eye, EyeOff, Copy, Check } from "lucide-react";
+import { BookOpen, UserCheck, Send, XCircle, Eye, EyeOff, Copy, Check, Hash } from "lucide-react";
 import { T, FONT } from "../theme/tokens";
 import { useAuth } from "./AuthContext";
 import { isTelegramMiniApp, getTelegramUser, getTelegramInitData, initTelegramApp } from "../lib/telegram";
@@ -12,6 +12,8 @@ export function Login() {
   const [parol, setParol] = useState("");
   const [showParol, setShowParol] = useState(false);
   const [err, setErr] = useState("");
+  const [studentId, setStudentId] = useState("");
+  const [studentErr, setStudentErr] = useState("");
   const [tgNotFound, setTgNotFound] = useState<number | null>(null);
   const [tgChecked, setTgChecked] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -45,12 +47,20 @@ export function Login() {
   }, [auth.ready, tgChecked]);
 
   const tryLogin = async () => {
-    const roles = ["ceo", "teacher", "student", "assistant"] as const;
+    const roles = ["ceo", "teacher", "assistant"] as const;
     for (const role of roles) {
       const u = await auth.login(login, parol, role);
       if (u) { navigate("/", { replace: true }); return; }
     }
     setErr("Login yoki parol xato!");
+  };
+
+  const tryStudentLogin = async () => {
+    const id = studentId.trim();
+    if (!id) { setStudentErr("ID ni kiriting"); return; }
+    const u = await auth.loginStudentById(id);
+    if (u) { navigate("/", { replace: true }); return; }
+    setStudentErr("Bunday ID li o'quvchi topilmadi");
   };
 
   const inp: CSSProperties = {
@@ -201,35 +211,45 @@ export function Login() {
           <div style={{ width: 60, height: 4, background: T.gLimeH, borderRadius: 2, margin: "10px auto 0" }} />
         </div>
 
-        {/* ── O'quvchi bo'limi ── */}
+        {/* ── O'quvchi kirishi ── */}
         <div style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 16, padding: 18, marginBottom: 12 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
             <div style={{ width: 40, height: 40, borderRadius: 10, background: "rgba(41,182,246,.25)", border: "1px solid rgba(41,182,246,.4)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <Send size={18} color="#7dd3fc" />
+              <Hash size={18} color="#7dd3fc" />
             </div>
             <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>Telegram orqali kirish</div>
-              <div style={{ fontSize: 11, color: "rgba(255,255,255,.5)" }}>O'quvchi, o'qituvchi va yordamchi ustoz uchun</div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>O'quvchi kirishi</div>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,.5)" }}>Telegram ID raqamingizni kiriting</div>
             </div>
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-            {[
-              { n: "1", t: "Telegram botini oching" },
-              { n: "2", t: "«Ilovani ochish» tugmasini bosing" },
-              { n: "3", t: "Avtomatik kiriladi" },
-            ].map((s) => (
-              <div key={s.n} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <div style={{ width: 20, height: 20, borderRadius: 6, background: "rgba(41,182,246,.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 800, color: "#7dd3fc", flexShrink: 0 }}>{s.n}</div>
-                <div style={{ fontSize: 12, color: "rgba(255,255,255,.65)" }}>{s.t}</div>
-              </div>
-            ))}
+          <input
+            value={studentId}
+            onChange={(e) => { setStudentId(e.target.value); setStudentErr(""); }}
+            onKeyDown={(e) => e.key === "Enter" && tryStudentLogin()}
+            placeholder="Telegram ID (masalan: 123456789)"
+            inputMode="numeric"
+            style={inp}
+          />
+          {studentErr && (
+            <div style={{ fontSize: 12, color: "#ff8a95", margin: "6px 0 0", display: "flex", alignItems: "center", gap: 4 }}>
+              <XCircle size={12} /> {studentErr}
+            </div>
+          )}
+          <button
+            onClick={tryStudentLogin}
+            style={{ width: "100%", marginTop: 10, background: "rgba(41,182,246,.3)", border: "1px solid rgba(41,182,246,.5)", borderRadius: 10, padding: "12px", cursor: "pointer", fontSize: 14, fontWeight: 700, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
+          >
+            <Send size={16} /> Kirish
+          </button>
+          <div style={{ fontSize: 11, color: "rgba(255,255,255,.35)", marginTop: 8, textAlign: "center" }}>
+            ID ni bilmasangiz — Telegram botni oching, u sizning ID raqamingizni ko'rsatadi
           </div>
         </div>
 
         {/* Ajratuvchi */}
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
           <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,.15)" }} />
-          <span style={{ fontSize: 11, color: "rgba(255,255,255,.35)", fontWeight: 600, letterSpacing: ".05em" }}>YOKI</span>
+          <span style={{ fontSize: 11, color: "rgba(255,255,255,.35)", fontWeight: 600, letterSpacing: ".05em" }}>ADMIN</span>
           <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,.15)" }} />
         </div>
 
