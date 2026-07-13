@@ -1,9 +1,20 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useCallback, useState, type ReactNode } from "react";
 import type { User, Role } from "./types";
 import { SEED_USERS } from "./users";
 import { usersApi } from "../lib/usersApi";
 import { store } from "../lib/storage";
 import { isTelegramMiniApp, getTelegramInitData, initTelegramApp } from "../lib/telegram";
+
+const USERS_BACKUP_KEY = "afp:users_backup";
+function saveUsersBackup(list: User[]) {
+  try { localStorage.setItem(USERS_BACKUP_KEY, JSON.stringify(list)); } catch { /* ignore */ }
+}
+function loadUsersBackup(): User[] {
+  try {
+    const raw = localStorage.getItem(USERS_BACKUP_KEY);
+    return raw ? (JSON.parse(raw) as User[]) : [];
+  } catch { return []; }
+}
 
 interface AuthValue {
   user: User | null;
@@ -71,8 +82,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     (async () => {
       try {
-        const list = await usersApi.getUsers();
-        setUsers(list);
+        const fetched = await usersApi.getUsers();
+        let effectiveList: User[];
+        if (fetched.length > 0) {
+          saveUsersBackup(fetched);
+          setUsers(fetched);
+          effectiveList = fetched;
+        } else {
+          // Supabase bo'sh qaytardi (pauza/xato) — mahalliy zaxiradan foydalanamiz
+          const backup = loadUsersBackup();
+          if (backup.length > 0) {
+            setUsers(backup);
+            effectiveList = backup;
+          } else {
+            effectiveList = SEED_USERS;
+          }
+        }
 
         // Telegram Mini App ichida bo'lsak, Telegram orqali HMAC bilan
         // tasdiqlangan joriy hisob HAR DOIM shu qurilmada eski saqlangan
@@ -98,9 +123,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         const session = getLocalSession();
         if (session) {
-          // Sessiyadagi foydalanuvchi sanitizatsiya qilingan ro'yxatda bo'lmasligi
-          // mumkin emas (parolsiz ham id/role saqlanadi), shuning uchun shu yerdan topiladi.
-          const u = list.find((x) => x.id === session.id);
+          const u = effectiveList.find((x) => x.id === session.id);
           if (u) {
             setUser(u);
             setToken(session.token);
@@ -155,14 +178,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const addUser = async (u: Omit<User, "id">): Promise<{ ok: boolean; error?: string }> => {
     if (!token) return { ok: false, error: "Sessiya topilmadi" };
     const res = await usersApi.addUser(token, u);
-    if (res.ok && res.user) setUsers((cur) => [...cur, res.user!]);
+    if (res.ok && res.user) setUsers((cur) => { const next = [...cur, res.user!]; saveUsersBackup(next); return next; });
     return { ok: res.ok, error: res.error };
   };
 
   const removeUser = async (id: string): Promise<void> => {
     if (!token) return;
     await usersApi.removeUser(token, id);
-    setUsers((cur) => cur.filter((x) => x.id !== id));
+    setUsers((cur) => { const next = cur.filter((x) => x.id !== id); saveUsersBackup(next); return next; });
   };
 
   const updateProfile = async (data: { ism: string; familya: string; tel?: string; tugilgan?: string }): Promise<{ ok: boolean; error?: string }> => {
@@ -175,11 +198,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { ok: res.ok, error: res.error };
   };
 
-  const patchUser = async (id: string, patch: Partial<Omit<User, "id">>): Promise<void> => {
+  const patchUser = useCallback(async (id: string, patch: Partial<Omit<User, "id">>): Promise<void> => {
     if (!token) return;
     const updated = await usersApi.patchUser(token, id, patch);
     if (updated) setUsers((cur) => cur.map((x) => (x.id === id ? updated : x)));
-  };
+  }, [token]);
 
   const changePassword = async (eskiParol: string, yangiParol: string): Promise<{ ok: boolean; error?: string }> => {
     if (!token) return { ok: false, error: "Foydalanuvchi topilmadi" };
