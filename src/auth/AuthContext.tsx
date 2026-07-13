@@ -23,6 +23,7 @@ interface AuthValue {
   users: User[];
   login: (login: string, parol: string, role: Role) => Promise<User | null>;
   loginWithTelegram: (initData: string) => Promise<User | null>;
+  loginStudentById: (telegramId: string) => Promise<User | null>;
   logout: () => void;
   updateAvatar: (dataUrl: string) => void;
   updateProfile: (data: { ism: string; familya: string; tel?: string; tugilgan?: string }) => Promise<{ ok: boolean; error?: string }>;
@@ -163,6 +164,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return res?.user ?? null;
   };
 
+  const loginStudentById = async (telegramId: string): Promise<User | null> => {
+    const res = await usersApi.loginStudentById(telegramId);
+    if (res) {
+      setUser(res.user);
+      setToken(res.token);
+      setLocalSession(res.user.id, res.token);
+      void loadAvatar(res.user.id);
+    }
+    return res?.user ?? null;
+  };
+
   const loginWithTelegram = async (initData: string): Promise<User | null> => {
     const res = await usersApi.loginWithTelegram(initData);
     if (res) {
@@ -227,7 +239,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthCtx.Provider value={{ user, ready, avatar, users, login, loginWithTelegram, logout, updateAvatar, updateProfile, addUser, removeUser, patchUser, changePassword, adminResetPassword }}>
+    <AuthCtx.Provider value={{ user, ready, avatar, users, login, loginWithTelegram, loginStudentById, logout, updateAvatar, updateProfile, addUser, removeUser, patchUser, changePassword, adminResetPassword }}>
       {children}
     </AuthCtx.Provider>
   );

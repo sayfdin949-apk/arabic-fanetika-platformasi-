@@ -35,6 +35,7 @@ export interface UsersApi {
   getUsers(): Promise<User[]>;
   login(login: string, parol: string, role: Role): Promise<LoginResult | null>;
   loginWithTelegram(initData: string): Promise<LoginResult | null>;
+  loginStudentById(telegramId: string): Promise<LoginResult | null>;
   addUser(token: string, u: Omit<User, "id">): Promise<MutationResult>;
   removeUser(token: string, id: string): Promise<void>;
   patchUser(token: string, id: string, patch: Partial<Omit<User, "id">>): Promise<User | null>;

@@ -38,6 +38,12 @@ export class SupabaseUsersApi implements UsersApi {
     return data as LoginResult;
   }
 
+  async loginStudentById(telegramId: string): Promise<LoginResult | null> {
+    const { data, error } = await this.client.rpc("afp_student_login_by_telegram_id", { p_telegram_id: telegramId });
+    if (error || !data) return null;
+    return data as LoginResult;
+  }
+
   async loginWithTelegram(initData: string): Promise<LoginResult | null> {
     // initData server tomonida HMAC-SHA256 orqali tasdiqlanadi
     // (qarang: supabase-migration-v4-telegram-hmac.sql) — xom Telegram ID
