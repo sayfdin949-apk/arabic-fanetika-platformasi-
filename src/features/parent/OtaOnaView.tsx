@@ -5,6 +5,7 @@ import { useAuth } from "../../auth/AuthContext";
 import { useProgress } from "../progress/ProgressContext";
 import { NAZARIY } from "../../content/nazariy";
 import { AMALIY } from "../../content/amaliy";
+import { GRAM_DARSLAR } from "../../content/gramContent";
 import { MOCK_TESTLAR } from "../../content/mockTestlar";
 
 const PIN_KEY = (uid: string) => `afp:ota_ona_pin_${uid}`;
@@ -246,7 +247,7 @@ function Dashboard({ uid, fullName, onLock }: { uid: string; fullName: string; o
             {[
               { label: "Nazariy darslar", done: nazPassed, total: NAZARIY.length, color: T.green },
               { label: "Amaliy boblar", done: amalPassed, total: AMALIY.length, color: "#2563EB" },
-              { label: "Grammatika",  done: gramDone, total: 30, color: "#7C3AED" },
+              { label: "Grammatika", done: gramDone, total: GRAM_DARSLAR.length, color: "#7C3AED" },
             ].map((item) => (
               <div key={item.label}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
