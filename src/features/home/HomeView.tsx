@@ -317,6 +317,8 @@ function AssistantHome() {
 
 const MODULLAR = [
   { to: "/grammatika",     icon: BookOpenText, label: "Grammatika",       sub: "Qoida va mashqlar",      color: "#7C3AED", tur: "grammatika" as const },
+  { to: "/juftlar",        icon: Layers,       label: "Minimal Juftlar",  sub: "Fonetik farqlar",        color: "#0891B2", tur: "fonetika" as const },
+  { to: "/dastur",         icon: BookOpen,     label: "Kurs dasturi",     sub: "Haftalik jadval",        color: "#059669", tur: "fonetika" as const },
   { to: "/video",          icon: PlayCircle,   label: "Video darslar",    sub: "17 ta dars",             color: "#DC2626" },
   { to: "/kitobxona",      icon: Library,      label: "Kitobxona",        sub: "5 ta kitob",             color: "#059669" },
   { to: "/mocktest",       icon: ClipboardList,label: "Mock test",        sub: "Bilimingizni sinang",    color: "#CA8A04", tur: "grammatika" as const },
