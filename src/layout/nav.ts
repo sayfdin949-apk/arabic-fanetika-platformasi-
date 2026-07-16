@@ -88,3 +88,32 @@ export const navForRole = (
     if (!tur || !n.turlar) return true;
     return n.turlar.includes(tur);
   });
+
+// ── ADMIN PANEL navigatsiyasi (CEO · Teacher · Assistant) ─────────────────
+export const ADMIN_NAV: NavItem[] = [
+  { to: "/",           label: "Bosh sahifa",    icon: Home,                roles: ["ceo","teacher","assistant"], bottom: true  },
+  { to: "/oquvchilar", label: "O'quvchilar",     icon: Users,               roles: ["ceo","teacher"],             bottom: true  },
+  { to: "/ustozlar",   label: "O'qituvchilar",   icon: UserCog,             roles: ["ceo"],                       bottom: false },
+  { to: "/guruhlar",   label: "Guruhlar",         icon: LayersIcon,          roles: ["ceo","teacher"],             bottom: false },
+  { to: "/davomat",    label: "Davomat",          icon: ClipboardCheck,      roles: ["ceo","teacher"],             bottom: false },
+  { to: "/statistika", label: "Statistika",       icon: BarChart2,           roles: ["ceo","teacher","assistant"], bottom: true  },
+  { to: "/shikoyat",   label: "Shikoyatlar",      icon: MessageCircleWarning,roles: ["ceo","teacher","assistant"], bottom: false },
+  { to: "/skaner",     label: "Skaner",           icon: ScanLine,            roles: ["assistant"],                  bottom: true  },
+  { to: "/chat",       label: "Guruh chat",       icon: MessageCircle,       roles: ["ceo","teacher","assistant"], bottom: true  },
+  { to: "/video",      label: "Video darslar",    icon: PlayCircle,          roles: ["ceo","teacher"],             bottom: false },
+  { to: "/kitobxona",  label: "Kitobxona",        icon: Library,             roles: ["ceo","teacher"],             bottom: false },
+  { to: "/dars",       label: "Dars (fonetika)",  icon: GraduationCap,       roles: ["ceo","teacher"],             bottom: false, turlar: ["fonetika"]    },
+  { to: "/grammatika", label: "Grammatika",       icon: BookOpenText,        roles: ["ceo","teacher"],             bottom: false, turlar: ["grammatika"]  },
+  { to: "/dastur",     label: "Kurs dasturi",     icon: Calendar,            roles: ["ceo","teacher"],             bottom: false, turlar: ["fonetika"]    },
+  { to: "/profil",     label: "Profil",           icon: User,                roles: ["ceo","teacher","assistant"], bottom: false },
+];
+
+export const adminNavForRole = (
+  role: "ceo" | "teacher" | "assistant",
+  tur?: "grammatika" | "fonetika" | null,
+) =>
+  ADMIN_NAV.filter((n) => {
+    if (!n.roles.includes(role)) return false;
+    if (!tur || !n.turlar) return true;
+    return n.turlar.includes(tur);
+  });
