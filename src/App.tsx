@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from "./auth/AuthContext";
 import { ProgressProvider } from "./features/progress/ProgressContext";
 import { Login } from "./auth/Login";
 import { AppShell } from "./layout/AppShell";
+import { AdminShell } from "./layout/AdminShell";
 import { HomeView } from "./features/home/HomeView";
 import { DarsList } from "./features/dars/DarsList";
 import { NazariyDetail } from "./features/dars/NazariyDetail";
@@ -65,6 +66,13 @@ function LoginRoute() {
   return <Login />;
 }
 
+function ShellRouter() {
+  const { user } = useAuth();
+  if (!user) return null;
+  if (user.role === "student") return <AppShell />;
+  return <AdminShell />;
+}
+
 export default function App() {
   return (
     <AuthProvider>
@@ -75,12 +83,12 @@ export default function App() {
             element={
               <Protected>
                 <CoinProvider>
-                <ProgressProvider>
-                  <AssistantProvider>
-                    <AppShell />
-                  </AssistantProvider>
-                </ProgressProvider>
-              </CoinProvider>
+                  <ProgressProvider>
+                    <AssistantProvider>
+                      <ShellRouter />
+                    </AssistantProvider>
+                  </ProgressProvider>
+                </CoinProvider>
               </Protected>
             }
           >
