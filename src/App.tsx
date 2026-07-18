@@ -3,6 +3,7 @@ import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./auth/AuthContext";
 import { ProgressProvider } from "./features/progress/ProgressContext";
 import { Login } from "./auth/Login";
+import { Onboarding, needsOnboarding } from "./auth/Onboarding";
 import { AppShell } from "./layout/AppShell";
 import { AdminShell } from "./layout/AdminShell";
 import { HomeView } from "./features/home/HomeView";
@@ -56,6 +57,7 @@ function Protected({ children }: { children: ReactNode }) {
   const { user, ready } = useAuth();
   if (!ready) return <Splash />;
   if (!user) return <Navigate to="/login" replace />;
+  if (needsOnboarding(user)) return <Onboarding />;
   return <>{children}</>;
 }
 

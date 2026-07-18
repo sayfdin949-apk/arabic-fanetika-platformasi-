@@ -3,6 +3,39 @@ import { store } from "../../lib/storage";
 import { useAuth } from "../../auth/AuthContext";
 import { NAZARIY } from "../../content/nazariy";
 import { markActivityToday } from "../../lib/pwa";
+import { supabase, isSupabaseMode } from "../../lib/supabaseClient";
+
+/*
+ * Fundament bosqichi: nazariy (fonetika nazariyasi) darslar tugallanganda,
+ * mavjud KV-asosli progress (naz_done_${uid}, unlocked_${uid} — bular
+ * unlock/qulflash mantig'ini boshqaradi va o'zgarishsiz qoladi) YONIDA,
+ * Supabase rejimida `user_progress` normal jadvaliga ham yoziladi —
+ * bu yangi schema (supabase-migration-v12) ustida ishlaydigan birinchi
+ * real oqim (kelajakdagi gamifikatsiya/CEO-analitika shu jadvalga
+ * tayanadi). `lessons` jadvalida "naz:{id}" source_key bilan urug'langan
+ * qatorlar bo'lishi kerak (qarang: migratsiya fayli, 7-bo'lim). Amaliy va
+ * grammatika darslari uchun xuddi shunday yozuv keyingi bosqichda qo'shiladi.
+ */
+async function recordNazProgressToSupabase(userId: string, darsId: number, pct: number) {
+  if (!isSupabaseMode || !supabase) return;
+  try {
+    const { data: lesson } = await supabase.from("lessons").select("id").eq("source_key", `naz:${darsId}`).maybeSingle();
+    if (!lesson) return; // urug'lanmagan bo'lsa, jim o'tamiz (KV baribir yozildi)
+    await supabase.from("user_progress").upsert(
+      {
+        user_id: userId,
+        lesson_id: lesson.id,
+        status: pct >= 80 ? "completed" : "in_progress",
+        score: pct,
+        completed_at: pct >= 80 ? new Date().toISOString() : null,
+      },
+      { onConflict: "user_id,lesson_id" }
+    );
+  } catch {
+    // Foundation bosqichi — user_progress yozuvi muvaffaqiyatsiz bo'lsa ham
+    // KV progress (nazDone) allaqachon saqlangan, shuning uchun jim o'tamiz.
+  }
+}
 
 export interface DoneRec {
   ok: number;
@@ -108,6 +141,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     const next = { ...nazDone, [darsId]: { ok, tot, pct, sana: today() } };
     setNazDone(next);
     void store.set(`naz_done_${user.id}`, next);
+    void recordNazProgressToSupabase(user.id, darsId, pct);
     if (!isT && pct >= 80 && darsId < NAZARIY.length) {
       const nu = { ...unlocked, [darsId + 1]: true };
       setUnlocked(nu);

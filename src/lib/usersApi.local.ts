@@ -1,24 +1,12 @@
-import type { User, Role } from "../auth/types";
+import type { User } from "../auth/types";
 import { getUsers, saveUsers } from "./usersRepo";
 import type { LoginResult, MutationResult, UsersApi } from "./usersApi";
-
-function parseUnverifiedTelegramId(initData: string): number | null {
-  try {
-    const params = new URLSearchParams(initData);
-    const userJson = params.get("user");
-    if (!userJson) return null;
-    const id = JSON.parse(userJson)?.id;
-    return typeof id === "number" ? id : null;
-  } catch {
-    return null;
-  }
-}
 
 /*
  * Lokal (localStorage) fallback — Supabase sozlanmagan muhitlar uchun.
  * Bu yerda haqiqiy backend yo'q, shuning uchun xavfsizlik chegarasi yo'q —
  * "token" shunchaki foydalanuvchi id'sining o'zi (Supabase rejimidagi
- * UsersApi interfeysi bilan mos kelishi uchun saqlanadi, lekin hech qachon
+ * Auth sessiyasi bilan mos kelishi uchun saqlanadi, lekin hech qachon
  * tasdiqlanmaydi).
  */
 export class LocalUsersApi implements UsersApi {
@@ -26,32 +14,11 @@ export class LocalUsersApi implements UsersApi {
     return getUsers();
   }
 
-  async login(login: string, parol: string, role: Role): Promise<LoginResult | null> {
+  async login(login: string, parol: string): Promise<LoginResult | null> {
     const users = await getUsers();
     const user = users.find(
-      (x) => x.login.toLowerCase() === login.trim().toLowerCase() && x.parol === parol && x.role === role
+      (x) => x.login.toLowerCase() === login.trim().toLowerCase() && x.parol === parol
     );
-    return user ? { user, token: user.id } : null;
-  }
-
-  async loginStudentById(telegramId: string): Promise<LoginResult | null> {
-    const users = await getUsers();
-    const user = users.find(
-      (x) => x.role === "student" && String(x.telegramId) === String(telegramId).trim()
-    );
-    return user ? { user, token: user.id } : null;
-  }
-
-  async loginWithTelegram(initData: string): Promise<LoginResult | null> {
-    // Lokal (offline) rejimda haqiqiy backend yo'q, shuning uchun bot
-    // tokeni bilan HMAC tasdiqlash imkonsiz — bu yerda faqat initData
-    // ichidagi "user.id" ni tasdiqlamasdan o'qib olamiz (Supabase
-    // rejimida esa server bu satrni to'liq tasdiqlaydi, qarang:
-    // usersApi.supabase.ts / supabase-migration-v4-telegram-hmac.sql).
-    const tgId = parseUnverifiedTelegramId(initData);
-    if (tgId === null) return null;
-    const users = await getUsers();
-    const user = users.find((x) => x.telegramId === tgId);
     return user ? { user, token: user.id } : null;
   }
 

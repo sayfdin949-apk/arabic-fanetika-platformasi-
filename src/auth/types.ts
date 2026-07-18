@@ -4,6 +4,8 @@ export interface User {
   id: string;
   login: string;
   parol: string;
+  /** Faqat Supabase rejimida to'ldiriladi (Auth email — login/parol o'zgartirishda ishlatiladi). */
+  email?: string;
   ism: string;
   familya: string;
   role: Role;
