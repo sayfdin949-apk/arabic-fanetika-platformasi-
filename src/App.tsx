@@ -45,6 +45,7 @@ import { TarjimonView } from "./features/translator/TarjimonView";
 import { MultfilmlarView } from "./features/cartoons/MultfilmlarView";
 import { AchievementsView } from "./features/achievements/AchievementsView";
 import { LeaderboardView } from "./features/leaderboard/LeaderboardView";
+import { AssignmentsView } from "./features/assignments/AssignmentsView";
 import { T } from "./theme/tokens";
 
 function Splash() {
@@ -111,6 +112,7 @@ export default function App() {
             <Route path="/sertifikat" element={<SertifikatView />} />
             <Route path="/yutuqlar" element={<AchievementsView />} />
             <Route path="/reyting" element={<LeaderboardView />} />
+            <Route path="/topshiriqlar" element={<AssignmentsView />} />
             <Route path="/guruhlar" element={<GuruhlarView />} />
             <Route path="/shikoyat" element={<ShikoyatView />} />
             <Route path="/ustozlar" element={<UstozlarView />} />

@@ -30,6 +30,7 @@ import {
   Languages,
   Tv2,
   Trophy,
+  ListChecks,
   type LucideIcon,
 } from "lucide-react";
 import type { Role } from "../auth/types";
@@ -60,6 +61,7 @@ export const NAV: NavItem[] = [
   { to: "/sertifikat", label: "Sertifikat", icon: Award, roles: ALL, bottom: false },
   { to: "/yutuqlar", label: "Yutuqlar", icon: Award, roles: ALL, bottom: false },
   { to: "/reyting", label: "Reyting", icon: Trophy, roles: ALL, bottom: false },
+  { to: "/topshiriqlar", label: "Topshiriqlar", icon: ListChecks, roles: ALL, bottom: false },
   { to: "/davomat", label: "Davomat", icon: ClipboardCheck, roles: ALL, bottom: false },
   { to: "/shikoyat", label: "Shikoyat", icon: MessageCircleWarning, roles: ALL, bottom: false },
   { to: "/oquvchilar", label: "O'quvchilar", icon: Users, roles: ["ceo", "teacher"], bottom: false },
@@ -102,6 +104,7 @@ export const ADMIN_NAV: NavItem[] = [
   { to: "/statistika", label: "Statistika",       icon: BarChart2,           roles: ["ceo","teacher","assistant"], bottom: true  },
   { to: "/reyting",    label: "Reyting",          icon: Trophy,              roles: ["ceo","teacher"],             bottom: false },
   { to: "/yutuqlar",   label: "Yutuqlar",         icon: Award,               roles: ["ceo","teacher"],             bottom: false },
+  { to: "/topshiriqlar", label: "Topshiriqlar",   icon: ListChecks,          roles: ["ceo","teacher"],             bottom: false },
   { to: "/shikoyat",   label: "Shikoyatlar",      icon: MessageCircleWarning,roles: ["ceo","teacher","assistant"], bottom: false },
   { to: "/skaner",     label: "Skaner",           icon: ScanLine,            roles: ["assistant"],                  bottom: true  },
   { to: "/chat",       label: "Guruh chat",       icon: MessageCircle,       roles: ["ceo","teacher","assistant"], bottom: true  },

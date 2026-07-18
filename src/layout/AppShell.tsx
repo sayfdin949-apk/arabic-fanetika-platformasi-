@@ -8,6 +8,7 @@ import { navForRole, type NavItem } from "./nav";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { isTelegramMiniApp, getTelegramSafeInsets, initTelegramApp } from "../lib/telegram";
 import { WeeklyRatingGate } from "../features/rating/WeeklyRatingGate";
+import { supabase, isSupabaseMode } from "../lib/supabaseClient";
 
 function useStudentGuard(isStudent: boolean) {
   useEffect(() => {
@@ -137,6 +138,27 @@ function useChatDot(): boolean {
   return dot;
 }
 
+/** O'quvchida kutilayotgan (status='pending') topshiriq bo'lsa qizil nuqta ko'rsatadi. */
+function useAssignmentDot(userId: string | undefined): boolean {
+  const [dot, setDot] = useState(false);
+  useEffect(() => {
+    if (!isSupabaseMode || !supabase || !userId) return;
+    let alive = true;
+    const check = async () => {
+      const { count } = await supabase!
+        .from("assignment_students")
+        .select("id", { count: "exact", head: true })
+        .eq("student_id", userId)
+        .eq("status", "pending");
+      if (alive) setDot((count ?? 0) > 0);
+    };
+    void check();
+    const t = setInterval(check, 30000);
+    return () => { alive = false; clearInterval(t); };
+  }, [userId]);
+  return dot;
+}
+
 
 export function AppShell() {
   const { user, users, avatar, logout } = useAuth();
@@ -167,6 +189,7 @@ export function AppShell() {
 
   const { streak } = useProgress();
   const chatDot = useChatDot();
+  const assignmentDot = useAssignmentDot(user?.id);
 
   const [tgInsets, setTgInsets] = useState({ top: 0, bottom: 0 });
   useEffect(() => {
@@ -242,6 +265,9 @@ export function AppShell() {
                     {it.to === "/chat" && chatDot && (
                       <div style={{ position: "absolute", top: -3, right: -3, width: 7, height: 7, borderRadius: "50%", background: "#EF4444", border: "1.5px solid " + T.green }} />
                     )}
+                    {it.to === "/topshiriqlar" && assignmentDot && (
+                      <div style={{ position: "absolute", top: -3, right: -3, width: 7, height: 7, borderRadius: "50%", background: "#EF4444", border: "1.5px solid " + T.green }} />
+                    )}
                   </div>
                   {!collapsed && <span>{it.label}</span>}
                 </NavLink>
@@ -305,6 +331,9 @@ export function AppShell() {
       <div style={{ position: "relative", display: "flex" }}>
         <it.icon size={20} />
         {it.to === "/chat" && chatDot && (
+          <div style={{ position: "absolute", top: -2, right: -2, width: 8, height: 8, borderRadius: "50%", background: "#EF4444", border: "1.5px solid #fff" }} />
+        )}
+        {it.to === "/topshiriqlar" && assignmentDot && (
           <div style={{ position: "absolute", top: -2, right: -2, width: 8, height: 8, borderRadius: "50%", background: "#EF4444", border: "1.5px solid #fff" }} />
         )}
       </div>
@@ -389,6 +418,9 @@ export function AppShell() {
                   <div style={{ position: "relative", display: "flex", flexShrink: 0 }}>
                     <it.icon size={18} />
                     {it.to === "/chat" && chatDot && (
+                      <div style={{ position: "absolute", top: -3, right: -3, width: 8, height: 8, borderRadius: "50%", background: "#EF4444", border: "1.5px solid #fff" }} />
+                    )}
+                    {it.to === "/topshiriqlar" && assignmentDot && (
                       <div style={{ position: "absolute", top: -3, right: -3, width: 8, height: 8, borderRadius: "50%", background: "#EF4444", border: "1.5px solid #fff" }} />
                     )}
                   </div>

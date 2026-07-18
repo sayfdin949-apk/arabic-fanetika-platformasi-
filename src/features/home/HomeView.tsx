@@ -12,6 +12,9 @@ import { useAssistant } from "../assistant/AssistantContext";
 import { store } from "../../lib/storage";
 import type { DoneMap } from "../progress/ProgressContext";
 import { loadDaraja, DARAJA_ARABIC } from "../../content/darajaTest";
+import { supabase, isSupabaseMode } from "../../lib/supabaseClient";
+import { sourceKeyToRoute } from "../../lib/lessonLink";
+import { ListChecks } from "lucide-react";
 
 function Ring({ pct }: { pct: number }) {
   const r = 46;
@@ -211,6 +214,7 @@ function TeacherHome() {
           { label: "Davomat belgilash", sub: "Bugungi ro'yxat", icon: ClipboardCheck, to: "/davomat" },
           { label: "O'quvchilar", sub: "Progress va ma'lumotlar", icon: Users, to: "/oquvchilar" },
           { label: "Statistika", sub: "Batafsil tahlil", icon: BarChart2, to: "/statistika" },
+          { label: "Topshiriqlar", sub: "Vazifa berish va kuzatish", icon: ListChecks, to: "/topshiriqlar" },
           ...(isCeo
             ? [
                 { label: "Guruhlar", sub: "Guruh yaratish va boshqarish", icon: LayersIcon, to: "/guruhlar" },
@@ -330,6 +334,75 @@ const MODULLAR = [
   { to: "/ota-ona",        icon: Baby,         label: "Ota-ona paneli",   sub: "Farzand progressi",      color: "#BE185D" },
 ];
 
+interface TodayAssignmentRow {
+  id: string;
+  title: string;
+  due_date: string | null;
+  lessons: { source_key: string } | null;
+}
+
+/** Spec 07-bo'lim: "Bugungi topshiriqlar" — eng yaqin 3 ta kutilayotgan topshiriq. */
+function TodayAssignments() {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const [items, setItems] = useState<TodayAssignmentRow[]>([]);
+
+  useEffect(() => {
+    if (!isSupabaseMode || !supabase || !user) return;
+    let alive = true;
+    (async () => {
+      const { data } = await supabase!
+        .from("assignment_students")
+        .select("id, assignments(id, title, due_date, lessons(source_key))")
+        .eq("student_id", user.id)
+        .eq("status", "pending");
+      if (!alive || !data) return;
+      const rows = (data as unknown as { id: string; assignments: TodayAssignmentRow | null }[])
+        .map((r) => r.assignments)
+        .filter((a): a is TodayAssignmentRow => !!a)
+        .sort((a, b) => {
+          const da = a.due_date ? new Date(a.due_date).getTime() : Infinity;
+          const db = b.due_date ? new Date(b.due_date).getTime() : Infinity;
+          return da - db;
+        })
+        .slice(0, 3);
+      setItems(rows);
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [user]);
+
+  if (!isSupabaseMode || items.length === 0) return null;
+
+  return (
+    <div style={{ background: "#fff", borderRadius: 16, border: "1px solid rgba(13,58,26,.08)", boxShadow: "0 1px 2px rgba(13,58,26,.04), 0 6px 18px rgba(13,58,26,.06)", padding: 18, marginBottom: 14 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <div style={{ width: 4, height: 16, borderRadius: 2, background: T.gLime, flexShrink: 0 }} />
+          <span style={{ fontSize: 13, fontWeight: 600, color: T.green }}>Bugungi topshiriqlar</span>
+        </div>
+        <button onClick={() => navigate("/topshiriqlar")} style={{ background: "none", border: "none", color: T.hint, fontSize: 11, cursor: "pointer" }}>
+          Barchasi →
+        </button>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        {items.map((a) => (
+          <button
+            key={a.id}
+            onClick={() => a.lessons && navigate(sourceKeyToRoute(a.lessons.source_key))}
+            style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "rgba(13,58,26,.03)", borderRadius: 10, border: "none", cursor: "pointer", textAlign: "left" }}
+          >
+            <ListChecks size={16} color={T.lime} />
+            <span style={{ flex: 1, fontSize: 12.5, color: T.text, fontWeight: 500 }}>{a.title}</span>
+            {a.due_date && <span style={{ fontSize: 10.5, color: T.hint }}>{new Date(a.due_date).toLocaleDateString("uz-UZ", { day: "numeric", month: "short" })}</span>}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function HomeView() {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -427,6 +500,8 @@ export function HomeView() {
 
       {/* Content */}
       <div style={{ padding: "16px 16px 28px" }}>
+        <TodayAssignments />
+
         {/* Progress detail card */}
         <div style={{
           background: "#fff",
