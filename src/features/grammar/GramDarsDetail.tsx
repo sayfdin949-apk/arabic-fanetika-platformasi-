@@ -41,7 +41,7 @@ export function GramDarsDetail() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { coins, addCoins } = useCoins();
-  const { touchStreak } = useProgress();
+  const { touchStreak, recordGramProgress } = useProgress();
   const dars = GRAM_DARSLAR.find((d) => d.id === Number(id));
 
   const [phase, setPhase] = useState<Phase>("qoida");
@@ -73,6 +73,7 @@ export function GramDarsDetail() {
     if (user) {
       saveDone(user.id, dars.id, { pct: p, sana: new Date().toLocaleDateString("uz") });
       touchStreak();
+      recordGramProgress(dars.id, p);
       if (p >= 80 && !coinEarned) {
         addCoins(10);
         setCoinEarned(true);

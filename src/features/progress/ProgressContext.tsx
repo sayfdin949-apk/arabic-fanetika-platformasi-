@@ -6,34 +6,48 @@ import { markActivityToday } from "../../lib/pwa";
 import { supabase, isSupabaseMode } from "../../lib/supabaseClient";
 
 /*
- * Fundament bosqichi: nazariy (fonetika nazariyasi) darslar tugallanganda,
- * mavjud KV-asosli progress (naz_done_${uid}, unlocked_${uid} — bular
+ * Gamifikatsiya (2-bosqich): dars/mashq tugallanganda mavjud KV-asosli
+ * progress (naz_done_${uid}, amal_done_${uid}, unlocked_${uid} — bular
  * unlock/qulflash mantig'ini boshqaradi va o'zgarishsiz qoladi) YONIDA,
- * Supabase rejimida `user_progress` normal jadvaliga ham yoziladi —
- * bu yangi schema (supabase-migration-v12) ustida ishlaydigan birinchi
- * real oqim (kelajakdagi gamifikatsiya/CEO-analitika shu jadvalga
- * tayanadi). `lessons` jadvalida "naz:{id}" source_key bilan urug'langan
- * qatorlar bo'lishi kerak (qarang: migratsiya fayli, 7-bo'lim). Amaliy va
- * grammatika darslari uchun xuddi shunday yozuv keyingi bosqichda qo'shiladi.
+ * Supabase rejimida `record_lesson_complete` SECURITY DEFINER RPC
+ * chaqiriladi (qarang: supabase-migration-v13-gamification.sql) — bu
+ * bitta atomik amalda `user_progress`ni yangilaydi, XP beradi (farming'ga
+ * qarshi — faqat birinchi tugallashda to'liq, qayta topshirishda faqat
+ * ball yaxshilansa farqi), streakni yangilaydi va yangi yutuqlarni beradi.
+ * Natijadagi yutuqlar `newAchievements` state'iga qo'yiladi (banner uchun),
+ * so'ng `refreshProfile()` chaqirilib `user.xpTotal/streakCurrent` darhol
+ * yangilanadi.
  */
-async function recordNazProgressToSupabase(userId: string, darsId: number, pct: number) {
-  if (!isSupabaseMode || !supabase) return;
+interface LessonRpcResult {
+  ok: boolean;
+  xpEarned?: number;
+  streakCurrent?: number;
+  newAchievements?: { code: string }[];
+  error?: string;
+}
+
+async function callRecordLessonComplete(sourceKey: string, pct: number): Promise<LessonRpcResult | null> {
+  if (!isSupabaseMode || !supabase) return null;
   try {
-    const { data: lesson } = await supabase.from("lessons").select("id").eq("source_key", `naz:${darsId}`).maybeSingle();
-    if (!lesson) return; // urug'lanmagan bo'lsa, jim o'tamiz (KV baribir yozildi)
-    await supabase.from("user_progress").upsert(
-      {
-        user_id: userId,
-        lesson_id: lesson.id,
-        status: pct >= 80 ? "completed" : "in_progress",
-        score: pct,
-        completed_at: pct >= 80 ? new Date().toISOString() : null,
-      },
-      { onConflict: "user_id,lesson_id" }
-    );
+    const { data, error } = await supabase.rpc("record_lesson_complete", { p_source_key: sourceKey, p_score_pct: pct });
+    if (error || !data) return null;
+    return data as LessonRpcResult;
   } catch {
-    // Foundation bosqichi — user_progress yozuvi muvaffaqiyatsiz bo'lsa ham
-    // KV progress (nazDone) allaqachon saqlangan, shuning uchun jim o'tamiz.
+    // Gamifikatsiya RPC muvaffaqiyatsiz bo'lsa ham KV progress allaqachon
+    // saqlangan, shuning uchun jim o'tamiz — foydalanuvchi darsni ko'radi,
+    // faqat XP/yutuq kechroq yoki keyingi urinishda hisoblanadi.
+    return null;
+  }
+}
+
+async function callTouchDailyActivity(): Promise<LessonRpcResult | null> {
+  if (!isSupabaseMode || !supabase) return null;
+  try {
+    const { data, error } = await supabase.rpc("touch_daily_activity");
+    if (error || !data) return null;
+    return data as LessonRpcResult;
+  } catch {
+    return null;
   }
 }
 
@@ -68,6 +82,11 @@ interface ProgressValue {
   touchStreak: () => void;
   /** Dars qulfini market'dan ishlatib, berilgan darsni ochadi. true qaytarsa muvaffaqiyatli. */
   consumeLessonUnlock: (darsId: number) => boolean;
+  /** Grammatika darsi tugallanganda XP/yutuq RPC'sini chaqiradi (progress saqlash usuli o'zgarmaydi). */
+  recordGramProgress: (darsId: number, pct: number) => void;
+  /** Oxirgi chaqiruvda berilgan yangi yutuqlar (banner ko'rsatish uchun). */
+  newAchievements: { code: string }[];
+  clearNewAchievements: () => void;
 }
 
 const Ctx = createContext<ProgressValue | null>(null);
@@ -86,7 +105,7 @@ function calcStreak(prev: Streak): Streak {
 }
 
 export function ProgressProvider({ children }: { children: ReactNode }) {
-  const { user } = useAuth();
+  const { user, refreshProfile } = useAuth();
   const isT = user?.role === "teacher" || user?.role === "ceo" || user?.role === "assistant";
   const [ready, setReady] = useState(false);
   const [nazDone, setNazDone] = useState<DoneMap>({});
@@ -94,6 +113,13 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const [unlocked, setUnlocked] = useState<UnlockedMap>(isT ? allUnlocked() : { 1: true });
   const [wrongMap, setWrongMap] = useState<WrongMap>({});
   const [streak, setStreak] = useState<Streak>({ days: 0, lastDate: "" });
+  const [newAchievements, setNewAchievements] = useState<{ code: string }[]>([]);
+
+  const applyLessonRpcResult = (res: LessonRpcResult | null) => {
+    if (!res) return;
+    if (res.newAchievements?.length) setNewAchievements((cur) => [...cur, ...res.newAchievements!]);
+    void refreshProfile();
+  };
 
   useEffect(() => {
     if (!user) return;
@@ -141,7 +167,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     const next = { ...nazDone, [darsId]: { ok, tot, pct, sana: today() } };
     setNazDone(next);
     void store.set(`naz_done_${user.id}`, next);
-    void recordNazProgressToSupabase(user.id, darsId, pct);
+    void callRecordLessonComplete(`naz:${darsId}`, pct).then(applyLessonRpcResult);
     if (!isT && pct >= 80 && darsId < NAZARIY.length) {
       const nu = { ...unlocked, [darsId + 1]: true };
       setUnlocked(nu);
@@ -155,7 +181,15 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     const next = { ...amalDone, [bobId]: { ok, tot, pct, sana: today() } };
     setAmalDone(next);
     void store.set(`amal_done_${user.id}`, next);
+    void callRecordLessonComplete(`amal:${bobId}`, pct).then(applyLessonRpcResult);
   };
+
+  const recordGramProgress = (darsId: number, pct: number) => {
+    if (!user) return;
+    void callRecordLessonComplete(`gram:${darsId}`, pct).then(applyLessonRpcResult);
+  };
+
+  const clearNewAchievements = () => setNewAchievements([]);
 
   const saveWrong = (key: string, indices: number[]) => {
     if (!user) return;
@@ -180,6 +214,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       void store.set(`streak_${user.id}`, updated);
       return updated;
     });
+    void callTouchDailyActivity().then(applyLessonRpcResult);
   };
 
   const consumeLessonUnlock = (darsId: number): boolean => {
@@ -200,7 +235,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <Ctx.Provider value={{ ready, nazDone, amalDone, unlocked, wrongMap, streak, isNazUnlocked, submitNaz, submitAmal, saveWrong, clearWrong, touchStreak, consumeLessonUnlock }}>
+    <Ctx.Provider value={{ ready, nazDone, amalDone, unlocked, wrongMap, streak, isNazUnlocked, submitNaz, submitAmal, saveWrong, clearWrong, touchStreak, consumeLessonUnlock, recordGramProgress, newAchievements, clearNewAchievements }}>
       {children}
     </Ctx.Provider>
   );

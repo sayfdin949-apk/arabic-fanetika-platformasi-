@@ -19,4 +19,10 @@ export interface User {
   assistantRating?: number;
   /** O'quv yo'nalishi: fonetika yoki grammatika */
   tur?: "grammatika" | "fonetika";
+  /** Faqat Supabase rejimida to'ldiriladi (gamifikatsiya — spec 09-bo'lim). */
+  xpTotal?: number;
+  streakCurrent?: number;
+  streakMax?: number;
+  /** O'quvchi uchun — biriktirilgan o'qituvchi id'si (guruh reytingi uchun). */
+  teacherId?: string;
 }

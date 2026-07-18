@@ -43,6 +43,8 @@ import { OtaOnaView } from "./features/parent/OtaOnaView";
 import { DarajaTestView } from "./features/placement/DarajaTestView";
 import { TarjimonView } from "./features/translator/TarjimonView";
 import { MultfilmlarView } from "./features/cartoons/MultfilmlarView";
+import { AchievementsView } from "./features/achievements/AchievementsView";
+import { LeaderboardView } from "./features/leaderboard/LeaderboardView";
 import { T } from "./theme/tokens";
 
 function Splash() {
@@ -107,6 +109,8 @@ export default function App() {
             <Route path="/xatolar" element={<XatolarView />} />
             <Route path="/juftlar" element={<MinimalPairsView />} />
             <Route path="/sertifikat" element={<SertifikatView />} />
+            <Route path="/yutuqlar" element={<AchievementsView />} />
+            <Route path="/reyting" element={<LeaderboardView />} />
             <Route path="/guruhlar" element={<GuruhlarView />} />
             <Route path="/shikoyat" element={<ShikoyatView />} />
             <Route path="/ustozlar" element={<UstozlarView />} />

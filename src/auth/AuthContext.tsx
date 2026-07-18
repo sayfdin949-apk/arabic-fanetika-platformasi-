@@ -40,6 +40,9 @@ interface ProfileRow {
   assistant_blocked_until: string | null;
   assistant_rating: number;
   is_active: boolean;
+  xp_total: number;
+  streak_current: number;
+  streak_max: number;
 }
 
 function profileToUser(p: ProfileRow): User {
@@ -58,11 +61,15 @@ function profileToUser(p: ProfileRow): User {
     assistantBlockedUntil: p.assistant_blocked_until ?? undefined,
     assistantRating: p.assistant_rating,
     tur: p.tur ?? undefined,
+    xpTotal: p.xp_total,
+    streakCurrent: p.streak_current,
+    streakMax: p.streak_max,
+    teacherId: p.teacher_id ?? undefined,
   };
 }
 
 const PROFILE_COLUMNS =
-  "id, login, email, ism, familya, role, teacher_id, avatar_url, phone, tugilgan, tur, telegram_id, assistant_blocked_until, assistant_rating, is_active";
+  "id, login, email, ism, familya, role, teacher_id, avatar_url, phone, tugilgan, tur, telegram_id, assistant_blocked_until, assistant_rating, is_active, xp_total, streak_current, streak_max";
 
 interface AuthValue {
   user: User | null;
@@ -71,6 +78,8 @@ interface AuthValue {
   users: User[];
   login: (login: string, parol: string) => Promise<User | null>;
   logout: () => void;
+  /** Joriy foydalanuvchi profilini serverdan qayta o'qiydi (XP/streak/yutuq RPC'laridan keyin). */
+  refreshProfile: () => Promise<void>;
   updateAvatar: (dataUrl: string) => void;
   updateProfile: (data: { ism: string; familya: string; tel?: string; tugilgan?: string }) => Promise<{ ok: boolean; error?: string }>;
   addUser: (u: Omit<User, "id">) => Promise<{ ok: boolean; error?: string }>;
@@ -214,6 +223,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return res?.user ?? null;
   };
 
+  const refreshProfile = useCallback(async (): Promise<void> => {
+    if (!isSupabaseMode || !supabase || !user) return;
+    const profile = await fetchProfile(user.id);
+    if (profile) setUser(profile);
+  }, [user, fetchProfile]);
+
   const logout = () => {
     if (isSupabaseMode && supabase) void supabase.auth.signOut();
     setUser(null);
@@ -285,6 +300,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const updated = profileToUser(row as ProfileRow);
       setUser(updated);
       setUsers((cur) => cur.map((x) => (x.id === user.id ? updated : x)));
+      // "Profil to'ldirildi" yutug'ini serverda tekshirish (gamifikatsiya, 2-bosqich)
+      void supabase.rpc("check_profile_achievement");
       return { ok: true };
     }
     const res = await usersApi.updateProfile(user.id, data);
@@ -350,7 +367,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthCtx.Provider
-      value={{ user, ready, avatar, users, login, logout, updateAvatar, updateProfile, addUser, removeUser, patchUser, changePassword, adminResetPassword }}
+      value={{ user, ready, avatar, users, login, logout, refreshProfile, updateAvatar, updateProfile, addUser, removeUser, patchUser, changePassword, adminResetPassword }}
     >
       {children}
     </AuthCtx.Provider>
