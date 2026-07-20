@@ -116,6 +116,37 @@ function TeacherHome() {
       setTodayDavomat(dav ?? {});
 
       if (students.length === 0) return;
+
+      // Supabase rejimida bitta agregatsiya so'rovi (eski N+1 KV-loop o'rniga —
+      // o'quvchilar ko'payganda ham sekinlashmaydi; RLS allaqachon teacherni
+      // faqat o'z o'quvchilariga cheklaydi).
+      if (isSupabaseMode && supabase) {
+        const { data } = await supabase
+          .from("user_progress")
+          .select("user_id, status, lessons(source_key)")
+          .in("user_id", students.map((s) => s.id));
+        const perStudent = new Map<string, { nazDone: number; amalDone: number }>();
+        for (const s of students) perStudent.set(s.id, { nazDone: 0, amalDone: 0 });
+        for (const row of (data ?? []) as unknown as { user_id: string; status: string; lessons: { source_key: string } | null }[]) {
+          if (row.status !== "completed" || !row.lessons) continue;
+          const prefix = row.lessons.source_key.split(":")[0];
+          const entry = perStudent.get(row.user_id);
+          if (!entry) continue;
+          if (prefix === "naz") entry.nazDone++;
+          if (prefix === "amal") entry.amalDone++;
+        }
+        let totalNaz = 0, totalAmal = 0;
+        for (const s of students) {
+          const e = perStudent.get(s.id)!;
+          totalNaz += Math.round((e.nazDone / NAZARIY.length) * 100);
+          totalAmal += Math.round((e.amalDone / AMALIY.length) * 100);
+        }
+        setAvgNaz(Math.round(totalNaz / students.length));
+        setAvgAmal(Math.round(totalAmal / students.length));
+        return;
+      }
+
+      // Lokal (Supabase'siz) rejim — eski KV-loop fallback sifatida saqlanadi.
       let totalNaz = 0, totalAmal = 0;
       for (const s of students) {
         const naz = await store.get<DoneMap>(`naz_done_${s.id}`);

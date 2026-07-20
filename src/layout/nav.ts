@@ -31,6 +31,7 @@ import {
   Tv2,
   Trophy,
   ListChecks,
+  LineChart,
   type LucideIcon,
 } from "lucide-react";
 import type { Role } from "../auth/types";
@@ -105,6 +106,7 @@ export const ADMIN_NAV: NavItem[] = [
   { to: "/reyting",    label: "Reyting",          icon: Trophy,              roles: ["ceo","teacher"],             bottom: false },
   { to: "/yutuqlar",   label: "Yutuqlar",         icon: Award,               roles: ["ceo","teacher"],             bottom: false },
   { to: "/topshiriqlar", label: "Topshiriqlar",   icon: ListChecks,          roles: ["ceo","teacher"],             bottom: false },
+  { to: "/analitika",  label: "Analitika",        icon: LineChart,           roles: ["ceo"],                       bottom: false },
   { to: "/shikoyat",   label: "Shikoyatlar",      icon: MessageCircleWarning,roles: ["ceo","teacher","assistant"], bottom: false },
   { to: "/skaner",     label: "Skaner",           icon: ScanLine,            roles: ["assistant"],                  bottom: true  },
   { to: "/chat",       label: "Guruh chat",       icon: MessageCircle,       roles: ["ceo","teacher","assistant"], bottom: true  },
