@@ -61,13 +61,13 @@ CREATE POLICY afp_kv_delete_non_users ON afp_kv
 
 -- ── 5. Ichki yordamchi funksiyalar (PUBLIC ga yopiq) ─────────────
 CREATE OR REPLACE FUNCTION afp_users_raw() RETURNS JSONB
-LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE sql SECURITY DEFINER SET search_path = public, extensions AS $$
   SELECT COALESCE((SELECT value FROM afp_kv WHERE key = 'users'), '[]'::jsonb);
 $$;
 REVOKE ALL ON FUNCTION afp_users_raw() FROM PUBLIC;
 
 CREATE OR REPLACE FUNCTION afp_save_users(p_users JSONB) RETURNS VOID
-LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE sql SECURITY DEFINER SET search_path = public, extensions AS $$
   INSERT INTO afp_kv (key, value, updated_at) VALUES ('users', p_users, NOW())
   ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = EXCLUDED.updated_at;
 $$;
@@ -81,7 +81,7 @@ REVOKE ALL ON FUNCTION afp_sanitize_user(JSONB) FROM PUBLIC;
 
 -- ── 6. Sessiya tokeni tizimi ──────────────────────────────────────
 CREATE OR REPLACE FUNCTION afp_get_or_create_session_secret() RETURNS TEXT
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, extensions AS $$
 DECLARE v TEXT;
 BEGIN
   SELECT value INTO v FROM afp_secrets WHERE key = 'session_secret';
@@ -97,7 +97,7 @@ $$;
 REVOKE ALL ON FUNCTION afp_get_or_create_session_secret() FROM PUBLIC;
 
 CREATE OR REPLACE FUNCTION afp_make_session_token(p_user_id TEXT) RETURNS TEXT
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, extensions AS $$
 DECLARE
   secret TEXT;
   expiry BIGINT;
@@ -111,7 +111,7 @@ $$;
 REVOKE ALL ON FUNCTION afp_make_session_token(TEXT) FROM PUBLIC;
 
 CREATE OR REPLACE FUNCTION afp_session_user(p_token TEXT) RETURNS JSONB
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, extensions AS $$
 DECLARE
   parts TEXT[];
   uid TEXT; expiry BIGINT; sig TEXT; secret TEXT; expected TEXT; u JSONB;
@@ -143,7 +143,7 @@ INSERT INTO afp_secrets (key, value)
   ON CONFLICT (key) DO NOTHING;
 
 CREATE OR REPLACE FUNCTION afp_get_secret(p_key TEXT) RETURNS TEXT
-LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE sql SECURITY DEFINER SET search_path = public, extensions AS $$
   SELECT value FROM afp_secrets WHERE key = p_key;
 $$;
 REVOKE ALL ON FUNCTION afp_get_secret(TEXT) FROM PUBLIC;
@@ -175,7 +175,7 @@ $$;
 REVOKE ALL ON FUNCTION afp_url_decode(TEXT) FROM PUBLIC;
 
 CREATE OR REPLACE FUNCTION afp_verify_telegram_init_data(p_init_data TEXT) RETURNS JSONB
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, extensions AS $$
 DECLARE
   bot_token TEXT; secret_key BYTEA; pairs TEXT[]; pair TEXT; eq_pos INT;
   k TEXT; v TEXT; received_hash TEXT; check_pairs TEXT[] := '{}';
@@ -216,7 +216,7 @@ REVOKE ALL ON FUNCTION afp_verify_telegram_init_data(TEXT) FROM PUBLIC;
 
 -- Foydalanuvchilar ro'yxati (parolsiz)
 CREATE OR REPLACE FUNCTION afp_get_users() RETURNS JSONB
-LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE sql SECURITY DEFINER SET search_path = public, extensions AS $$
   SELECT COALESCE(jsonb_agg(afp_sanitize_user(u)), '[]'::jsonb)
   FROM jsonb_array_elements(afp_users_raw()) AS u;
 $$;
@@ -224,7 +224,7 @@ GRANT EXECUTE ON FUNCTION afp_get_users() TO anon, authenticated;
 
 -- Login (bcrypt solishtirish)
 CREATE OR REPLACE FUNCTION afp_login(p_login TEXT, p_parol TEXT, p_role TEXT) RETURNS JSONB
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, extensions AS $$
 DECLARE found JSONB;
 BEGIN
   SELECT u INTO found
@@ -241,7 +241,7 @@ GRANT EXECUTE ON FUNCTION afp_login(TEXT, TEXT, TEXT) TO anon, authenticated;
 
 -- Telegram orqali kirish
 CREATE OR REPLACE FUNCTION afp_login_telegram_secure(p_init_data TEXT) RETURNS JSONB
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, extensions AS $$
 DECLARE verified_user JSONB; tg_id BIGINT; found JSONB;
 BEGIN
   verified_user := afp_verify_telegram_init_data(p_init_data);
@@ -259,7 +259,7 @@ GRANT EXECUTE ON FUNCTION afp_login_telegram_secure(TEXT) TO anon, authenticated
 DROP FUNCTION IF EXISTS afp_add_user(JSONB);
 DROP FUNCTION IF EXISTS afp_add_user(TEXT, JSONB);
 CREATE FUNCTION afp_add_user(p_session_token TEXT, p_user JSONB) RETURNS JSONB
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, extensions AS $$
 DECLARE
   caller JSONB; caller_role TEXT; new_role TEXT;
   users JSONB; new_login TEXT := trim(p_user->>'login');
@@ -301,7 +301,7 @@ GRANT EXECUTE ON FUNCTION afp_add_user(TEXT, JSONB) TO anon, authenticated;
 DROP FUNCTION IF EXISTS afp_remove_user(TEXT);
 DROP FUNCTION IF EXISTS afp_remove_user(TEXT, TEXT);
 CREATE FUNCTION afp_remove_user(p_session_token TEXT, p_id TEXT) RETURNS VOID
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, extensions AS $$
 DECLARE
   caller JSONB; caller_role TEXT; target JSONB;
 BEGIN
@@ -333,7 +333,7 @@ GRANT EXECUTE ON FUNCTION afp_remove_user(TEXT, TEXT) TO anon, authenticated;
 DROP FUNCTION IF EXISTS afp_patch_user(TEXT, JSONB);
 DROP FUNCTION IF EXISTS afp_patch_user(TEXT, TEXT, JSONB);
 CREATE FUNCTION afp_patch_user(p_session_token TEXT, p_id TEXT, p_patch JSONB) RETURNS JSONB
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, extensions AS $$
 DECLARE
   caller JSONB; users JSONB; safe_patch JSONB; updated JSONB;
 BEGIN
@@ -360,7 +360,7 @@ DROP FUNCTION IF EXISTS afp_update_profile(TEXT, TEXT, TEXT, TEXT, TEXT);
 CREATE FUNCTION afp_update_profile(
   p_session_token TEXT, p_ism TEXT, p_familya TEXT, p_tel TEXT, p_tugilgan TEXT
 ) RETURNS JSONB
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, extensions AS $$
 DECLARE
   caller JSONB; p_user_id TEXT; users JSONB; cur JSONB; updated JSONB; patch JSONB;
 BEGIN
@@ -392,7 +392,7 @@ DROP FUNCTION IF EXISTS afp_change_password(TEXT, TEXT, TEXT);
 CREATE FUNCTION afp_change_password(
   p_session_token TEXT, p_eski_parol TEXT, p_yangi_parol TEXT
 ) RETURNS JSONB
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, extensions AS $$
 DECLARE
   caller JSONB; p_user_id TEXT; users JSONB; cur JSONB; updated JSONB;
 BEGIN
@@ -420,7 +420,7 @@ GRANT EXECUTE ON FUNCTION afp_change_password(TEXT, TEXT, TEXT) TO anon, authent
 CREATE OR REPLACE FUNCTION afp_admin_reset_password(
   p_session_token TEXT, p_target_id TEXT, p_new_parol TEXT
 ) RETURNS JSONB
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, extensions AS $$
 DECLARE
   caller JSONB; target JSONB; all_users JSONB; updated JSONB;
 BEGIN
