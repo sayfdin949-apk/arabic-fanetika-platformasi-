@@ -1,52 +1,90 @@
-/* Arab Fonetika Platformasi — Service Worker */
-const CACHE = "afp-v1";
+/* Arab Fonetika Platformasi — Service Worker
+ *
+ * FAVQULODDA FLUSH (2026-07-21):
+ * Eski keshda "qotib qolgan" foydalanuvchilarni majburan yangi versiyaga
+ * o'tkazadi. Oldingi SW (afp-v1) uch sababga ko'ra userlarni turli
+ * versiyalarda ushlab qolardi:
+ *   1) kesh nomi doimiy edi → hech qachon tozalanmasdi;
+ *   2) assetlar "cache-first" edi → eski bundle abadiy keshdan berilardi;
+ *   3) HTML tarmoq uzilishida eski keshdan berilardi → eski assetlarga
+ *      ishora qilib, ilovani eski versiyada muzlatib qo'yardi.
+ *
+ * Bu versiya: (a) BARCHA keshni o'chiradi, (b) ochiq oynalarni bir marta
+ * qayta yuklaydi, (c) endi HECH QACHON cache-first ishlatmaydi (network-first;
+ * kesh faqat oflayn zaxira). Shu tufayli "biri eski, biri yangi" holati
+ * takrorlanmaydi.
+ *
+ * ⚠️ Reload loop yo'q: bu fayl bir marta deploy qilingach, keyingi
+ * yuklashlarda sw.js baytlari BIR XIL bo'ladi → brauzer yangi SW ni
+ * o'rnatmaydi → activate qayta ishlamaydi → qayta reload bo'lmaydi.
+ */
+const CACHE = "afp-reset-20260721";
 const BASE = "/arabic-fanetika-platformasi-/";
 
-// App-shell files to pre-cache
-const SHELL = [BASE, BASE + "index.html"];
-
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE).then((c) => c.addAll(SHELL))
-  );
+self.addEventListener("install", () => {
+  // Kutish navbatisiz darhol aktiv bo'lamiz.
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
-    )
+    (async () => {
+      // 1) BARCHA keshni o'chiramiz (afp-v1 va boshqa har qanday qoldiq).
+      const keys = await caches.keys();
+      await Promise.all(keys.map((k) => caches.delete(k)));
+
+      // 2) Ochiq sahifalarni darhol nazoratga olamiz.
+      await self.clients.claim();
+
+      // 3) Ochiq oynalarni bir marta qayta yuklaymiz — ular yangi
+      //    index.html + yangi bundle'ni oladi. Har bir client alohida
+      //    try/catch bilan o'raladi: bittasi xato bersa qolganlari
+      //    baribir yangilanadi.
+      const wins = await self.clients.matchAll({ type: "window" });
+      for (const w of wins) {
+        try {
+          if ("navigate" in w) w.navigate(w.url);
+        } catch {
+          /* e'tiborsiz qoldiramiz */
+        }
+      }
+    })()
   );
-  self.clients.claim();
 });
 
-// Network-first for JS/CSS bundles (they have hashed names),
-// cache-first fallback for everything else
+// Network-first: eski keshni HECH QACHON birinchi bo'lib bermaymiz.
+// Muvaffaqiyatli javob keshga zaxiraga yoziladi, faqat oflayn holatda ishlatiladi.
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   if (!event.request.url.startsWith(self.location.origin)) return;
 
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const network = fetch(event.request).then((res) => {
+    fetch(event.request)
+      .then((res) => {
         if (res.ok) {
-          caches.open(CACHE).then((c) => c.put(event.request, res.clone()));
+          const copy = res.clone();
+          caches.open(CACHE).then((c) => c.put(event.request, copy)).catch(() => {});
         }
         return res;
-      }).catch(() => cached ?? new Response("offline", { status: 503 }));
-
-      // For hashed assets (contain "assets/") use cache immediately if available
-      if (cached && event.request.url.includes("/assets/")) return cached;
-      return network;
-    })
+      })
+      .catch(() =>
+        caches
+          .match(event.request)
+          .then((cached) => cached ?? new Response("offline", { status: 503 }))
+      )
   );
 });
 
-// Push notification (for future server-side push)
+// Push bildirishnoma (server tomonidan push uchun) — o'zgarishsiz saqlandi.
 self.addEventListener("push", (event) => {
   const data = event.data
-    ? (() => { try { return event.data.json(); } catch { return {}; } })()
+    ? (() => {
+        try {
+          return event.data.json();
+        } catch {
+          return {};
+        }
+      })()
     : {};
   event.waitUntil(
     self.registration.showNotification(data.title || "Arab Fonetika", {
@@ -59,7 +97,7 @@ self.addEventListener("push", (event) => {
   );
 });
 
-// Notification click — focus existing tab or open app
+// Bildirishnoma bosilganda — mavjud oynani fokuslaydi yoki ilovani ochadi.
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
   const target = event.notification.data?.url || BASE;
