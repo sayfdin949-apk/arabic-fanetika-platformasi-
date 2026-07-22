@@ -45,6 +45,7 @@ import { MultfilmlarView } from "./features/cartoons/MultfilmlarView";
 import { T } from "./theme/tokens";
 import { isSupabaseMode } from "./lib/usersApi";
 import { ConfigError } from "./ConfigError";
+import { UpdateBanner } from "./UpdateBanner";
 
 function Splash() {
   return (
@@ -81,7 +82,9 @@ export default function App() {
   // Dev (localhost) da localStorage bilan ishlashda davom etadi.
   if (import.meta.env.PROD && !isSupabaseMode) return <ConfigError />;
   return (
-    <AuthProvider>
+    <>
+      <UpdateBanner />
+      <AuthProvider>
       <HashRouter>
         <Routes>
           <Route path="/login" element={<LoginRoute />} />
@@ -137,6 +140,7 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </HashRouter>
-    </AuthProvider>
+      </AuthProvider>
+    </>
   );
 }

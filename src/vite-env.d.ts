@@ -8,3 +8,6 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+// Build vaqtida vite.config.ts define() orqali beriladi (git qisqa SHA).
+declare const __APP_VERSION__: string;

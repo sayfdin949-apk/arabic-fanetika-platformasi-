@@ -359,6 +359,11 @@ export function ProfileView() {
         <button onClick={logout} style={{ width: "100%", background: "rgba(230,0,35,.07)", color: T.red, border: "1px solid rgba(230,0,35,.18)", borderRadius: 14, padding: "14px", fontSize: 14, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
           <LogOut size={17} /> Chiqish
         </button>
+
+        {/* Versiya — support uchun (qaysi versiyada ekani skrinshotdan bilinadi) */}
+        <div style={{ textAlign: "center", fontSize: 11, color: T.hint, marginTop: 4 }}>
+          versiya {__APP_VERSION__}
+        </div>
       </div>
     </div>
   );

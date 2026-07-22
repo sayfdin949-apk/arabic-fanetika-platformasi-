@@ -1,9 +1,53 @@
 const BASE = import.meta.env.BASE_URL; // "/arabic-fanetika-platformasi-/"
 
+// ── Yangilanishni aniqlash (F3) ──────────────────────────────────────────
+let waitingWorker: ServiceWorker | null = null;
+let updateCb: (() => void) | null = null;
+
+/** Yangi versiya o'rnatilib, kutayotgan bo'lsa chaqiriladi (banner uchun). */
+export function onUpdateAvailable(cb: () => void): void {
+  updateCb = cb;
+  if (waitingWorker) cb();
+}
+
+/** Banner tugmasi: kutayotgan SW ni aktivlashtirib, sahifani yangilaydi. */
+export function applyUpdate(): void {
+  if (!waitingWorker) {
+    location.reload();
+    return;
+  }
+  // Yangi SW nazoratni olgach reload qilamiz.
+  navigator.serviceWorker.addEventListener(
+    "controllerchange",
+    () => location.reload(),
+    { once: true }
+  );
+  waitingWorker.postMessage({ type: "SKIP_WAITING" });
+}
+
+function trackWaiting(reg: ServiceWorkerRegistration): void {
+  // Allaqachon kutayotgan SW bormi? (mavjud controller bor = bu yangilanish)
+  if (reg.waiting && navigator.serviceWorker.controller) {
+    waitingWorker = reg.waiting;
+    updateCb?.();
+  }
+  reg.addEventListener("updatefound", () => {
+    const nw = reg.installing;
+    if (!nw) return;
+    nw.addEventListener("statechange", () => {
+      if (nw.state === "installed" && navigator.serviceWorker.controller) {
+        waitingWorker = nw;
+        updateCb?.();
+      }
+    });
+  });
+}
+
 export async function registerSW(): Promise<void> {
   if (!("serviceWorker" in navigator)) return;
   try {
-    await navigator.serviceWorker.register(BASE + "sw.js", { scope: BASE });
+    const reg = await navigator.serviceWorker.register(BASE + "sw.js", { scope: BASE });
+    trackWaiting(reg);
   } catch { /**/ }
 }
 

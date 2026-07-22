@@ -255,6 +255,11 @@ export function Login() {
 
         {/* ── Boshqaruv (CEO) bo'limi ── */}
         {ceoBox}
+
+        {/* Versiya — support uchun */}
+        <div style={{ textAlign: "center", fontSize: 11, color: "rgba(255,255,255,.35)", marginTop: 16 }}>
+          versiya {__APP_VERSION__}
+        </div>
       </div>
     </div>
   );

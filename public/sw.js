@@ -44,6 +44,14 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+// "Yangilash" banneri shu xabarni yuboradi — kutayotgan SW darhol
+// aktivlashadi (F3). Aks holda yangi SW eski oynalar yopilguncha kutadi.
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
+
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
