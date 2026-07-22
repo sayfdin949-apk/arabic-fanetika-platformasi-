@@ -43,6 +43,8 @@ import { DarajaTestView } from "./features/placement/DarajaTestView";
 import { TarjimonView } from "./features/translator/TarjimonView";
 import { MultfilmlarView } from "./features/cartoons/MultfilmlarView";
 import { T } from "./theme/tokens";
+import { isSupabaseMode } from "./lib/usersApi";
+import { ConfigError } from "./ConfigError";
 
 function Splash() {
   return (
@@ -74,6 +76,10 @@ function ShellRouter() {
 }
 
 export default function App() {
+  // Prod build'da Supabase sozlanmagan bo'lsa — jimgina localStorage'ga
+  // tushmaymiz (ma'lumot bo'linishi xavfi), aniq xato ko'rsatamiz.
+  // Dev (localhost) da localStorage bilan ishlashda davom etadi.
+  if (import.meta.env.PROD && !isSupabaseMode) return <ConfigError />;
   return (
     <AuthProvider>
       <HashRouter>
