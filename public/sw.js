@@ -1,81 +1,91 @@
-/* Arab Fonetika Platformasi — Service Worker
+/* Arab Fonetika Platformasi — Service Worker (F1: build-ID versiyalash)
  *
- * FAVQULODDA FLUSH (2026-07-21):
- * Eski keshda "qotib qolgan" foydalanuvchilarni majburan yangi versiyaga
- * o'tkazadi. Oldingi SW (afp-v1) uch sababga ko'ra userlarni turli
- * versiyalarda ushlab qolardi:
- *   1) kesh nomi doimiy edi → hech qachon tozalanmasdi;
- *   2) assetlar "cache-first" edi → eski bundle abadiy keshdan berilardi;
- *   3) HTML tarmoq uzilishida eski keshdan berilardi → eski assetlarga
- *      ishora qilib, ilovani eski versiyada muzlatib qo'yardi.
+ * `__BUILD_ID__` build vaqtida ilova bundle'ining kontent-hashi bilan
+ * almashtiriladi (qarang: vite.config.ts → sw-build-id plugin). Shu tufayli
+ * har HAQIQIY o'zgarishda sw.js baytlari o'zgaradi → brauzer yangi SW ni
+ * ishonchli aniqlaydi va `activate` da eski versiya keshlarini purge qiladi.
+ * Bu eski `afp-v1` muammosini (kesh nomi doimiy → hech qachon tozalanmasdi)
+ * butunlay hal qiladi.
  *
- * Bu versiya: (a) BARCHA keshni o'chiradi, (b) ochiq oynalarni bir marta
- * qayta yuklaydi, (c) endi HECH QACHON cache-first ishlatmaydi (network-first;
- * kesh faqat oflayn zaxira). Shu tufayli "biri eski, biri yangi" holati
- * takrorlanmaydi.
+ * Strategiya:
+ *   - HTML / navigatsiya → network-first (doim yangi; offline'da keshdan)
+ *   - /assets/* (Vite hashli, immutable) → cache-first (tez, offline-safe;
+ *     kesh nomi build-ID bilan → eski assetlar har deploy'da tozalanadi,
+ *     stale-tuzoq YO'Q)
  *
- * ⚠️ Reload loop yo'q: bu fayl bir marta deploy qilingach, keyingi
- * yuklashlarda sw.js baytlari BIR XIL bo'ladi → brauzer yangi SW ni
- * o'rnatmaydi → activate qayta ishlamaydi → qayta reload bo'lmaydi.
+ * Majburiy reload YO'Q (Faza 0'dagi favqulodda reload olib tashlandi) —
+ * yangi SW eski oynalar yopilgach aktivlashadi; user tabiiy qayta ochganda
+ * yangi versiyani oladi. Yumshoq "yangilang" bildirishnomasi F3 da qo'shiladi.
  */
-const CACHE = "afp-reset-20260721";
+const BUILD_ID = "__BUILD_ID__";
+const CACHE = "afp-" + BUILD_ID;
 const BASE = "/arabic-fanetika-platformasi-/";
 
-self.addEventListener("install", () => {
-  // Kutish navbatisiz darhol aktiv bo'lamiz.
-  self.skipWaiting();
+// Offline uchun minimal app-shell.
+const SHELL = [BASE, BASE + "index.html"];
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open(CACHE).then((c) => c.addAll(SHELL)).catch(() => {})
+  );
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     (async () => {
-      // 1) BARCHA keshni o'chiramiz (afp-v1 va boshqa har qanday qoldiq).
+      // Bu versiyadan boshqa BARCHA keshni o'chiramiz (eski build-ID'lar,
+      // shuningdek eski afp-v1 / afp-reset-* qoldiqlari).
       const keys = await caches.keys();
-      await Promise.all(keys.map((k) => caches.delete(k)));
-
-      // 2) Ochiq sahifalarni darhol nazoratga olamiz.
+      await Promise.all(
+        keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))
+      );
       await self.clients.claim();
-
-      // 3) Ochiq oynalarni bir marta qayta yuklaymiz — ular yangi
-      //    index.html + yangi bundle'ni oladi. Har bir client alohida
-      //    try/catch bilan o'raladi: bittasi xato bersa qolganlari
-      //    baribir yangilanadi.
-      const wins = await self.clients.matchAll({ type: "window" });
-      for (const w of wins) {
-        try {
-          if ("navigate" in w) w.navigate(w.url);
-        } catch {
-          /* e'tiborsiz qoldiramiz */
-        }
-      }
     })()
   );
 });
 
-// Network-first: eski keshni HECH QACHON birinchi bo'lib bermaymiz.
-// Muvaffaqiyatli javob keshga zaxiraga yoziladi, faqat oflayn holatda ishlatiladi.
 self.addEventListener("fetch", (event) => {
-  if (event.request.method !== "GET") return;
-  if (!event.request.url.startsWith(self.location.origin)) return;
+  const req = event.request;
+  if (req.method !== "GET") return;
+  if (!req.url.startsWith(self.location.origin)) return;
 
+  // Hashli assetlar (immutable) → cache-first.
+  if (req.url.includes("/assets/")) {
+    event.respondWith(
+      caches.match(req).then((cached) => {
+        if (cached) return cached;
+        return fetch(req).then((res) => {
+          if (res.ok) {
+            const copy = res.clone();
+            caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
+          }
+          return res;
+        });
+      })
+    );
+    return;
+  }
+
+  // HTML / boshqa GET → network-first, offline'da keshdan (yoki app-shell).
   event.respondWith(
-    fetch(event.request)
+    fetch(req)
       .then((res) => {
         if (res.ok) {
           const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put(event.request, copy)).catch(() => {});
+          caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
         }
         return res;
       })
       .catch(() =>
         caches
-          .match(event.request)
-          .then((cached) => cached ?? new Response("offline", { status: 503 }))
+          .match(req)
+          .then((cached) => cached ?? caches.match(BASE + "index.html"))
+          .then((r) => r ?? new Response("offline", { status: 503 }))
       )
   );
 });
 
-// Push bildirishnoma (server tomonidan push uchun) — o'zgarishsiz saqlandi.
+// Push bildirishnoma (server tomonidan push uchun).
 self.addEventListener("push", (event) => {
   const data = event.data
     ? (() => {
