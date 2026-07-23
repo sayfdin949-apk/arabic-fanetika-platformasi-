@@ -1,6 +1,6 @@
 /* Arab Fonetika Platformasi — Service Worker (F1: build-ID versiyalash)
  *
- * `qZ5n1i0C` build vaqtida ilova bundle'ining kontent-hashi bilan
+ * `CEeTVC-f` build vaqtida ilova bundle'ining kontent-hashi bilan
  * almashtiriladi (qarang: vite.config.ts → sw-build-id plugin). Shu tufayli
  * har HAQIQIY o'zgarishda sw.js baytlari o'zgaradi → brauzer yangi SW ni
  * ishonchli aniqlaydi va `activate` da eski versiya keshlarini purge qiladi.
@@ -17,7 +17,7 @@
  * yangi SW eski oynalar yopilgach aktivlashadi; user tabiiy qayta ochganda
  * yangi versiyani oladi. Yumshoq "yangilang" bildirishnomasi F3 da qo'shiladi.
  */
-const BUILD_ID = "qZ5n1i0C";
+const BUILD_ID = "CEeTVC-f";
 const CACHE = "afp-" + BUILD_ID;
 const BASE = "/arabic-fanetika-platformasi-/";
 
