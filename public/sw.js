@@ -25,6 +25,7 @@ const BASE = "/arabic-fanetika-platformasi-/";
 const SHELL = [BASE, BASE + "index.html"];
 
 self.addEventListener("install", (event) => {
+  self.skipWaiting(); // Yangi versiya darhol aktivlashsin, banner kutmasdan
   event.waitUntil(
     caches.open(CACHE).then((c) => c.addAll(SHELL)).catch(() => {})
   );

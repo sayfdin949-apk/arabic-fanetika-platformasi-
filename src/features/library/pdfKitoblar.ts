@@ -17,6 +17,7 @@ export interface PdfKitob {
   fayl_nomi: string;
   hajm_kb: number;
   qoshilgan: string;
+  manba?: "storage" | "url"; // qayerdan kelgan
 }
 
 function sb() {
@@ -36,6 +37,38 @@ export const pdfApi = {
     } catch { return []; }
   },
 
+  // URL orqali qo'shish — Supabase Storage kerak emas
+  async addByUrl(
+    url: string,
+    meta: Pick<PdfKitob, "nomi" | "tavsif" | "rang" | "icon" | "daraja" | "tur">
+  ): Promise<{ ok: boolean; error?: string }> {
+    const client = sb();
+    if (!client) return { ok: false, error: "Supabase ulanmagan" };
+    if (!url.trim()) return { ok: false, error: "URL kiriting" };
+
+    const kitob: PdfKitob = {
+      ...meta,
+      id: crypto.randomUUID(),
+      url: url.trim(),
+      fayl_nomi: url.split("/").pop()?.split("?")[0] ?? "kitob.pdf",
+      hajm_kb: 0,
+      qoshilgan: new Date().toISOString(),
+      manba: "url",
+    };
+    const existing = await this.list();
+    try {
+      await client.from("afp_kv").upsert({
+        key: META_KEY,
+        value: { kitoblar: [...existing, kitob] },
+        updated_at: new Date().toISOString(),
+      });
+      return { ok: true };
+    } catch (e) {
+      return { ok: false, error: String(e) };
+    }
+  },
+
+  // Fayl yuklash — Supabase Storage orqali (agar ishlasa)
   async upload(
     file: File,
     meta: Pick<PdfKitob, "nomi" | "tavsif" | "rang" | "icon" | "daraja" | "tur">
@@ -45,9 +78,8 @@ export const pdfApi = {
     const id = crypto.randomUUID();
     const fileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
     const path = `${id}/${fileName}`;
-
-    // Direct REST API upload — bypasses SDK bucket-existence check
     const uploadUrl = `${SUPABASE_URL}/storage/v1/object/${BUCKET}/${path}`;
+
     let uploadResp: Response;
     try {
       uploadResp = await fetch(uploadUrl, {
@@ -65,7 +97,7 @@ export const pdfApi = {
     }
 
     if (!uploadResp.ok) {
-      let msg = `HTTP ${uploadResp.status}`;
+      let msg = `Supabase Storage xatosi (HTTP ${uploadResp.status})`;
       try {
         const j = await uploadResp.json();
         msg = j.message ?? j.error ?? msg;
@@ -74,13 +106,13 @@ export const pdfApi = {
     }
 
     const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${path}`;
-
     const kitob: PdfKitob = {
       ...meta, id,
       url: publicUrl,
       fayl_nomi: file.name,
       hajm_kb: Math.round(file.size / 1024),
       qoshilgan: new Date().toISOString(),
+      manba: "storage",
     };
 
     const client = sb()!;
@@ -94,24 +126,23 @@ export const pdfApi = {
   },
 
   async remove(kitob: PdfKitob): Promise<void> {
-    if (!SUPABASE_URL || !SUPABASE_KEY) return;
-
-    // Extract path from public URL
-    const match = kitob.url.match(/\/object\/public\/pdf-kitoblar\/(.+)$/);
-    if (match?.[1]) {
-      const path = decodeURIComponent(match[1]);
-      try {
+    // Storage faylni o'chirish (faqat storage orqali qo'shilgan bo'lsa)
+    if (kitob.manba === "storage" && SUPABASE_URL && SUPABASE_KEY) {
+      const match = kitob.url.match(/\/object\/public\/pdf-kitoblar\/(.+)$/);
+      if (match?.[1]) {
+        const path = decodeURIComponent(match[1]);
         await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/${path}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${SUPABASE_KEY}`,
             apikey: SUPABASE_KEY,
           },
-        });
-      } catch { /* ignore */ }
+        }).catch(() => {});
+      }
     }
 
-    const client = sb()!;
+    const client = sb();
+    if (!client) return;
     const existing = await this.list();
     await client.from("afp_kv").upsert({
       key: META_KEY,
