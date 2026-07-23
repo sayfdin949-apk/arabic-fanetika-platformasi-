@@ -5,6 +5,7 @@ import { useAuth } from "../../auth/AuthContext";
 import { useProgress } from "../progress/ProgressContext";
 import { useCoins } from "../../context/CoinContext";
 import { KITOBLAR, type Kitob, type KitobBob } from "../../content/kitoblar";
+import { PDFKitoblarTab } from "./PDFKitoblarTab";
 
 function loadCeoMode(): "grammatika" | "fonetika" | null {
   try { return localStorage.getItem("afp:ceo_mode") as "grammatika" | "fonetika" | null; } catch { return null; }
@@ -362,6 +363,7 @@ function KitobReader({ kitob, onClose }: { kitob: Kitob; onClose: () => void }) 
 // ─── KitobxonaView ────────────────────────────────────────────────────────────
 export function KitobxonaView() {
   const { user } = useAuth();
+  const [section, setSection] = useState<"matn" | "pdf">("matn");
   const [activeTur, setActiveTur] = useState<string>("barchasi");
   const [activeKitob, setActiveKitob] = useState<Kitob | null>(null);
   const [readBobs, setReadBobs] = useState<Set<string>>(() => user ? loadReadBobs(user.id) : new Set());
@@ -409,6 +411,20 @@ export function KitobxonaView() {
         </div>
       </div>
 
+      {/* Matn / PDF toggle */}
+      <div style={{ display: "flex", gap: 0, background: "rgba(13,58,26,.06)", margin: "12px 14px 0", borderRadius: 12, padding: 4 }}>
+        {[{ id: "matn" as const, label: "📖 Matn kitoblar" }, { id: "pdf" as const, label: "📄 PDF kitoblar" }].map((s) => (
+          <button
+            key={s.id}
+            onClick={() => setSection(s.id)}
+            style={{ flex: 1, padding: "8px 10px", borderRadius: 9, border: "none", background: section === s.id ? "#fff" : "transparent", color: section === s.id ? T.green : T.hint, fontSize: 12, fontWeight: section === s.id ? 700 : 500, cursor: "pointer", boxShadow: section === s.id ? "0 1px 4px rgba(13,58,26,.10)" : "none", transition: "all .15s" }}
+          >
+            {s.label}
+          </button>
+        ))}
+      </div>
+
+      {section === "pdf" ? <PDFKitoblarTab /> : (
       <div style={{ padding: "14px 14px 32px" }}>
         {/* Tur filtri */}
         <div style={{ display: "flex", gap: 8, overflowX: "auto", marginBottom: 16, paddingBottom: 4, scrollbarWidth: "none" }}>
@@ -448,6 +464,7 @@ export function KitobxonaView() {
           </div>
         )}
       </div>
+      )}
     </div>
   );
 }
