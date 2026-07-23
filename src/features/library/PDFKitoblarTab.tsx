@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Upload, Trash2, X, ExternalLink, FileText, AlertCircle, Loader2, ChevronDown } from "lucide-react";
+import { Upload, Trash2, X, ExternalLink, FileText, AlertCircle, Loader2, ChevronDown, Link } from "lucide-react";
 import { T } from "../../theme/tokens";
 import { useAuth } from "../../auth/AuthContext";
 import { pdfApi, type PdfKitob } from "./pdfKitoblar";
@@ -81,11 +81,71 @@ function PDFViewer({ kitob, onClose }: { kitob: PdfKitob; onClose: () => void })
   );
 }
 
+// ── Shared meta fields ─────────────────────────────────────────────────────────
+function MetaFields({
+  nomi, setNomi, tavsif, setTavsif, daraja, setDaraja,
+  tur, setTur, icon, setIcon, rang, setRang,
+}: {
+  nomi: string; setNomi: (v: string) => void;
+  tavsif: string; setTavsif: (v: string) => void;
+  daraja: PdfKitob["daraja"]; setDaraja: (v: PdfKitob["daraja"]) => void;
+  tur: PdfKitob["tur"]; setTur: (v: PdfKitob["tur"]) => void;
+  icon: string; setIcon: (v: string) => void;
+  rang: string; setRang: (v: string) => void;
+}) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      <div>
+        <label style={{ fontSize: 11, fontWeight: 600, color: T.hint, marginBottom: 4, display: "block" }}>Kitob nomi *</label>
+        <input value={nomi} onChange={(e) => setNomi(e.target.value)} placeholder="Masalan: Arabcha-o'zbek lug'at"
+          style={{ width: "100%", padding: "9px 12px", borderRadius: 9, border: "1px solid rgba(13,58,26,.18)", fontSize: 13, outline: "none", color: T.green, boxSizing: "border-box" }} />
+      </div>
+      <div>
+        <label style={{ fontSize: 11, fontWeight: 600, color: T.hint, marginBottom: 4, display: "block" }}>Tavsif</label>
+        <textarea value={tavsif} onChange={(e) => setTavsif(e.target.value)} placeholder="Kitob haqida qisqacha..." rows={2}
+          style={{ width: "100%", padding: "9px 12px", borderRadius: 9, border: "1px solid rgba(13,58,26,.18)", fontSize: 13, outline: "none", resize: "vertical", color: T.green, boxSizing: "border-box" }} />
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
+        <div>
+          <label style={{ fontSize: 11, fontWeight: 600, color: T.hint, marginBottom: 4, display: "block" }}>Daraja</label>
+          <select value={daraja} onChange={(e) => setDaraja(e.target.value as PdfKitob["daraja"])}
+            style={{ width: "100%", padding: "8px 10px", borderRadius: 9, border: "1px solid rgba(13,58,26,.18)", fontSize: 12, color: T.green, outline: "none" }}>
+            {DARAJALAR.map((d) => <option key={d} value={d}>{d}</option>)}
+          </select>
+        </div>
+        <div>
+          <label style={{ fontSize: 11, fontWeight: 600, color: T.hint, marginBottom: 4, display: "block" }}>Tur</label>
+          <select value={tur} onChange={(e) => setTur(e.target.value as PdfKitob["tur"])}
+            style={{ width: "100%", padding: "8px 10px", borderRadius: 9, border: "1px solid rgba(13,58,26,.18)", fontSize: 12, color: T.green, outline: "none" }}>
+            {TURLAR.map((t) => <option key={t.id} value={t.id}>{t.label}</option>)}
+          </select>
+        </div>
+        <div>
+          <label style={{ fontSize: 11, fontWeight: 600, color: T.hint, marginBottom: 4, display: "block" }}>Icon</label>
+          <input value={icon} onChange={(e) => setIcon(e.target.value)} maxLength={2}
+            style={{ width: "100%", padding: "8px 10px", borderRadius: 9, border: "1px solid rgba(13,58,26,.18)", fontSize: 18, textAlign: "center", outline: "none" }} />
+        </div>
+      </div>
+      <div>
+        <label style={{ fontSize: 11, fontWeight: 600, color: T.hint, marginBottom: 6, display: "block" }}>Rang</label>
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+          {RANGLAR.map((r) => (
+            <button key={r} onClick={() => setRang(r)}
+              style={{ width: 28, height: 28, borderRadius: 8, background: r, border: rang === r ? "3px solid rgba(13,58,26,.8)" : "2px solid rgba(255,255,255,.5)", cursor: "pointer", boxShadow: "0 1px 3px rgba(0,0,0,.15)" }} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Upload Form ────────────────────────────────────────────────────────────────
 function UploadForm({ onDone }: { onDone: () => void }) {
   const fileRef = useRef<HTMLInputElement>(null);
-  const [file, setFile] = useState<File | null>(null);
-  const [drag, setDrag] = useState(false);
+  const [tab, setTab] = useState<"url" | "file">("url");
+  const [open, setOpen] = useState(false);
+
+  // shared meta
   const [nomi, setNomi] = useState("");
   const [tavsif, setTavsif] = useState("");
   const [rang, setRang] = useState(RANGLAR[0]);
@@ -94,144 +154,141 @@ function UploadForm({ onDone }: { onDone: () => void }) {
   const [tur, setTur] = useState<PdfKitob["tur"]>("darslik");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
-  const [open, setOpen] = useState(false);
+
+  // url tab
+  const [urlVal, setUrlVal] = useState("");
+
+  // file tab
+  const [file, setFile] = useState<File | null>(null);
+  const [drag, setDrag] = useState(false);
+
+  const meta = { nomi: nomi.trim(), tavsif: tavsif.trim(), rang, icon, daraja, tur };
 
   const onFile = (f: File) => {
     if (f.type !== "application/pdf") { setErr("Faqat PDF format qabul qilinadi"); return; }
-    if (f.size > 100 * 1024 * 1024) { setErr("Fayl hajmi 100 MB dan oshmasin"); return; }
+    if (f.size > 50 * 1024 * 1024) { setErr("Fayl hajmi 50 MB dan oshmasin"); return; }
     setFile(f);
-    if (!nomi) setNomi(f.name.replace(/\.pdf$/i, ""));
+    if (!nomi) setNomi(f.name.replace(/\.pdf$/i, "").replace(/_/g, " "));
     setErr("");
   };
 
-  const upload = async () => {
-    if (!file) { setErr("PDF fayl tanlang"); return; }
+  const save = async () => {
     if (!nomi.trim()) { setErr("Kitob nomini kiriting"); return; }
-    setLoading(true);
-    setErr("");
-    const res = await pdfApi.upload(file, { nomi: nomi.trim(), tavsif: tavsif.trim(), rang, icon, daraja, tur });
-    setLoading(false);
-    if (!res.ok) { setErr(res.error ?? "Xatolik yuz berdi"); return; }
+    setLoading(true); setErr("");
+
+    if (tab === "url") {
+      if (!urlVal.trim()) { setErr("PDF URL manzilini kiriting"); setLoading(false); return; }
+      const res = await pdfApi.addByUrl(urlVal, meta);
+      setLoading(false);
+      if (!res.ok) { setErr(res.error ?? "Xatolik"); return; }
+    } else {
+      if (!file) { setErr("PDF fayl tanlang"); setLoading(false); return; }
+      const res = await pdfApi.upload(file, meta);
+      setLoading(false);
+      if (!res.ok) { setErr(res.error ?? "Xatolik"); return; }
+    }
     onDone();
   };
 
   return (
     <div style={{ background: "#fff", borderRadius: 16, border: "1px solid rgba(13,58,26,.12)", overflow: "hidden", marginBottom: 20 }}>
-      {/* Toggle header */}
-      <button
-        onClick={() => setOpen((o) => !o)}
-        style={{ width: "100%", background: "none", border: "none", cursor: "pointer", padding: "14px 16px", display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}
-      >
+      <button onClick={() => setOpen((o) => !o)}
+        style={{ width: "100%", background: "none", border: "none", cursor: "pointer", padding: "14px 16px", display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
         <div style={{ width: 34, height: 34, borderRadius: 10, background: T.gLime, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
           <Upload size={16} color={T.onCta} />
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: T.green }}>Yangi PDF kitob yuklash</div>
-          <div style={{ fontSize: 11, color: T.hint }}>Faqat CEO yuklay oladi</div>
+          <div style={{ fontSize: 13, fontWeight: 700, color: T.green }}>Yangi PDF kitob qo'shish</div>
+          <div style={{ fontSize: 11, color: T.hint }}>URL yoki fayl yuklash · Faqat CEO</div>
         </div>
         <ChevronDown size={16} color={T.hint} style={{ transform: open ? "rotate(180deg)" : "none", transition: "transform .2s" }} />
       </button>
 
       {open && (
         <div style={{ padding: "0 16px 18px", borderTop: "1px solid rgba(13,58,26,.07)" }}>
-          {/* Drop zone */}
-          <div
-            onDragOver={(e) => { e.preventDefault(); setDrag(true); }}
-            onDragLeave={() => setDrag(false)}
-            onDrop={(e) => { e.preventDefault(); setDrag(false); const f = e.dataTransfer.files[0]; if (f) onFile(f); }}
-            onClick={() => fileRef.current?.click()}
-            style={{
-              marginTop: 14,
-              border: `2px dashed ${drag ? T.lime : file ? "#2563EB" : "rgba(13,58,26,.18)"}`,
-              borderRadius: 12,
-              padding: "20px 16px",
-              textAlign: "center",
-              cursor: "pointer",
-              background: drag ? "rgba(46,184,46,.05)" : file ? "rgba(37,99,235,.05)" : "rgba(13,58,26,.02)",
-              transition: "all .15s",
-            }}
-          >
-            <input ref={fileRef} type="file" accept="application/pdf" style={{ display: "none" }} onChange={(e) => { const f = e.target.files?.[0]; if (f) onFile(f); }} />
-            {file ? (
-              <>
-                <div style={{ fontSize: 26, marginBottom: 4 }}>📄</div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: "#2563EB" }}>{file.name}</div>
-                <div style={{ fontSize: 11, color: T.hint }}>{fmtKb(Math.round(file.size / 1024))}</div>
-              </>
-            ) : (
-              <>
-                <FileText size={24} color={T.hint} style={{ marginBottom: 8 }} />
-                <div style={{ fontSize: 13, fontWeight: 600, color: T.green }}>PDF faylni shu yerga tashlang</div>
-                <div style={{ fontSize: 11, color: T.hint, marginTop: 2 }}>yoki bosib tanlang · Max 100 MB</div>
-              </>
-            )}
+
+          {/* Tab toggle */}
+          <div style={{ display: "flex", gap: 0, background: "rgba(13,58,26,.06)", borderRadius: 10, padding: 3, marginTop: 14, marginBottom: 14 }}>
+            {([
+              { id: "url" as const, label: "🔗 URL orqali", hint: "Tez va ishonchli" },
+              { id: "file" as const, label: "📁 Fayl yuklash", hint: "Supabase Storage" },
+            ]).map((t) => (
+              <button key={t.id} onClick={() => { setTab(t.id); setErr(""); }}
+                style={{
+                  flex: 1, padding: "8px 4px", borderRadius: 8, border: "none", cursor: "pointer",
+                  background: tab === t.id ? "#fff" : "transparent",
+                  color: tab === t.id ? T.green : T.hint,
+                  fontSize: 12, fontWeight: tab === t.id ? 700 : 500,
+                  boxShadow: tab === t.id ? "0 1px 4px rgba(0,0,0,.1)" : "none",
+                  transition: "all .15s",
+                }}>
+                {t.label}
+              </button>
+            ))}
           </div>
 
-          {/* Fields */}
-          <div style={{ marginTop: 12, display: "flex", flexDirection: "column", gap: 10 }}>
-            <div>
-              <label style={{ fontSize: 11, fontWeight: 600, color: T.hint, marginBottom: 4, display: "block" }}>Kitob nomi *</label>
-              <input
-                value={nomi}
-                onChange={(e) => setNomi(e.target.value)}
-                placeholder="Masalan: Arabcha-o'zbek lug'at"
-                style={{ width: "100%", padding: "9px 12px", borderRadius: 9, border: "1px solid rgba(13,58,26,.18)", fontSize: 13, outline: "none", color: T.green }}
-              />
-            </div>
-            <div>
-              <label style={{ fontSize: 11, fontWeight: 600, color: T.hint, marginBottom: 4, display: "block" }}>Tavsif</label>
-              <textarea
-                value={tavsif}
-                onChange={(e) => setTavsif(e.target.value)}
-                placeholder="Kitob haqida qisqacha..."
-                rows={2}
-                style={{ width: "100%", padding: "9px 12px", borderRadius: 9, border: "1px solid rgba(13,58,26,.18)", fontSize: 13, outline: "none", resize: "vertical", color: T.green }}
-              />
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
-              <div>
-                <label style={{ fontSize: 11, fontWeight: 600, color: T.hint, marginBottom: 4, display: "block" }}>Daraja</label>
-                <select value={daraja} onChange={(e) => setDaraja(e.target.value as PdfKitob["daraja"])} style={{ width: "100%", padding: "8px 10px", borderRadius: 9, border: "1px solid rgba(13,58,26,.18)", fontSize: 12, color: T.green, outline: "none" }}>
-                  {DARAJALAR.map((d) => <option key={d} value={d}>{d}</option>)}
-                </select>
+          {/* URL tab */}
+          {tab === "url" && (
+            <div style={{ marginBottom: 12 }}>
+              <div style={{ background: "rgba(37,99,235,.05)", border: "1px solid rgba(37,99,235,.15)", borderRadius: 10, padding: "10px 12px", marginBottom: 12 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#2563EB", marginBottom: 3 }}>💡 Qanday URL kiritish kerak?</div>
+                <div style={{ fontSize: 11, color: T.hint, lineHeight: 1.5 }}>
+                  Google Drive: Fayl → Ulashish → "Havola orqali ko'rish" → URL nusxalang<br />
+                  Yoki boshqa ochiq (public) PDF URL
+                </div>
               </div>
-              <div>
-                <label style={{ fontSize: 11, fontWeight: 600, color: T.hint, marginBottom: 4, display: "block" }}>Tur</label>
-                <select value={tur} onChange={(e) => setTur(e.target.value as PdfKitob["tur"])} style={{ width: "100%", padding: "8px 10px", borderRadius: 9, border: "1px solid rgba(13,58,26,.18)", fontSize: 12, color: T.green, outline: "none" }}>
-                  {TURLAR.map((t) => <option key={t.id} value={t.id}>{t.label}</option>)}
-                </select>
+              <label style={{ fontSize: 11, fontWeight: 600, color: T.hint, marginBottom: 4, display: "block" }}>PDF URL manzili *</label>
+              <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                <Link size={14} color={T.hint} style={{ flexShrink: 0 }} />
+                <input value={urlVal} onChange={(e) => setUrlVal(e.target.value)} placeholder="https://drive.google.com/..."
+                  style={{ flex: 1, padding: "9px 12px", borderRadius: 9, border: "1px solid rgba(13,58,26,.18)", fontSize: 13, outline: "none", color: T.green }} />
               </div>
-              <div>
-                <label style={{ fontSize: 11, fontWeight: 600, color: T.hint, marginBottom: 4, display: "block" }}>Icon (emoji)</label>
-                <input value={icon} onChange={(e) => setIcon(e.target.value)} maxLength={2} style={{ width: "100%", padding: "8px 10px", borderRadius: 9, border: "1px solid rgba(13,58,26,.18)", fontSize: 18, textAlign: "center", outline: "none" }} />
-              </div>
-            </div>
-            <div>
-              <label style={{ fontSize: 11, fontWeight: 600, color: T.hint, marginBottom: 6, display: "block" }}>Rang</label>
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                {RANGLAR.map((r) => (
-                  <button
-                    key={r}
-                    onClick={() => setRang(r)}
-                    style={{ width: 28, height: 28, borderRadius: 8, background: r, border: rang === r ? "3px solid rgba(13,58,26,.8)" : "2px solid rgba(255,255,255,.5)", cursor: "pointer", boxShadow: "0 1px 3px rgba(0,0,0,.15)" }}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {err && (
-            <div style={{ marginTop: 10, background: "rgba(220,38,38,.06)", border: "1px solid rgba(220,38,38,.2)", borderRadius: 8, padding: "8px 12px", fontSize: 12, color: "#DC2626", display: "flex", gap: 6, alignItems: "center" }}>
-              <AlertCircle size={13} /> {err}
             </div>
           )}
 
-          <button
-            onClick={upload}
-            disabled={loading}
-            style={{ marginTop: 14, width: "100%", padding: "12px", borderRadius: 11, border: "none", background: loading ? "rgba(13,58,26,.15)" : T.gLime, color: loading ? T.hint : T.onCta, fontSize: 13, fontWeight: 700, cursor: loading ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 7 }}
-          >
-            {loading ? <><Loader2 size={15} style={{ animation: "spin 1s linear infinite" }} /> Yuklanmoqda...</> : <><Upload size={15} /> Yuklash</>}
+          {/* File tab */}
+          {tab === "file" && (
+            <div style={{ marginBottom: 12 }}>
+              <div
+                onDragOver={(e) => { e.preventDefault(); setDrag(true); }}
+                onDragLeave={() => setDrag(false)}
+                onDrop={(e) => { e.preventDefault(); setDrag(false); const f = e.dataTransfer.files[0]; if (f) onFile(f); }}
+                onClick={() => fileRef.current?.click()}
+                style={{
+                  border: `2px dashed ${drag ? T.lime : file ? "#2563EB" : "rgba(13,58,26,.18)"}`,
+                  borderRadius: 12, padding: "20px 16px", textAlign: "center", cursor: "pointer",
+                  background: drag ? "rgba(46,184,46,.05)" : file ? "rgba(37,99,235,.05)" : "rgba(13,58,26,.02)",
+                  transition: "all .15s",
+                }}>
+                <input ref={fileRef} type="file" accept="application/pdf" style={{ display: "none" }}
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) onFile(f); }} />
+                {file ? (
+                  <><div style={{ fontSize: 26, marginBottom: 4 }}>📄</div>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: "#2563EB" }}>{file.name}</div>
+                    <div style={{ fontSize: 11, color: T.hint }}>{fmtKb(Math.round(file.size / 1024))}</div></>
+                ) : (
+                  <><FileText size={24} color={T.hint} style={{ marginBottom: 8 }} />
+                    <div style={{ fontSize: 13, fontWeight: 600, color: T.green }}>PDF faylni shu yerga tashlang</div>
+                    <div style={{ fontSize: 11, color: T.hint, marginTop: 2 }}>yoki bosib tanlang · Max 50 MB</div></>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Meta */}
+          <MetaFields nomi={nomi} setNomi={setNomi} tavsif={tavsif} setTavsif={setTavsif}
+            daraja={daraja} setDaraja={setDaraja} tur={tur} setTur={setTur}
+            icon={icon} setIcon={setIcon} rang={rang} setRang={setRang} />
+
+          {err && (
+            <div style={{ marginTop: 10, background: "rgba(220,38,38,.06)", border: "1px solid rgba(220,38,38,.2)", borderRadius: 8, padding: "8px 12px", fontSize: 12, color: "#DC2626", display: "flex", gap: 6, alignItems: "flex-start" }}>
+              <AlertCircle size={13} style={{ flexShrink: 0, marginTop: 1 }} /> <span>{err}</span>
+            </div>
+          )}
+
+          <button onClick={save} disabled={loading}
+            style={{ marginTop: 14, width: "100%", padding: "12px", borderRadius: 11, border: "none", background: loading ? "rgba(13,58,26,.15)" : T.gLime, color: loading ? T.hint : T.onCta, fontSize: 13, fontWeight: 700, cursor: loading ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 7 }}>
+            {loading ? <><Loader2 size={15} style={{ animation: "spin 1s linear infinite" }} /> Saqlanmoqda...</> : <><Upload size={15} /> Saqlash</>}
           </button>
         </div>
       )}
