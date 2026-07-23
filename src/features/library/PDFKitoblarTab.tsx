@@ -27,14 +27,14 @@ function fmtDate(iso: string) {
 
 // ── PDF Viewer ─────────────────────────────────────────────────────────────────
 function PDFViewer({ kitob, onClose }: { kitob: PdfKitob; onClose: () => void }) {
-  const isMobile = window.innerWidth < 640;
+  const [loaded, setLoaded] = useState(false);
   return (
     <div style={{ position: "fixed", inset: 0, background: "#1a1a1a", zIndex: 300, display: "flex", flexDirection: "column" }}>
       {/* Header */}
-      <div style={{ background: T.gGreen, padding: "12px 14px", flexShrink: 0, display: "flex", alignItems: "center", gap: 10 }}>
+      <div style={{ background: T.gGreen, padding: "10px 12px", flexShrink: 0, display: "flex", alignItems: "center", gap: 8 }}>
         <button
           onClick={onClose}
-          style={{ background: "rgba(255,255,255,.15)", border: "none", borderRadius: 10, padding: "8px 10px", cursor: "pointer", display: "flex", alignItems: "center" }}
+          style={{ background: "rgba(255,255,255,.15)", border: "none", borderRadius: 10, padding: "8px 10px", cursor: "pointer", display: "flex", alignItems: "center", flexShrink: 0 }}
         >
           <X size={15} color="#fff" />
         </button>
@@ -44,39 +44,39 @@ function PDFViewer({ kitob, onClose }: { kitob: PdfKitob; onClose: () => void })
         </div>
         <a
           href={kitob.url}
-          target="_blank"
-          rel="noreferrer"
-          style={{ background: "rgba(255,255,255,.15)", border: "none", borderRadius: 10, padding: "8px 10px", cursor: "pointer", display: "flex", alignItems: "center", gap: 5, color: "#fff", textDecoration: "none", fontSize: 12, fontWeight: 600 }}
+          download
+          style={{ background: "rgba(255,255,255,.15)", border: "none", borderRadius: 10, padding: "8px 10px", cursor: "pointer", display: "flex", alignItems: "center", gap: 5, color: "#fff", textDecoration: "none", fontSize: 12, fontWeight: 600, flexShrink: 0 }}
         >
           <ExternalLink size={13} />
-          {isMobile ? "" : "Tashqariga"}
+          <span style={{ display: "none" }} className="desktop-label">Yuklash</span>
+        </a>
+        <a
+          href={kitob.url}
+          target="_blank"
+          rel="noreferrer"
+          style={{ background: "rgba(255,255,255,.15)", border: "none", borderRadius: 10, padding: "8px 10px", cursor: "pointer", display: "flex", alignItems: "center", gap: 5, color: "#fff", textDecoration: "none", fontSize: 12, fontWeight: 600, flexShrink: 0 }}
+        >
+          <ExternalLink size={13} />
         </a>
       </div>
 
-      {/* Viewer */}
-      {isMobile ? (
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16, padding: 24 }}>
-          <div style={{ fontSize: 56 }}>{kitob.icon}</div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: "#fff", textAlign: "center" }}>{kitob.nomi}</div>
-          <div style={{ fontSize: 13, color: "rgba(255,255,255,.6)", textAlign: "center" }}>
-            Mobil qurilmada PDF ni ko'rish uchun quyidagi tugmani bosing
+      {/* Viewer — barcha qurilmalarda iframe */}
+      <div style={{ flex: 1, position: "relative", overflow: "hidden" }}>
+        {!loaded && (
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, background: "#1a1a1a" }}>
+            <Loader2 size={32} color="rgba(255,255,255,.5)" style={{ animation: "spin 1s linear infinite" }} />
+            <div style={{ fontSize: 13, color: "rgba(255,255,255,.5)" }}>PDF yuklanmoqda...</div>
           </div>
-          <a
-            href={kitob.url}
-            target="_blank"
-            rel="noreferrer"
-            style={{ background: T.gLime, border: "none", borderRadius: 12, padding: "14px 28px", cursor: "pointer", fontSize: 14, fontWeight: 700, color: T.onCta, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}
-          >
-            <ExternalLink size={16} /> PDF ni ochish
-          </a>
-        </div>
-      ) : (
+        )}
         <iframe
           src={kitob.url}
-          style={{ flex: 1, width: "100%", border: "none", background: "#fff" }}
+          onLoad={() => setLoaded(true)}
+          style={{ width: "100%", height: "100%", border: "none", background: "#fff", display: "block" }}
           title={kitob.nomi}
+          allow="fullscreen"
         />
-      )}
+      </div>
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }
