@@ -40,22 +40,50 @@ export const pdfApi = {
     file: File,
     meta: Pick<PdfKitob, "nomi" | "tavsif" | "rang" | "icon" | "daraja" | "tur">
   ): Promise<{ ok: boolean; error?: string }> {
-    const client = sb();
-    if (!client) return { ok: false, error: "Supabase ulanmagan" };
+    if (!SUPABASE_URL || !SUPABASE_KEY) return { ok: false, error: "Supabase ulanmagan" };
+
     const id = crypto.randomUUID();
-    const path = `${id}/${file.name}`;
-    const { error: uploadErr } = await client.storage
-      .from(BUCKET)
-      .upload(path, file, { contentType: "application/pdf", upsert: false });
-    if (uploadErr) return { ok: false, error: uploadErr.message };
-    const { data: urlData } = client.storage.from(BUCKET).getPublicUrl(path);
+    const fileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const path = `${id}/${fileName}`;
+
+    // Direct REST API upload — bypasses SDK bucket-existence check
+    const uploadUrl = `${SUPABASE_URL}/storage/v1/object/${BUCKET}/${path}`;
+    let uploadResp: Response;
+    try {
+      uploadResp = await fetch(uploadUrl, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          apikey: SUPABASE_KEY,
+          "Content-Type": "application/pdf",
+          "x-upsert": "false",
+        },
+        body: file,
+      });
+    } catch (e) {
+      return { ok: false, error: "Tarmoq xatosi: " + String(e) };
+    }
+
+    if (!uploadResp.ok) {
+      let msg = `HTTP ${uploadResp.status}`;
+      try {
+        const j = await uploadResp.json();
+        msg = j.message ?? j.error ?? msg;
+      } catch { /* ignore */ }
+      return { ok: false, error: msg };
+    }
+
+    const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${path}`;
+
     const kitob: PdfKitob = {
       ...meta, id,
-      url: urlData.publicUrl,
+      url: publicUrl,
       fayl_nomi: file.name,
       hajm_kb: Math.round(file.size / 1024),
       qoshilgan: new Date().toISOString(),
     };
+
+    const client = sb()!;
     const existing = await this.list();
     await client.from("afp_kv").upsert({
       key: META_KEY,
@@ -66,12 +94,24 @@ export const pdfApi = {
   },
 
   async remove(kitob: PdfKitob): Promise<void> {
-    const client = sb();
-    if (!client) return;
-    try {
-      const match = kitob.url.match(/\/pdf-kitoblar\/(.+)$/);
-      if (match?.[1]) await client.storage.from(BUCKET).remove([decodeURIComponent(match[1])]);
-    } catch { /* ignore */ }
+    if (!SUPABASE_URL || !SUPABASE_KEY) return;
+
+    // Extract path from public URL
+    const match = kitob.url.match(/\/object\/public\/pdf-kitoblar\/(.+)$/);
+    if (match?.[1]) {
+      const path = decodeURIComponent(match[1]);
+      try {
+        await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/${path}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+            apikey: SUPABASE_KEY,
+          },
+        });
+      } catch { /* ignore */ }
+    }
+
+    const client = sb()!;
     const existing = await this.list();
     await client.from("afp_kv").upsert({
       key: META_KEY,
