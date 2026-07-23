@@ -20,6 +20,10 @@ const DARAJA_RANG: Record<string, string> = {
 function fmtKb(kb: number) {
   return kb >= 1024 ? `${(kb / 1024).toFixed(1)} MB` : `${kb} KB`;
 }
+function fmtHajm(kitob: PdfKitob) {
+  if (kitob.manba === "url" || kitob.hajm_kb === 0) return "URL";
+  return fmtKb(kitob.hajm_kb);
+}
 function fmtDate(iso: string) {
   try { return new Date(iso).toLocaleDateString("uz-UZ", { year: "numeric", month: "short", day: "numeric" }); }
   catch { return ""; }
@@ -40,7 +44,7 @@ function PDFViewer({ kitob, onClose }: { kitob: PdfKitob; onClose: () => void })
         </button>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{kitob.nomi}</div>
-          <div style={{ fontSize: 10, color: "rgba(255,255,255,.6)" }}>{fmtKb(kitob.hajm_kb)} · PDF</div>
+          <div style={{ fontSize: 10, color: "rgba(255,255,255,.6)" }}>{fmtHajm(kitob)} · PDF</div>
         </div>
         <a
           href={kitob.url}
@@ -322,7 +326,7 @@ function PdfCard({ kitob, isCeo, onOpen, onDelete }: { kitob: PdfKitob; isCeo: b
         <div style={{ fontSize: 12, fontWeight: 700, color: T.green, lineHeight: 1.3, marginBottom: 3 }}>{kitob.nomi}</div>
         {kitob.tavsif && <div style={{ fontSize: 10, color: T.hint, lineHeight: 1.4, flex: 1 }}>{kitob.tavsif}</div>}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 8 }}>
-          <div style={{ fontSize: 10, color: T.hint }}>{fmtKb(kitob.hajm_kb)}</div>
+          <div style={{ fontSize: 10, color: T.hint }}>{fmtHajm(kitob)}</div>
           <div style={{ fontSize: 10, color: T.hint }}>{fmtDate(kitob.qoshilgan)}</div>
         </div>
       </div>
